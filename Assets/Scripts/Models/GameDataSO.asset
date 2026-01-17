@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8a14a88c02a0ae4b8cb80ec4a5f145e, type: 3}
+  m_Name: GameDataSO
+  m_EditorClassIdentifier: 
+  TotalCoins: 0
+  TotalWhites: 0
+  TotalBlacks: 0
+  TotalReds: 0
+  P1Whites: 0
+  P1Blacks: 0
+  P1Red: 0
+  P2Whites: 0
+  P2Blacks: 0
+  P2Red: 0
+  P3Whites: 0
+  P3Blacks: 0
+  P3Red: 0
+  P4Whites: 0
+  P4Blacks: 0
+  P4Red: 0
+  isRedCovered: 0
+  ShouldICoverCoin: 0
+  currentTurnId: 1
+  TurnTime: 20

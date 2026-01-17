@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638fe1f8cb67c1f45ac6d61fd2ee8f7b, type: 3}
+  m_Name: AchievementsDataSO
+  m_EditorClassIdentifier: 
+  AllAchievementInfo:
+  - apiName: Ach_Continues_Login_Three
+    achievementName: Login Milestone I
+    description: Log in 5 days
+    isAchieved: 0
+  - apiName: Ach_Continues_Login_Five
+    achievementName: Login Milestone II
+    description: Log in 10 days
+    isAchieved: 0
+  - apiName: Ach_Continues_Login_Ten
+    achievementName: Login Milestone III
+    description: Log in 15 days.
+    isAchieved: 0
+  - apiName: Ach_Invites_Three
+    achievementName: Table Host I
+    description: In Multiplayer P1 Vs P2, send invites to 3 unique players.
+    isAchieved: 0
+  - apiName: Ach_Invites_Five
+    achievementName: Table Host II
+    description: In Multiplayer  P1 Vs P2, send invites to 5 unique players.
+    isAchieved: 0
+  - apiName: Ach_Invites_Ten
+    achievementName: Table Host III
+    description: In Multiplayer P1 Vs P2, send invites to 10 unique players.
+    isAchieved: 0
+  - apiName: Ach_Single_BW_AIHard_Win_Three
+    achievementName: B&W Ace
+    description: "Single Player \u2022 BlackAndWhite \u2022 AI: Hard \u2014 win 3
+      matches."
+    isAchieved: 0
+  - apiName: Ach_Single_FreeStyle_AI_Hard_Win_Three
+    achievementName: Freestyle Ace
+    description: "Single Player \u2022 Free Style \u2022 AI: Hard \u2014 win 3 matches."
+    isAchieved: 0
+  - apiName: Ach_Multi_P1_AI1_Vs_P2_AI2_AI_Hard_Win_3
+    achievementName: Tactical Tandem
+    description: "P1 + AI vs P2 + AI \u2022 AI: Hard \u2014 win 3 matches."
+    isAchieved: 0
+  - apiName: Ach_Multi_P1_P2_Vs_AI1_AI2_AI_Hard_Win_3
+    achievementName: Doubles Dominance
+    description: "P1 + P2 vs AI + AI \u2022 AI: Hard \u2014 win 3 matches."
+    isAchieved: 0

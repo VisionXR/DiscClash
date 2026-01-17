@@ -1,0 +1,542 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2104916355726681666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6202316857529401006}
+  - component: {fileID: 422466584297025225}
+  - component: {fileID: 760662254974022178}
+  - component: {fileID: 1436632896028036055}
+  - component: {fileID: 2832467409592422745}
+  m_Layer: 0
+  m_Name: RecorderAndSpeaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6202316857529401006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6867789633692575959}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &422466584297025225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a509dbf839e0e4044a7affab5b5a3e55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioSourceType: 1
+  CaptureAudio: 1
+  _mode: 0
+  _smoothing: 0
+  _audioSampleRate: 48000
+--- !u!114 &760662254974022178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91175dcc15224463780e01a8a98b1b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voiceDetection: 0
+  voiceDetectionThreshold: 0.01
+  voiceDetectionDelayMs: 500
+  interestGroup: 0
+  useTargetPlayers: 0
+  targetPlayers: 
+  debugEchoMode: 1
+  reliableMode: 0
+  encrypt: 0
+  transmitEnabled: 1
+  samplingRate: 24000
+  frameDuration: 20000
+  bitrate: 30000
+  sourceType: 0
+  microphoneType: 0
+  audioClip: {fileID: 0}
+  loopAudioClip: 1
+  recordingEnabled: 0
+  audioSessionParameters:
+    Category: 4
+    Mode: 1
+    CategoryOptions: 0800000004000000
+  editorAudioSessionPreset: 1
+  androidMicrophoneSettings:
+    EnableAEC: 1
+    EnableAGC: 1
+    EnableNS: 1
+  stopRecordingWhenPaused: 0
+  useOnAudioFilterRead: 0
+  useMicrophoneTypeFallback: 1
+  recordWhenJoined: 1
+--- !u!82 &1436632896028036055
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &2832467409592422745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7fea91fe63f4e1b884ef1e16a975c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playDelayConfig:
+    Low: 200
+    High: 200
+    Max: 1000
+    SpeedUpPerc: 5
+  restartOnDeviceChange: 1
+--- !u!1 &9017803295949359465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6867789633692575959}
+  - component: {fileID: 3804511622267319064}
+  - component: {fileID: -6193679288605560039}
+  - component: {fileID: 8655069913760380767}
+  - component: {fileID: -8483040058767253964}
+  - component: {fileID: 8778300311534466445}
+  - component: {fileID: -4098720205520104998}
+  - component: {fileID: 7258058012752851326}
+  - component: {fileID: -8746651747787295651}
+  - component: {fileID: 6043884664528398639}
+  - component: {fileID: -4071845676107030528}
+  - component: {fileID: 1188601372554374699}
+  - component: {fileID: 8169565786121229183}
+  m_Layer: 0
+  m_Name: NetworkPlayer
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6867789633692575959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6202316857529401006}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3804511622267319064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc63b7c5dba2de14183b89f718688b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSettings: {fileID: 11400000, guid: e1d3a9cf682b58140be82ef682372011, type: 2}
+  strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
+  aiData: {fileID: 11400000, guid: 52ff5c05f737cbd4d8305679c80265c5, type: 2}
+  camPositionData: {fileID: 11400000, guid: 255cae767d8ec8347bd4c97795db2f7e, type: 2}
+  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  playersData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
+  playerAvatarObj: {fileID: 3042119161163333186, guid: 4aca1fd905cf50a4d86324154b883dcb, type: 3}
+  myStriker: {fileID: 0}
+  strikerRigidBody: {fileID: 0}
+  myAvatar: {fileID: 0}
+  aiPlayer: {fileID: 8655069913760380767}
+  lipSyncContext: {fileID: 422466584297025225}
+  localAvatar: {fileID: 0}
+  localAvatarTransform: {fileID: 0}
+  remoteAvatar: {fileID: 0}
+  remoteAvatarTransform: {fileID: 0}
+  strikerMovement: {fileID: 0}
+  strikerShoot: {fileID: 0}
+  strikerArrow: {fileID: 0}
+  strikerProperties: {fileID: 0}
+  aIMovement: {fileID: 0}
+  myId: 0
+  myAvatarID: 0
+  myStrikerID: 0
+  myOculusID: 0
+  myName: 
+  imageURL: 
+  myPlayerControl: 0
+  myPlayerRole: 0
+  myCoin: 0
+  myTeam: 0
+  myAiDifficulty: 0
+  Offset: 0
+--- !u!114 &-6193679288605560039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5eabec30682b8b4ca123767bfe3a764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: 802cdc42bc65ea84ba2f602bace7689c, type: 2}
+  coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
+  strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
+  inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
+  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  player: {fileID: 3804511622267319064}
+  playerInput: {fileID: -8483040058767253964}
+  aiPlayer: {fileID: 8655069913760380767}
+--- !u!114 &8655069913760380767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c32ea95b4090df84ba6348a8ee20eff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 802cdc42bc65ea84ba2f602bace7689c, type: 2}
+  uiOutputData: {fileID: 11400000, guid: ba5aee20911bd27449c479316531a494, type: 2}
+  currentPlayer: {fileID: 3804511622267319064}
+--- !u!114 &-8483040058767253964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e488022abcd62ca4cbe1605ae57adbbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
+  coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
+  player: {fileID: 3804511622267319064}
+  canIRotate: 0
+--- !u!114 &8778300311534466445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652f02cf069e7ed40b0b1366338d2a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
+  camPositionData: {fileID: 11400000, guid: 255cae767d8ec8347bd4c97795db2f7e, type: 2}
+  currentPlayer: {fileID: 3804511622267319064}
+--- !u!114 &-4098720205520104998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd390d2f3dd04143b93c6d81f73f6a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkInputData: {fileID: 11400000, guid: 64b17d40ec2e4eb4d9b2e4bbe7fdb917, type: 2}
+  player: {fileID: 3804511622267319064}
+  receivePlayerData: {fileID: -4071845676107030528}
+  myRecorder: {fileID: 760662254974022178}
+  _destroyCoinsData: 
+  _playerPropertiesData: 
+  _StrikerData:
+    _Position:
+      Data: 000000000000000000000000
+    _Rotation:
+      Data: 000000000000000000000000
+  _gameSnapshot:
+    _FrameNumber:
+      Data: 00000000
+    _Striker:
+      Data: 000000000000000000000000000000000000000000000000000000000000000000000000
+    _Coins:
+      Data: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _networkGameData:
+    _TotalCoins:
+      Data: 00000000
+    _TotalWhites:
+      Data: 00000000
+    _TotalBlacks:
+      Data: 00000000
+    _TotalReds:
+      Data: 00000000
+    _P1Whites:
+      Data: 00000000
+    _P1Blacks:
+      Data: 00000000
+    _P1Red:
+      Data: 00000000
+    _P2Whites:
+      Data: 00000000
+    _P2Blacks:
+      Data: 00000000
+    _P2Red:
+      Data: 00000000
+    _P3Whites:
+      Data: 00000000
+    _P3Blacks:
+      Data: 00000000
+    _P3Red:
+      Data: 00000000
+    _P4Whites:
+      Data: 00000000
+    _P4Blacks:
+      Data: 00000000
+    _P4Red:
+      Data: 00000000
+    _isRedCovered:
+      Data: 00000000
+    _ShouldICoverCoin:
+      Data: 00000000
+    _isGameCompleted:
+      Data: 00000000
+  _networkAvatarData: 
+--- !u!114 &7258058012752851326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1001308753
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -4098720205520104998}
+  - {fileID: -8746651747787295651}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &-8746651747787295651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6376dd7fc23b3764483a7349b58502e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6043884664528398639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24c239bb178f314a9b60c737bb01a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
+--- !u!114 &-4071845676107030528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a84d8710628194ca6105bd5f65e03a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
+  gameData: {fileID: 11400000, guid: 802cdc42bc65ea84ba2f602bace7689c, type: 2}
+  coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
+  boardData: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
+  player: {fileID: 3804511622267319064}
+  networkData: {fileID: -4098720205520104998}
+  currentFrameNumber: 0
+  currentReceivedFrameNumber: 0
+  canISendSnapShot: 0
+  canIReceiveSnapShot: 0
+  canIReceive: 0
+--- !u!114 &1188601372554374699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d925570d3c151842a838d13fc05d84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
+  gameData: {fileID: 11400000, guid: 802cdc42bc65ea84ba2f602bace7689c, type: 2}
+  coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
+  testData: {fileID: 11400000, guid: 98dbd5cf5e6bcfb4ca4daed25e3685ca, type: 2}
+  player: {fileID: 3804511622267319064}
+  networkData: {fileID: -4098720205520104998}
+  currentFrameNumber: 0
+  canISendSnapShot: 0
+--- !u!114 &8169565786121229183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194e9152efd11b1418c4ae69ac896daa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uIOutputData: {fileID: 11400000, guid: ba5aee20911bd27449c479316531a494, type: 2}
+  currentPlayer: {fileID: 3804511622267319064}
+  speaker: {fileID: 1436632896028036055}
+  recorder: {fileID: 760662254974022178}

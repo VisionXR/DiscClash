@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456b4fc86d3ae9241b51178ea7edfe34, type: 3}
+  m_Name: Step4
+  m_EditorClassIdentifier: 
+  stepNumber: 4
+  stepText: '"Positioning is key. Drag the striker and place it on the glowing spot.
+    Lock your choice make a fist with your thumb up.Your wrist band glows green to
+    confirm proper grip gesture."'
+  stepVideo: {fileID: 32900000, guid: 44f6d989a476ae94a986898329352ed5, type: 3}
+  stepAudio: {fileID: 8300000, guid: b2760e6f26043e7448f18c411f28ca68, type: 3}
+  interactiveStepType: 1
+  successText: '"Well done! Your striker is in the right spot."'
+  failureText: '"Oops! That''s not quite right. Try positioning the striker again."'
+  successAudio: {fileID: 8300000, guid: 7c9d5ad447770df46bfcd67200525dba, type: 3}
+  failureAudio: {fileID: 8300000, guid: 98b0952b8812cbf41a8463cea087b656, type: 3}
+  strikerPosition: {x: 0.327, y: 0.71, z: -0.545}
+  aimingStrikerPosition: {x: 0, y: 0, z: 0}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerPosition: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

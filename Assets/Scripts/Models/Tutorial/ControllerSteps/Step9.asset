@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456b4fc86d3ae9241b51178ea7edfe34, type: 3}
+  m_Name: Step9
+  m_EditorClassIdentifier: 
+  stepNumber: 9
+  stepText: '"Carrom is about precision and repetition. Let''s take another shot!"'
+  stepVideo: {fileID: 32900000, guid: 83174a8dacd953e42a58b06f703d8401, type: 3}
+  stepAudio: {fileID: 8300000, guid: 43929d2e553e4084b8e8ebeca84461b7, type: 3}
+  interactiveStepType: 3
+  successText: '"Well played! That was a perfect hit."'
+  failureText: '"Take a moment and aim for a better shot."'
+  successAudio: {fileID: 8300000, guid: 9ebfad9d324499640adb42820c60bb45, type: 3}
+  failureAudio: {fileID: 8300000, guid: 384dea8aa7472dc48907725099decb37, type: 3}
+  strikerPosition: {x: 0, y: 0, z: 0}
+  aimingStrikerPosition: {x: 0, y: 0, z: 0}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerPosition: {x: 0.144, y: 0.71, z: -0.545}
+  strikingStrikerRotation: {x: 0, y: 22, z: 0}
+  coinPosition: {x: 0.607, y: 0.715, z: 0.555}
+  holeName: Hole1

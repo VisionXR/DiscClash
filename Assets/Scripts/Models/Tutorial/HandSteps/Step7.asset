@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456b4fc86d3ae9241b51178ea7edfe34, type: 3}
+  m_Name: Step7
+  m_EditorClassIdentifier: 
+  stepNumber: 7
+  stepText: '"Give it another go to master the technique."'
+  stepVideo: {fileID: 32900000, guid: 5ebc18375c56ac34e8c131c726f26b5f, type: 3}
+  stepAudio: {fileID: 8300000, guid: 41972b3e447798c4d9b4b0883d58b4b7, type: 3}
+  interactiveStepType: 2
+  successText: '"Spot on! Your aiming skills are impressive."'
+  failureText: '"That was close! Adjust the direction and try again."'
+  successAudio: {fileID: 8300000, guid: ed399edb4c1a0214fb19e42b4b991253, type: 3}
+  failureAudio: {fileID: 8300000, guid: f58db0d2f644b0a45a28bbc0e8a121ca, type: 3}
+  strikerPosition: {x: 0, y: 0, z: 0}
+  aimingStrikerPosition: {x: -0.21, y: 0.71, z: -0.545}
+  aimingStrikerRotation: {x: 0, y: -45, z: 0}
+  strikingStrikerPosition: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

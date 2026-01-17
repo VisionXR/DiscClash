@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc3f24f0f6de404ab485d1628312807, type: 3}
+  m_Name: PurchaseDataSO
+  m_EditorClassIdentifier: 
+  StrikersData:
+  - skuName: Striker_Bundle0
+    isPurchased: 0
+    Price: 
+  - skuName: Striker_Bundle1
+    isPurchased: 0
+    Price: 
+  - skuName: Striker_Bundle2
+    isPurchased: 0
+    Price: 
+  - skuName: Striker_Bundle3
+    isPurchased: 0
+    Price: 
+  BoardsData:
+  - skuName: Board_Bundle0
+    isPurchased: 0
+    Price: 
+  - skuName: Board_Bundle1
+    isPurchased: 0
+    Price: 
+  - skuName: Board_Bundle2
+    isPurchased: 0
+    Price: 
+  CoinsData:
+  - skuName: Coin_Bundle0
+    isPurchased: 0
+    Price: 
+  - skuName: Coin_Bundle1
+    isPurchased: 0
+    Price: 
+  - skuName: Coin_Bundle2
+    isPurchased: 0
+    Price: 
+  allSkusData:
+  - Striker_Bundle0
+  - Striker_Bundle1
+  - Striker_Bundle2
+  - Striker_Bundle3
+  - Board_Bundle0
+  - Board_Bundle1
+  - Board_Bundle2
+  - Coin_Bundle0
+  - Coin_Bundle1
+  - Coin_Bundle2

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33d330172f0c6345a172c5e034b116a, type: 3}
+  m_Name: CoinDataSO
+  m_EditorClassIdentifier: 
+  uiData: {fileID: 11400000, guid: 145ff82f9250e84438504e46ded791bb, type: 2}
+  WhiteCount: 10
+  BlackCount: 10
+  RedCount: 1
+  Whites: 0
+  Blacks: 0
+  Red: 0
+  CoinFellInThisTurn: []
+  AvailableCoinsInGame: []
+  AllCoinsReference: {fileID: 0}
+  audioData: []
+  AllCoinsYRotationValue: 0
+  baseLerpDuration: 0.05
