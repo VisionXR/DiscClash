@@ -30,7 +30,6 @@ namespace com.VisionXR.Views
             coinData.CreateCoinEvent += CheckForFoul;
             uiOutputData.ExitGameEvent += ResetDisplay;
             uiOutputData.HomeEvent += ResetDisplay;
-
             coinData.ShowFoulEvent += ShowFoul;
         }
 
@@ -40,7 +39,6 @@ namespace com.VisionXR.Views
             coinData.CreateCoinEvent -= CheckForFoul;
             uiOutputData.ExitGameEvent -= ResetDisplay;
             uiOutputData.HomeEvent -= ResetDisplay;
-
             coinData.ShowFoulEvent -= ShowFoul;
         }
 
@@ -77,10 +75,15 @@ namespace com.VisionXR.Views
         private void OnTurnChanged(int turnId)
         {
             AudioManager.instance.PlayTurnChangedSound();
-            Player p = playerData.GetPlayer(turnId);
-            if (p != null)
+            Player currentPlayer = playerData.GetPlayer(turnId);
+            Player mainPlayer = playerData.GetMainPlayer();
+            if (mainPlayer.myId == currentPlayer.myId)
             {
-               
+               StartCoroutine(ShowPlayerName("Your Turn"));
+            }
+            else
+            {
+                StartCoroutine(ShowPlayerName(currentPlayer.myName + "'s Turn"));
             }
             CheckForRed(turnId);
         }
