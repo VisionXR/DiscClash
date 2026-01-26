@@ -21,7 +21,8 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
-        public GameObject inputPanel;
+        public GameObject inputPanel2Players;
+        public GameObject inputPanel4Players;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
         public FineLogic fineLogic;
@@ -73,7 +74,8 @@ namespace com.VisionXR.Controllers
             Player p = playersData.GetPlayer(id);
             if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
             {
-                inputPanel.SetActive(true);
+                inputPanel2Players.SetActive(true);
+                inputPanel4Players.SetActive(true);
             }
         }
 
@@ -184,7 +186,8 @@ namespace com.VisionXR.Controllers
 
         private void StrikeStarted(int id, float f)
         {
-            inputPanel.SetActive(false);
+            inputPanel2Players.SetActive(false);
+            inputPanel4Players.SetActive(false);
             inputData.DeactivateInput();           
             if(isFirstTurn)
             {

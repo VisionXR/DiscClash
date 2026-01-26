@@ -9,7 +9,7 @@ public class TeamDetailsView : MonoBehaviour
     public UIOutputDataSO uiOutputData;
 
     [Header("Team Objects")]
-    public TMP_Text GameTitleText;
+  
     public TMP_Text CoinScore;
     public TMP_Text RedScore;
     public TMP_Text TotalScore;
@@ -33,18 +33,12 @@ public class TeamDetailsView : MonoBehaviour
     [Header("Other Objects")]
     public ImageScroller Player1ImageScroller;
     public ImageScroller Player2ImageScroller;
-    public Button player1ReadyButton;
-    public Button player2ReadyButton;
 
-    public Animator button1Animator;
-    public TMP_Text player1Status;
-    public Animator button2Animator;
-    public TMP_Text player2Status;
 
 
     private void OnDisable()
     {
-        GameTitleText.text = "";
+       
         Player1NameText.text = "";
         Player2NameText.text = "";
         CoinScore.text = "0";
@@ -59,7 +53,7 @@ public class TeamDetailsView : MonoBehaviour
 
     public void SetGameName(string gameName)
     {
-         GameTitleText.text = gameName; 
+        
     }
 
     public void SetPlayerName(int id,string playerName)
@@ -148,30 +142,12 @@ public class TeamDetailsView : MonoBehaviour
 
     public void SetButton(int id)
     {
-        if (id == 1 || id == 3)
-        {
-            player1ReadyButton.interactable = true;
-            button1Animator.SetBool("Highlight", true);
-        }
-        else
-        {
-            player2ReadyButton.interactable = true;
-            button2Animator.SetBool("Highlight", true);
-        }
+      
     }
 
     public void ResetButton(int id)
     {
-        if (id == 1 || id == 3)
-        {
-            player1ReadyButton.interactable = false;
-            button1Animator.SetBool("Highlight", false);
-        }
-        else
-        {
-            player2ReadyButton.interactable = false;
-            button2Animator.SetBool("Highlight", false);
-        }
+  
     }
 
     public void ReadyBtnClicked(int id)
@@ -186,14 +162,7 @@ public class TeamDetailsView : MonoBehaviour
 
     public void SetStatus(int id,string status)
     {
-        if (id == 1 || id == 3)
-        {
-            player1Status.text = status;
-        }
-        else
-        {
-            player2Status.text = status;
-        }
+      
     }
 
 
