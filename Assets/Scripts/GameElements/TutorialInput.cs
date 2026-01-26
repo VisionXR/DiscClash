@@ -20,26 +20,14 @@ namespace com.VisionXR.GameElements
         public void RegisterEvents()
         {
             strikerMovement = striker.GetComponent<IStrikerMovement>();
-            inputData.FireStrikerWithForceEvent += FireStrikerWithForce;
-            inputData.KeyboardRotatedEvent += KeyboardRotated;
-            inputData.SwipedEvent += Swiped;
-            inputData.SwipedPositionEvent += OnControllerMoved;
-            inputData.ControllerRotatedEvent += OnControllerRotated;
-            inputData.RotateStrikerTowardsEvent += OnHandRotated;
-            inputData.GrabButtonClickedEvent += OnGrabButtonClicked;
-            inputData.TriggerButtonClickedEvent += OnTriggerButtonClicked;
+         
+   
         }
 
         public void DeRegisterEvents()
         {
-            inputData.FireStrikerWithForceEvent -= FireStrikerWithForce;
-            inputData.KeyboardRotatedEvent -= KeyboardRotated;
-            inputData.SwipedEvent -= Swiped;
-            inputData.SwipedPositionEvent -= OnControllerMoved;
-            inputData.ControllerRotatedEvent -= OnControllerRotated;
-            inputData.RotateStrikerTowardsEvent -= OnHandRotated;
-            inputData.GrabButtonClickedEvent -= OnGrabButtonClicked;
-            inputData.TriggerButtonClickedEvent -= OnTriggerButtonClicked;
+          
+       
         }
 
 
@@ -66,7 +54,7 @@ namespace com.VisionXR.GameElements
         {
             if (tutorialData.canIPosition)
             {
-                strikerMovement.MoveStriker(vector, transform);
+                
             }
         }
 
@@ -75,7 +63,7 @@ namespace com.VisionXR.GameElements
         {
             if (tutorialData.canIAim)
             {
-                strikerMovement.AimStriker(value);
+             
             }
            
         }
@@ -84,7 +72,7 @@ namespace com.VisionXR.GameElements
         {
             if (tutorialData.canIAim)
             {
-                strikerMovement.RotateTo(pos);  
+                 
             }
         }
 
@@ -93,7 +81,7 @@ namespace com.VisionXR.GameElements
             if (tutorialData.canIPosition)
             {
             
-                strikerMovement.MoveStriker(direction);
+                
             }
         }
 
@@ -101,7 +89,7 @@ namespace com.VisionXR.GameElements
         {
             if (tutorialData.canIAim)
             {
-                strikerMovement.AimStriker(direction);
+               
             }
         }
 
@@ -109,7 +97,7 @@ namespace com.VisionXR.GameElements
         {
             if (tutorialData.canIFire)
             {
-                striker.GetComponent<IStrikerShoot>().FireStriker(value);
+               
             }
         }
     }

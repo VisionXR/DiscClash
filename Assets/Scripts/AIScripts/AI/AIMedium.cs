@@ -32,7 +32,7 @@ namespace com.VisionXR.GameElements
         public List<CoinInfo> lastHitCoins = new List<CoinInfo>(); // Stores history of recent coins
 
 
-        private List<GameObject> strikerPositions;
+        private List<Transform> strikerPositions;
         private List<GameObject> holes;
         private PlayerCoin playerCoin = PlayerCoin.White;
         private Vector3 dir;
@@ -44,15 +44,13 @@ namespace com.VisionXR.GameElements
 
         void OnEnable()
         {
-            inputData.PauseGameEvent += PauseAI;
-            inputData.ResumeGameEvent += ResumeAI;
+           
             aIData.CoinInformationReceivedEvent += OnHitListReceived;
         }
 
         void OnDisable()
         {
-            inputData.PauseGameEvent -= PauseAI;
-            inputData.ResumeGameEvent -= ResumeAI;
+           
             aIData.CoinInformationReceivedEvent -= OnHitListReceived;
         }
 

@@ -93,7 +93,7 @@ public class CoinManager : MonoBehaviour
     {
         DestroyCoins();
 
-        string resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/AllCoins";
+        string resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/AllCoins";
         GameObject allCoinsPrefab = Resources.Load<GameObject>(resourcePath);
 
         if (allCoinsPrefab != null)
@@ -164,7 +164,7 @@ public class CoinManager : MonoBehaviour
 
         if (coin == PlayerCoin.White)
         {
-            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/WhiteCoin";
+            resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/WhiteCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -179,7 +179,7 @@ public class CoinManager : MonoBehaviour
         }
         else if (coin == PlayerCoin.Black)
         {
-            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/BlackCoin";
+            resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/BlackCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -194,7 +194,7 @@ public class CoinManager : MonoBehaviour
         }
         else if (coin == PlayerCoin.Red)
         {
-            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/RedCoin";
+            resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/RedCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {

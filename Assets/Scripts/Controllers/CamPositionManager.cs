@@ -1,5 +1,4 @@
 using com.VisionXR.ModelClasses;
-using System;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -10,106 +9,120 @@ namespace com.VisionXR.Controllers
         public CamPositionSO camPositionData;
         public BoardPropertiesSO boardProperties;
         public InputDataSO inputData;
+        public PlayersDataSO playerData;
 
         [Header("Game Objects")]
         public GameObject cameraRig;
-        public GameObject standingRig;
-        public GameObject AllCanvases;
-      
+        public Transform OriginalPos;
 
-        [Header("Local Variables")]
-        public float MovementSpeed = 0.005f;
-        public float LeftEndPoint = -0.5f;
-        public float RightEndPoint = 0.5f;
-        public float TopEndPoint = 0.3f;
-        public float BottomEndPoint = -0.2f;
-        public float ControllerRotationSpeed = 1f; // degrees per input unit
-        public float HandRotationSpeed = 10f; // degrees per input unit
+        [Header("Rotation Settings")]
+        [Tooltip("Maximum yaw (left/right) offset in degrees from the center rotation.")]
+        public float maxYawDegrees = 45f;
+        [Tooltip("Maximum pitch (up/down) offset in degrees from the center rotation.")]
+        public float maxPitchDegrees = 45f;
+        [Tooltip("Degrees to change per swipe.")]
+        public float rotationStepDegrees = 15f;
+        [Tooltip("If > 0, camera rotation will be smoothed. Higher == faster.")]
+        public float rotationLerpSpeed = 0f;
+
+        // Internal state
+        private Quaternion _centerRotation = Quaternion.identity;
+        private float _currentYawOffset = 0f;   // left/right offset in degrees
+        private float _currentPitchOffset = 0f; // up/down offset in degrees
+        private Quaternion _targetRotation = Quaternion.identity;
 
         private void OnEnable()
         {
             camPositionData.SetCamPositionEvent += ChangeCamPosition;
-            camPositionData.MoveCamUpDownEvent += MoveCamUpDown;
-            camPositionData.MoveCamLeftRightEvent += MoveCamLeftRight;
-            camPositionData.RotateCamEvent += RotateCamWorldY;
+            camPositionData.RotateCamEvent += ChangeCamRotation;
+            camPositionData.RecenterEvent += Recenter;
         }
 
         private void OnDisable()
         {
             camPositionData.SetCamPositionEvent -= ChangeCamPosition;
-            camPositionData.MoveCamUpDownEvent -= MoveCamUpDown;
-            camPositionData.MoveCamLeftRightEvent -= MoveCamLeftRight;
-            camPositionData.RotateCamEvent -= RotateCamWorldY;
-        }
-
-        private void MoveCamLeftRight(int id,float value)
-        {
-            Vector3 centerPosition = boardProperties.GetPlayerPosition(id).position;
-
-            centerPosition = new Vector3(centerPosition.x, cameraRig.transform.position.y, centerPosition.z);
-
-            // Calculate the potential new position
-            Vector3 potentialNewPosition = cameraRig.transform.position + standingRig.transform.right * value * MovementSpeed;
-
-            // Calculate the displacement from the center position
-            float displacementFromCenter = Vector3.Dot(potentialNewPosition - centerPosition, standingRig.transform.right);
-
-            // Clamp the displacement
-            displacementFromCenter = Mathf.Clamp(displacementFromCenter, LeftEndPoint, RightEndPoint);
-
-            // Set the new position based on the clamped displacement
-            cameraRig.transform.position = centerPosition + standingRig.transform.right * displacementFromCenter;
-
-            standingRig.transform.position = cameraRig.transform.position;
+            camPositionData.RotateCamEvent -= ChangeCamRotation;
+            camPositionData.RecenterEvent -= Recenter;
         }
 
         private void ChangeCamPosition(int id)
         {
-
-            Debug.Log("Changing Camera Position to Player ID: " + id);
-
+            // Move camera rig to the player's canonical position/rotation and reset local offsets.
             cameraRig.transform.position = boardProperties.GetPlayerPosition(id).position;
             cameraRig.transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
 
-
+            // Store center rotation and reset offsets/targets
+            _centerRotation = cameraRig.transform.rotation;
+            _currentYawOffset = 0f;
+            _currentPitchOffset = 0f;
+            _targetRotation = _centerRotation;
         }
 
-        public void MoveCamUpDown(int id,float value)
+        private void ChangeCamRotation(int id, SwipeDirection direction)
         {
-            Vector3 topLimit = boardProperties.GetPlayerPosition(id).position + new Vector3(0, TopEndPoint, 0);
-            Vector3 bottomLimit = boardProperties.GetPlayerPosition(id).position + new Vector3(0, BottomEndPoint, 0);
-            float newY = cameraRig.transform.position.y + value * MovementSpeed;
-            if (newY < topLimit.y && newY > bottomLimit.y)
+            // Ensure we are anchored to the center rotation for this player
+            // (if ChangeCamPosition was called earlier it already set _centerRotation).
+            // Modify offsets according to swipe and clamp to limits.
+            switch (direction)
             {
-                cameraRig.transform.position = new Vector3(cameraRig.transform.position.x, newY, cameraRig.transform.position.z);
+                case SwipeDirection.LEFT:
+                    _currentYawOffset = Mathf.Clamp(_currentYawOffset - rotationStepDegrees, -maxYawDegrees, maxYawDegrees);
+                    break;
+                case SwipeDirection.RIGHT:
+                    _currentYawOffset = Mathf.Clamp(_currentYawOffset + rotationStepDegrees, -maxYawDegrees, maxYawDegrees);
+                    break;
+                case SwipeDirection.UP:
+                    _currentPitchOffset = Mathf.Clamp(_currentPitchOffset + rotationStepDegrees, -maxPitchDegrees, maxPitchDegrees);
+                    break;
+                case SwipeDirection.DOWN:
+                    _currentPitchOffset = Mathf.Clamp(_currentPitchOffset - rotationStepDegrees, -maxPitchDegrees, maxPitchDegrees);
+                    break;
             }
-        }
 
-        // Rotates the cameraRig around the world Y axis about the player's center position.
-        // 'value' is an input scalar (e.g. joystick delta). RotationSpeed (degrees per unit)
-        // determines how many degrees are applied per call.
-        public void RotateCamWorldY(int id, float value)
-        {
-            if (cameraRig == null || standingRig == null || boardProperties == null)
+            // Compute world-space axes based on the stored center rotation
+            Vector3 worldUp = _centerRotation * Vector3.up;     // camera's local up in world space
+            Vector3 worldRight = _centerRotation * Vector3.right; // camera's local right in world space
+
+            // Build rotation that first applies pitch (around camera right), then yaw (around camera up),
+            // both in world-space axes relative to the center rotation.
+            Quaternion pitchQ = Quaternion.AngleAxis(_currentPitchOffset, worldRight);
+            Quaternion yawQ = Quaternion.AngleAxis(_currentYawOffset, worldUp);
+
+            // Apply yaw & pitch relative to the center rotation.
+            _targetRotation = (yawQ * pitchQ) * _centerRotation;
+
+            // Apply immediately or smoothly depending on rotationLerpSpeed
+            if (rotationLerpSpeed > 0f)
             {
-                return;
-            }
-            // Calculate rotation angle in degrees
-            float angle = 0;
-            
-            if(inputData.isHandTrackingActive)
-            {
-                angle = value * HandRotationSpeed;
+                StopAllCoroutines();
+                StartCoroutine(SmoothRotateToTarget());
             }
             else
             {
-                angle = value * ControllerRotationSpeed;
+                cameraRig.transform.rotation = _targetRotation;
             }
-        
-           // Rotate the cameraRig around the world Y axis through the center position
-            cameraRig.transform.Rotate(Vector3.up, angle);          
         }
 
+        private System.Collections.IEnumerator SmoothRotateToTarget()
+        {
+            while (Quaternion.Angle(cameraRig.transform.rotation, _targetRotation) > 0.01f)
+            {
+                cameraRig.transform.rotation = Quaternion.Slerp(cameraRig.transform.rotation, _targetRotation, Time.deltaTime * rotationLerpSpeed);
+                yield return null;
+            }
+            cameraRig.transform.rotation = _targetRotation;
+        }
 
+        private void Recenter(int id)
+        {
+            // Recenter to the player's canonical position & rotation and reset offsets.
+            cameraRig.transform.position = boardProperties.GetPlayerPosition(id).position;
+            cameraRig.transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
+
+            _centerRotation = cameraRig.transform.rotation;
+            _currentYawOffset = 0f;
+            _currentPitchOffset = 0f;
+            _targetRotation = _centerRotation;
+        }
     }
 }

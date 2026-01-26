@@ -54,7 +54,7 @@ public class ReceivePlayerData : MonoBehaviour
         currentReceivedFrameNumber = 0;
         canIReceive = true;
 
-        player.strikerShoot.StopArrowChange();
+      
         player.strikerArrow.TurnOffArrow();
         player.strikerRigidBody.AddForce(dir * force, ForceMode.VelocityChange);
 
@@ -63,7 +63,7 @@ public class ReceivePlayerData : MonoBehaviour
 
     public void PlayerStrikeForceStarted()
     {
-        player.strikerShoot.StartArrowChange();
+        
     }
 
     public void PlayerStrikeEnded()

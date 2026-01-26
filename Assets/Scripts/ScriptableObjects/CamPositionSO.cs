@@ -8,9 +8,8 @@ namespace com.VisionXR.ModelClasses
         
         //actions
         public Action<int> SetCamPositionEvent;
-        public Action<int, float> MoveCamUpDownEvent;
-        public Action<int,float> MoveCamLeftRightEvent;
-        public Action<int, float> RotateCamEvent;
+        public Action<int,SwipeDirection> RotateCamEvent;
+        public Action<int> RecenterEvent;
 
         // methods
 
@@ -19,19 +18,14 @@ namespace com.VisionXR.ModelClasses
             SetCamPositionEvent?.Invoke(id);
         }
 
-        public void MoveCamUpDown(int id,float yValue)
+        public void RotateCam(int id,SwipeDirection direction)
         {
-            MoveCamUpDownEvent?.Invoke(id, yValue);
+            RotateCamEvent?.Invoke(id,direction);
         }
 
-        public void MoveCamLeftRight(int id,float value)
+        public void Recenter(int id)
         {
-            MoveCamLeftRightEvent?.Invoke(id,value);
-        }
-
-        public void RotateCam(int id, float value)
-        {
-            RotateCamEvent?.Invoke(id, value);
+            RecenterEvent?.Invoke(id);
         }
     }
 }

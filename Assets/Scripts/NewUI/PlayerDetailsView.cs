@@ -31,7 +31,7 @@ public class PlayerDetailsView : MonoBehaviour
 
     private void OnDisable()
     {
-        GameTitleText.text = "";
+        
         PlayerNameText.text = "";
         CoinScore.text = "0";
         RedScore.text = "0";
@@ -44,7 +44,7 @@ public class PlayerDetailsView : MonoBehaviour
 
     public void SetGameName(string gameName)
     {
-         GameTitleText.text = gameName; 
+       //  GameTitleText.text = gameName; 
     }
 
     public void SetPlayerName(string playerName)
@@ -81,31 +81,6 @@ public class PlayerDetailsView : MonoBehaviour
         TotalScore.text = totalScore.ToString();    
     }
 
-    public void SetButton()
-    {
-        playerReadyButton.interactable = true;
-        buttonAnimator.SetBool("Highlight", true);
-    }
-
-    public void ResetButton()
-    {
-        playerReadyButton.interactable = false;
-        buttonAnimator.SetBool("Highlight", false);
-    }
-
-    public void ReadyBtnClicked(int id)
-    {
-        AudioManager.instance.PlayButtonClickSound();
-        ResetButton();
-        SetStatus("Ready");
-        uiOutputData.PlayerReady(id);
-
-    }
-
-    public void SetStatus(string status)
-    {
-        playerStatus.text = status;
-    }
 
     public void SetTimer(float a)
     {

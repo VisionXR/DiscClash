@@ -30,29 +30,8 @@ namespace com.VisionXR.GameElements
             coinData.RotateCoinsEvent += RotateCoins;
             coinData.SetAllCoinsRotationEvent += SetRotation;
 
-
-            if(inputData.isHandTrackingActive)
-            {
-                if(playerSettings.myDominantHand == HelperClasses.DominantHand.RIGHT)
-                {
-                    displayText.text = "Use Left Hand Up/Down MicroGesture To " +"\n"+"Rotate All Coins";
-                }
-                else
-                {
-                    displayText.text = "Use Right Hand Up/Down MicroGesture To "  +"\n"+ "Rotate All Coins";
-                }
-            }
-            else
-            {
-                if (playerSettings.myDominantHand == HelperClasses.DominantHand.RIGHT)
-                {
-                    displayText.text = "Use Left JoyStick Up/Down To Rotate All Coins";
-                }
-                else
-                {
-                    displayText.text = "Use Right JoyStick Up/Down To Rotate All Coins";
-                }
-            }
+            displayText.text = "Swipe here to Rotate All Coins";
+       
         }
 
         private void OnDisable()

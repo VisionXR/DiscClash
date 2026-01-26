@@ -17,9 +17,9 @@ public  class CoinSorter : MonoBehaviour
 
     [Header(" Local Objects")]
     public List<CoinInfo> coinInfoList = new List<CoinInfo>();
-    private List<GameObject> blackCoins;
-    private List<GameObject> whiteCoins;
-    private GameObject redCoin;
+    public List<GameObject> blackCoins;
+    public List<GameObject> whiteCoins;
+    public GameObject redCoin;
     private int id;
 
 
@@ -27,7 +27,7 @@ public  class CoinSorter : MonoBehaviour
     {
         instance = this;
     }
-    public  void  SortAllCoins(int id,PlayerCoin myCoin,List<GameObject> holes, List<GameObject> strikerPositions)
+    public  void  SortAllCoins(int id,PlayerCoin myCoin,List<GameObject> holes, List<Transform> strikerPositions)
     {
           
         coinInfoList.Clear();
@@ -36,7 +36,7 @@ public  class CoinSorter : MonoBehaviour
       
     }
 
-    private IEnumerator Sort(PlayerCoin myCoin, List<GameObject> holes, List<GameObject> strikerPositions)
+    private IEnumerator Sort(PlayerCoin myCoin, List<GameObject> holes, List<Transform> strikerPositions)
     {
         blackCoins = coinData.BlackCoins;
         whiteCoins = coinData.WhiteCoins;
@@ -49,15 +49,15 @@ public  class CoinSorter : MonoBehaviour
 
                 foreach (GameObject hole in holes)
                 {
-                    foreach (GameObject pos in strikerPositions)
+                    foreach (Transform pos in strikerPositions)
                     {
 
                         GetCoinInfo(coin, hole, pos);
-                        yield return new WaitForEndOfFrame();
+                       
                     }
                   
                 }
-                
+                yield return new WaitForEndOfFrame();
             }
 
         }
@@ -67,14 +67,14 @@ public  class CoinSorter : MonoBehaviour
             {
                 foreach (GameObject hole in holes)
                 {
-                    foreach (GameObject pos in strikerPositions)
+                    foreach (Transform pos in strikerPositions)
                     {
                         GetCoinInfo(coin, hole, pos);
-                        yield return new WaitForEndOfFrame();
+                       
                     }
                    
                 }
-               
+                yield return new WaitForEndOfFrame();
             }
 
         }
@@ -82,14 +82,14 @@ public  class CoinSorter : MonoBehaviour
         {
             foreach (GameObject hole in holes)
             {
-                foreach (GameObject pos in strikerPositions)
+                foreach (Transform pos in strikerPositions)
                 {
                     GetCoinInfo(redCoin, hole, pos);
-                    yield return new WaitForEndOfFrame();
+                   
                 }
                 
             }
-
+            yield return new WaitForEndOfFrame();
         }
         else if (myCoin == PlayerCoin.All)
         {
@@ -98,40 +98,41 @@ public  class CoinSorter : MonoBehaviour
 
                 foreach (GameObject hole in holes)
                 {
-                    foreach (GameObject pos in strikerPositions)
+                    foreach (Transform pos in strikerPositions)
                     {
                         GetCoinInfo(coin, hole, pos);
-                        yield return new WaitForEndOfFrame();
+                     
                     }
                    
                 }
-              
+                yield return new WaitForEndOfFrame();
             }
             foreach (GameObject coin in blackCoins)
             {
 
                 foreach (GameObject hole in holes)
                 {
-                    foreach (GameObject pos in strikerPositions)
+                    foreach (Transform pos in strikerPositions)
                     {
                         GetCoinInfo(coin, hole, pos);
-                        yield return new WaitForEndOfFrame();
+                        
                     }
                    
                 }
-               
+
+                yield return new WaitForEndOfFrame();
             }
             foreach (GameObject hole in holes)
             {
-                foreach (GameObject pos in strikerPositions)
+                foreach (Transform pos in strikerPositions)
                 {
                     if (redCoin != null)
                     {
                         GetCoinInfo(redCoin, hole, pos);
-                        yield return new WaitForEndOfFrame();
+                      
                     }
                 }
-              
+                yield return new WaitForEndOfFrame();
             }
         }
 
@@ -144,7 +145,7 @@ public  class CoinSorter : MonoBehaviour
         aiData.CoinInformationReceived(id, coinInfoList);
     }
 
-    private void GetCoinInfo(GameObject coin, GameObject hole, GameObject StrikerPosition)
+    private void GetCoinInfo(GameObject coin, GameObject hole, Transform StrikerPosition)
     {
 
         if (coin == null)

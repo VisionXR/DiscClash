@@ -1,6 +1,8 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace com.VisionXR.GameElements
@@ -17,23 +19,33 @@ namespace com.VisionXR.GameElements
 
         [Header("Local Variables")]
         [SerializeField] private float val = 1;
-        [SerializeField] public int strikerId = 1;            
-        [SerializeField] private List<GameObject> StrikerPositions = new List<GameObject>();
+        [SerializeField] public int strikerId = 1;
+        [SerializeField] private List<Transform> StrikerPositions;
+        private Rigidbody strikerRigidbody;
+
+
+
+        // local
         public float yawThresholdDegrees = 1f;
-
-        // Tracks the last yaw we actually applied (to enforce threshold between updates)
         private float _lastAppliedYaw;
-
-        // local variables
         private Vector3 fixedCenterPoint;     
         
         public void SetStrikerID(int id)
         {
 
             strikerId = id;
-            GetPositions(id);
+            gameObject.name = "Striker" + id;
+            strikerRigidbody = GetComponent<Rigidbody>();
+            StartCoroutine(SetStriker(id));
+          
+        }
+
+        private IEnumerator SetStriker(int id)
+        {
+            yield return new WaitForSeconds(0.1f);
+          
+            StrikerPositions = boardProperties.GetStrikerPosition(id);
             fixedCenterPoint = boardProperties.GetPlayerPosition(strikerId).position;
-           
             ResetStriker();
 
         }
@@ -43,35 +55,35 @@ namespace com.VisionXR.GameElements
             return strikerId;
         }
 
-        public void MoveStriker(Vector3 controllerPosition, Transform cameraRigTransform)
+        public void MoveStriker(float val)
         {
 
-            // Displacement of the camera rig from the fixed center point along the camera's right vector
-            float cameraRigDisplacement = Vector3.Dot(cameraRigTransform.position - fixedCenterPoint, cameraRigTransform.right);
+            // Validate inputs
+            if (StrikerPositions == null || StrikerPositions.Count < 2)
+            {
+                Debug.LogError($"StrikerMovement.MoveStriker: invalid StrikerPositions for strikerId={strikerId}. Need at least 2 positions.");
+                return;
+            }
 
-            // Displacement of the controller from the camera rig along the camera's right vector
-            float controllerDisplacement = Vector3.Dot(controllerPosition - cameraRigTransform.position, cameraRigTransform.right);
+            // Ensure normalized is within [0,1]
+            float t = val;
 
-            // Total displacement from the fixed center point
-            float totalDisplacement = cameraRigDisplacement + controllerDisplacement;
+            // Interpolate between first and last striker anchor positions
+            Vector3 start = StrikerPositions[0].position;
+            Vector3 end = StrikerPositions[StrikerPositions.Count - 1].position;
+            Vector3 finalpos = Vector3.Lerp(start, end, t);
 
-            // Clamp the total displacement within the defined limits
-            float clampedDisplacement = Mathf.Clamp(totalDisplacement, strikerData.LeftLimit, strikerData.RightLimit);
-
-
-            // Use the clamped displacement for your existing logic
-            float slope = (clampedDisplacement - strikerData.LeftLimit) / (strikerData.RightLimit - strikerData.LeftLimit);
-            Vector3 finalpos = Vector3.Lerp(StrikerPositions[0].transform.position, StrikerPositions[StrikerPositions.Count - 1].transform.position, slope);
-            float leftDistance = Vector3.Distance(finalpos, StrikerPositions[0].transform.position);
-            float rightDistance = Vector3.Distance(finalpos, StrikerPositions[StrikerPositions.Count - 1].transform.position);
+            // Choose direction to nudge striker to a valid non-overlapping position
+            float leftDistance = Vector3.Distance(finalpos, start);
+            float rightDistance = Vector3.Distance(finalpos, end);
 
             if (leftDistance > rightDistance)
             {
-                transform.position = FindStrikerNextPosition(finalpos, -StrikerPositions[0].transform.right);
+                transform.position = FindStrikerNextPosition(finalpos, -StrikerPositions[0].right);
             }
             else
             {
-                transform.position = FindStrikerNextPosition(finalpos, StrikerPositions[0].transform.right);
+                transform.position = FindStrikerNextPosition(finalpos, StrikerPositions[0].right);
             }
         }
         public void MoveStriker(SwipeDirection swipeDirection)
@@ -111,94 +123,15 @@ namespace com.VisionXR.GameElements
 
         }
 
-        public void AimStriker(SwipeDirection dir)
-        {
 
-            if (dir == SwipeDirection.LEFT)
-            {
-                transform.RotateAround(transform.position, transform.up, val);
-            }
-            else
-            {
-                transform.RotateAround(transform.position, transform.up, -val);
-            }
-        }
-
-        public void AimStriker(float yAngle)
+        public void AimStriker(Vector3 direction)
         {
             transform.rotation = StrikerPositions[2].transform.rotation;
-            transform.Rotate(transform.up, yAngle);
+            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             transform.eulerAngles = VectorUtility.RoundPositionUpto3Decimals(transform.eulerAngles);
         }
 
-        /// <summary>
-        /// Snap-rotate to the given direction's yaw only when the change exceeds the threshold.
-        /// - If |delta| &gt;= threshold: snap directly to the target yaw.
-        /// - Else: do nothing (ignore minor changes).
-        /// Subsequent updates only occur when the new target deviates from the last applied yaw by the threshold again.
-        /// </summary>
-        public void RotateTo(Vector3 direction)
-        {
-            // Ignore invalid/zero directions
-            if (direction.sqrMagnitude < 1e-8f)
-            {
-                return;
-            }
 
-            // Work on the XZ plane to avoid pitch/roll changes
-            Vector3 flatDir = new Vector3(direction.x, 0f, direction.z);
-            if (flatDir.sqrMagnitude < 1e-8f)
-            {
-                return;
-            }
-            flatDir.Normalize();
-
-            // Compute target yaw
-            float targetYaw = Mathf.Atan2(flatDir.x, flatDir.z) * Mathf.Rad2Deg;
-
-            // Compare against the last yaw we actually applied (not the current noisy rotation)
-            float deltaYawFromLast = Mathf.DeltaAngle(_lastAppliedYaw, targetYaw);
-            if (Mathf.Abs(deltaYawFromLast) < yawThresholdDegrees)
-            {
-                // Below threshold: ignore to minimize shaking
-                return;
-            }
-
-            // Snap directly to the new target yaw
-            var euler = transform.eulerAngles;
-            transform.eulerAngles = new Vector3(euler.x, targetYaw, euler.z);
-
-            // Remember the last applied yaw to enforce threshold on future updates
-            _lastAppliedYaw = targetYaw;
-        }
-
-
-
-
-        public void GetPositions(int id)
-        {
-            if (id == 1)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker1);
-                gameObject.name = "Striker1";
-            }
-            else if (id == 2)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker2);
-                gameObject.name = "Striker2";
-            }
-            else if (id == 3)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker3);
-                gameObject.name = "Striker3";
-            }
-            else if (id == 4)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker4);
-                gameObject.name = "Striker4";
-            }
-
-        }
         public Vector3 FindStrikerNextPosition(Vector3 finalPos, Vector3 dir)
         {
             Vector3 newPosition = finalPos;
@@ -248,6 +181,9 @@ namespace com.VisionXR.GameElements
         {
             transform.position = FindStrikerNextPosition(StrikerPositions[3].transform.position, StrikerPositions[3].transform.right);
             transform.rotation = StrikerPositions[3].transform.rotation;
+
+            strikerRigidbody.linearVelocity = Vector3.zero;
+            strikerRigidbody.angularVelocity = Vector3.zero;
         }
 
     }

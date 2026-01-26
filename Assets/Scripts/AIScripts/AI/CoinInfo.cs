@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class CoinInfo
 {
-    public GameObject StrikerPos;
+    public Transform StrikerPos;
     public GameObject Coin;
     public GameObject Hole;
     public float angle;

@@ -154,7 +154,7 @@ namespace com.VisionXR.Controllers
                 if (id == 1)
                 {
                     Player p = playersData.GetMainPlayer();
-                    p.GetComponent<PlayerInput>().StartRotattion();
+                    p.GetComponent<PlayerInput>().StartRotation();
                     coinData.ShowRotationCanvasEvent?.Invoke();
                     isFirstTurn = true;
                 }

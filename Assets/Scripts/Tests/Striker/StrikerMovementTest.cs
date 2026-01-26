@@ -20,28 +20,6 @@ public class StrikerMovementTest : MonoBehaviour
         if(Input.GetKey(KeyCode.S))
         {
             strikerMovement.SetStrikerID(StrikerId);
-        }
-
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            strikerMovement.MoveStriker(SwipeDirection.RIGHT);
-        }
-
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            strikerMovement.MoveStriker(SwipeDirection.LEFT);
-        }
-
-        else if (Input.GetKey(KeyCode.A))
-        {
-            strikerMovement.AimStriker(SwipeDirection.LEFT);
-        }
-
-        else if (Input.GetKey(KeyCode.D))
-        {
-            strikerMovement.AimStriker(SwipeDirection.RIGHT);
-        }
-
-       
+        }       
     }
 }

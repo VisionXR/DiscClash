@@ -12,8 +12,8 @@ namespace Com.VisionXR.GameElements
       
         [Header(" Local variables")]
         [SerializeField] private AudioSource[] audioSources;
-        [SerializeField] private float CutOffVelocityForMaxAudio = 0.3f;
-        [SerializeField] private float MinVelocityToPlayAudio = 0.01f;
+        [SerializeField] private float CutOffVelocityForMaxAudio = 1f;
+        [SerializeField] private float MinVelocityToPlayAudio = 0.005f;
 
         void Start()
         {

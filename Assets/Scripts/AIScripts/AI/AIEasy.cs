@@ -25,11 +25,12 @@ namespace com.VisionXR.GameElements
 
         // local variables
         public GameObject Striker;
+        public List<Transform> strikerPositions;
         private List<CoinInfo> hitCoinList = new List<CoinInfo>();
         private List<CoinInfo> lastHitCoins = new List<CoinInfo>(); // Stores history of recent coins
         private bool isPaused;
         private bool isExcecuting = false;
-        private List<GameObject> strikerPositions;
+       
         private List<GameObject> holes;
         private PlayerCoin playerCoin = PlayerCoin.White;
         private Vector3 dir;
@@ -41,15 +42,13 @@ namespace com.VisionXR.GameElements
 
         void OnEnable()
         {
-            inputData.PauseGameEvent += PauseAI;
-            inputData.ResumeGameEvent += ResumeAI;
+       
             aIData.CoinInformationReceivedEvent += OnHitListReceived;
         }
 
         void OnDisable()
         {
-            inputData.PauseGameEvent -= PauseAI;
-            inputData.ResumeGameEvent -= ResumeAI;
+       
             aIData.CoinInformationReceivedEvent -= OnHitListReceived;
         }
 
@@ -197,16 +196,6 @@ namespace com.VisionXR.GameElements
             return 0;
         }
 
-
-        public void PauseAI()
-        {
-            isPaused = true;
-        }
-
-        public void ResumeAI()
-        {
-            isPaused = false;
-        }
 
     }
 }

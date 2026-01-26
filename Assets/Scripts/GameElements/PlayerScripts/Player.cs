@@ -11,31 +11,27 @@ namespace com.VisionXR.GameElements
     public class Player : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public MyPlayerSettings playerSettings;
-        public StrikerDataSO strikerData;
         public AIDataSO aiData;
+        public MyPlayerSettings playerSettings;
+        public StrikerDataSO strikerData;   
         public CamPositionSO camPositionData;
         public BoardPropertiesSO boardProperties;
         public PlayersDataSO playersData;
 
         [Header("Local Objects")]
         public GameObject playerAvatarObj;
-        [HideInInspector] public GameObject myStriker;
-        [HideInInspector] public Rigidbody strikerRigidBody;
-         public GameObject myAvatar;
+        public GameObject myStriker;
+        public Rigidbody strikerRigidBody;
+        public GameObject myAvatar;
 
 
         [Header("Local Scripts")]      
         public AIPlayer aiPlayer;
-        
-
-
-
-        [HideInInspector] public StrikerMovement strikerMovement;
-        [HideInInspector] public StrikerShooting strikerShoot;
-        [HideInInspector] public StrikerArrow strikerArrow;      
-        [HideInInspector] public StrikerProperties strikerProperties;      
-        [HideInInspector] public AIMovement aIMovement;       
+        public StrikerMovement strikerMovement;
+        public StrikerShooting strikerShoot;
+        public StrikerArrow strikerArrow;
+        public StrikerProperties strikerProperties;
+        public AIMovement aIMovement;
 
         [Header(" Player Properties ")]
         // Serialized fields
@@ -89,7 +85,7 @@ namespace com.VisionXR.GameElements
             gameObject.name = "Player " + myId;
 
           
-            ConstructPlayer();
+           StartCoroutine(ConstructPlayer());
         }
     
         public void SetMyImage(Sprite image)
@@ -103,7 +99,7 @@ namespace com.VisionXR.GameElements
             return myImage;
         }
 
-        public void ConstructPlayer()
+        public IEnumerator ConstructPlayer()
         {
 
             // change view angle and canvas
@@ -112,18 +108,12 @@ namespace com.VisionXR.GameElements
                 if (myPlayerControl == PlayerControl.Local)
                 {
                     ChangePlayerView(myId); // only local player changes his 
-
-                   
-
                     SetMyImage(playerSettings.MyProfileImage);
                 }
                 else
                 {
                     
                     ChangeRemotePlayerAvatar(myId);// remote player change
-
-                  
-
                 }
             }
             else if (myPlayerRole == PlayerRole.AI)
@@ -146,6 +136,8 @@ namespace com.VisionXR.GameElements
             };
 
             strikerData.CreateStriker(myId, myStrikerID, strikerCreatedEvent);
+
+            yield return new WaitForSeconds(0.1f);
 
             // Define the callback here
             aICreatedEvent = (GameObject aIAvatar) =>

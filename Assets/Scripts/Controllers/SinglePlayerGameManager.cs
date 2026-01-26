@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
+        public GameObject inputPanel;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
         public FineLogic fineLogic;
@@ -43,8 +45,10 @@ namespace com.VisionXR.Controllers
 
             fineLogic.PutFineEvent += PutFine;
 
+            gameData.TurnChangedEvent += TurnChanged;
 
-            StartGame();
+
+            StartCoroutine(StartGame());
         }
 
         private void OnDisable()
@@ -59,7 +63,20 @@ namespace com.VisionXR.Controllers
 
             fineLogic.PutFineEvent -= PutFine;
 
+            gameData.TurnChangedEvent -= TurnChanged;
+
+
         }
+
+        private void TurnChanged(int id)
+        {
+            Player p = playersData.GetPlayer(id);
+            if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
+            {
+                inputPanel.SetActive(true);
+            }
+        }
+
         private void PlayAgain()
         {
             coinData.ResetData();
@@ -101,23 +118,23 @@ namespace com.VisionXR.Controllers
             if (firstTurn == 1)
             {
                 Player p = playersData.GetMainPlayer();
-                p.GetComponent<PlayerInput>().StartRotattion();
+                p.GetComponent<PlayerInput>().StartRotation();
                 isFirstTurn = true;
 
             }
 
         }
-        private void StartGame()
+        private IEnumerator StartGame()
         {
 
             coinData.ResetData();
-            strikerData.ResetFoul();
+          
 
             coinData.CreateAllCoins();
             playersData.CreateSinglePlayers();
 
 
-
+            yield return new WaitForSeconds(0.1f);  
             int firstTurn = 1;
 
             if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
@@ -145,21 +162,29 @@ namespace com.VisionXR.Controllers
 
             }
 
-            gameData.ChangeTurn(firstTurn);
-
-
+         
             if (firstTurn == 1)
             {
                 Player p = playersData.GetMainPlayer();
-                p.GetComponent<PlayerInput>().StartRotattion();
+                p.GetComponent<PlayerInput>().StartRotation();
                 coinData.ShowRotationCanvasEvent?.Invoke();
                 isFirstTurn = true;
                
             }
+
+            StartCoroutine(WaitForSeconds(0.2f, firstTurn));
+        }
+
+        private IEnumerator WaitForSeconds(float v,int turnid)
+        {
+            yield return new WaitForSeconds(v);
+            strikerData.ResetFoul();
+            gameData.ChangeTurn(turnid);
         }
 
         private void StrikeStarted(int id, float f)
         {
+            inputPanel.SetActive(false);
             inputData.DeactivateInput();           
             if(isFirstTurn)
             {
@@ -174,6 +199,7 @@ namespace com.VisionXR.Controllers
         private void StrikeFinished(int id)
         {
 
+         
             ProcessPlayerData(playersData.GetPlayer(gameData.currentTurnId), coinData.Whites, coinData.Blacks, coinData.Red, strikerData.isFoul);
             coinData.DestroyCoinsFellInthisTurn(coinData.GetCoinsFellInThisTurn());
             coinData.ResetData();

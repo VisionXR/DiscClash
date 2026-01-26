@@ -12,7 +12,7 @@ namespace com.VisionXR.Views
         public void ResumeGame()
         {
             AudioManager.instance.PlayButtonClickSound();
-            inputData.PauseButtonClicked();
+           
             gameObject.SetActive(false);
 
         }
@@ -20,7 +20,7 @@ namespace com.VisionXR.Views
         public void OnHomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            inputData.ResumeGameEvent();
+          
             inputData.DeactivateInput();
             uiOutputData.ExitGame();
             uiOutputData.GoToHome();           

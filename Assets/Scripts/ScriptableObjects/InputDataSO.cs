@@ -14,31 +14,20 @@ namespace com.VisionXR.ModelClasses
         public bool isGamePaused;
         public bool isHandTrackingActive = false;
 
-        // Events
-        public Action<float> MovePlayerXEvent;
-        public Action<float> MovePlayerYEvent;
 
 
-        public Action<float> FireStrikerWithForceEvent;
-        public Action TriggerButtonClickedEvent;
-        public Action GrabButtonClickedEvent;
-        public Action<float> ControllerRotatedEvent;
-        public Action<Vector3, Transform> SwipedPositionEvent;
-        public Action<SwipeDirection> KeyboardRotatedEvent;
-        public Action<SwipeDirection> SwipedEvent;
+       
+      // Striker Events
+        public Action<float> MoveStrikerEvent;
+        public Action<Vector3> AimStrikerEvent;
+        public Action<float> SetStrikerForceEvent;
+        public Action FireStrikerEvent;
+
+        // camEvents
+        public Action<SwipeDirection> SwipeDetectedEvent;
 
 
-        public Action PauseGameEvent;
-        public Action ResumeGameEvent;
 
-
-        public Action<float> ThumbStickLeftRightSwipedEvent;
-        public Action<float> ThumbStickUpDownSwipedEvent;
-
-        // Striker Events
-        public Action<float> RotateStrikerAbsoluteEvent;
-        public Action<float> RotateStrikerRelativeEvent;
-        public Action<Vector3> RotateStrikerTowardsEvent;
 
 
         // Methods
@@ -47,27 +36,7 @@ namespace com.VisionXR.ModelClasses
         {
             isInputActivated = false;
         }
-        public void MovePlayerX(float value)
-        {
-            MovePlayerXEvent?.Invoke(value);
-        }
 
-        public void MovePlayerY(float value)
-        {
-            MovePlayerYEvent?.Invoke(value);
-        }
-        public void FireStrikerWithForce(float force)
-        {
-            FireStrikerWithForceEvent?.Invoke(force);
-        }
-        public void TriggerButtonClicked()
-        {
-            TriggerButtonClickedEvent?.Invoke();
-        }
-        public void GrabButtonClicked()
-        {
-            GrabButtonClickedEvent?.Invoke();
-        }
         public void ActivateInput()
         {
             isInputActivated = true;
@@ -80,56 +49,34 @@ namespace com.VisionXR.ModelClasses
             myPlayerSettings.ChangeHand(DominantHand.BOTH);
         }
 
-        public void ControllerRotated(float angle)
+
+
+        public void MoveStriker(float val)
         {
-            ControllerRotatedEvent?.Invoke(angle);
+            MoveStrikerEvent?.Invoke(val);
         }
 
-        public void RotateStrikerTowards(Vector3 initialPosition)
+        public void AimStriker(Vector3 direction)
         {
-            RotateStrikerTowardsEvent?.Invoke(initialPosition);
+            AimStrikerEvent?.Invoke(direction);
         }
 
-     
-
-        public void SwipedPosition(Vector3 position, Transform transform)
+        public void SetStrikerForce(float normalisedValue)
         {
-            SwipedPositionEvent?.Invoke(position, transform);
+            SetStrikerForceEvent?.Invoke(normalisedValue);
         }
 
-        public void KeyboardRotated(SwipeDirection direction)
+        public void FireStriker()
         {
-            KeyboardRotatedEvent?.Invoke(direction);
+            FireStrikerEvent?.Invoke();
         }
 
-        public void Swiped(SwipeDirection direction)
+        public void SwipeDetected(SwipeDirection swipeDirection)
         {
-            SwipedEvent?.Invoke(direction);
+            Debug.Log("Swipe Detedted "+Enum.GetName(typeof(SwipeDirection), swipeDirection));  
+            SwipeDetectedEvent?.Invoke(swipeDirection);
         }
 
-        public void PauseButtonClicked()
-        {
-            if(!isGamePaused)
-            {
-                isGamePaused = true;
-                PauseGameEvent?.Invoke();
-               
-            }
-            else
-            {
-                isGamePaused = false;
-                ResumeGameEvent?.Invoke();
-               
-            }
-        }
 
-        public void ThumbStickLeftRightSwiped(float value)
-        {
-            ThumbStickLeftRightSwipedEvent?.Invoke(value);
-        }
-        public void ThumbStickUpDownSwiped(float value)
-        {
-            ThumbStickUpDownSwipedEvent?.Invoke(value);
-        }
     }
 }

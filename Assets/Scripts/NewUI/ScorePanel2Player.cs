@@ -19,6 +19,7 @@ public class ScorePanel2Player : MonoBehaviour
     public GameObject InviteObject;
     public PlayerDetailsView leftPlayer;
     public PlayerDetailsView rightPlayer;
+    
 
     [Header(" canvas objects")]
     public GameObject CenterCanvas;
@@ -47,8 +48,7 @@ public class ScorePanel2Player : MonoBehaviour
         uiOutputData.CoinsSetEvent += SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
-        uiInputData.SetButtonEvent += SetButton;
-        uiInputData.SetPlayerStatusEvent += SetStatus ;
+        uiInputData.SetPlayerStatusEvent += SetStatus;
         uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
 
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
@@ -76,7 +76,7 @@ public class ScorePanel2Player : MonoBehaviour
         uiOutputData.CoinsSetEvent -= SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;
-        uiInputData.SetButtonEvent -= SetButton;
+     
         uiInputData.SetPlayerStatusEvent -= SetStatus;
         uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
@@ -122,8 +122,7 @@ public class ScorePanel2Player : MonoBehaviour
     private void Reset()
     {
         StopTurnTime();
-        ResetIndicators(); // left right indicators
-        ResetButtons();
+        ResetIndicators(); 
         ResetStatus();
         leftPlayer.SetScore(0, 0, 0);
         rightPlayer.SetScore(0, 0, 0);
@@ -364,41 +363,15 @@ public class ScorePanel2Player : MonoBehaviour
 
     }
 
-    public void SetButton(int id)
-    {
-        if (id == 1)
-        {
-            leftPlayer.SetButton();
-        }
-        else
-        {
-            rightPlayer.SetButton();
-        }
-    }
-
-    public void ResetButtons()
-    {
-        leftPlayer.ResetButton();
-        rightPlayer.ResetButton();
-    }
-
     public void ResetStatus()
     {
-        leftPlayer.SetStatus("In Game");
-        rightPlayer.SetStatus("In Game");
+       
     }
 
     public void SetStatus(int id,string status)
     {
 
-        if (id == 1)
-        {
-            leftPlayer.SetStatus(status);
-        }
-        else
-        {
-            rightPlayer.SetStatus(status);
-        }
+       
     }
 
     public void SetCoins()

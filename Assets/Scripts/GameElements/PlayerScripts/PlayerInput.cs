@@ -20,26 +20,35 @@ namespace com.VisionXR.GameElements
 
         private void OnEnable()
         {
-            inputData.FireStrikerWithForceEvent += FireStrikerWithForce;
-            inputData.KeyboardRotatedEvent += KeyboardRotated;
-            inputData.SwipedEvent += Swiped;
-            inputData.SwipedPositionEvent += OnControllerMoved;
-            inputData.ControllerRotatedEvent += OnControllerRotated;
-            inputData.RotateStrikerTowardsEvent += OnHandRotated;
-          
-            inputData.ThumbStickUpDownSwipedEvent += RotateCoins;
+            inputData.FireStrikerEvent += FireStrikerWithForce;
+            inputData.MoveStrikerEvent += MoveStriker;
+            inputData.AimStrikerEvent += AimStriker;
+            inputData.SetStrikerForceEvent += SetStrikerForce;       
+           
         }
 
         private void OnDisable()
         {
-            inputData.FireStrikerWithForceEvent -= FireStrikerWithForce;
-            inputData.KeyboardRotatedEvent -= KeyboardRotated;
-            inputData.SwipedEvent -= Swiped;
-            inputData.SwipedPositionEvent -= OnControllerMoved;
-            inputData.ControllerRotatedEvent -= OnControllerRotated;
-            inputData.RotateStrikerTowardsEvent -= OnHandRotated;
+            inputData.FireStrikerEvent -= FireStrikerWithForce;
+            inputData.MoveStrikerEvent += MoveStriker;
+            inputData.AimStrikerEvent -= AimStriker;
+            inputData.SetStrikerForceEvent -= SetStrikerForce;
+            
+        }
 
-            inputData.ThumbStickUpDownSwipedEvent -= RotateCoins;
+        private void MoveStriker(float val)
+        {
+            player.strikerMovement.MoveStriker(val);
+        }
+
+        private void SetStrikerForce(float normalisedValue)
+        {
+            player.strikerShoot.SetStrikerForce(normalisedValue);
+        }
+
+        private void AimStriker(Vector3 direction)
+        {
+            player.strikerMovement.AimStriker(direction);
         }
 
         private void RotateCoins(float val)
@@ -51,36 +60,12 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void OnControllerMoved(Vector3 vector, Transform transform)
+        private void FireStrikerWithForce()  
         {
-             player.strikerMovement.MoveStriker(vector, transform);
-        }
-        private void OnControllerRotated(float value)
-        {
-            player.strikerMovement.AimStriker(value);
+            player.strikerShoot.FireStriker();
         }
 
-        private void OnHandRotated(Vector3 position)
-        {
-            player.strikerMovement.RotateTo(position);
-        }
-
-        private void Swiped(SwipeDirection direction)
-        {
-            player.strikerMovement.MoveStriker(direction);
-        }
-
-        private void KeyboardRotated(SwipeDirection direction)
-        {
-            player.strikerMovement.AimStriker(direction);
-        }
-
-        private void FireStrikerWithForce(float value)  
-        {
-            player.myStriker.GetComponent<IStrikerShoot>().FireStriker(value);                  
-        }
-
-        public void StartRotattion()
+        public void StartRotation()
         {
             canIRotate = true;
         }

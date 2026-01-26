@@ -8,49 +8,50 @@ namespace com.VisionXR.ModelClasses
     public class BoardPropertiesSO : ScriptableObject
     {
         [Header("Board Properties")]
-        [SerializeField] private List<GameObject> Holes;
+        [SerializeField] private List<GameObject> Holes = new List<GameObject>(); 
+        [SerializeField] private List<GameObject> HolesTriggers = new List<GameObject>();
+        [SerializeField] private List<Transform> Striker1Positions = new List<Transform>();
+        [SerializeField] private List<Transform> Striker2Positions = new List<Transform>();
+        [SerializeField] private List<Transform> Striker3Positions = new List<Transform>();
+        [SerializeField] private List<Transform> Striker4Positions = new List<Transform>();
+        [SerializeField] private List<Transform> FinePositions = new List<Transform>();
+        [SerializeField] private List<Transform> PlayerPositions = new List<Transform>();
+        [SerializeField] private List<Transform> AvatarPositions = new List<Transform>();
+
         [SerializeField] private GameObject Ground;
-        [SerializeField] private List<GameObject> HolesTriggers;
         [SerializeField] private Transform AllCoins;
-        [SerializeField] public List<Transform> AllCoinsPositions;
-        [SerializeField] private List<GameObject> Striker1Positions;
-        [SerializeField] private List<GameObject> Striker2Positions;
-        [SerializeField] private List<GameObject> Striker3Positions;
-        [SerializeField] private List<GameObject> Striker4Positions;
-        [SerializeField] private List<Transform> FinePositions;
-        [SerializeField] private List<Transform> PlayerPositions;
-        [SerializeField] private List<Transform> AvatarPositions;
-        [SerializeField] private List<GameObject> MainCanvasPositions;
         [SerializeField] private float StrikerRadius;
         [SerializeField] private float CoinRadius;
-        [SerializeField] private float BoardHeight;
+
+
 
         // Getters for the properties
         public List<GameObject> GetHoles() => Holes;
         public Transform GetAllCoinsTransform() => AllCoins;
-        public List<Transform> GetAllCoinsPositions() => AllCoinsPositions;
+    
         public List<Transform> GetFinePositions() => FinePositions;
         public Transform GetAvatarPositions(int playerId) => AvatarPositions[playerId - 1].transform;
-        public Transform GetMainCanvasPosition(int playerID) => MainCanvasPositions[playerID - 1].transform;
-        public List<GameObject> GetStrikerPosition(StrikerName name)
+        public List<Transform> GetStrikerPosition(int id)
         {
-            return name switch
+
+         
+            if(id == 1)
             {
-                StrikerName.Striker1 => Striker1Positions,
-                StrikerName.Striker2 => Striker2Positions,
-                StrikerName.Striker3 => Striker3Positions,
-                _ => Striker4Positions
-            };
-        }
-        public List<GameObject> GetStrikerPosition(int id)
-        {
-            return id switch
+                Debug.Log("Getting Striker Positions for ID: " + Striker1Positions.Count);
+                return Striker1Positions;
+            }
+            else if(id == 2)
             {
-                1 => Striker1Positions,
-                2 => Striker2Positions,
-                3 => Striker3Positions,
-                _ => Striker4Positions
-            };
+                return Striker2Positions;
+            }
+            else if(id == 3)
+            {
+                return Striker3Positions;
+            }
+            else // id == 4
+            {
+                return Striker4Positions;
+            }
         }
         public Transform GetPlayerPosition(int playerId) => PlayerPositions[playerId - 1].transform;
     
@@ -78,11 +79,6 @@ namespace com.VisionXR.ModelClasses
             AllCoins = allCoins;
         }
 
-        public void SetAllCoinsPositions(List<Transform> allCoinsPositions)
-        {
-            AllCoinsPositions = allCoinsPositions;
-        }
-
         public void SetFinePositions(List<Transform> finePositions)
         {
             FinePositions = finePositions;
@@ -93,13 +89,7 @@ namespace com.VisionXR.ModelClasses
             AvatarPositions = avatarPositions;
         }
 
-
-        public void SetMainCanvasPositions(List<GameObject> mainCanvasPositions)
-        {
-            MainCanvasPositions = mainCanvasPositions;
-        }
-
-        public void SetStrikerPositions(int id, List<GameObject> strikerPositions)
+        public void SetStrikerPositions(int id, List<Transform> strikerPositions)
         {
             switch (id)
             {
@@ -123,7 +113,6 @@ namespace com.VisionXR.ModelClasses
             PlayerPositions = playerPositions;
         }
 
-
         public void SetStrikerRadius(float strikerRadius)
         {
             StrikerRadius = strikerRadius;
@@ -133,12 +122,6 @@ namespace com.VisionXR.ModelClasses
         {
             CoinRadius = coinRadius;
         }
-
-        public void SetBoardHeight(float boardHeight)
-        {
-            BoardHeight = boardHeight;
-        }
-
         public void TurnOffHoles()
         { 
         

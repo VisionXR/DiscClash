@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System;
 using UnityEngine;
 
 namespace com.VisionXR.GameElements
@@ -16,56 +17,19 @@ namespace com.VisionXR.GameElements
 
         void OnEnable()
         {
-            inputData.MovePlayerXEvent += MovePlayerLeftRight;
-            inputData.MovePlayerYEvent += MovePlayerUpDown;
-            inputData.ThumbStickLeftRightSwipedEvent += RotateCam;
+            inputData.SwipeDetectedEvent += ChangePlayerPosition;
         }
 
         private void OnDisable()
         {
-            inputData.MovePlayerXEvent -= MovePlayerLeftRight;
-            inputData.MovePlayerYEvent -= MovePlayerUpDown;
-            inputData.ThumbStickLeftRightSwipedEvent -= RotateCam;
+            inputData.SwipeDetectedEvent -= ChangePlayerPosition;
         }
 
-        private void RotateCam(float value)
+        private void ChangePlayerPosition(SwipeDirection direction)
         {
-            if(currentPlayer == null)
-            {
-                camPositionData.RotateCam(1, value);
-            }
-            else if (currentPlayer.myPlayerRole == PlayerRole.Human && currentPlayer.myPlayerControl == PlayerControl.Local)
-            {
-                camPositionData.RotateCam(currentPlayer.myId, value);
-            }
+            camPositionData.RotateCam(currentPlayer.myId,direction);
         }
 
-        private void MovePlayerUpDown(float value)
-        {
-            if(currentPlayer == null)
-            {
-                camPositionData.MoveCamUpDown(1, value);
-            }
-
-            else if ( currentPlayer.myPlayerRole == PlayerRole.Human && currentPlayer.myPlayerControl == PlayerControl.Local)
-            {
-                camPositionData.MoveCamUpDown(currentPlayer.myId, value);
-            }
-        }
-
-        private void MovePlayerLeftRight(float value)
-        {
-
-            if(currentPlayer == null)
-            {
-                camPositionData.MoveCamLeftRight(1, value);
-            }
-
-
-            else if (currentPlayer.myPlayerRole == PlayerRole.Human && currentPlayer.myPlayerControl == PlayerControl.Local)
-            {
-                camPositionData.MoveCamLeftRight(currentPlayer.myId, value);
-            }
-        }
+     
     }
 }

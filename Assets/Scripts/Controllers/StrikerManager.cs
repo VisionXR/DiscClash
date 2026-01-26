@@ -42,16 +42,16 @@ namespace com.VisionXR.Controllers
             strikerData.SetFoul();
         }
 
-        public void CreateStriker(int id, int strikerMaterialId, Action<GameObject> strikerCreatedEvent)
+        public void CreateStriker(int playerId, int strikerId, Action<GameObject> strikerCreatedEvent)
         {
             // Build the resource path, e.g., "Strikers/Striker0"
-            string resourcePath = $"Strikers/Striker{strikerMaterialId}";
+            string resourcePath = $"NewStrikers/Striker{strikerId}";
             GameObject strikerPrefab = Resources.Load<GameObject>(resourcePath);
 
             if (strikerPrefab != null)
             {
                 GameObject striker = Instantiate(strikerPrefab, strikerPrefab.transform.position, strikerPrefab.transform.rotation);
-                striker.GetComponent<IStrikerMovement>().SetStrikerID(id);
+                striker.GetComponent<IStrikerMovement>().SetStrikerID(playerId);
                 strikerCreatedEvent?.Invoke(striker);
             }
             else

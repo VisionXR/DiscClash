@@ -10,7 +10,7 @@ namespace com.VisionXR.GameElements
     public class TutorialMovement : MonoBehaviour
     {
         public BoardPropertiesSO boardProperties;
-        [SerializeField] private List<GameObject> StrikerPositions = new List<GameObject>();
+        [SerializeField] private List<Transform> StrikerPositions = new List<Transform>();
         [SerializeField] private float val = 1;
         [SerializeField] public int strikerId = 1;
         [SerializeField] private float LeftLimit, RightLimit;
@@ -222,34 +222,17 @@ namespace com.VisionXR.GameElements
             StrikeFinished?.Invoke();
         }
 
-        public List<GameObject> GetStrikerPositions()
+        public List<Transform> GetStrikerPositions()
         {
             return StrikerPositions;
         }
         public void GetPositions(int id)
         {
-            if (id == 1)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker1);
-                gameObject.name = "Striker1";
-            }
-            else if (id == 2)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker2);
-                gameObject.name = "Striker2";
-            }
-            else if (id == 3)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker3);
-                gameObject.name = "Striker3";
-            }
-            else if (id == 4)
-            {
-                StrikerPositions = boardProperties.GetStrikerPosition(StrikerName.Striker4);
-                gameObject.name = "Striker4";
-            }
-
+            StrikerPositions = boardProperties.GetStrikerPosition(id);
+            gameObject.name = "Striker" + id;
         }
+
+
         public Vector3 FindStrikerNextPosition(Vector3 finalPos, Vector3 dir)
         {
             Vector3 newPosition = finalPos;
