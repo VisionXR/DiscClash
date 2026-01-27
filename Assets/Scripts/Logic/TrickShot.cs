@@ -10,7 +10,7 @@ public class TrickShot : MonoBehaviour
     public CoinDataSO coinData;
     public InputDataSO inputData;
     public TrickShotsDataSO trickShotsData;
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
 
     [Header(" Local Objects")]
     public float levelTime = 100f;
@@ -148,11 +148,11 @@ public class TrickShot : MonoBehaviour
     {
         bool isThisCorrectPosition = false;
         Vector3 correctPosition = Vector3.zero;
-        foreach (Transform fine in boardProperties.GetFinePositions())
+        foreach (Transform fine in boardData.GetFinePositions())
         {
             isThisCorrectPosition = true;
             correctPosition = fine.position;
-            Collider[] cols = Physics.OverlapSphere(fine.position, boardProperties.GetCoinRadius());
+            Collider[] cols = Physics.OverlapSphere(fine.position, boardData.GetCoinRadius());
             foreach (Collider c in cols)
             {
                 if (c.gameObject.tag == "White" || c.gameObject.tag == "Red" || c.gameObject.tag == "Black")
@@ -167,7 +167,7 @@ public class TrickShot : MonoBehaviour
         }
         if (!isThisCorrectPosition)
         {
-            correctPosition = boardProperties.GetFinePositions()[0].position + new Vector3(0, 0.1f, 0);
+            correctPosition = boardData.GetFinePositions()[0].position + new Vector3(0, 0.1f, 0);
         }
         return correctPosition;
     }

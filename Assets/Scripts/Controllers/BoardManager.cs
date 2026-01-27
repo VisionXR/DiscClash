@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System;
+using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,13 +12,21 @@ namespace com.VisionXR.Controllers
     {
         [Header(" Scriptable Objects ")]
         public MyPlayerSettings myPlayerSettings;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public UIOutputDataSO uIOutputData;
        
 
         [Header(" Boards")]
         public GameObject BoardPos;
-        private GameObject currentBoard;
+        public GameObject currentBoard;
+
+
+        private IEnumerator Start()
+        {
+            yield return new WaitForSeconds(1);
+            CreateNewBoardFromResources(myPlayerSettings.MyBoard);
+        }
+
 
         private void OnEnable()
         {
@@ -28,7 +37,7 @@ namespace com.VisionXR.Controllers
             uIOutputData.StartFTUEEvent += StartFTUE;
             uIOutputData.EndTutorialEvent += EndTutorial;
             uIOutputData.StopTrickShotsEvent += EndTutorial;
-            CreateNewBoardFromResources(myPlayerSettings.MyBoard);
+           
         }
 
         private void OnDisable()
@@ -72,6 +81,7 @@ namespace com.VisionXR.Controllers
 
             if (currentBoard != null)
             {
+                
                 Destroy(currentBoard);
             }
 
@@ -88,5 +98,7 @@ namespace com.VisionXR.Controllers
                 Debug.LogError($"Board prefab not found at Resources/{resourcePath}");
             }
         }
+
+
     }
 }

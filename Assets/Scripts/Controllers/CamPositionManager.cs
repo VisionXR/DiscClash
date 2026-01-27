@@ -7,7 +7,7 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Objects")]
         public CamPositionSO camPositionData;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public InputDataSO inputData;
         public PlayersDataSO playerData;
 
@@ -48,8 +48,8 @@ namespace com.VisionXR.Controllers
         private void ChangeCamPosition(int id)
         {
             // Move camera rig to the player's canonical position/rotation and reset local offsets.
-            cameraRig.transform.position = boardProperties.GetPlayerPosition(id).position;
-            cameraRig.transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
+            cameraRig.transform.position = boardData.GetPlayerPosition(id).position;
+            cameraRig.transform.rotation = boardData.GetPlayerPosition(id).rotation;
 
             // Store center rotation and reset offsets/targets
             _centerRotation = cameraRig.transform.rotation;
@@ -116,8 +116,8 @@ namespace com.VisionXR.Controllers
         private void Recenter(int id)
         {
             // Recenter to the player's canonical position & rotation and reset offsets.
-            cameraRig.transform.position = boardProperties.GetPlayerPosition(id).position;
-            cameraRig.transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
+            cameraRig.transform.position = boardData.GetPlayerPosition(id).position;
+            cameraRig.transform.rotation = boardData.GetPlayerPosition(id).rotation;
 
             _centerRotation = cameraRig.transform.rotation;
             _currentYawOffset = 0f;

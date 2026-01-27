@@ -14,7 +14,7 @@ namespace com.VisionXR.GameElements
         public CoinDataSO coinData;
         public StrikerDataSO strikerData;
         public InputDataSO inputData;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
 
         [Header("local variables")]
         public Player player;   
@@ -46,7 +46,7 @@ namespace com.VisionXR.GameElements
 
                 if (player.myPlayerControl == PlayerControl.Local) // local player
                 {
-                    boardProperties.TurnOnHoles();
+                    boardData.TurnOnHoles();
                     if (player.myPlayerRole == PlayerRole.Human)
                     {
 
@@ -64,7 +64,7 @@ namespace com.VisionXR.GameElements
                 }
                 else // Remote player
                 {
-                    boardProperties.TurnOffHoles();
+                    boardData.TurnOffHoles();
                     inputData.DeactivateInput();
 
                     if (player.myPlayerRole == PlayerRole.Human)

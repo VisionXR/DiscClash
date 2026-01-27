@@ -9,7 +9,7 @@ public class MouseInputManager : MonoBehaviour
     [Header("Scriptable Objects")]
     public InputDataSO inputData;
     public MyPlayerSettings myPlayerSettings;
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
 
     [Header("Raycast Settings")]
     [Tooltip("Camera used to convert screen -> world. If null will use Camera.main.")]
@@ -213,8 +213,8 @@ public class MouseInputManager : MonoBehaviour
 
         // compute normalized force based on drag distance and sensitivity * strikerRadius
         float strikerRadius = 0.02f;
-        if (boardProperties != null)
-            strikerRadius = boardProperties.GetStrikerRadius();
+        if (boardData != null)
+            strikerRadius = boardData.GetStrikerRadius();
 
         float maxDragDistance = Mathf.Max(0.0001f, dragSensitivity * strikerRadius); // avoid div by zero
         float dragDistance = delta.magnitude;
@@ -327,8 +327,8 @@ public class MouseInputManager : MonoBehaviour
                 if (hitObject.CompareTag("Board"))
                 {
                     float strikerRadius = 0.5f;
-                    if (boardProperties != null)
-                        strikerRadius = boardProperties.GetStrikerRadius();
+                    if (boardData != null)
+                        strikerRadius = boardData.GetStrikerRadius();
                     else
                         Debug.LogWarning("MouseInputManager: boardProperties is not assigned. Using fallback striker radius.");
 

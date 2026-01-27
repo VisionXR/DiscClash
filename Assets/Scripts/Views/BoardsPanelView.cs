@@ -13,7 +13,7 @@ namespace com.VisionXR.Views
     {
         [Header(" Scriptable Objects")]
         public MyPlayerSettings MyPlayerSettings;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public PurchaseDataSO purchaseData;
         public AchievementsDataSO achievementsData;
 

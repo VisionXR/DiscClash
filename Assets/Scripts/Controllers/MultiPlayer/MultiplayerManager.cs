@@ -21,7 +21,7 @@ namespace com.VisionXR.Controllers
         public UIOutputDataSO uiOutputData;
         public InputDataSO inputData;
         public MyPlayerSettings playerSettings;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public LeaderBoardSO leaderBoard;
         public AchievementsDataSO achievementsData;
         

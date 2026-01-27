@@ -1,3 +1,4 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,6 @@ namespace com.VisionXR.Controllers
             strikerData.DestroyStrikerEvent += DestroyStriker;
             strikerData.ChangeStrikerEvent += ChangeStriker;
             strikerData.NetworkStrikerEvent += ChangeStriker;
-
             strikerData.StrikerFellInHoleEvent += OnFoulOccured;
         }
 
@@ -32,7 +32,6 @@ namespace com.VisionXR.Controllers
             strikerData.DestroyStrikerEvent -= DestroyStriker;
             strikerData.ChangeStrikerEvent -= ChangeStriker;
             strikerData.NetworkStrikerEvent -= ChangeStriker;
-
             strikerData.StrikerFellInHoleEvent -= OnFoulOccured;
 
         }
@@ -46,17 +45,18 @@ namespace com.VisionXR.Controllers
         {
             // Build the resource path, e.g., "Strikers/Striker0"
             string resourcePath = $"NewStrikers/Striker{strikerId}";
+
             GameObject strikerPrefab = Resources.Load<GameObject>(resourcePath);
 
             if (strikerPrefab != null)
             {
                 GameObject striker = Instantiate(strikerPrefab, strikerPrefab.transform.position, strikerPrefab.transform.rotation);
-                striker.GetComponent<IStrikerMovement>().SetStrikerID(playerId);
+                striker.GetComponent<StrikerMovement>().SetStrikerID(playerId);
                 strikerCreatedEvent?.Invoke(striker);
             }
             else
             {
-                Debug.LogError($"Striker prefab not found at Resources/{resourcePath}");
+                Debug.Log($"Striker prefab not found at Resources/{resourcePath}");
                 strikerCreatedEvent?.Invoke(null);
             }
         }

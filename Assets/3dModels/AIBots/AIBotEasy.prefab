@@ -5790,7 +5790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIData: {fileID: 11400000, guid: 52ff5c05f737cbd4d8305679c80265c5, type: 2}
   inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   playersData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
   AIIcon: {fileID: 21300000, guid: 5699eeff58921f74f91fa4ae412df5b5, type: 3}
@@ -5798,6 +5798,7 @@ MonoBehaviour:
   aIMovement: {fileID: 5686761064602870216}
   CutOffAngle: 10
   Striker: {fileID: 0}
+  strikerPositions: []
 --- !u!114 &5686761064602870216
 MonoBehaviour:
   m_ObjectHideFlags: 0

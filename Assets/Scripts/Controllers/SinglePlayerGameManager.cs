@@ -130,13 +130,11 @@ namespace com.VisionXR.Controllers
         {
 
             coinData.ResetData();
-          
-
-            coinData.CreateAllCoins();
+           
             playersData.CreateSinglePlayers();
-
-
-            yield return new WaitForSeconds(0.1f);  
+            yield return new WaitForSeconds(0.1f);
+            coinData.CreateAllCoins();
+           
             int firstTurn = 1;
 
             if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
@@ -174,7 +172,7 @@ namespace com.VisionXR.Controllers
                
             }
 
-            StartCoroutine(WaitForSeconds(0.2f, firstTurn));
+            StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
 
         private IEnumerator WaitForSeconds(float v,int turnid)

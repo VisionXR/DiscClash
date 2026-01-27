@@ -12,7 +12,7 @@ public class ReceivePlayerData : MonoBehaviour
     public PlayersDataSO playerData;
     public GameDataSO gameData;
     public CoinDataSO coinData;
-    public BoardPropertiesSO boardData;
+    public BoardDataSO boardData;
     public StrikerDataSO strikerData;
 
     [Header("local Objects")]

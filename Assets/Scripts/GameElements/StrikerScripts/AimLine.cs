@@ -4,7 +4,7 @@ using UnityEngine;
 public class AimLine : MonoBehaviour
 {
     [Header("References")]
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
     public GameObject line;
     public Renderer lineRenderer;
 

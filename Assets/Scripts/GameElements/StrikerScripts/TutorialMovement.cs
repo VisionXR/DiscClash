@@ -9,7 +9,7 @@ namespace com.VisionXR.GameElements
 {
     public class TutorialMovement : MonoBehaviour
     {
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         [SerializeField] private List<Transform> StrikerPositions = new List<Transform>();
         [SerializeField] private float val = 1;
         [SerializeField] public int strikerId = 1;
@@ -61,7 +61,7 @@ namespace com.VisionXR.GameElements
         public void SetStrikerId(int id)
         {
             strikerId = id;
-            fixedCenterPoint = boardProperties.GetPlayerPosition(strikerId).position;
+            fixedCenterPoint = boardData.GetPlayerPosition(strikerId).position;
             GetPositions(id);
             ResetStriker();
 
@@ -228,7 +228,7 @@ namespace com.VisionXR.GameElements
         }
         public void GetPositions(int id)
         {
-            StrikerPositions = boardProperties.GetStrikerPosition(id);
+            StrikerPositions = boardData.GetStrikerPosition(id);
             gameObject.name = "Striker" + id;
         }
 
@@ -239,9 +239,9 @@ namespace com.VisionXR.GameElements
             bool isThisCorrectPosition;
             while (true)
             {
-                newPosition += dir * boardProperties.GetStrikerRadius() / 10;
+                newPosition += dir * boardData.GetStrikerRadius() / 10;
                 isThisCorrectPosition = true;
-                Collider[] cols = Physics.OverlapSphere(newPosition, boardProperties.GetStrikerRadius() + 0.005f);
+                Collider[] cols = Physics.OverlapSphere(newPosition, boardData.GetStrikerRadius() + 0.005f);
                 foreach (Collider c in cols)
                 {
                     if (c.gameObject.tag == "White" || c.gameObject.tag == "Red" || c.gameObject.tag == "Black")

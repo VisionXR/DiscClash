@@ -488,11 +488,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
-  val: 1
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   strikerId: 1
-  StrikerPositions: []
+  strikerPositions: []
+  strikerRigidbody: {fileID: 0}
   yawThresholdDegrees: 1
+  fixedCenterPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &8050182443813768980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,7 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   strikerShooting: {fileID: 8050182443813768980}
   arrow: {fileID: 175357843525223506}
   displayArrow: {fileID: 3812769390777786666}
@@ -785,7 +786,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7215153570706036482, guid: 77dc6ddf5abe24248a65529b25ed8828, type: 3}
       propertyPath: m_VersionIndex
-      value: 28
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 7727529057445975123, guid: 77dc6ddf5abe24248a65529b25ed8828, type: 3}
       propertyPath: m_Name

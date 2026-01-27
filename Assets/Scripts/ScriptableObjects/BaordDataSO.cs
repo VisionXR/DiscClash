@@ -4,24 +4,43 @@ using UnityEngine;
 
 namespace com.VisionXR.ModelClasses
 {
-    [CreateAssetMenu(fileName = "BoardPropertiesSO", menuName = "ScriptableObjects/BoardPropertiesSO", order = 1)]
-    public class BoardPropertiesSO : ScriptableObject
+    [CreateAssetMenu(fileName = "BoardDataSO", menuName = "ScriptableObjects/BoardDataSO", order = 1)]
+    public class BoardDataSO : ScriptableObject
     {
         [Header("Board Properties")]
-        [SerializeField] private List<GameObject> Holes = new List<GameObject>(); 
-        [SerializeField] private List<GameObject> HolesTriggers = new List<GameObject>();
-        [SerializeField] private List<Transform> Striker1Positions = new List<Transform>();
-        [SerializeField] private List<Transform> Striker2Positions = new List<Transform>();
-        [SerializeField] private List<Transform> Striker3Positions = new List<Transform>();
-        [SerializeField] private List<Transform> Striker4Positions = new List<Transform>();
-        [SerializeField] private List<Transform> FinePositions = new List<Transform>();
-        [SerializeField] private List<Transform> PlayerPositions = new List<Transform>();
-        [SerializeField] private List<Transform> AvatarPositions = new List<Transform>();
+        public List<GameObject> Holes;
+        public List<GameObject> HolesTriggers;
+        public List<Transform> Striker1Positions;
+        public List<Transform> Striker2Positions;
+        public List<Transform> Striker3Positions;
+        public List<Transform> Striker4Positions;
+        public List<Transform> FinePositions;
+        public List<Transform> PlayerPositions;
+        public List<Transform> AvatarPositions;
 
-        [SerializeField] private GameObject Ground;
-        [SerializeField] private Transform AllCoins;
-        [SerializeField] private float StrikerRadius;
-        [SerializeField] private float CoinRadius;
+        public GameObject Ground;
+        public Transform AllCoins;
+        public float StrikerRadius;
+        public float CoinRadius;
+
+
+        private void Awake()
+        {
+            ClearData();
+        }
+
+        private void ClearData()
+        {
+            Holes.Clear();
+            HolesTriggers.Clear();
+            Striker1Positions.Clear();
+            Striker2Positions.Clear();
+            Striker3Positions.Clear();
+            Striker4Positions.Clear();
+            FinePositions.Clear();
+            PlayerPositions.Clear();
+            AvatarPositions.Clear();
+        }
 
 
 
@@ -33,8 +52,7 @@ namespace com.VisionXR.ModelClasses
         public Transform GetAvatarPositions(int playerId) => AvatarPositions[playerId - 1].transform;
         public List<Transform> GetStrikerPosition(int id)
         {
-
-         
+        
             if(id == 1)
             {
                 Debug.Log("Getting Striker Positions for ID: " + Striker1Positions.Count);

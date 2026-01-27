@@ -11,7 +11,7 @@ namespace com.VisionXR.GameElements
         [Header(" Scriptable Objects")]
         public AIDataSO aIData;
         public InputDataSO inputData;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public PlayersDataSO playersData;
         public StrikerDataSO strikerData;
 
@@ -61,9 +61,9 @@ namespace com.VisionXR.GameElements
             gameObject.name = "AI" + id;
             MyId = id;
             Striker = striker;
-            holes = boardProperties.GetHoles();
-            transform.position = boardProperties.GetAvatarPositions(id).position;
-            transform.rotation = boardProperties.GetAvatarPositions(id).rotation;
+            holes = boardData.GetHoles();
+            transform.position = boardData.GetAvatarPositions(id).position;
+            transform.rotation = boardData.GetAvatarPositions(id).rotation;
             GetStrikerPositions();
             aIMovement.SetStriker(Striker, id);
             isExcecuting = false;
@@ -74,7 +74,7 @@ namespace com.VisionXR.GameElements
         private void GetStrikerPositions()
         {
 
-            strikerPositions = boardProperties.GetStrikerPosition(MyId);
+            strikerPositions = boardData.GetStrikerPosition(MyId);
 
         }
         public void ExecuteShot(PlayerCoin coin)

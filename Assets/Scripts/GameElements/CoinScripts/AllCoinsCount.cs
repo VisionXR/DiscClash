@@ -5,7 +5,7 @@ public class AllCoinsCount : MonoBehaviour
 {
     [Header(" Scriptable Objects")]
     public GameDataSO gameData;
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
 
     [Header(" Local variables")]
     public int TotalCoins;
@@ -15,8 +15,8 @@ public class AllCoinsCount : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.position = boardProperties.GetAllCoinsTransform().position;
-        transform.rotation = boardProperties.GetAllCoinsTransform().rotation;
+        transform.position = boardData.GetAllCoinsTransform().position;
+        transform.rotation = boardData.GetAllCoinsTransform().rotation;
         gameData.SetData(TotalCoins, TotalWhites, TotalBlacks, TotalReds);
     }
 }

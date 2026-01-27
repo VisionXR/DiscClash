@@ -11,7 +11,7 @@ public  class CoinSorter : MonoBehaviour
     public static CoinSorter instance;
 
     [Header(" Scriptable Objects")]
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
     public CoinDataSO coinData;
     public AIDataSO aiData;
 
@@ -158,12 +158,12 @@ public  class CoinSorter : MonoBehaviour
         coinInfo.Hole = hole;
         coinInfo.StrikerPos = StrikerPosition;
         Vector3 holedir = (hole.transform.position - coin.transform.position).normalized;
-        Vector3 finalPos = coin.transform.position - holedir * (boardProperties.GetCoinRadius() + boardProperties.GetStrikerRadius());
+        Vector3 finalPos = coin.transform.position - holedir * (boardData.GetCoinRadius() + boardData.GetStrikerRadius());
         coinInfo.FinalPos = finalPos;
         Vector3 Strikerdir = (finalPos - StrikerPosition.transform.position).normalized;
         coinInfo.angle = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(holedir, Strikerdir));
         coinInfo.distance = Vector3.Distance(coin.transform.position, hole.transform.position) + Vector3.Distance(coin.transform.position, StrikerPosition.transform.position);
-        if (Physics.SphereCast(coin.transform.position, boardProperties.GetCoinRadius(), holedir, out hitInfo))
+        if (Physics.SphereCast(coin.transform.position, boardData.GetCoinRadius(), holedir, out hitInfo))
         {
             GameObject tmpobj = hitInfo.collider.gameObject;
             if (tmpobj.tag == "White" || tmpobj.tag == "Black" || tmpobj.tag == "Red")
@@ -178,7 +178,7 @@ public  class CoinSorter : MonoBehaviour
                 coinInfo.blockedCoinAlongHole = tmpobj;
             }
         }
-        if (Physics.SphereCast(StrikerPosition.transform.position, boardProperties.GetStrikerRadius(), Strikerdir, out hitInfo))
+        if (Physics.SphereCast(StrikerPosition.transform.position, boardData.GetStrikerRadius(), Strikerdir, out hitInfo))
         {
             GameObject tmpobj = hitInfo.collider.gameObject;
             if (tmpobj.tag == "White" || tmpobj.tag == "Black" || tmpobj.tag == "Red")

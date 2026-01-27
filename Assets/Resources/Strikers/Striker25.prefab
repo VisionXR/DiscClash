@@ -488,7 +488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playersData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   val: 1
   strikerId: 1
   StrikerPositions: []
@@ -521,7 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   strikerShooting: {fileID: 8050182443813768980}
   arrow: {fileID: 175357843525223506}
   displayArrow: {fileID: 3812769390777786666}
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcab923d78dc7e418224c18adaeb7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 0}
   line: {fileID: 7996795747388994912}
   lineRenderer: {fileID: 5239977323807472533}
   LineThickness: 0.08

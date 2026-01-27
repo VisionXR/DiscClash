@@ -17,7 +17,7 @@ namespace com.VisionXR.Controllers
         public CoinDataSO coinData;
         public StrikerDataSO strikerData;
         public CamPositionSO camPositionData;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public MyPlayerSettings myPlayerSettings;
 
         // An array of Scriptable Objects for each tutorial step
@@ -70,7 +70,7 @@ namespace com.VisionXR.Controllers
          
             currentStepIndex = 0;
             Board.SetActive(true);
-            boardProperties.TurnOnHoles();
+            boardData.TurnOnHoles();
 
             tutorialCanvasUIManager.Reset();
 

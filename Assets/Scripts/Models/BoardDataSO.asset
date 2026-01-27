@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9de0cc609d6cfc948ada2b6bfa1673e0, type: 3}
-  m_Name: BoardPropertiesSO
+  m_Name: BoardDataSO
   m_EditorClassIdentifier: 
   Holes: []
-  Ground: {fileID: 0}
   HolesTriggers: []
-  AllCoins: {fileID: 0}
-  AllCoinsPositions: []
   Striker1Positions: []
   Striker2Positions: []
   Striker3Positions: []
@@ -24,5 +21,7 @@ MonoBehaviour:
   FinePositions: []
   PlayerPositions: []
   AvatarPositions: []
-  StrikerRadius: 0.0414
-  CoinRadius: 0.03225
+  Ground: {fileID: 0}
+  AllCoins: {fileID: 0}
+  StrikerRadius: 0
+  CoinRadius: 0

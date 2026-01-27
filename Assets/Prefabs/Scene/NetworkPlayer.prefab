@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6202316857529401006}
-  - component: {fileID: 422466584297025225}
   - component: {fileID: 760662254974022178}
   - component: {fileID: 1436632896028036055}
   - component: {fileID: 2832467409592422745}
@@ -35,23 +34,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6867789633692575959}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &422466584297025225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104916355726681666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a509dbf839e0e4044a7affab5b5a3e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioSourceType: 1
-  CaptureAudio: 1
-  _mode: 0
-  _smoothing: 0
-  _audioSampleRate: 48000
 --- !u!114 &760662254974022178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,22 +248,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc63b7c5dba2de14183b89f718688b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aiData: {fileID: 11400000, guid: 52ff5c05f737cbd4d8305679c80265c5, type: 2}
   playerSettings: {fileID: 11400000, guid: e1d3a9cf682b58140be82ef682372011, type: 2}
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
-  aiData: {fileID: 11400000, guid: 52ff5c05f737cbd4d8305679c80265c5, type: 2}
   camPositionData: {fileID: 11400000, guid: 255cae767d8ec8347bd4c97795db2f7e, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   playersData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
   playerAvatarObj: {fileID: 3042119161163333186, guid: 4aca1fd905cf50a4d86324154b883dcb, type: 3}
   myStriker: {fileID: 0}
   strikerRigidBody: {fileID: 0}
   myAvatar: {fileID: 0}
   aiPlayer: {fileID: 8655069913760380767}
-  lipSyncContext: {fileID: 422466584297025225}
-  localAvatar: {fileID: 0}
-  localAvatarTransform: {fileID: 0}
-  remoteAvatar: {fileID: 0}
-  remoteAvatarTransform: {fileID: 0}
   strikerMovement: {fileID: 0}
   strikerShoot: {fileID: 0}
   strikerArrow: {fileID: 0}
@@ -315,7 +292,7 @@ MonoBehaviour:
   coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
   inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   player: {fileID: 3804511622267319064}
   playerInput: {fileID: -8483040058767253964}
   aiPlayer: {fileID: 8655069913760380767}
@@ -434,7 +411,6 @@ MonoBehaviour:
       Data: 00000000
     _isGameCompleted:
       Data: 00000000
-  _networkAvatarData: 
 --- !u!114 &7258058012752851326
 MonoBehaviour:
   m_ObjectHideFlags: 0

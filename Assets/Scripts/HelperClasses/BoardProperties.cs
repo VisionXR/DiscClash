@@ -7,7 +7,7 @@ public class BoardProperties : MonoBehaviour
     [Header("Scriptable Objects")]
     public CoinDataSO coinData;
     public MyPlayerSettings playerSettings;
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
 
     [Header("Board Properties")]
     [SerializeField] private List<GameObject> Holes;
@@ -28,31 +28,31 @@ public class BoardProperties : MonoBehaviour
     {
         // Set all properties from this script to the ScriptableObject
 
-            boardProperties.SetHoles(Holes);
+            boardData.SetHoles(Holes);
 
-            boardProperties.SetHoleTriggers(HolesTriggers);
+            boardData.SetHoleTriggers(HolesTriggers);
 
-            boardProperties.SetAllCoinsTransform(AllCoins);
+            boardData.SetAllCoinsTransform(AllCoins);
 
-            boardProperties.SetStrikerPositions(1, Striker1Positions);
+            boardData.SetStrikerPositions(1, Striker1Positions);
 
-            boardProperties.SetStrikerPositions(2, Striker2Positions);
+            boardData.SetStrikerPositions(2, Striker2Positions);
 
-            boardProperties.SetStrikerPositions(3, Striker3Positions);
+            boardData.SetStrikerPositions(3, Striker3Positions);
 
-            boardProperties.SetStrikerPositions(4, Striker4Positions);
+            boardData.SetStrikerPositions(4, Striker4Positions);
 
-            boardProperties.SetFinePositions(FinePositions);
+            boardData.SetFinePositions(FinePositions);
 
-            boardProperties.SetPlayerPositions(PlayerPositions);
+            boardData.SetPlayerPositions(PlayerPositions);
 
-            boardProperties.SetAvatarPositions(AvatarPositions);
+            boardData.SetAvatarPositions(AvatarPositions);
 
-            boardProperties.SetStrikerRadius(StrikerRadius);
+            boardData.SetStrikerRadius(StrikerRadius);
 
-            boardProperties.SetCoinRadius(CoinRadius);
+            boardData.SetCoinRadius(CoinRadius);
 
-            boardProperties.SetGround(Ground);
+            boardData.SetGround(Ground);
 
     }
 }

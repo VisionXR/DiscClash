@@ -9,21 +9,10 @@ using com.VisionXR.HelperClasses;
 /// </summary>
 public class CoinManager : MonoBehaviour
 {
-    /// <summary>
-    /// Reference to the coin data scriptable object.
-    /// </summary>
     [Header("Scriptable Objects")]
     public CoinDataSO coinData;
-
-    /// <summary>
-    /// Reference to the player settings scriptable object.
-    /// </summary>
     public UIOutputDataSO uIOutputData;
-
-    /// <summary>
-    /// Reference to the board properties scriptable object.
-    /// </summary>
-    public BoardPropertiesSO boardProperties;
+    public BoardDataSO boardData;
 
     /// <summary>
     /// Subscribes to coin-related events when enabled.
@@ -100,8 +89,8 @@ public class CoinManager : MonoBehaviour
         {
             coinData.AllCoinsReference = Instantiate(
                 allCoinsPrefab,
-                boardProperties.GetAllCoinsTransform().position,
-                boardProperties.GetAllCoinsTransform().rotation
+                boardData.GetAllCoinsTransform().position,
+                boardData.GetAllCoinsTransform().rotation
             );
         }
         else
@@ -245,11 +234,11 @@ public class CoinManager : MonoBehaviour
     {
         bool isThisCorrectPosition = false;
         Vector3 correctPosition = Vector3.zero;
-        foreach (Transform fine in boardProperties.GetFinePositions())
+        foreach (Transform fine in boardData.GetFinePositions())
         {
             isThisCorrectPosition = true;
             correctPosition = fine.position;
-            Collider[] cols = Physics.OverlapSphere(fine.position, boardProperties.GetCoinRadius());
+            Collider[] cols = Physics.OverlapSphere(fine.position, boardData.GetCoinRadius());
             foreach (Collider c in cols)
             {
                 if (c.gameObject.tag == "White" || c.gameObject.tag == "Red" || c.gameObject.tag == "Black")
@@ -264,7 +253,7 @@ public class CoinManager : MonoBehaviour
         }
         if (!isThisCorrectPosition)
         {
-            correctPosition = boardProperties.GetFinePositions()[0].position + new Vector3(0, 0.1f, 0);
+            correctPosition = boardData.GetFinePositions()[0].position + new Vector3(0, 0.1f, 0);
         }
         return correctPosition;
     }

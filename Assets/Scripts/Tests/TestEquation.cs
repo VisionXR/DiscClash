@@ -11,7 +11,7 @@ public class TestEquation : MonoBehaviour
     public TestDataSO testData;
     public PlayersDataSO playerData;
     public GameDataSO gameData;
-    public BoardPropertiesSO boardData;
+    public BoardDataSO boardData;
 
     [Header(" Game Objects")]
     public Rigidbody strikerObject;

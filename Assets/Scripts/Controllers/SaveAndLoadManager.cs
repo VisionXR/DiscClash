@@ -11,7 +11,7 @@ namespace com.VisionXR.Controller
     {
         [Header(" Scriptable Objects")]
         public MyPlayerSettings playerSettings;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
 
         [Header(" Local Objects")]
         public string Key = "RealCarromData";

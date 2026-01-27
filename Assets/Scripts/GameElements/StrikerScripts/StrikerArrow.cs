@@ -7,7 +7,7 @@ namespace com.VisionXR.GameElements
     {
         [Header(" Scriptable Objects")]
         public StrikerDataSO strikerData;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
 
         [Header(" Local Scripts")]
         public StrikerShooting strikerShooting;

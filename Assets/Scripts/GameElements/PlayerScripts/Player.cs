@@ -15,7 +15,7 @@ namespace com.VisionXR.GameElements
         public MyPlayerSettings playerSettings;
         public StrikerDataSO strikerData;   
         public CamPositionSO camPositionData;
-        public BoardPropertiesSO boardProperties;
+        public BoardDataSO boardData;
         public PlayersDataSO playersData;
 
         [Header("Local Objects")]
@@ -162,23 +162,23 @@ namespace com.VisionXR.GameElements
 
         public void ChangeRemotePlayerAvatar(int id)
         {
-            transform.position = boardProperties.GetPlayerPosition(id).position+ new Vector3(0,Offset,0);
-            transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
+            transform.position = boardData.GetPlayerPosition(id).position+ new Vector3(0,Offset,0);
+            transform.rotation = boardData.GetPlayerPosition(id).rotation;
                         
         }
 
         public void ChangeRemoteAIAvatar(int id)
         {
-            transform.position = boardProperties.GetPlayerPosition(id).position;
-            transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
+            transform.position = boardData.GetPlayerPosition(id).position;
+            transform.rotation = boardData.GetPlayerPosition(id).rotation;
 
         }
 
         public void ChangePlayerView(int id)
         {
 
-            transform.position = boardProperties.GetPlayerPosition(id).position;
-            transform.rotation = boardProperties.GetPlayerPosition(id).rotation;
+            transform.position = boardData.GetPlayerPosition(id).position;
+            transform.rotation = boardData.GetPlayerPosition(id).rotation;
 
        
             camPositionData.SetCamPosition(id);

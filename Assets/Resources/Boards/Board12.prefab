@@ -1726,21 +1726,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
   playerSettings: {fileID: 11400000, guid: e1d3a9cf682b58140be82ef682372011, type: 2}
-  boardProperties: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
-  HoleOuterGlow1: {fileID: 8517045834267928144}
-  HoleOuterGlow2: {fileID: 4072315436710879366}
-  HoleOuterGlow3: {fileID: 8291280900468829142}
-  HoleOuterGlow4: {fileID: 2391269119391380259}
-  HolesTriggers:
-  - {fileID: 3607030372287978793}
-  - {fileID: 1062313796689819390}
-  - {fileID: 3668528214588475712}
-  - {fileID: 8655247309994190621}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   Holes:
   - {fileID: 957269394136292047}
   - {fileID: 8934500643580287981}
   - {fileID: 5905135271283064222}
   - {fileID: 9057940903701307239}
+  HolesTriggers:
+  - {fileID: 3607030372287978793}
+  - {fileID: 1062313796689819390}
+  - {fileID: 3668528214588475712}
+  - {fileID: 8655247309994190621}
   Striker1Positions:
   - {fileID: 3522645476990898202}
   - {fileID: 521041669047263582}
@@ -1791,11 +1787,6 @@ MonoBehaviour:
   - {fileID: 9165700588132530572}
   - {fileID: 351333490295095547}
   - {fileID: 7775370650215253238}
-  MainCanvasPositions:
-  - {fileID: 141571918184273697}
-  - {fileID: 3268604420763488946}
-  - {fileID: 1963775345532231197}
-  - {fileID: 1808567930518243707}
   PlayerPositions:
   - {fileID: 8748158999587098366}
   - {fileID: 1097743510315461007}
@@ -1810,8 +1801,6 @@ MonoBehaviour:
   AllCoins: {fileID: 7184583290382666905}
   StrikerRadius: 0.0414
   CoinRadius: 0.03225
-  BoardHeight: 0.5
-  holeGlowDuration: 1
 --- !u!1 &4567255205684911919
 GameObject:
   m_ObjectHideFlags: 0
@@ -3569,28 +3558,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e4a5eac56061cf4296066adcdd1a47e, type: 3}
---- !u!1 &2391269119391380259 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1273386424098295071, guid: 5e4a5eac56061cf4296066adcdd1a47e, type: 3}
-  m_PrefabInstance: {fileID: 3496065087322471996}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4072315436710879366 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 578503631016156858, guid: 5e4a5eac56061cf4296066adcdd1a47e, type: 3}
-  m_PrefabInstance: {fileID: 3496065087322471996}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5452930391127480667 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8874404502247434087, guid: 5e4a5eac56061cf4296066adcdd1a47e, type: 3}
-  m_PrefabInstance: {fileID: 3496065087322471996}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8291280900468829142 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4869526581672728042, guid: 5e4a5eac56061cf4296066adcdd1a47e, type: 3}
-  m_PrefabInstance: {fileID: 3496065087322471996}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8517045834267928144 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5095300311296415852, guid: 5e4a5eac56061cf4296066adcdd1a47e, type: 3}
   m_PrefabInstance: {fileID: 3496065087322471996}
   m_PrefabAsset: {fileID: 0}
