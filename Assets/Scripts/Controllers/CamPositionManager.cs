@@ -16,18 +16,17 @@ namespace com.VisionXR.Controllers
         public Transform OriginalPos;
 
         [Header("Rotation Settings")]
-        [Tooltip("Maximum yaw (left/right) offset in degrees from the center rotation.")]
-        public float maxYawDegrees = 45f;
-        [Tooltip("Maximum pitch (up/down) offset in degrees from the center rotation.")]
-        public float maxPitchDegrees = 45f;
+        [Tooltip("Minimum pitch (down) offset in degrees from the center rotation.")]
+        public float minPitchDegrees = -9f;
+        [Tooltip("Maximum pitch (up) offset in degrees from the center rotation.")]
+        public float maxPitchDegrees = 9f;
         [Tooltip("Degrees to change per swipe.")]
-        public float rotationStepDegrees = 15f;
+        public float rotationStepDegrees = 1f;
         [Tooltip("If > 0, camera rotation will be smoothed. Higher == faster.")]
         public float rotationLerpSpeed = 0f;
 
         // Internal state
         private Quaternion _centerRotation = Quaternion.identity;
-        private float _currentYawOffset = 0f;   // left/right offset in degrees
         private float _currentPitchOffset = 0f; // up/down offset in degrees
         private Quaternion _targetRotation = Quaternion.identity;
 
@@ -53,43 +52,32 @@ namespace com.VisionXR.Controllers
 
             // Store center rotation and reset offsets/targets
             _centerRotation = cameraRig.transform.rotation;
-            _currentYawOffset = 0f;
             _currentPitchOffset = 0f;
             _targetRotation = _centerRotation;
         }
 
         private void ChangeCamRotation(int id, SwipeDirection direction)
         {
-            // Ensure we are anchored to the center rotation for this player
-            // (if ChangeCamPosition was called earlier it already set _centerRotation).
-            // Modify offsets according to swipe and clamp to limits.
+            // Modify pitch offset according to swipe and clamp to configured min/max.
             switch (direction)
             {
-                case SwipeDirection.LEFT:
-                    _currentYawOffset = Mathf.Clamp(_currentYawOffset - rotationStepDegrees, -maxYawDegrees, maxYawDegrees);
-                    break;
-                case SwipeDirection.RIGHT:
-                    _currentYawOffset = Mathf.Clamp(_currentYawOffset + rotationStepDegrees, -maxYawDegrees, maxYawDegrees);
-                    break;
                 case SwipeDirection.UP:
-                    _currentPitchOffset = Mathf.Clamp(_currentPitchOffset + rotationStepDegrees, -maxPitchDegrees, maxPitchDegrees);
+                    _currentPitchOffset = Mathf.Clamp(_currentPitchOffset + rotationStepDegrees, minPitchDegrees, maxPitchDegrees);
                     break;
                 case SwipeDirection.DOWN:
-                    _currentPitchOffset = Mathf.Clamp(_currentPitchOffset - rotationStepDegrees, -maxPitchDegrees, maxPitchDegrees);
+                    _currentPitchOffset = Mathf.Clamp(_currentPitchOffset - rotationStepDegrees, minPitchDegrees, maxPitchDegrees);
+                    break;
+                default:
+                    // LEFT/RIGHT swipes are ignored because yaw was removed.
                     break;
             }
 
-            // Compute world-space axes based on the stored center rotation
-            Vector3 worldUp = _centerRotation * Vector3.up;     // camera's local up in world space
-            Vector3 worldRight = _centerRotation * Vector3.right; // camera's local right in world space
+            // Compute camera right axis in world space (pitch rotates around this)
+            Vector3 worldRight = _centerRotation * Vector3.right;
 
-            // Build rotation that first applies pitch (around camera right), then yaw (around camera up),
-            // both in world-space axes relative to the center rotation.
+            // Apply pitch relative to the center rotation.
             Quaternion pitchQ = Quaternion.AngleAxis(_currentPitchOffset, worldRight);
-            Quaternion yawQ = Quaternion.AngleAxis(_currentYawOffset, worldUp);
-
-            // Apply yaw & pitch relative to the center rotation.
-            _targetRotation = (yawQ * pitchQ) * _centerRotation;
+            _targetRotation = pitchQ * _centerRotation;
 
             // Apply immediately or smoothly depending on rotationLerpSpeed
             if (rotationLerpSpeed > 0f)
@@ -120,7 +108,6 @@ namespace com.VisionXR.Controllers
             cameraRig.transform.rotation = boardData.GetPlayerPosition(id).rotation;
 
             _centerRotation = cameraRig.transform.rotation;
-            _currentYawOffset = 0f;
             _currentPitchOffset = 0f;
             _targetRotation = _centerRotation;
         }
