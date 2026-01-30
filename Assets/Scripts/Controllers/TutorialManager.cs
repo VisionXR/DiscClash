@@ -114,14 +114,7 @@ namespace com.VisionXR.Controllers
             RedCoin.SetActive(false);
             // ... your existing code to display the step ...
 
-            if (!inputData.isHandTrackingActive)
-            {
-                currentStep = tutorialStepsController[currentStepIndex];
-            }
-            else
-            {
-                currentStep = tutorialStepsHand[currentStepIndex];
-            }
+
 
             tutorialCanvasUIManager.StepText.text = "Step : " + currentStep.stepNumber + " / "+tutorialStepsController.Length;
             tutorialCanvasUIManager.ContentText.text = currentStep.stepText;
@@ -356,27 +349,20 @@ namespace com.VisionXR.Controllers
             BlackCoin.SetActive(false);
             WhiteCoin.SetActive(false);
             RedCoin.SetActive(false);
-            if (inputData.isHandTrackingActive)
-            {
-                currentStep = tutorialStepsController[currentStepIndex];
-            }
-            else
-            {
-                currentStep = tutorialStepsHand[currentStepIndex];
-            }
+
             tutorialCanvasUIManager.SuccessFailureText.text = "";
-            switch (currentStep.interactiveStepType)
-            {
-                case InteractiveStepType.Positioning:
-                    SetUpPositioning();
-                    break;
-                case InteractiveStepType.Aiming:
-                    SetUpAiming();
-                    break;
-                case InteractiveStepType.Striking:
-                    SetUpStriking();
-                    break;
-            }
+            //switch (currentStep.interactiveStepType)
+            //{
+            //    case InteractiveStepType.Positioning:
+            //        SetUpPositioning();
+            //        break;
+            //    case InteractiveStepType.Aiming:
+            //        SetUpAiming();
+            //        break;
+            //    case InteractiveStepType.Striking:
+            //        SetUpStriking();
+            //        break;
+            //}
         }
 
         // Method to proceed to the next step.

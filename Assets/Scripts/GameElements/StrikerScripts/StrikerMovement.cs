@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,14 +39,6 @@ namespace com.VisionXR.GameElements
             return true;
         }
 
-        private bool SafeEnsureRigidbody()
-        {
-            if (strikerRigidbody == null)
-            {
-                strikerRigidbody = GetComponent<Rigidbody>();
-            }
-            return strikerRigidbody != null;
-        }
       
         public void SetStrikerID(int id)
         {
@@ -224,36 +217,15 @@ namespace com.VisionXR.GameElements
 
         public void ResetStriker()
         {
-            if (!HasValidStrikerPositions(4))
-            {
-                Debug.LogWarning($"[StrikerMovement] ResetStriker aborted - invalid strikerPositions for strikerId={strikerId}");
-                return;
-            }
-
-            // safe ensure rigidbody
-            SafeEnsureRigidbody();
-
+         
             // Use positions/rotation safely
             transform.position = FindStrikerNextPosition(strikerPositions[3].transform.position, strikerPositions[3].transform.right);
             transform.rotation = strikerPositions[3].transform.rotation;
 
-            if (strikerRigidbody != null)
-            {
-                // keep original semantics (project uses linearVelocity/angularVelocity)
-#pragma warning disable CS0618
-                try
-                {
-                    strikerRigidbody.linearVelocity = Vector3.zero;
-                    strikerRigidbody.angularVelocity = Vector3.zero;
-                }
-                catch
-                {
-                    // fallback to standard Unity API if linearVelocity is not present
-                    strikerRigidbody.velocity = Vector3.zero;
-                    strikerRigidbody.angularVelocity = Vector3.zero;
-                }
-#pragma warning restore CS0618
-            }
+            strikerRigidbody.linearVelocity = Vector3.zero;
+            strikerRigidbody.angularVelocity = Vector3.zero;
+
+            
         }
 
     }

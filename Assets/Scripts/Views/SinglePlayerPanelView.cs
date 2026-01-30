@@ -187,7 +187,7 @@ namespace com.VisionXR.Views
         public void OnConnectionSuccess()
         {
 
-            Debug.Log(" Mode is " + uiOutputData.singlePlayerGameMode);
+         
             if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
                 TwoPlayerScorePanel.SetActive(true);

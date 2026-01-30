@@ -3,17 +3,9 @@ namespace com.VisionXR.HelperClasses
 {
 
 
-    public enum SwipeDirection { LEFT, RIGHT };
-    public enum DominantHand { RIGHT, LEFT ,BOTH}
-
-    public enum Device { Oculus,Editor,Android,Ios}
-    public enum StrikerName { Striker1, Striker2, Striker3, Striker4 }
-    public enum EventCodes
-    {
-        gameData, coinData, strikerData, avatarData,
-        turnData, StartGame, destroyCoins, TurnInformation, GameResult, PutFine, SoundData, AvatarData,
-        NetworkPlayer, StrikerArrowOff, PlayerReady, AIMovement, AllCoinsRot
-    }
+    public enum SwipeDirection { LEFT, RIGHT,UP,DOWN };
+    public enum TouchZone { LEFT,RIGHT,MIDDLE}
+    public enum DominantHand { RIGHT, LEFT ,BOTH};
     public enum NetworkType { Host, Client }
     public enum PlayerRole { Human, AI }
     public enum PlayerControl { Local, Remote }

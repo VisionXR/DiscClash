@@ -29,22 +29,6 @@ namespace com.VisionXR.Views
         private void OnEnable()
         {
             ResetSettings();
-            if (playerSettings.myDominantHand == HelperClasses.DominantHand.RIGHT && !inputData.isHandTrackingActive)
-            {
-                RightControllerSettings.SetActive(true);
-            }
-            else if (playerSettings.myDominantHand == HelperClasses.DominantHand.LEFT && !inputData.isHandTrackingActive)
-            {
-               LeftControllerSettings.SetActive(true);
-            }
-            else if (playerSettings.myDominantHand == HelperClasses.DominantHand.RIGHT && inputData.isHandTrackingActive)
-            {
-                RightHandSettings.SetActive(true);
-            }
-            else if (playerSettings.myDominantHand == HelperClasses.DominantHand.LEFT && inputData.isHandTrackingActive)
-            {
-                LeftHandSettings.SetActive(true);
-            }
 
             if (playerSettings.isPassThrough)
             {

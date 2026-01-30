@@ -46,8 +46,8 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     {
         // Map the normalized value to the desired range
         float range = strikerData.ForceUpperLimit - strikerData.ForceLowerLimit;
-        StrikeForce = strikerData.ForceLowerLimit + (normalizedValue*normalizedValue) * range;
-        strikerArrow.ChangeColorOfArrow(normalizedValue*normalizedValue);
+        StrikeForce = strikerData.ForceLowerLimit + (normalizedValue*normalizedValue*normalizedValue) * range;
+        strikerArrow.ChangeColorOfArrow(normalizedValue*normalizedValue*normalizedValue);
     }
 
     public void FireStriker(Vector3 direction, float force)

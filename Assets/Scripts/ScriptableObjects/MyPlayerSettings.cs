@@ -24,7 +24,7 @@ using UnityEngine;
         public DominantHand myDominantHand;
         public List<Friend> MyFriends = new List<Friend>();
         public ServerRegion serverRegion;
-        public Device device;
+       
 
         // Events
         public Action<ulong> UserDataReceived;

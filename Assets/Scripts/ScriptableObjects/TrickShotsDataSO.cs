@@ -194,18 +194,16 @@ namespace com.VisionXR.ModelClasses
             // 3. Write the string to the file
             File.WriteAllText(path, data);
 
-            Debug.Log($"Data saved to: {path}");
+   
         }
 
         public string LoadData(string fileName)
         {
             string path = Path.Combine(Application.persistentDataPath, fileName + ".txt");
 
-            Debug.Log(" Fetching data from " + fileName);
-
             if (File.Exists(path))
             {
-                Debug.Log("Loading data from " + path);
+                
                 string json = File.ReadAllText(path);
                 return json;
             }

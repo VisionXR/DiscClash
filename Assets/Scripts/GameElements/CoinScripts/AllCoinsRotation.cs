@@ -44,15 +44,8 @@ namespace com.VisionXR.GameElements
 
         public void RotateCoins(float value)
         {
-            if (inputData.isHandTrackingActive)
-            {
-                transform.Rotate(Vector3.up, value*10);
-            }
-            else
-            {
-                transform.Rotate(Vector3.up, value);
-            }
-
+         
+            transform.Rotate(Vector3.up, value);
             coinData.AllCoinsYRotationValue = transform.eulerAngles.y;           
         }
         public void SetRotation(float YRot)

@@ -9,13 +9,10 @@ namespace com.VisionXR.ModelClasses
     public class InputDataSO : ScriptableObject
     {
         // variables
-        public MyPlayerSettings myPlayerSettings;
+        
         public bool isInputActivated;
         public bool isGamePaused;
-        public bool isHandTrackingActive = false;
-
-
-
+        
        
       // Striker Events
         public Action<float> MoveStrikerEvent;
@@ -27,8 +24,10 @@ namespace com.VisionXR.ModelClasses
         public Action<SwipeDirection> SwipeDetectedEvent;
 
 
-
-
+        // Touch Events
+        public Action<TouchZone,Vector2> TouchStartedEvent;
+        public Action<TouchZone,Vector2> TouchContinuedEvent;
+        public Action<TouchZone,Vector2> TouchEndedEvent;
 
         // Methods
 
@@ -40,16 +39,14 @@ namespace com.VisionXR.ModelClasses
         public void ActivateInput()
         {
             isInputActivated = true;
-            myPlayerSettings.ChangeHand(myPlayerSettings.myDominantHand);
+          
         }
 
         public void DeactivateInput()
         {
             isInputActivated = false;
-            myPlayerSettings.ChangeHand(DominantHand.BOTH);
+
         }
-
-
 
         public void MoveStriker(float val)
         {
@@ -73,10 +70,25 @@ namespace com.VisionXR.ModelClasses
 
         public void SwipeDetected(SwipeDirection swipeDirection)
         {
-            Debug.Log("Swipe Detedted "+Enum.GetName(typeof(SwipeDirection), swipeDirection));  
+            
             SwipeDetectedEvent?.Invoke(swipeDirection);
         }
 
+
+        public void TouchStarted(TouchZone zone,Vector2 screenPos)
+        {
+            TouchStartedEvent?.Invoke(zone,screenPos);
+        }
+
+        public void TouchContinued(TouchZone zone,Vector2 screenPos)
+        {
+            TouchContinuedEvent?.Invoke(zone,screenPos);
+        }
+
+        public void TouchEnded(TouchZone zone,Vector2 screenPos)
+        {
+            TouchEndedEvent?.Invoke(zone,screenPos);
+        }
 
     }
 }
