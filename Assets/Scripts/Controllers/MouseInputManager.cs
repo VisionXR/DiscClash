@@ -18,6 +18,15 @@ public class MouseInputManager : MonoBehaviour
     public Vector3 LastDragDirection { get; private set; }
     public float LastDragDistance { get; private set; }
 
+    private void Awake()
+    {
+            // Disable VSync (vSync > 0 overrides Application.targetFrameRate)
+            QualitySettings.vSyncCount = 0;
+
+            // Request 60 FPS. On platforms that don't support it the OS may clamp the FPS.
+            Application.targetFrameRate = 60;
+    }
+
 
     public void StrikerPositionChanged(float val)
     {
