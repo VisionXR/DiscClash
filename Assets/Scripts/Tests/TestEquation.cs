@@ -165,7 +165,7 @@ public class TestEquation : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime);
         Player p = playerData.GetPlayer(gameData.currentTurnId);
-        p.strikerShoot.FireStriker();
+        p.strikerShoot.FireStriker(1);
     }
 }
                                             

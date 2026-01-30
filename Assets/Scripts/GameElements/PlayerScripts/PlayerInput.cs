@@ -60,9 +60,9 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void FireStrikerWithForce()  
+        private void FireStrikerWithForce(float val)  
         {
-            player.strikerShoot.FireStriker();
+            player.strikerShoot.FireStriker(val);
         }
 
         public void StartRotation()

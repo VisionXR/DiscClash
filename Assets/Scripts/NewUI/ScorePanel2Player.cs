@@ -35,8 +35,7 @@ public class ScorePanel2Player : MonoBehaviour
         leftPlayer.gameObject.SetActive(true);
         rightPlayer.gameObject.SetActive(true);
 
-        leftPlayer.PlayerImageScroller.StartScrolling();
-        rightPlayer.PlayerImageScroller.StartScrolling();
+       
 
 
         gameData.TurnChangedEvent += TurnChanged;
@@ -152,14 +151,14 @@ public class ScorePanel2Player : MonoBehaviour
             leftPlayer.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));  
             leftPlayer.SetPlayerName(p.myName);
             leftPlayer.SetPlayerImage(p.GetMyImage());
-            leftPlayer.PlayerImageScroller.StopScrolling();
+           
         }
         else {
 
             rightPlayer.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));
             rightPlayer.SetPlayerName(p.myName);
             rightPlayer.SetPlayerImage(p.GetMyImage());
-            rightPlayer.PlayerImageScroller.StopScrolling();
+          
         
         }
 

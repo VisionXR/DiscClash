@@ -25,10 +25,10 @@ public class HoleHighlightController : MonoBehaviour
     // OR this script should be on the Hole Trigger itself.
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collided"+other.gameObject.name);
+        
         if (other.CompareTag(strikerTag) || other.CompareTag(blackTag) || other.CompareTag(whiteTag)  || other.CompareTag(redTag))
         {
-            Debug.Log("Inside the collidion"+other.gameObject.name);
+           
             ShowGlow();
         }
     }

@@ -21,7 +21,7 @@ namespace com.VisionXR.ModelClasses
         public Action<float> MoveStrikerEvent;
         public Action<Vector3> AimStrikerEvent;
         public Action<float> SetStrikerForceEvent;
-        public Action FireStrikerEvent;
+        public Action<float> FireStrikerEvent;
 
         // camEvents
         public Action<SwipeDirection> SwipeDetectedEvent;
@@ -66,9 +66,9 @@ namespace com.VisionXR.ModelClasses
             SetStrikerForceEvent?.Invoke(normalisedValue);
         }
 
-        public void FireStriker()
+        public void FireStriker(float val)
         {
-            FireStrikerEvent?.Invoke();
+            FireStrikerEvent?.Invoke(val);
         }
 
         public void SwipeDetected(SwipeDirection swipeDirection)

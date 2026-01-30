@@ -13,7 +13,8 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     public StrikerArrow strikerArrow;
     public Rigidbody strikerRigidbody;
     public float period = 10.0f;
-   
+    public float cutOffValue = 0.15f;
+
     // actions
     public Action<float,Vector3> StrikeStartedEvent;
     public Action StrikeFinishedEvent;
@@ -23,15 +24,21 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     private float StrikeForce = 2;
     private Coroutine WaitRoutine;
 
-    public void FireStriker()
+    public void FireStriker(float val)
     {
-
-        strikerRigidbody.AddForce(transform.forward * StrikeForce, ForceMode.VelocityChange);
-        StrikeStartedEvent?.Invoke(StrikeForce,transform.forward);
-        strikerArrow.TurnOffArrow();
-        if (WaitRoutine == null)
+        if (val > cutOffValue)
         {
-            WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
+            strikerRigidbody.AddForce(transform.forward * StrikeForce, ForceMode.VelocityChange);
+            StrikeStartedEvent?.Invoke(StrikeForce, transform.forward);
+            strikerArrow.TurnOffArrow();
+            if (WaitRoutine == null)
+            {
+                WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
+            }
+        }
+        else
+        {
+            strikerArrow.ChangeColorOfArrow(0);
         }
 
     }
@@ -39,8 +46,8 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     {
         // Map the normalized value to the desired range
         float range = strikerData.ForceUpperLimit - strikerData.ForceLowerLimit;
-        StrikeForce = strikerData.ForceLowerLimit + normalizedValue * range;
-        strikerArrow.ChangeColorOfArrow(normalizedValue);
+        StrikeForce = strikerData.ForceLowerLimit + (normalizedValue*normalizedValue) * range;
+        strikerArrow.ChangeColorOfArrow(normalizedValue*normalizedValue);
     }
 
     public void FireStriker(Vector3 direction, float force)

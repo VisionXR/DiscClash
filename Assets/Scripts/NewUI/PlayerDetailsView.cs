@@ -8,25 +8,16 @@ public class PlayerDetailsView : MonoBehaviour
     [Header("Scriptable Objects")]
     public UIOutputDataSO uiOutputData;
 
-    [Header("Text Objects")]
-    public TMP_Text  GameTitleText;             
+    [Header("Text Objects")]          
     public TMP_Text  PlayerNameText;          
     public TMP_Text CoinScore;  
-    public TMP_Text RedScore;       
-    public TMP_Text TotalScore;
+
 
     [Header("Image Objects")]
     public Image CoinImage;
-    public Image RedImage;
     public Image PlayerImage;
     public Image PlayerTimerImage;
     public Image PlayerTurnImage;
-
-    [Header("Other Objects")]
-    public ImageScroller PlayerImageScroller;
-    public Button playerReadyButton;
-    public Animator buttonAnimator;
-    public TMP_Text playerStatus;
 
 
     private void OnDisable()
@@ -34,11 +25,9 @@ public class PlayerDetailsView : MonoBehaviour
         
         PlayerNameText.text = "";
         CoinScore.text = "0";
-        RedScore.text = "0";
-        TotalScore.text = "0";
         PlayerImage.sprite = null;
         CoinImage.sprite = null;
-        RedImage.sprite = null;
+      
     }
 
 
@@ -59,12 +48,13 @@ public class PlayerDetailsView : MonoBehaviour
 
     public void SetRedImage(Sprite red)
     {
-        RedImage.sprite = red;
+       // RedImage.sprite = red;
     }
 
     public void SetTurnImage(Color c)
     {
         PlayerTurnImage.color = c;
+        PlayerTurnImage.fillAmount = 1;
     }
     public void SetPlayerImage(Sprite image)
     {
@@ -77,8 +67,7 @@ public class PlayerDetailsView : MonoBehaviour
     public void SetScore(int coinScore, int redScore, int totalScore)
     { 
         CoinScore.text = coinScore.ToString();
-        RedScore.text = redScore.ToString();
-        TotalScore.text = totalScore.ToString();    
+        
     }
 
 

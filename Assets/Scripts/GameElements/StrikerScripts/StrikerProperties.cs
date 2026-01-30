@@ -39,7 +39,7 @@ public class StrikerProperties : MonoBehaviour
     {
         rb.mass = power;
         rb.linearDamping = time;
-        aimLine.SetCutOffLength(aim);
+    //    aimLine.SetCutOffLength(aim);
         aimLine.SetColor(aimColor);
     }
 

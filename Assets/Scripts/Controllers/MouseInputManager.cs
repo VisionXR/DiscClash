@@ -165,7 +165,7 @@ public class MouseInputManager : MonoBehaviour
         {
             if (isTouchingStriker)
             {
-                EndTouch();
+                EndTouch(screenPos);
                 return;
             }
 
@@ -227,11 +227,41 @@ public class MouseInputManager : MonoBehaviour
         LastDragDistance = dragDistance;
     }
 
-    private void EndTouch()
+    private void EndTouch(Vector2 currentScreenPoint)
     {
+        // Project current screen point onto horizontal plane at initialWorldPoint.y
+        Plane plane = new Plane(Vector3.up, initialWorldPoint);
+        Ray ray = targetCamera.ScreenPointToRay(currentScreenPoint);
+        Vector3 currentWorldPoint;
+        if (plane.Raycast(ray, out float enter) && enter > 0f)
+        {
+            currentWorldPoint = ray.GetPoint(enter);
+        }
+        else
+        {
+            // fallback: use a point along the ray at max distance
+            currentWorldPoint = ray.GetPoint(maxRayDistance);
+        }
+
+        Vector3 delta = currentWorldPoint - initialWorldPoint;
+        Vector3 direction = (initialWorldPoint - currentWorldPoint).normalized;
+
+        // compute normalized force based on drag distance and sensitivity * strikerRadius
+        float strikerRadius = 0.02f;
+        if (boardData != null)
+            strikerRadius = boardData.GetStrikerRadius();
+
+        float maxDragDistance = Mathf.Max(0.0001f, dragSensitivity * strikerRadius); // avoid div by zero
+        float dragDistance = delta.magnitude;
+        float normalizedForce = Mathf.Clamp01(dragDistance / maxDragDistance);
+
+
+        LastDragDirection = direction;
+        LastDragDistance = dragDistance;
+
         isTouchingStriker = false;
         touchedStrikerTransform = null;
-        inputData.FireStriker();
+        inputData.FireStriker(normalizedForce);
     }
 
     // --- Swipe helpers -------------------------------------------------
