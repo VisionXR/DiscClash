@@ -191,7 +191,7 @@ namespace com.VisionXR.GameElements
             {
                 strikerShoot.StrikeStartedEvent += StrikeStarted;
                 strikerShoot.StrikeFinishedEvent += StrikeFinished;
-                strikerShoot.StrikeForceStartedEvent += StrikeForceStarted;
+                
             }
         }
 
@@ -201,7 +201,7 @@ namespace com.VisionXR.GameElements
             {
                 strikerShoot.StrikeStartedEvent -= StrikeStarted;
                 strikerShoot.StrikeFinishedEvent -= StrikeFinished;
-                strikerShoot.StrikeForceStartedEvent -= StrikeForceStarted;
+                
             }
         }
 

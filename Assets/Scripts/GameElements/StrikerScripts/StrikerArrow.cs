@@ -1,5 +1,6 @@
 using com.VisionXR.ModelClasses;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace com.VisionXR.GameElements
 {
@@ -12,74 +13,81 @@ namespace com.VisionXR.GameElements
         [Header(" Local Scripts")]
         public StrikerShooting strikerShooting;
 
+        [Header(" Color ")]
+        public Color minColor;
+        public Color maxColor;
+
         [Header(" Game Objects")]
-        public GameObject arrow;
-        public GameObject displayArrow;
-        public Renderer arrowRenderer;
-     
+        public float initScale;
+        public GameObject AimCanvasObject;
+        public Image ArrowHead;
+        public Image ArrowLength;
+
+        // cached scales
+        private Vector3 _initialCanvasScale = Vector3.one;
+        private Vector3 _baseCanvasScale = Vector3.one;
+
+        private void Awake()
+        {
+          
+            _baseCanvasScale = _initialCanvasScale * initScale;
+        }
+
         private void OnEnable()
         {
-            strikerShooting.StrikeForceChangedEvent += ChangeColorOfArrow;
-            strikerShooting.StrikeStartedEvent += TurnOffArrow;
+          
             strikerData.TurnOnStrikerArrowEvent += TurnOnArrow;
             strikerData.TurnOffStrikerArrowEvent += TurnOffArrow;
+     
+
             TurnOnArrow();
         }
 
         private void OnDisable()
         {
-            strikerShooting.StrikeForceChangedEvent -= ChangeColorOfArrow;
-            strikerShooting.StrikeStartedEvent -= TurnOffArrow;
+           
             strikerData.TurnOnStrikerArrowEvent -= TurnOnArrow;
             strikerData.TurnOffStrikerArrowEvent -= TurnOffArrow;
+      
             TurnOffArrow();
         }
 
-
-
-        private void ChangeColorOfArrow(float value)
+        public void ChangeColorOfArrow(float value)
         {
+            // clamp input
+            value = Mathf.Clamp01(value);
 
-            if (arrowRenderer.material.HasProperty("_Threshold"))
-            {
-                // Set the new threshold value
-                arrowRenderer.material.SetFloat("_Threshold", value);
-            }
+            // set colors
+            Color c = Color.Lerp(minColor, maxColor, value);
+            if (ArrowHead != null) ArrowHead.color = c;
+            if (ArrowLength != null) ArrowLength.color = c;
+
+            // scale AimCanvasObject: if value < 0.1 -> base scale; else map [0.1..1] -> multiplier [1..3]
+            if (AimCanvasObject == null) return;
+
+                float t = (value) / 1f; // normalize from 0.1..1 to 0..1
+                float multiplier = 1f + 3f * t; // 1 -> 4
+                AimCanvasObject.transform.localScale = _baseCanvasScale * multiplier;
+            
         }
 
-        public void SetStrikerMaterial(Material m)
+        public void TurnOnArrow()
         {
-          //  strikerRenderer.material = m;
+            if (AimCanvasObject != null)
+            {
+                AimCanvasObject.transform.localScale = _baseCanvasScale;
+                AimCanvasObject.SetActive(true);
+            }
         }
 
         public void TurnOffArrow()
         {
-            arrowRenderer.material.SetFloat("_Threshold", 0);
-            arrow.SetActive(false);
-            displayArrow.SetActive(false);
-          
-    
+            if (AimCanvasObject != null)
+            {
+                AimCanvasObject.transform.localScale = _baseCanvasScale;
+                AimCanvasObject.SetActive(false);
+            }
+        
         }
-        public void TurnOffArrow(float a,Vector3 dir)
-        {
-            arrowRenderer.material.SetFloat("_Threshold", 0);
-            arrow.SetActive(false);
-            displayArrow.SetActive(false);
-
-
-        }
-        public void TurnOnArrow(float a,Vector3 dir)
-        {
-            arrow.SetActive(true);
-            displayArrow.SetActive(true);
-           
-        }
-        public void TurnOnArrow()
-        {
-            arrow.SetActive(true);
-            displayArrow.SetActive(true);
-
-        }
-
     }
 }

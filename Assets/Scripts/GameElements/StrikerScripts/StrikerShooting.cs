@@ -1,3 +1,4 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
 using System;
 using System.Collections;
@@ -9,14 +10,14 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     public StrikerDataSO strikerData;
 
     [Header(" Local variables ")]
+    public StrikerArrow strikerArrow;
     public Rigidbody strikerRigidbody;
-    [SerializeField] private float period = 10.0f;
-
+    public float period = 10.0f;
+   
     // actions
     public Action<float,Vector3> StrikeStartedEvent;
     public Action StrikeFinishedEvent;
-    public Action<float> StrikeForceChangedEvent;
-    public Action StrikeForceStartedEvent;
+
 
     // variables
     private float StrikeForce = 2;
@@ -27,6 +28,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
 
         strikerRigidbody.AddForce(transform.forward * StrikeForce, ForceMode.VelocityChange);
         StrikeStartedEvent?.Invoke(StrikeForce,transform.forward);
+        strikerArrow.TurnOffArrow();
         if (WaitRoutine == null)
         {
             WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
@@ -38,8 +40,9 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
         // Map the normalized value to the desired range
         float range = strikerData.ForceUpperLimit - strikerData.ForceLowerLimit;
         StrikeForce = strikerData.ForceLowerLimit + normalizedValue * range;
-        StrikeForceChangedEvent?.Invoke(normalizedValue);
+        strikerArrow.ChangeColorOfArrow(normalizedValue);
     }
+
     public void FireStriker(Vector3 direction, float force)
     {
 
