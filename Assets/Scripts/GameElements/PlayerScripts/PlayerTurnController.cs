@@ -50,13 +50,13 @@ namespace com.VisionXR.GameElements
                     if (player.myPlayerRole == PlayerRole.Human)
                     {
 
-                        player.strikerArrow.TurnOnArrow();
+                      
                         inputData.ActivateInput();
                         playerInput.enabled = true;
                     }
                     else // Its AI
                     {
-                        player.strikerArrow.TurnOffArrow();
+                        
                         inputData.DeactivateInput();
                         aiPlayer.AIShouldPlay();
 
@@ -66,15 +66,6 @@ namespace com.VisionXR.GameElements
                 {
                     boardData.TurnOffHoles();
                     inputData.DeactivateInput();
-
-                    if (player.myPlayerRole == PlayerRole.Human)
-                    {
-                        player.strikerArrow.TurnOnArrow();
-                    }
-                    else // Its AI
-                    {
-                        player.strikerArrow.TurnOffArrow();
-                    }
                 }
 
               

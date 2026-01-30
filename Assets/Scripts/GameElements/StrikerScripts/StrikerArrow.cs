@@ -34,19 +34,9 @@ namespace com.VisionXR.GameElements
             _baseCanvasScale = _initialCanvasScale * initScale;
         }
 
-        private void OnEnable()
-        {
-          
-            strikerData.TurnOnStrikerArrowEvent += TurnOnArrow;
-            strikerData.TurnOffStrikerArrowEvent += TurnOffArrow;
-     
-        }
-
         private void OnDisable()
         {
-           
-            strikerData.TurnOnStrikerArrowEvent -= TurnOnArrow;
-            strikerData.TurnOffStrikerArrowEvent -= TurnOffArrow;      
+               
             TurnOffArrow();
         }
 

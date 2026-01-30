@@ -38,7 +38,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
         }
         else
         {
-            strikerArrow.ChangeColorOfArrow(0);
+            strikerArrow.TurnOffArrow();
         }
 
     }

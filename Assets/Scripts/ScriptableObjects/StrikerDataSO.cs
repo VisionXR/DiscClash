@@ -31,9 +31,6 @@ namespace com.VisionXR.ModelClasses
         public Action TurnOnRigidbodiesEvent;
         public Action TurnOffRigidbodiesEvent;
 
-        public Action TurnOnStrikerArrowEvent;
-        public Action TurnOffStrikerArrowEvent;
-
         public Action<GameObject> StrikerFellInHoleEvent;
         public Action<GameObject> StrikerpocketedUntoHoleEvent;
 
@@ -81,14 +78,6 @@ namespace com.VisionXR.ModelClasses
             isFoul = false;
         }
 
-        public void TurnOnStrikerArrow()
-        {
-            TurnOnStrikerArrowEvent?.Invoke();
-        }
-        public void TurnOffStrikerArrow()
-        {
-            TurnOffStrikerArrowEvent?.Invoke();
-        }
 
 
         public GameObject GetStriker(int id)
