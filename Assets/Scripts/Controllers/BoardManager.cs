@@ -86,7 +86,7 @@ namespace com.VisionXR.Controllers
             }
 
             // Build the resource path, e.g., "Boards/Board0"
-            string resourcePath = $"NewBoards/Board{i}";
+            string resourcePath = $"Boards/Board{i}";
             GameObject boardPrefab = Resources.Load<GameObject>(resourcePath);
 
             if (boardPrefab != null)

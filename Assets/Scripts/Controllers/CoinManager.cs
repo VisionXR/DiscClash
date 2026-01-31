@@ -82,7 +82,7 @@ public class CoinManager : MonoBehaviour
     {
         DestroyCoins();
 
-        string resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/AllCoins";
+        string resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/AllCoins";
         GameObject allCoinsPrefab = Resources.Load<GameObject>(resourcePath);
 
         if (allCoinsPrefab != null)

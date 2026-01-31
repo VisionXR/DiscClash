@@ -18,6 +18,7 @@ public class AIMovement : MonoBehaviour
     public GameObject Head;
     public GameObject Hand;
     public GameObject AllParts;
+    public Animator HandAnimator;
 
     // local variables
     public Sprite AIIcon;
@@ -25,7 +26,6 @@ public class AIMovement : MonoBehaviour
     public Action<string> AIBotAnimationEvent;  
     private Coroutine headNodRoutine;  
     private GameObject HandPos;
-    private Animator HandAnimator;
     private int MyId;
     private Quaternion desiredRotation,BotInitRotation, HandInitRot,handdesiredRotation, headdesiredRotation,HeadInitRot;
     private Vector3 desiredPosition,handdesiredPosition, BotInitPos, HandInitPos,CoinPos;
@@ -37,7 +37,6 @@ public class AIMovement : MonoBehaviour
 
     void SetInitialPosition()
     {
-        HandAnimator = Hand.GetComponent<Animator>();
         BotInitPos = transform.position;
         BotInitRotation = transform.rotation;
         HandInitPos = Hand.transform.position;
@@ -147,7 +146,7 @@ public class AIMovement : MonoBehaviour
     private void SetHandPosition()
     {
         handdesiredRotation = Quaternion.LookRotation(Vector3.Cross(-HandPos.transform.up, hittingDirection), HandPos.transform.up);
-        handdesiredPosition = new Vector3(Striker.transform.position.x, HandPos.transform.position.y, Striker.transform.position.z) + hittingDirection * -0.2f;
+        handdesiredPosition = new Vector3(Striker.transform.position.x, HandPos.transform.position.y, Striker.transform.position.z) + hittingDirection * -0.125f;
      }
     private void SetBotPosition()
     {

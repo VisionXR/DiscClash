@@ -44,7 +44,7 @@ namespace com.VisionXR.Controllers
         public void CreateStriker(int playerId, int strikerId, Action<GameObject> strikerCreatedEvent)
         {
             // Build the resource path, e.g., "Strikers/Striker0"
-            string resourcePath = $"NewStrikers/Striker{strikerId}";
+            string resourcePath = $"Strikers/Striker{strikerId}";
 
             GameObject strikerPrefab = Resources.Load<GameObject>(resourcePath);
 
