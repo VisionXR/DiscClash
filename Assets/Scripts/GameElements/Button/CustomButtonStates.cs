@@ -31,7 +31,7 @@ public class CustomButtonStates : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             isHovering = true;
             HoverImage.color = HoverColor;
-            AppProperties.instance.PlayHapticVibration();
+          
 
         }
         // Perform desired actions when the pointer enters the button

@@ -80,6 +80,8 @@ namespace com.VisionXR.GameElements
                 initialScreenPoint = pos;
                 initialWorldPoint = hit.point;
                 touchedStrikerTransform = striker;
+
+                AppProperties.instance.PlayVibration();
                 return;
             }
 
@@ -94,7 +96,8 @@ namespace com.VisionXR.GameElements
                 _lastCoinScreenX = pos.x;
 
                 // Optionally show rotation canvas
-             //   coinData.ShowRotationCanvasEvent?.Invoke();
+                //   coinData.ShowRotationCanvasEvent?.Invoke();
+                AppProperties.instance.PlayVibration();
                 return;
             }
 
@@ -191,6 +194,7 @@ namespace com.VisionXR.GameElements
                 float normalizedForce = Mathf.Clamp01(dragDistance / maxDragDistance);
 
                 // Fire with computed force
+                AppProperties.instance.PlayStrikerVibration();
                 player.strikerShoot.FireStriker(normalizedForce);
 
                 ResetTouchState();
