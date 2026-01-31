@@ -23,7 +23,7 @@ namespace com.VisionXR.GameElements
 
         [Header("Drag / Swipe Settings")]
         [Tooltip("Multiplier for how far dragging translates to normalized force (higher = less force for same drag).")]
-        public float dragSensitivity = 3f;
+        public float dragSensitivity = 5f;
 
         [Tooltip("Sensitivity mapping from horizontal swipe pixels -> rotation degrees for coins.")]
         public float coinRotateSensitivity = 0.2f;
