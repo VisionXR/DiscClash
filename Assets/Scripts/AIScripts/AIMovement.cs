@@ -214,7 +214,8 @@ public class AIMovement : MonoBehaviour
                 if (Hand.transform.parent == null)
                 {
                     lookDirection = (CoinPos - Head.transform.position).normalized;
-                    headdesiredRotation = Quaternion.LookRotation(lookDirection);
+                    // Make head face opposite to the look direction so the face points correctly
+                    headdesiredRotation = Quaternion.LookRotation(-lookDirection, Vector3.up);
                     Head.transform.rotation = Quaternion.Lerp(Head.transform.rotation, headdesiredRotation, Time.deltaTime * aiData.rotationSpeed);
                 }
                 else
@@ -243,7 +244,7 @@ public class AIMovement : MonoBehaviour
         {
             // Nodding or looking around behavior
             float nodAmount = UnityEngine.Random.Range(0, 25f); // Random angle for nodding
-            Quaternion randomRotation = Quaternion.Euler(nodAmount, UnityEngine.Random.Range(-45f, 45f), 0); // Random yaw for side-to-side movement
+            Quaternion randomRotation = Quaternion.Euler(-nodAmount, UnityEngine.Random.Range(-45f, 45f), 0); // Random yaw for side-to-side movement
 
             // Use local rotation to ensure the nod is relative to the current head orientation
             Quaternion targetLocalRotation = originalLocalRotation * randomRotation;
