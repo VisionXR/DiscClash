@@ -29,6 +29,12 @@ namespace com.VisionXR.Views
             CenterCanvas.SetActive(false);
             gameObject.SetActive(false);
         }
+
+        public void QuitAoo()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            Application.Quit();
+        }
    
     }
 }

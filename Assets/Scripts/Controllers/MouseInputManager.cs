@@ -12,6 +12,8 @@ public class MouseInputManager : MonoBehaviour
     public MyPlayerSettings myPlayerSettings;
     public BoardDataSO boardData;
 
+    [Header("Exit Objects")]
+    public GameObject QuitPanel;
 
 
     // Computed values (exposed for debug / consumers)
@@ -37,6 +39,14 @@ public class MouseInputManager : MonoBehaviour
 
     private void Update()
     {
+
+
+        // Capture Android / mobile back button (KeyCode.Escape)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+           QuitPanel.SetActive(true);
+        }
+
         // handle touch
         if (Input.touchCount > 0)
         {

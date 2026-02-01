@@ -6,7 +6,6 @@ using Fusion;
 using Fusion.Photon.Realtime;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
-using Photon.Voice.Unity;
 
 namespace com.VisionXR.Controllers
 {
@@ -24,7 +23,7 @@ namespace com.VisionXR.Controllers
 
         [Header("Game Objects")]
         public GameObject NetworkRunnerObject; // Prefab for creating a network runner instance
-        private NetworkRunner runner;
+        public NetworkRunner runner;
         // Local variables
         private List<AvailableRooms> rooms;
      
@@ -183,8 +182,7 @@ namespace com.VisionXR.Controllers
             if (result.Ok)
             {
                 LobbySuccessEvent?.Invoke();
-
-                
+           
             }
             else
             {
@@ -213,6 +211,8 @@ namespace com.VisionXR.Controllers
              if(runner != null)
             {
                 Destroy(runner.gameObject);
+                runner = null;
+                networkOutputData._runner = null;
             }
 
              GameObject tmpObject = Instantiate(NetworkRunnerObject, transform);

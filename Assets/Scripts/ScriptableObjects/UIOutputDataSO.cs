@@ -123,6 +123,8 @@ namespace com.VisionXR.ModelClasses
             ExitGameEvent?.Invoke();
         }
 
+
+
         public void GoToHome()
         {
             HomeEvent?.Invoke();
