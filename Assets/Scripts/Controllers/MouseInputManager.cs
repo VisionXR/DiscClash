@@ -42,7 +42,7 @@ public class MouseInputManager : MonoBehaviour
 
 
         // Capture Android / mobile back button (KeyCode.Escape)
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
            QuitPanel.SetActive(true);
         }
