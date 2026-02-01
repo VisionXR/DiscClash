@@ -77,7 +77,7 @@ namespace com.VisionXR.Controllers
 
         public void CreateNewBoardFromResources(int i)
         {
-            Debug.Log($"Creating new board with index: {i}");
+            
 
             if (currentBoard != null)
             {

@@ -15,19 +15,10 @@ namespace com.VisionXR.GameElements
         public Player currentPlayer;
        
 
-        void OnEnable()
-        {
-            inputData.SwipeDetectedEvent += ChangePlayerPosition;
-        }
-
-        private void OnDisable()
-        {
-            inputData.SwipeDetectedEvent -= ChangePlayerPosition;
-        }
 
         private void ChangePlayerPosition(SwipeDirection direction)
         {
-            camPositionData.RotateCam(currentPlayer.myId,direction);
+            
         }
 
      

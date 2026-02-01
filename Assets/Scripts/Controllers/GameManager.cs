@@ -14,7 +14,7 @@ namespace com.VisionXR.Controllers
         public GameObject SinglePlayerManager;
         public GameObject MultiPlayerManager;
         public GameObject TutorialManager;
-        public GameObject TrickShotsManager;
+        
 
 
         private void OnEnable()
@@ -23,7 +23,7 @@ namespace com.VisionXR.Controllers
             uiOutputData.StartMultiPlayerGameEvent += StartMultiPlayer;
             uiOutputData.StartTutorialEvent += StartTutorial;
             uiOutputData.StartFTUEEvent += StartFTUE;
-            uiOutputData.StartTrickShotsEvent += StartTrickShots;
+           
           
 
             uiOutputData.ExitGameEvent += StopGame;
@@ -35,7 +35,7 @@ namespace com.VisionXR.Controllers
             uiOutputData.StartSinglePlayerGameEvent -= StartSinglePlayer; 
             uiOutputData.StartMultiPlayerGameEvent -= StartMultiPlayer;
             uiOutputData.StartTutorialEvent -= StartTutorial;
-            uiOutputData.StartTrickShotsEvent -= StartTrickShots;
+         
             uiOutputData.StartFTUEEvent -= StartFTUE;
 
             uiOutputData.ExitGameEvent += StopGame;
@@ -56,11 +56,6 @@ namespace com.VisionXR.Controllers
         }
 
 
-        private void StartTrickShots()
-        {
-            ResetManagers();
-            TrickShotsManager.SetActive(true);
-        }
         private void StartTutorial()
         {
             ResetManagers();
@@ -86,7 +81,7 @@ namespace com.VisionXR.Controllers
             SinglePlayerManager.SetActive(false);
             MultiPlayerManager.SetActive(false);
             TutorialManager.SetActive(false);
-            TrickShotsManager.SetActive(false);
+           
         }                           
 
     }

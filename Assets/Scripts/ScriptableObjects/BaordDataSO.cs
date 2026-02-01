@@ -55,7 +55,7 @@ namespace com.VisionXR.ModelClasses
         
             if(id == 1)
             {
-                Debug.Log("Getting Striker Positions for ID: " + Striker1Positions.Count);
+                
                 return Striker1Positions;
             }
             else if(id == 2)

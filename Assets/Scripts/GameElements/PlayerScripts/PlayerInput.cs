@@ -136,7 +136,7 @@ namespace com.VisionXR.GameElements
                 if (boardData != null)
                     strikerRadius = boardData.GetStrikerRadius();
 
-                float maxDragDistance = Mathf.Max(0.0001f, dragSensitivity * strikerRadius); // avoid div by zero
+                float maxDragDistance = Mathf.Max(0.001f, dragSensitivity * strikerRadius); // avoid div by zero
                 float dragDistance = delta.magnitude;
                 float normalizedForce = Mathf.Clamp01(dragDistance / maxDragDistance);
 
@@ -189,7 +189,7 @@ namespace com.VisionXR.GameElements
                 if (boardData != null)
                     strikerRadius = boardData.GetStrikerRadius();
 
-                float maxDragDistance = Mathf.Max(0.0001f, dragSensitivity * strikerRadius); // avoid div by zero
+                float maxDragDistance = Mathf.Max(0.001f, dragSensitivity * strikerRadius); // avoid div by zero
                 float dragDistance = delta.magnitude;
                 float normalizedForce = Mathf.Clamp01(dragDistance / maxDragDistance);
 

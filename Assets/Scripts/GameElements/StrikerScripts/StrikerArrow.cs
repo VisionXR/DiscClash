@@ -19,7 +19,7 @@ namespace com.VisionXR.GameElements
 
         [Header(" Game Objects")]
         public float initScale;
-        public float maxScale = 3;
+        public float maxScale = 4;
         public GameObject AimCanvasObject;
         public Image ArrowHead;
         public Image ArrowLength;

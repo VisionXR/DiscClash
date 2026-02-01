@@ -1,89 +1,81 @@
-using System;
 using UnityEngine;
 
 namespace Com.VisionXR.GameElements
 {
     public class CoinAudio : MonoBehaviour
     {
-        
-        [SerializeField] private AudioSource[] audioSources;
-        [SerializeField] private float CutOffVelocityForMaxAudio = 0.3f;
-        [SerializeField] private float MinVelocityToPlayAudio = 0.01f;
+        [Header("Settings")]
+        [SerializeField] private float cutOffVelocityForMaxAudio = 1f;
+        [SerializeField] private float minVelocityToPlayAudio = 0.005f; // Increased slightly to ignore jitter
 
-    
+        private AudioSource[] _audioSources;
+        private Rigidbody _rb;
+
         void Start()
         {
-            audioSources = GetComponents<AudioSource>();
-        }
-
-        public void PlayCoinCollisionAudio(float volume)
-        {
-            audioSources[0].volume = volume;
-            audioSources[0].Play();
-        }
-        public void PlayEdgeCollisionAudio(float volume)
-        {
-            audioSources[1].volume = volume;
-            audioSources[1].Play();
-        }
-        public void PlayCoinFellInHoleAudio(float volume)
-        {
-            audioSources[2].volume = volume;
-            audioSources[2].Play();
+            _audioSources = GetComponents<AudioSource>();
+            _rb = GetComponent<Rigidbody>();
         }
 
         public void OnCollisionEnter(Collision collision)
         {
-            GameObject collidedObject = collision.gameObject;
-            if (collidedObject.tag == "Edge")
-            {
-                Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb.linearVelocity.magnitude > CutOffVelocityForMaxAudio)
-                {
-                    PlayEdgeCollisionAudio(1);
-                 
-                }
-                else if (rb.linearVelocity.magnitude > MinVelocityToPlayAudio && rb.linearVelocity.magnitude < CutOffVelocityForMaxAudio)
-                {
-                    float volume = (1 / CutOffVelocityForMaxAudio - MinVelocityToPlayAudio) * (rb.linearVelocity.magnitude);
-                    PlayEdgeCollisionAudio(volume);
-                
+            // Use relativeVelocity to determine impact strength
+            float impactVelocity = collision.relativeVelocity.magnitude;
 
-                }
+            // 1. Exit early if the hit is too weak (prevents physics jitter sounds)
+            if (impactVelocity < minVelocityToPlayAudio) return;
+
+            // 2. Map the velocity to a 0-1 volume range
+            float volume = Mathf.InverseLerp(minVelocityToPlayAudio, cutOffVelocityForMaxAudio, impactVelocity);
+
+            // 3. Determine which sound to play based on Tag
+            if (collision.gameObject.CompareTag("Edge"))
+            {
+                PlayAudio(1, volume);
             }
         }
+
         public void OnCollisionExit(Collision collision)
         {
-            GameObject collidedObject = collision.gameObject;
-            if (collidedObject.tag == "Black" || collidedObject.tag == "White" || collidedObject.tag == "Red" || collidedObject.tag == "Striker")
+            // Use relativeVelocity to determine impact strength
+            float impactVelocity = collision.relativeVelocity.magnitude;
+
+            // 1. Exit early if the hit is too weak (prevents physics jitter sounds)
+            if (impactVelocity < minVelocityToPlayAudio) return;
+
+            // 2. Map the velocity to a 0-1 volume range
+            float volume = Mathf.InverseLerp(minVelocityToPlayAudio, cutOffVelocityForMaxAudio, impactVelocity);
+
+
+            if (IsCoinOrStriker(collision.gameObject))
             {
-                Rigidbody rb = collidedObject.GetComponent<Rigidbody>();
-                Rigidbody thisbody = GetComponent<Rigidbody>();
-                if (thisbody.linearVelocity.magnitude > CutOffVelocityForMaxAudio)
-                {
-                    PlayCoinCollisionAudio(1);
-                  
-
-                }
-                else if (rb.linearVelocity.magnitude > MinVelocityToPlayAudio && thisbody.linearVelocity.magnitude > MinVelocityToPlayAudio && thisbody.linearVelocity.magnitude < CutOffVelocityForMaxAudio)
-                {
-                    float volume = (1 / (CutOffVelocityForMaxAudio - MinVelocityToPlayAudio)) * (thisbody.linearVelocity.magnitude - MinVelocityToPlayAudio);
-                    PlayCoinCollisionAudio(volume);
-                   
-                }
+             
+                PlayAudio(0, volume);
+                
             }
-
         }
+        
 
         public void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Hole")
+            if (other.CompareTag("Hole"))
             {
-                PlayCoinFellInHoleAudio(1);
-             
-
+                PlayAudio(2, 1.0f);
             }
         }
 
+        private void PlayAudio(int index, float volume)
+        {
+            if (_audioSources.Length <= index) return;
+
+            _audioSources[index].volume = volume;
+            _audioSources[index].Play();
+        }
+
+        private bool IsCoinOrStriker(GameObject go)
+        {
+            return go.CompareTag("Black") || go.CompareTag("White") ||
+                   go.CompareTag("Red") || go.CompareTag("Striker");
+        }
     }
 }

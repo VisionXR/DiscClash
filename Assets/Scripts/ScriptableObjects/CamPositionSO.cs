@@ -19,11 +19,6 @@ namespace com.VisionXR.ModelClasses
             SetCamPositionEvent?.Invoke(id);
         }
 
-        public void RotateCam(int id,SwipeDirection direction)
-        {
-            RotateCamEvent?.Invoke(id,direction);
-        }
-
         public void Recenter(int id)
         {
             RecenterEvent?.Invoke(id);

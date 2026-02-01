@@ -129,12 +129,6 @@ namespace com.VisionXR.Controllers
             swipeActive = false;
             _cameraVelocity = Vector3.zero;
         }
-
-        /// <summary>
-        /// Move the camera laterally around the player's canonical center.
-        /// normalizedOffset: -1 => full leftLimit, 0 => center, +1 => full rightLimit.
-        /// Uses smoothing and clamps final position to prevent jitter at the ends.
-        /// </summary>
         private void MoveCam(int id, float normalizedOffset)
         {
             if (boardData == null) return;
@@ -142,32 +136,36 @@ namespace com.VisionXR.Controllers
             var playerTransform = boardData.GetPlayerPosition(id);
             if (playerTransform == null) return;
 
-            // Correct mapping: map normalizedOffset [-1,1] -> t [0,1]
-            float t = Mathf.Clamp01((normalizedOffset + 1f) * rightLimit);
+            // 1. Correctly map normalizedOffset [-1, 1] to a [0, 1] range
+            // -1 becomes 0, 0 becomes 0.5, 1 becomes 1.
+            float t = (normalizedOffset + 1f) * 0.5f;
+            t = Mathf.Clamp01(t);
 
-            // compute offset amount between leftLimit and rightLimit
-            float offsetAmount = Mathf.Lerp(leftLimit, rightLimit, t);
+            // 2. Define the local track relative to the player
+            Vector3 rightAxis = playerTransform.right; // Shortcut for playerTransform.rotation * Vector3.right
 
-            // apply offset along the player's right axis so camera follows player's orientation
-            Vector3 rightAxis = playerTransform.rotation * Vector3.right;
-            Vector3 targetPos = playerTransform.position + rightAxis * offsetAmount;
+            Vector3 leftBoundPos = playerTransform.position + (rightAxis * leftLimit);
+            Vector3 rightBoundPos = playerTransform.position + (rightAxis * rightLimit);
 
-            // Prevent tiny oscillations at the ends by clamping offsetAmount explicitly
-            // (ensure targetPos is within computed allowed range)
-            Vector3 leftPos = playerTransform.position + rightAxis * leftLimit;
-            Vector3 rightPos = playerTransform.position + rightAxis * rightLimit;
-            // project target onto the segment [leftPos, rightPos]
-            Vector3 projected = Vector3.Lerp(leftPos, rightPos, t);
+            // 3. The precise target point on that line segment
+            Vector3 targetDestination = Vector3.Lerp(leftBoundPos, rightBoundPos, t);
 
-            // Smoothly move camera towards projected position
-            if ((cameraRig.transform.position - projected).sqrMagnitude <= snapEpsilon * snapEpsilon)
+            // 4. Smooth movement logic
+            float distanceSq = (cameraRig.transform.position - targetDestination).sqrMagnitude;
+
+            if (distanceSq <= snapEpsilon * snapEpsilon)
             {
-                cameraRig.transform.position = projected;
+                cameraRig.transform.position = targetDestination;
                 _cameraVelocity = Vector3.zero;
             }
             else
             {
-                cameraRig.transform.position = Vector3.SmoothDamp(cameraRig.transform.position, projected, ref _cameraVelocity, cameraSmoothTime);
+                cameraRig.transform.position = Vector3.SmoothDamp(
+                    cameraRig.transform.position,
+                    targetDestination,
+                    ref _cameraVelocity,
+                    cameraSmoothTime
+                );
             }
         }
     }
