@@ -30,13 +30,8 @@ public class ScorePanel4Player : MonoBehaviour
 
     private void OnEnable()
     {
-        teamA.gameObject.SetActive(true);
-        teamB.gameObject.SetActive(true);
+     
 
-        teamA.Player1ImageScroller.StartScrolling();
-        teamA.Player2ImageScroller.StartScrolling();
-        teamB.Player1ImageScroller.StartScrolling();
-        teamB.Player2ImageScroller.StartScrolling();
        
         gameData.TurnChangedEvent += TurnChanged;
        
@@ -47,8 +42,7 @@ public class ScorePanel4Player : MonoBehaviour
         uiOutputData.CoinsSetEvent += SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
-        uiInputData.SetPlayerStatusEvent += SetStatus;
-        uiInputData.SetButtonEvent += SetButton;
+
         uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent += ShowImages;
@@ -59,8 +53,7 @@ public class ScorePanel4Player : MonoBehaviour
 
     private void OnDisable()
     {
-        teamA.gameObject.SetActive(false);
-        teamB.gameObject.SetActive(false);
+        
 
         gameData.TurnChangedEvent -= TurnChanged;
        
@@ -70,9 +63,8 @@ public class ScorePanel4Player : MonoBehaviour
         uiOutputData.PlayAgainEvent -= Reset;
         uiOutputData.CoinsSetEvent -= SetCoins;
 
-        uiInputData.SetButtonEvent -= SetButton;
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;
-        uiInputData.SetPlayerStatusEvent -= SetStatus;
+
         uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
 
@@ -133,8 +125,7 @@ public class ScorePanel4Player : MonoBehaviour
         ResetIndicators();
         teamA.SetScore(0, 0, 0);
         teamB.SetScore(0, 0, 0);
-        ResetButtons();
-        ResetStatus();
+
     }
 
     private void TurnOff()
@@ -179,32 +170,12 @@ public class ScorePanel4Player : MonoBehaviour
             teamA.SetPlayerName(p.myId,p.myName);
             teamA.SetPlayerImage(p.myId,p.GetMyImage());
 
-            if (p.myId == 1)
-            {
-                teamA.Player1ImageScroller.StopScrolling();
-            }
-            else
-            {
-                teamA.Player2ImageScroller.StopScrolling();
-            }
-
         }
         else {
 
             teamB.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));
             teamB.SetPlayerName(p.myId,p.myName);
             teamB.SetPlayerImage(p.myId,p.GetMyImage());
-
-            if (p.myId == 3)
-            {
-                teamB.Player1ImageScroller.StopScrolling();
-                
-            }
-            else
-            {
-                teamB.Player2ImageScroller.StopScrolling();
-            }
-
           
         }
 
@@ -424,33 +395,6 @@ public class ScorePanel4Player : MonoBehaviour
         }
     }
 
-    public void ResetButtons()
-    {
-        teamA.ResetButton(1);
-        teamA.ResetButton(2);
-        teamB.ResetButton(3);
-        teamB.ResetButton(4);
-    }
-
-    public void ResetStatus()
-    {
-        teamA.SetStatus(1,"In Game");
-        teamA.SetStatus(2,"In Game");
-        teamB.SetStatus(3,"In Game");
-        teamB.SetStatus(4,"In Game");
-    }
-
-    public void SetStatus(int id, string status)
-    {
-        if (id == 1 || id ==2 )
-        {
-            teamA.SetStatus(id,status);
-        }
-        else
-        {
-            teamB.SetStatus(id,status);
-        }
-    }
 
     public void SetCoins()
     {

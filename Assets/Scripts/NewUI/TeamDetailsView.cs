@@ -11,10 +11,8 @@ public class TeamDetailsView : MonoBehaviour
     [Header("Team Objects")]
   
     public TMP_Text CoinScore;
-    public TMP_Text RedScore;
-    public TMP_Text TotalScore;
     public Image CoinImage;
-    public Image RedImage;
+
 
 
     [Header("Player Objects")]             
@@ -30,10 +28,6 @@ public class TeamDetailsView : MonoBehaviour
     public Image Player1TurnImage;
     public Image Player2TurnImage;
 
-    [Header("Other Objects")]
-    public ImageScroller Player1ImageScroller;
-    public ImageScroller Player2ImageScroller;
-
 
 
     private void OnDisable()
@@ -42,12 +36,9 @@ public class TeamDetailsView : MonoBehaviour
         Player1NameText.text = "";
         Player2NameText.text = "";
         CoinScore.text = "0";
-        RedScore.text = "0";
-        TotalScore.text = "0";
         Player1Image.sprite = null;
         Player2Image.sprite = null;
         CoinImage.sprite = null;
-        RedImage.sprite = null;
     }
 
 
@@ -75,7 +66,7 @@ public class TeamDetailsView : MonoBehaviour
 
     public void SetRedImage(Sprite red)
     {
-        RedImage.sprite = red;
+        
     }
 
     public void SetPlayerImage(int id,Sprite image)
@@ -112,8 +103,7 @@ public class TeamDetailsView : MonoBehaviour
     public void SetScore(int coinScore, int redScore, int totalScore)
     { 
         CoinScore.text = coinScore.ToString();
-        RedScore.text = redScore.ToString();
-        TotalScore.text = totalScore.ToString();    
+      
     }
 
     public void SetTimer(int id,float a)

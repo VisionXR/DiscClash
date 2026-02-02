@@ -31,9 +31,7 @@ public class ScorePanel2Player : MonoBehaviour
 
     private void OnEnable()
     {
-       
-
-       
+              
         gameData.TurnChangedEvent += TurnChanged;
       
         uiOutputData.ShowGameResultEvent += ShowGameResult;
@@ -55,7 +53,6 @@ public class ScorePanel2Player : MonoBehaviour
     private void OnDisable()
     {
        
-
         gameData.TurnChangedEvent -= TurnChanged;
       
         uiOutputData.ShowGameResultEvent -= ShowGameResult;
@@ -64,10 +61,9 @@ public class ScorePanel2Player : MonoBehaviour
         uiOutputData.PlayAgainEvent -= Reset;
         uiOutputData.CoinsSetEvent -= SetCoins;
 
-        uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;
-     
-        
+        uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;    
         uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
+
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent -= ShowImages;
 
