@@ -15,8 +15,7 @@ public class DeepLinkManager : MonoBehaviour
     public NetworkOutputSO networkOutput;
 
 
-    [Header("Scripts")]
-    public DestinationManager destinationManager;
+
     // Action
     public Destination currentDestination;
     public Action OnConnectedEvent;
@@ -72,7 +71,7 @@ public class DeepLinkManager : MonoBehaviour
 
             OnConnectedEvent?.Invoke();
             uiOutputData.StartSinglePlayerGame();
-            destinationManager.SetDestination(destination);
+           
             
         }
         else if (destination.gameType == GameType.MultiPlayer)
@@ -93,14 +92,14 @@ public class DeepLinkManager : MonoBehaviour
         {
             OnConnectedEvent?.Invoke();
             uiOutputData.StartTutorial();
-            destinationManager.SetDestination(destination);
+        
         }
 
         else if (destination.gameType == GameType.TrickShots)
         {
             OnConnectedEvent?.Invoke();
             uiOutputData.StartTrickShots();
-            destinationManager.SetDestination(destination);
+            
         }
 
     }
@@ -130,7 +129,7 @@ public class DeepLinkManager : MonoBehaviour
 
         uiOutputData.StartMultiPlayerGame();
         currentDestination.isJoinable = true;
-        destinationManager.SetDestination(currentDestination);
+    
 
         OnConnectedEvent?.Invoke();
     }
@@ -153,7 +152,7 @@ public class DeepLinkManager : MonoBehaviour
         uiInputData.GoToGamePanel(uiOutputData.multiPlayerGameMode);
 
         currentDestination.isJoinable = false;
-        destinationManager.SetDestination(currentDestination);
+      
 
         OnConnectedEvent?.Invoke();
 

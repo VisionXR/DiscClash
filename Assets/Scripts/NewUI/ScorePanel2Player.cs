@@ -16,7 +16,6 @@ public class ScorePanel2Player : MonoBehaviour
 
 
     [Header(" player objects")]
-    public GameObject InviteObject;
     public PlayerDetailsView leftPlayer;
     public PlayerDetailsView rightPlayer;
     
@@ -32,12 +31,9 @@ public class ScorePanel2Player : MonoBehaviour
 
     private void OnEnable()
     {
-        leftPlayer.gameObject.SetActive(true);
-        rightPlayer.gameObject.SetActive(true);
-
        
 
-
+       
         gameData.TurnChangedEvent += TurnChanged;
       
         uiOutputData.ShowGameResultEvent += ShowGameResult;
@@ -47,24 +43,18 @@ public class ScorePanel2Player : MonoBehaviour
         uiOutputData.CoinsSetEvent += SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
-        uiInputData.SetPlayerStatusEvent += SetStatus;
         uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
 
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent += ShowImages;
 
-        if (uiOutputData.gameType == GameType.MultiPlayer)
-        {
-            InviteObject.SetActive(true);
-        }
 
         Reset();
     }
 
     private void OnDisable()
     {
-        leftPlayer.gameObject.SetActive(false);
-        rightPlayer.gameObject.SetActive(false);
+       
 
         gameData.TurnChangedEvent -= TurnChanged;
       
@@ -76,12 +66,12 @@ public class ScorePanel2Player : MonoBehaviour
 
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;
      
-        uiInputData.SetPlayerStatusEvent -= SetStatus;
+        
         uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent -= ShowImages;
 
-        InviteObject.SetActive(false);
+        
         StopTurnTime();
         ResetImages();
     }
@@ -122,7 +112,6 @@ public class ScorePanel2Player : MonoBehaviour
     {
         StopTurnTime();
         ResetIndicators(); 
-        ResetStatus();
         leftPlayer.SetScore(0, 0, 0);
         rightPlayer.SetScore(0, 0, 0);
 
@@ -164,10 +153,7 @@ public class ScorePanel2Player : MonoBehaviour
 
         SetCoins();
 
-        if (playerData.CurrentPlayers.Count == 2)
-        {
-            InviteObject.SetActive(false);
-        }
+
     }
     private void TurnChanged(int id)
     {
@@ -362,16 +348,6 @@ public class ScorePanel2Player : MonoBehaviour
 
     }
 
-    public void ResetStatus()
-    {
-       
-    }
-
-    public void SetStatus(int id,string status)
-    {
-
-       
-    }
 
     public void SetCoins()
     {

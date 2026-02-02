@@ -16,7 +16,6 @@ public class ScorePanel4Player : MonoBehaviour
 
 
     [Header(" player objects")]
-    public GameObject InviteObject;
     public TeamDetailsView teamA;
     public TeamDetailsView teamB;
 
@@ -54,10 +53,6 @@ public class ScorePanel4Player : MonoBehaviour
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent += ShowImages;
 
-        if (uiOutputData.gameType == GameType.MultiPlayer)
-        {
-            InviteObject.SetActive(true);
-        }
 
         Reset();
     }
@@ -84,7 +79,6 @@ public class ScorePanel4Player : MonoBehaviour
         playerData.PlayerImageLoadedEvent -= ShowImages;
 
 
-        InviteObject.SetActive(false);
         StopTurnTime();
         ResetImages();
     }
@@ -216,10 +210,6 @@ public class ScorePanel4Player : MonoBehaviour
 
         SetCoins();
 
-        if (playerData.CurrentPlayers.Count == 4)
-        {
-            InviteObject.SetActive(false);
-        }
     }
     private void TurnChanged(int id)
     {
