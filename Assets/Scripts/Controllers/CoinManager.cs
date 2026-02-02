@@ -153,7 +153,7 @@ public class CoinManager : MonoBehaviour
 
         if (coin == PlayerCoin.White)
         {
-            resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/WhiteCoin";
+            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/WhiteCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -168,7 +168,7 @@ public class CoinManager : MonoBehaviour
         }
         else if (coin == PlayerCoin.Black)
         {
-            resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/BlackCoin";
+            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/BlackCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -183,7 +183,7 @@ public class CoinManager : MonoBehaviour
         }
         else if (coin == PlayerCoin.Red)
         {
-            resourcePath = "NewCoins/Coins" + uIOutputData.MyCoinsId + "/RedCoin";
+            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/RedCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -204,7 +204,7 @@ public class CoinManager : MonoBehaviour
     /// <param name="coin">The coin GameObject that fell on the ground.</param>
     private void CoinFellOnGround(GameObject coin)
     {
-        Debug.Log(" coin fell on ground ");
+      
         coin.transform.position = FindCoinPosition();
         coin.transform.rotation = Quaternion.identity;
     }

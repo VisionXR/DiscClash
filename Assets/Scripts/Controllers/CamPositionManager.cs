@@ -39,6 +39,7 @@ namespace com.VisionXR.Controllers
         private int _currentPlayerId = -1;
         private bool swipeActive;
         private Vector2 swipeStartScreen;
+        private Vector2 _lastTouchScreen;
 
         // smoothing helpers
         private Vector3 _cameraVelocity = Vector3.zero;
@@ -69,9 +70,10 @@ namespace com.VisionXR.Controllers
             // mirror MouseInputManager: only handle cam swipes in LEFT/RIGHT zones
             if (zone == TouchZone.MIDDLE) return;
 
-            // begin candidate swipe
+            // begin candidate swipe: record both start and last positions
             swipeActive = true;
             swipeStartScreen = pos;
+            _lastTouchScreen = pos;
         }
 
         private void TouchContinued(TouchZone zone, Vector2 pos)
@@ -80,17 +82,29 @@ namespace com.VisionXR.Controllers
             if (_currentPlayerId < 0) return;
             if (boardData == null) return;
 
-            // horizontal delta in pixels
-            float deltaX = pos.x - swipeStartScreen.x;
+            // total horizontal movement since touch start (pixels)
+            float totalDeltaX = pos.x - swipeStartScreen.x;
 
-            // if movement is less than the minimum threshold, ignore
-            if (Mathf.Abs(deltaX) < minSwipeDistancePixels) return;
+            // don't start applying movement until user has moved beyond threshold
+            if (Mathf.Abs(totalDeltaX) < minSwipeDistancePixels)
+            {
+                // update last touch so that future deltas are measured from current finger position,
+                // but still require initial threshold to be crossed to start moving the camera.
+                _lastTouchScreen = pos;
+                return;
+            }
 
-            // normalized in range [-1, 1] where swipePixelsForFullRange maps to full range
-            float normalized = Mathf.Clamp(deltaX / swipePixelsForFullRange, -1f, 1f);
+            // incremental horizontal delta in pixels since last frame
+            float deltaX = pos.x - _lastTouchScreen.x;
 
-            // call MoveCam with the current player id and normalized offset
-            MoveCam(_currentPlayerId, normalized);
+            // normalized delta in range [-1, 1] where swipePixelsForFullRange maps to full range
+            float normalizedDelta = Mathf.Clamp(deltaX / swipePixelsForFullRange, -1f, 1f);
+
+            // apply relative camera movement based on incremental swipe
+            MoveCamRelative(_currentPlayerId, normalizedDelta);
+
+            // update last touch for the next incremental calculation
+            _lastTouchScreen = pos;
         }
 
 
@@ -99,8 +113,6 @@ namespace com.VisionXR.Controllers
             // stop swipe tracking
             swipeActive = false;
         }
-
-
 
         private void ChangeCamPosition(int id)
         {
@@ -129,6 +141,59 @@ namespace com.VisionXR.Controllers
             swipeActive = false;
             _cameraVelocity = Vector3.zero;
         }
+
+        /// <summary>
+        /// Move the camera relative to its current position along the player's left-right track.
+        /// normalizedDelta is a fraction of the full left->right range (e.g. 1.0 == full width).
+        /// </summary>
+        private void MoveCamRelative(int id, float normalizedDelta)
+        {
+            if (boardData == null) return;
+
+            var playerTransform = boardData.GetPlayerPosition(id);
+            if (playerTransform == null) return;
+
+            // Define the local track relative to the player
+            Vector3 rightAxis = playerTransform.right;
+            Vector3 leftBoundPos = playerTransform.position + (rightAxis * leftLimit);
+            Vector3 rightBoundPos = playerTransform.position + (rightAxis * rightLimit);
+
+            Vector3 trackVector = rightBoundPos - leftBoundPos;
+            float trackLenSq = trackVector.sqrMagnitude;
+
+            // find current normalized t of the camera along the track [0,1]
+            float currentT = 0.5f;
+            if (trackLenSq > Mathf.Epsilon)
+            {
+                Vector3 toCam = cameraRig.transform.position - leftBoundPos;
+                currentT = Mathf.Clamp01(Vector3.Dot(toCam, trackVector) / trackLenSq);
+            }
+
+            // normalizedDelta already represents fraction of full range (-1..1), so add it directly
+            float newT = Mathf.Clamp01(currentT + normalizedDelta);
+
+            Vector3 targetDestination = Vector3.Lerp(leftBoundPos, rightBoundPos, newT);
+
+            // 4. Smooth movement logic (same as before)
+            float distanceSq = (cameraRig.transform.position - targetDestination).sqrMagnitude;
+
+            if (distanceSq <= snapEpsilon * snapEpsilon)
+            {
+                cameraRig.transform.position = targetDestination;
+                _cameraVelocity = Vector3.zero;
+            }
+            else
+            {
+                cameraRig.transform.position = Vector3.SmoothDamp(
+                    cameraRig.transform.position,
+                    targetDestination,
+                    ref _cameraVelocity,
+                    cameraSmoothTime
+                );
+            }
+        }
+
+        // kept for compatibility if other code expects an absolute move method
         private void MoveCam(int id, float normalizedOffset)
         {
             if (boardData == null) return;
