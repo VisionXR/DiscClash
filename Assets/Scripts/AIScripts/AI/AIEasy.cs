@@ -3,6 +3,7 @@ using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 namespace com.VisionXR.GameElements
 {
 
@@ -21,11 +22,13 @@ namespace com.VisionXR.GameElements
         [SerializeField] private int comparisonDepth = 4;
         [SerializeField] private AIMovement aIMovement;
         [SerializeField] private float CutOffAngle = 15;
-    
+
 
         // local variables
+        [Header(" Striker Variables")]
         public GameObject Striker;
         public List<Transform> strikerPositions;
+        public SplineContainer strikerSpline;
         private List<CoinInfo> hitCoinList = new List<CoinInfo>();
         private List<CoinInfo> lastHitCoins = new List<CoinInfo>(); // Stores history of recent coins
         private bool isPaused;
@@ -36,9 +39,6 @@ namespace com.VisionXR.GameElements
         private Vector3 dir;
         private float force;
         private int MyId;
-
-
-
 
         void OnEnable()
         {
@@ -51,9 +51,6 @@ namespace com.VisionXR.GameElements
        
             aIData.CoinInformationReceivedEvent -= OnHitListReceived;
         }
-
-
-
         public void SetStriker(GameObject striker, int id)
         {
             gameObject.name = "AI" + id;
@@ -63,11 +60,11 @@ namespace com.VisionXR.GameElements
             transform.position = boardData.GetAvatarPositions(id).position;
             transform.rotation = boardData.GetAvatarPositions(id).rotation;
             GetStrikerPositions();
+            strikerSpline = boardData.GetStrikerStrip(id);
             aIMovement.SetStriker(Striker, id);
             isExcecuting = false;
 
         }
-
 
         private void GetStrikerPositions()
         {
@@ -128,6 +125,9 @@ namespace com.VisionXR.GameElements
             // Set force and striker position
             force = currentSelectedCoin.distance + 1.1f;
             Striker.transform.position = Striker.GetComponent<IStrikerMovement>().
+
+
+
             FindStrikerNextPosition(currentSelectedCoin.StrikerPos.transform.position, currentSelectedCoin.StrikerPos.transform.right);
 
             // Strike if angle is within range

@@ -1,8 +1,10 @@
-using com.VisionXR.HelperClasses;
+
 using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace com.VisionXR.GameElements
 {
@@ -20,6 +22,7 @@ namespace com.VisionXR.GameElements
         public int strikerId = 1;
         public List<Transform> strikerPositions = new List<Transform>();
         public Rigidbody strikerRigidbody;
+        public SplineContainer strikerSpline;
 
         // local
         public float yawThresholdDegrees = 1f;
@@ -54,6 +57,7 @@ namespace com.VisionXR.GameElements
             yield return new WaitForSeconds(0.1f);
             strikerPositions = boardData.GetStrikerPosition(strikerId);
             fixedCenterPoint = boardData.GetPlayerPosition(strikerId).position;
+            strikerSpline = boardData.GetStrikerStrip(strikerId);
             ResetStriker();
 
         }
@@ -63,78 +67,47 @@ namespace com.VisionXR.GameElements
             return strikerId;
         }
 
+        /// <summary>
+        /// Moves striker strictly using Spline evaluation for position and direction.
+        /// </summary>
         public void MoveStriker(float normalisedValue)
         {
-            if (!HasValidStrikerPositions(2))
-            {
-                Debug.LogWarning($"[StrikerMovement] MoveStriker aborted - invalid strikerPositions for strikerId={strikerId}");
-                return;
-            }
+            if (strikerSpline == null) return;
 
-            // Ensure normalized is within [0,1]
-            float t = normalisedValue;
+            // 1. Evaluate Position and Tangent (Direction) from Spline
+            // float3 is used by the Spline package; we convert to Vector3
+            float3 localPos;
+            float3 localTangent;
+            float3 localUp;
 
-            // Interpolate between first and last striker anchor positions
-            Vector3 start = strikerPositions[0].position;
-            Vector3 end = strikerPositions[strikerPositions.Count - 1].position;
-            Vector3 finalpos = Vector3.Lerp(start, end, t);
+            strikerSpline.Evaluate(normalisedValue, out localPos, out localTangent, out localUp);
 
-            // Choose direction to nudge striker to a valid non-overlapping position
-            float leftDistance = Vector3.Distance(finalpos, start);
-            float rightDistance = Vector3.Distance(finalpos, end);
 
-            if (leftDistance > rightDistance)
-            {
-                transform.position = FindStrikerNextPosition(finalpos, -strikerPositions[0].right);
-            }
-            else
-            {
-                transform.position = FindStrikerNextPosition(finalpos, strikerPositions[0].right);
-            }
+            Debug.Log("Local Pos is " + localPos.ToString());
+
+            Vector3 worldPos = strikerSpline.transform.TransformPoint(localPos);
+            // Tangent is the forward direction of the spline at that point
+            Vector3 worldTangent = strikerSpline.transform.TransformDirection(localTangent).normalized;
+
+            Debug.Log("World Pos is " + worldPos.ToString());
+
+            // 2. Determine Nudge Direction
+            // We use the tangent (the line of the spline) to nudge the striker left or right along the track
+            // if it hits a coin.
+            Vector3 nudgeDir = (normalisedValue > 0.5f) ? -localTangent : localTangent;
+
+            nudgeDir = nudgeDir.normalized;
+
+            Debug.Log("Nudge Dir is " + nudgeDir.ToString());
+
+            // 3. Apply position with collision check
+            transform.position = FindStrikerNextPosition(localPos, nudgeDir);
+
+            transform.rotation = strikerPositions[2].transform.rotation;
+
+            // 4. Match rotation to spline forward if needed (optional)
+            // transform.rotation = Quaternion.LookRotation(worldTangent, Vector3.up);
         }
-        public void MoveStriker(SwipeDirection swipeDirection)
-        {
-            if (!HasValidStrikerPositions(1))
-            {
-                Debug.LogWarning($"[StrikerMovement] MoveStriker(Swipe) aborted - invalid strikerPositions for strikerId={strikerId}");
-                return;
-            }
-
-            Vector3 finalPos;
-
-            if (swipeDirection == SwipeDirection.LEFT)
-            {
-                finalPos = FindStrikerNextPosition(transform.position, -strikerPositions[0].transform.right);
-            }
-            else
-            {
-                finalPos = FindStrikerNextPosition(transform.position, strikerPositions[0].transform.right);
-            }
-
-            if (strikerId == 1 || strikerId == 2)
-            {
-              
-                float lower = Mathf.Min(strikerPositions[0].transform.position.x, strikerPositions[strikerPositions.Count - 1].transform.position.x);
-                float upper = Mathf.Max(strikerPositions[0].transform.position.x, strikerPositions[strikerPositions.Count - 1].transform.position.x);
-                if (finalPos.x >= lower && finalPos.x <= upper)
-                {
-                    Vector3 finalpos = new Vector3(finalPos.x, strikerPositions[0].transform.position.y, strikerPositions[0].transform.position.z);
-                    transform.position = VectorUtility.RoundPositionUpto3Decimals(finalpos);
-                }
-            }
-            else
-            {
-                float lower = Mathf.Min(strikerPositions[0].transform.position.z, strikerPositions[strikerPositions.Count - 1].transform.position.z);
-                float upper = Mathf.Max(strikerPositions[0].transform.position.z, strikerPositions[strikerPositions.Count - 1].transform.position.z);
-                if (finalPos.z >= lower && finalPos.z <= upper)
-                {
-                    Vector3 finalpos = new Vector3(strikerPositions[0].transform.position.x, strikerPositions[0].transform.position.y, finalPos.z);
-                    transform.position = VectorUtility.RoundPositionUpto3Decimals(finalpos);
-                }
-            }
-
-        }
-
 
         public void AimStriker(Vector3 direction)
         {
@@ -150,82 +123,56 @@ namespace com.VisionXR.GameElements
         }
 
 
-        public Vector3 FindStrikerNextPosition(Vector3 finalPos, Vector3 dir)
+        public Vector3 FindStrikerNextPosition(Vector3 evalPos, Vector3 dir)
         {
-            Vector3 newPosition = finalPos;
-            if (boardData == null)
-            {
-                Debug.LogWarning("[StrikerMovement] boardData is null in FindStrikerNextPosition.");
-                return finalPos;
-            }
-            bool isThisCorrectPosition;
+            Vector3 currentCheckPos = evalPos;
+            float radius = boardData.GetStrikerRadius();
             int safetyCounter = 0;
+
             while (true)
             {
-                newPosition += dir * boardData.GetStrikerRadius() / 10;
-                isThisCorrectPosition = true;
-                Collider[] cols = Physics.OverlapSphere(newPosition, boardData.GetStrikerRadius() + 0.01f);   
+                bool isBlocked = false;
+                Collider[] cols = Physics.OverlapSphere(currentCheckPos, radius + 0.01f);
+
                 foreach (Collider c in cols)
                 {
                     if (c == null) continue;
-                    if (c.gameObject.tag == "White" || c.gameObject.tag == "Red" || c.gameObject.tag == "Black")
+                    if (c.CompareTag("White") || c.CompareTag("Red") || c.CompareTag("Black"))
                     {
-                        isThisCorrectPosition = false;
+                        isBlocked = true;
                         break;
                     }
-
-                }
-                if (isThisCorrectPosition)
-                {
-                    break;
                 }
 
-                // safety to avoid infinite loop in unexpected cases
-                if (++safetyCounter > 1000)
-                {
-                    Debug.LogWarning("[StrikerMovement] FindStrikerNextPosition reached safety limit.");
-                    break;
-                }
-            }
-            finalPos = newPosition;
+                if (!isBlocked) break;
 
-            if (!HasValidStrikerPositions(1))
-            {
-                return finalPos;
+                // Move slightly along the spline direction to find a gap
+                currentCheckPos += dir * (radius / 10f);
+
+                if (++safetyCounter > 100)
+                {
+                    return evalPos; // Return original if no spot found
+                }
             }
 
-            if (strikerId == 1 || strikerId == 2)
-            {
-                float lower = Mathf.Min(strikerPositions[0].transform.position.x, strikerPositions[strikerPositions.Count-1].transform.position.x);
-                float upper = Mathf.Max(strikerPositions[0].transform.position.x, strikerPositions[strikerPositions.Count - 1].transform.position.x);
-                if (finalPos.x >= lower && finalPos.x <= upper)
-                {
-                    newPosition = new Vector3(finalPos.x, strikerPositions[0].transform.position.y, strikerPositions[0].transform.position.z);
-                }
-            }
-            else
-            {
-                float lower = Mathf.Min(strikerPositions[0].transform.position.z, strikerPositions[strikerPositions.Count - 1].transform.position.z);
-                float upper = Mathf.Max(strikerPositions[0].transform.position.z, strikerPositions[strikerPositions.Count - 1].transform.position.z);
-                if (finalPos.z >= lower && finalPos.z <= upper)
-                {
-                    newPosition = new Vector3(strikerPositions[0].transform.position.x, strikerPositions[0].transform.position.y, finalPos.z);
-                }
-            }
-            return newPosition;
+            // Optional: Clamp to Spline Bounds
+            // Since we aren't using strikerPositions, we ensure the new position 
+            // hasn't drifted too far from the original evaluated spline point.
+            if (Vector3.Distance(evalPos, currentCheckPos) > radius * 2f)
+                return evalPos;
+
+            return currentCheckPos;
         }
 
         public void ResetStriker()
         {
-         
-            // Use positions/rotation safely
-            transform.position = FindStrikerNextPosition(strikerPositions[3].transform.position, strikerPositions[3].transform.right);
-            transform.rotation = strikerPositions[3].transform.rotation;
+            if (strikerSpline == null) return;
+
+            // Reset to the middle of the spline (t = 0.5)
+         //   MoveStriker(0.5f);
 
             strikerRigidbody.linearVelocity = Vector3.zero;
             strikerRigidbody.angularVelocity = Vector3.zero;
-
-            
         }
 
     }

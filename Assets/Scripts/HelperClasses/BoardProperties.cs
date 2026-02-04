@@ -1,6 +1,7 @@
 using com.VisionXR.ModelClasses;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class BoardProperties : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class BoardProperties : MonoBehaviour
     [Header("Board Properties")]
     [SerializeField] private List<GameObject> Holes;
     [SerializeField] private List<GameObject> HolesTriggers;
+    [SerializeField] private List<SplineContainer> strikerStrips;
     [SerializeField] private List<Transform> Striker1Positions;
     [SerializeField] private List<Transform> Striker2Positions;
     [SerializeField] private List<Transform> Striker3Positions;
@@ -33,6 +35,8 @@ public class BoardProperties : MonoBehaviour
             boardData.SetHoleTriggers(HolesTriggers);
 
             boardData.SetAllCoinsTransform(AllCoins);
+
+            boardData.SetStrikerStrips(strikerStrips);
 
             boardData.SetStrikerPositions(1, Striker1Positions);
 

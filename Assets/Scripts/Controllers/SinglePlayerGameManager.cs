@@ -172,7 +172,7 @@ namespace com.VisionXR.Controllers
                
             }
 
-            StartCoroutine(WaitForSeconds(0.1f, firstTurn));
+          //  StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
 
         private IEnumerator WaitForSeconds(float v,int turnid)

@@ -11,7 +11,7 @@ namespace com.VisionXR.ModelClasses
         [Header("Board Properties")]
         public List<GameObject> Holes;
         public List<GameObject> HolesTriggers;
-        public List<Spline> strikerStrips;
+        public List<SplineContainer> strikerStrips;
         public List<Transform> Striker1Positions;
         public List<Transform> Striker2Positions;
         public List<Transform> Striker3Positions;
@@ -75,7 +75,7 @@ namespace com.VisionXR.ModelClasses
             }
         }
 
-        public Spline GetStrikerStrip(int id)
+        public SplineContainer GetStrikerStrip(int id)
         {
             if (id >= 1 && id <= strikerStrips.Count)
             {
@@ -108,7 +108,7 @@ namespace com.VisionXR.ModelClasses
             HolesTriggers = holesTriggers;
         }
 
-        public void SetStrikerStrips(List<Spline> strikerStrips)
+        public void SetStrikerStrips(List<SplineContainer> strikerStrips)
         {
             this.strikerStrips = strikerStrips;
         }
