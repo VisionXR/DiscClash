@@ -36,7 +36,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,7 +48,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961302363130649806}
-  m_Mesh: {fileID: -2267269527571904676, guid: af978550b48d9a54b8c22ff4c591af9c, type: 3}
+  m_Mesh: {fileID: -5216581434543980006, guid: ba1c38fce058e1745a93312c6fcbe0a8, type: 3}
 --- !u!23 &5901496708643341617
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 475747739359574528, guid: bf86b5f404aadb2419191910e0d41627, type: 3}
+  m_Mesh: {fileID: -5216581434543980006, guid: ba1c38fce058e1745a93312c6fcbe0a8, type: 3}
 --- !u!54 &7162908544142637390
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -460,9 +460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0bdaa3aa0bd664c93a41ba419db4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSources: []
-  CutOffVelocityForMaxAudio: 1
-  MinVelocityToPlayAudio: 0.005
+  cutOffVelocityForMaxAudio: 1
+  minVelocityToPlayAudio: 0.005
 --- !u!114 &3474152148282752681
 MonoBehaviour:
   m_ObjectHideFlags: 0
