@@ -50,7 +50,7 @@ namespace com.VisionXR.GameElements
                     if (player.myPlayerRole == PlayerRole.Human)
                     {
 
-                      
+                        player.strikerArrow.TurnOnArrow();
                         inputData.ActivateInput();
                         playerInput.enabled = true;
                     }
