@@ -1,12 +1,14 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using com.VisionXR.ModelClasses;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(RectTransform))]
 public class InputPanel : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     [Header("UI Elements")]
+    public StrikerDataSO strikerData;
     public Slider strikerPosSlider;
     public Image sliderImage;
 
@@ -62,7 +64,7 @@ public class InputPanel : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
             yield return new WaitForSeconds(repeatDelay);
 
             // Don't show hint if the player is currently touching the screen
-            if (!_isPointerDown)
+            if (!strikerData.isMoving && !strikerData.isAimimg)
             {
                 yield return StartCoroutine(AnimateSliderImage());
             }
@@ -99,6 +101,7 @@ public class InputPanel : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     public void OnPointerDown(PointerEventData eventData)
     {
         _isPointerDown = true;
+        strikerData.isMoving = true;
         // Hide hint immediately if player starts interacting
         sliderImage.gameObject.SetActive(false);
         UpdateValueFromPointer(eventData);
@@ -113,6 +116,7 @@ public class InputPanel : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
     public void OnPointerUp(PointerEventData eventData)
     {
         _isPointerDown = false;
+        strikerData.isMoving = false;
     }
 
     private void UpdateValueFromPointer(PointerEventData eventData)

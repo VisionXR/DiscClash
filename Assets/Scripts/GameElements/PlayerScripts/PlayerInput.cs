@@ -13,6 +13,7 @@ namespace com.VisionXR.GameElements
         public InputDataSO inputData;
         public CoinDataSO coinData;
         public BoardDataSO boardData;
+        public StrikerDataSO strikerData;
 
         [Header("Local Objects")]
         public Player player;
@@ -82,6 +83,7 @@ namespace com.VisionXR.GameElements
                 touchedStrikerTransform = striker;
 
                 AppProperties.instance.PlayVibration();
+                strikerData.isAimimg = true;
                 return;
             }
 
@@ -196,6 +198,7 @@ namespace com.VisionXR.GameElements
                 // Fire with computed force
                 AppProperties.instance.PlayStrikerVibration();
                 player.strikerShoot.FireStriker(normalizedForce);
+                strikerData.isAimimg = false;
 
                 ResetTouchState();
                 return;

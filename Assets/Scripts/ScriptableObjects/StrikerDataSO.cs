@@ -18,6 +18,9 @@ namespace com.VisionXR.ModelClasses
         public float baseLerpDuration = 0.0375f; // (3 / 80), adjust this as per your send interval
         public List<GameObject> AvailableStrikersinGame = new List<GameObject>();
 
+        public bool isMoving = false;
+        public bool isAimimg = false;
+
         // Events
         public Action<int, int,Action<GameObject>> CreateStrikerEvent;
         public Action<int> DestroyStrikerEvent;
@@ -27,9 +30,6 @@ namespace com.VisionXR.ModelClasses
         public Action<StrikerData> SetStrikerDataEvent;
         public Action<StrikerData> SetInitialStrikerDataEvent;
 
-
-        public Action TurnOnRigidbodiesEvent;
-        public Action TurnOffRigidbodiesEvent;
 
         public Action<GameObject> StrikerFellInHoleEvent;
         public Action<GameObject> StrikerpocketedUntoHoleEvent;
@@ -42,6 +42,8 @@ namespace com.VisionXR.ModelClasses
         private void OnEnable()
         {
             AvailableStrikersinGame.Clear();
+            isAimimg = false;
+            isMoving = false;
         }
 
         public void ChangeStriker(int playerId,int strikerId)

@@ -18,6 +18,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     // actions
     public Action<float,Vector3> StrikeStartedEvent;
     public Action StrikeFinishedEvent;
+    public AnimationCurve StrikeCurve;
 
 
     // variables
@@ -45,6 +46,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     public void SetStrikerForce(float normalizedValue)
     {
         // Map the normalized value to the desired range
+        normalizedValue = StrikeCurve.Evaluate(normalizedValue);
         float range = strikerData.ForceUpperLimit - strikerData.ForceLowerLimit;
         StrikeForce = strikerData.ForceLowerLimit + (normalizedValue) * range;
         strikerArrow.ChangeColorOfArrow(normalizedValue);
