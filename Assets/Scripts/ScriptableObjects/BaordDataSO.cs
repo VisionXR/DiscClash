@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace com.VisionXR.ModelClasses
 {
@@ -10,6 +11,7 @@ namespace com.VisionXR.ModelClasses
         [Header("Board Properties")]
         public List<GameObject> Holes;
         public List<GameObject> HolesTriggers;
+        public List<Spline> strikerStrips;
         public List<Transform> Striker1Positions;
         public List<Transform> Striker2Positions;
         public List<Transform> Striker3Positions;
@@ -40,6 +42,7 @@ namespace com.VisionXR.ModelClasses
             FinePositions.Clear();
             PlayerPositions.Clear();
             AvatarPositions.Clear();
+            strikerStrips.Clear();
         }
 
 
@@ -71,6 +74,19 @@ namespace com.VisionXR.ModelClasses
                 return Striker4Positions;
             }
         }
+
+        public Spline GetStrikerStrip(int id)
+        {
+            if (id >= 1 && id <= strikerStrips.Count)
+            {
+                return strikerStrips[id - 1];
+            }
+            else
+            {
+                Debug.LogError($"Invalid player ID: {id}. Must be between 1 and {strikerStrips.Count}.");
+                return null;
+            }
+        }
         public Transform GetPlayerPosition(int playerId) => PlayerPositions[playerId - 1].transform;
     
         public float GetStrikerRadius() => StrikerRadius;
@@ -90,6 +106,11 @@ namespace com.VisionXR.ModelClasses
         public void SetHoleTriggers(List<GameObject> holesTriggers)
         {
             HolesTriggers = holesTriggers;
+        }
+
+        public void SetStrikerStrips(List<Spline> strikerStrips)
+        {
+            this.strikerStrips = strikerStrips;
         }
 
         public void SetAllCoinsTransform(Transform allCoins)
