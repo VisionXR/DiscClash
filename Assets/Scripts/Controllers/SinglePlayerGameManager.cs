@@ -172,7 +172,7 @@ namespace com.VisionXR.Controllers
                
             }
 
-          //  StartCoroutine(WaitForSeconds(0.1f, firstTurn));
+            StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
 
         private IEnumerator WaitForSeconds(float v,int turnid)
@@ -192,15 +192,12 @@ namespace com.VisionXR.Controllers
                 Player p = playersData.GetMainPlayer();
                 p.GetComponent<PlayerInput>().StopRotation();
                 isFirstTurn = false;
-            }
-
-     
+            }     
         }
 
         private void StrikeFinished(int id)
         {
-
-         
+        
             ProcessPlayerData(playersData.GetPlayer(gameData.currentTurnId), coinData.Whites, coinData.Blacks, coinData.Red, strikerData.isFoul);
             coinData.DestroyCoinsFellInthisTurn(coinData.GetCoinsFellInThisTurn());
             coinData.ResetData();
@@ -371,7 +368,6 @@ namespace com.VisionXR.Controllers
             
         }
 
-
         public void EndGame(GameResult result)
         {
             coinData.DestroyAllCoins();
@@ -389,7 +385,6 @@ namespace com.VisionXR.Controllers
         
 
         }
-
         private void ExitGame()
         {
             inputData.DeactivateInput();

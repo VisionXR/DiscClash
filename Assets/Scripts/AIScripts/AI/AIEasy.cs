@@ -2,7 +2,9 @@
 using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.Splines;
 namespace com.VisionXR.GameElements
 {
@@ -17,28 +19,33 @@ namespace com.VisionXR.GameElements
         public StrikerDataSO strikerData;
 
 
-        [Header(" Local Variables")]
+        [Header(" AI Variables")]
         [SerializeField] private Sprite AIIcon;
         [SerializeField] private int comparisonDepth = 4;
         [SerializeField] private AIMovement aIMovement;
         [SerializeField] private float CutOffAngle = 15;
 
 
-        // local variables
+       
         [Header(" Striker Variables")]
         public GameObject Striker;
         public List<Transform> strikerPositions;
+        public List<StrikerInfo> strikerDetails;
         public SplineContainer strikerSpline;
+        public List<GameObject> holes;
+
+        // local variables
         private List<CoinInfo> hitCoinList = new List<CoinInfo>();
         private List<CoinInfo> lastHitCoins = new List<CoinInfo>(); // Stores history of recent coins
         private bool isPaused;
-        private bool isExcecuting = false;
+        private bool isExcecuting = false;       
        
-        private List<GameObject> holes;
         private PlayerCoin playerCoin = PlayerCoin.White;
         private Vector3 dir;
         private float force;
         private int MyId;
+        private StrikerMovement strikerMovement;
+        private StrikerShooting strikerShooting;
 
         void OnEnable()
         {
@@ -56,22 +63,53 @@ namespace com.VisionXR.GameElements
             gameObject.name = "AI" + id;
             MyId = id;
             Striker = striker;
+            strikerMovement = Striker.GetComponent<StrikerMovement>();  
+            strikerShooting = Striker.GetComponent<StrikerShooting>();
             holes = boardData.GetHoles();
             transform.position = boardData.GetAvatarPositions(id).position;
-            transform.rotation = boardData.GetAvatarPositions(id).rotation;
-            GetStrikerPositions();
+            transform.rotation = boardData.GetAvatarPositions(id).rotation;        
             strikerSpline = boardData.GetStrikerStrip(id);
+            FillStrikerDetails();           
             aIMovement.SetStriker(Striker, id);
             isExcecuting = false;
 
         }
 
-        private void GetStrikerPositions()
+        private void FillStrikerDetails()
         {
+            float start = 0.01f;
+            float end = 0.99f;
+            int totalValues = 7;
 
-            strikerPositions = boardData.GetStrikerPosition(MyId);
+            float3 localPos;
+            float3 localTangent;
+            float3 localUp;
 
+            for (int i = 0; i < totalValues; i++)
+            {
+                // i / 6 results in: 0, 0.166, 0.333, 0.5, 0.666, 0.833, 1.0
+                float t = (float)i / (totalValues - 1);
+
+                // Lerp calculates: start + (end - start) * t
+                float normalisedValue = Mathf.Lerp(start, end, t);
+
+
+                strikerSpline.Evaluate(normalisedValue, out localPos, out localTangent, out localUp);
+                Vector3 nudgeDir = (normalisedValue > 0.5f) ? -localTangent : localTangent;
+                nudgeDir = nudgeDir.normalized;
+
+                StrikerInfo info = new StrikerInfo
+                {
+                    normalValue = normalisedValue,
+                    strikerPos = localPos,
+                    tangentDir = nudgeDir
+                };
+
+                strikerDetails.Add(info);
+
+            }
         }
+
         public void ExecuteShot(PlayerCoin coin)
         {
            
@@ -81,7 +119,7 @@ namespace com.VisionXR.GameElements
                 playerCoin = coin;
                 aIMovement.MoveHandToStriker();
                 hitCoinList.Clear();
-                CoinSorter.instance.SortAllCoins(MyId, playerCoin, holes, strikerPositions);
+                CoinSorter.instance.SortAllCoins(MyId, playerCoin, holes, strikerDetails);
             }
         }
 
@@ -124,11 +162,9 @@ namespace com.VisionXR.GameElements
 
             // Set force and striker position
             force = currentSelectedCoin.distance + 1.1f;
-            Striker.transform.position = Striker.GetComponent<IStrikerMovement>().
-
-
-
-            FindStrikerNextPosition(currentSelectedCoin.StrikerPos.transform.position, currentSelectedCoin.StrikerPos.transform.right);
+            Striker.transform.position = strikerMovement.
+            FindStrikerNextPosition(currentSelectedCoin.strikerInfo.strikerPos, currentSelectedCoin.strikerInfo.tangentDir);
+            Striker.transform.rotation = boardData.GetStrikerRotations(MyId).transform.rotation;
 
             // Strike if angle is within range
             if (currentSelectedCoin.angle < CutOffAngle)
@@ -151,7 +187,7 @@ namespace com.VisionXR.GameElements
             aIMovement.ShowFingerStrikeAnimation(coinInfo.Coin.transform.position);
             yield return new WaitForSeconds(0.1f);
            
-            Striker.GetComponent<IStrikerShoot>().FireStriker(direction, strikeForce);
+            strikerShooting.FireStriker(direction, strikeForce);
             yield return new WaitForSeconds(0.1f);
             hitCoinList.Clear();
         }
@@ -178,7 +214,7 @@ namespace com.VisionXR.GameElements
                 // Compare with the recent history up to comparisonDepth
                 foreach (var recentCoin in lastHitCoins)
                 {
-                    if (hitCoinList[i].Coin == recentCoin.Coin && hitCoinList[i].StrikerPos == recentCoin.StrikerPos && hitCoinList[i].Hole == recentCoin.Hole)
+                    if (hitCoinList[i].Coin == recentCoin.Coin && hitCoinList[i].strikerInfo.normalValue == recentCoin.strikerInfo.normalValue && hitCoinList[i].Hole == recentCoin.Hole)
                     {
                         isRecentlyHit = true;
                         break;

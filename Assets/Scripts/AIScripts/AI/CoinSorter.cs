@@ -27,7 +27,7 @@ public  class CoinSorter : MonoBehaviour
     {
         instance = this;
     }
-    public  void  SortAllCoins(int id,PlayerCoin myCoin,List<GameObject> holes, List<Transform> strikerPositions)
+    public  void  SortAllCoins(int id,PlayerCoin myCoin,List<GameObject> holes, List<StrikerInfo> strikerPositions)
     {
           
         coinInfoList.Clear();
@@ -36,7 +36,7 @@ public  class CoinSorter : MonoBehaviour
       
     }
 
-    private IEnumerator Sort(PlayerCoin myCoin, List<GameObject> holes, List<Transform> strikerPositions)
+    private IEnumerator Sort(PlayerCoin myCoin, List<GameObject> holes, List<StrikerInfo> strikerPositions)
     {
         blackCoins = coinData.BlackCoins;
         whiteCoins = coinData.WhiteCoins;
@@ -49,11 +49,11 @@ public  class CoinSorter : MonoBehaviour
 
                 foreach (GameObject hole in holes)
                 {
-                    foreach (Transform pos in strikerPositions)
+                    foreach (StrikerInfo info in strikerPositions)
                     {
 
-                        GetCoinInfo(coin, hole, pos);
-                       
+                        GetCoinInfo(coin, hole, info);
+
                     }
                   
                 }
@@ -67,10 +67,10 @@ public  class CoinSorter : MonoBehaviour
             {
                 foreach (GameObject hole in holes)
                 {
-                    foreach (Transform pos in strikerPositions)
+                    foreach (StrikerInfo info in strikerPositions)
                     {
-                        GetCoinInfo(coin, hole, pos);
-                       
+                        GetCoinInfo(coin, hole, info);
+
                     }
                    
                 }
@@ -82,10 +82,10 @@ public  class CoinSorter : MonoBehaviour
         {
             foreach (GameObject hole in holes)
             {
-                foreach (Transform pos in strikerPositions)
+                foreach (StrikerInfo info in strikerPositions)
                 {
-                    GetCoinInfo(redCoin, hole, pos);
-                   
+                    GetCoinInfo(redCoin, hole, info);
+
                 }
                 
             }
@@ -98,10 +98,10 @@ public  class CoinSorter : MonoBehaviour
 
                 foreach (GameObject hole in holes)
                 {
-                    foreach (Transform pos in strikerPositions)
+                    foreach (StrikerInfo info in strikerPositions)
                     {
-                        GetCoinInfo(coin, hole, pos);
-                     
+                        GetCoinInfo(coin, hole, info);
+
                     }
                    
                 }
@@ -112,10 +112,10 @@ public  class CoinSorter : MonoBehaviour
 
                 foreach (GameObject hole in holes)
                 {
-                    foreach (Transform pos in strikerPositions)
+                    foreach (StrikerInfo info in strikerPositions)
                     {
-                        GetCoinInfo(coin, hole, pos);
-                        
+                        GetCoinInfo(coin, hole, info);
+
                     }
                    
                 }
@@ -124,11 +124,11 @@ public  class CoinSorter : MonoBehaviour
             }
             foreach (GameObject hole in holes)
             {
-                foreach (Transform pos in strikerPositions)
+                foreach (StrikerInfo info  in strikerPositions)
                 {
                     if (redCoin != null)
                     {
-                        GetCoinInfo(redCoin, hole, pos);
+                        GetCoinInfo(redCoin, hole, info);
                       
                     }
                 }
@@ -145,7 +145,7 @@ public  class CoinSorter : MonoBehaviour
         aiData.CoinInformationReceived(id, coinInfoList);
     }
 
-    private void GetCoinInfo(GameObject coin, GameObject hole, Transform StrikerPosition)
+    private void GetCoinInfo(GameObject coin, GameObject hole, StrikerInfo strikerInfo)
     {
 
         if (coin == null)
@@ -156,13 +156,13 @@ public  class CoinSorter : MonoBehaviour
         RaycastHit hitInfo;
         coinInfo.Coin = coin;
         coinInfo.Hole = hole;
-        coinInfo.StrikerPos = StrikerPosition;
+        coinInfo.strikerInfo = strikerInfo;
         Vector3 holedir = (hole.transform.position - coin.transform.position).normalized;
         Vector3 finalPos = coin.transform.position - holedir * (boardData.GetCoinRadius() + boardData.GetStrikerRadius());
         coinInfo.FinalPos = finalPos;
-        Vector3 Strikerdir = (finalPos - StrikerPosition.transform.position).normalized;
+        Vector3 Strikerdir = (finalPos - strikerInfo.strikerPos).normalized;
         coinInfo.angle = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(holedir, Strikerdir));
-        coinInfo.distance = Vector3.Distance(coin.transform.position, hole.transform.position) + Vector3.Distance(coin.transform.position, StrikerPosition.transform.position);
+        coinInfo.distance = Vector3.Distance(coin.transform.position, hole.transform.position) + Vector3.Distance(coin.transform.position, strikerInfo.strikerPos);
         if (Physics.SphereCast(coin.transform.position, boardData.GetCoinRadius(), holedir, out hitInfo))
         {
             GameObject tmpobj = hitInfo.collider.gameObject;
@@ -178,7 +178,7 @@ public  class CoinSorter : MonoBehaviour
                 coinInfo.blockedCoinAlongHole = tmpobj;
             }
         }
-        if (Physics.SphereCast(StrikerPosition.transform.position, boardData.GetStrikerRadius(), Strikerdir, out hitInfo))
+        if (Physics.SphereCast(strikerInfo.strikerPos, boardData.GetStrikerRadius(), Strikerdir, out hitInfo))
         {
             GameObject tmpobj = hitInfo.collider.gameObject;
             if (tmpobj.tag == "White" || tmpobj.tag == "Black" || tmpobj.tag == "Red")

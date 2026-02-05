@@ -43,6 +43,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
         }
 
     }
+
     public void SetStrikerForce(float normalizedValue)
     {
         // Map the normalized value to the desired range
@@ -71,6 +72,5 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
         StrikeFinishedEvent?.Invoke();
         WaitRoutine = null;
     }
-
-   
+ 
 }

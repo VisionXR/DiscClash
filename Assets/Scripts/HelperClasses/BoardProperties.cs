@@ -6,18 +6,13 @@ using UnityEngine.Splines;
 public class BoardProperties : MonoBehaviour
 {
     [Header("Scriptable Objects")]
-    public CoinDataSO coinData;
-    public MyPlayerSettings playerSettings;
     public BoardDataSO boardData;
 
     [Header("Board Properties")]
     [SerializeField] private List<GameObject> Holes;
     [SerializeField] private List<GameObject> HolesTriggers;
+    [SerializeField] private List<GameObject> StrikerRotations;
     [SerializeField] private List<SplineContainer> strikerStrips;
-    [SerializeField] private List<Transform> Striker1Positions;
-    [SerializeField] private List<Transform> Striker2Positions;
-    [SerializeField] private List<Transform> Striker3Positions;
-    [SerializeField] private List<Transform> Striker4Positions;
     [SerializeField] private List<Transform> FinePositions;
     [SerializeField] private List<Transform> PlayerPositions;
     [SerializeField] private List<Transform> AvatarPositions;
@@ -34,17 +29,12 @@ public class BoardProperties : MonoBehaviour
 
             boardData.SetHoleTriggers(HolesTriggers);
 
+            boardData.SetStrikerRotations(StrikerRotations);
+
             boardData.SetAllCoinsTransform(AllCoins);
 
             boardData.SetStrikerStrips(strikerStrips);
 
-            boardData.SetStrikerPositions(1, Striker1Positions);
-
-            boardData.SetStrikerPositions(2, Striker2Positions);
-
-            boardData.SetStrikerPositions(3, Striker3Positions);
-
-            boardData.SetStrikerPositions(4, Striker4Positions);
 
             boardData.SetFinePositions(FinePositions);
 

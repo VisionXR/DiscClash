@@ -228,7 +228,7 @@ namespace com.VisionXR.GameElements
         }
         public void GetPositions(int id)
         {
-            StrikerPositions = boardData.GetStrikerPosition(id);
+           // StrikerPositions = boardData.GetStrikerPosition(id);
             gameObject.name = "Striker" + id;
         }
 

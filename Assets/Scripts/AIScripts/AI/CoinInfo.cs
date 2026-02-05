@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class CoinInfo
 {
-    public Transform StrikerPos;
+    public StrikerInfo strikerInfo;
     public GameObject Coin;
     public GameObject Hole;
     public float angle;
@@ -14,4 +14,12 @@ public class CoinInfo
     public float distance;
     public GameObject blockedCoinAlongStriker;
     public GameObject blockedCoinAlongHole;
+}
+
+[Serializable]
+public class StrikerInfo
+{
+    public float normalValue;
+    public Vector3 strikerPos;
+    public Vector3 tangentDir;
 }

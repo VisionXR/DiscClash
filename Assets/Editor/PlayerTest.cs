@@ -8,6 +8,7 @@ namespace com.VisionXR.EditorTools
     public class PlayerTest : EditorWindow
     {
         [Header("Scriptable Objects")]
+        public CoinDataSO coinData;
         public PlayersDataSO playersDataSO;
         public GameDataSO gameDataSO;
 
@@ -30,6 +31,13 @@ namespace com.VisionXR.EditorTools
             EditorGUILayout.Space();
 
             // 1. Scriptable Object Fields
+            coinData = (CoinDataSO)EditorGUILayout.ObjectField(
+                "Coin Data SO",
+                coinData,
+                typeof(CoinDataSO),
+                false);
+
+
             playersDataSO = (PlayersDataSO)EditorGUILayout.ObjectField(
                 "Players Data SO",
                 playersDataSO,
@@ -85,6 +93,8 @@ namespace com.VisionXR.EditorTools
                 {
                   
 
+                    coinData.CreateAllCoins();
+
                     Debug.Log($"[PlayerTest] Attempting to create player: {testPlayerProperties.myName} with ID: {playerId}");
 
                     // Trigger your actual logic here:
@@ -102,7 +112,7 @@ namespace com.VisionXR.EditorTools
                 if (gameDataSO != null)
                 {
                     Undo.RecordObject(gameDataSO, "Change Turn ID");
-                    // gameDataSO.currentTurnId = turnId; 
+                    gameDataSO.ChangeTurn(turnId);
                     Debug.Log($"[PlayerTest] Turn changed to: {turnId}");
                 }
                 else

@@ -11,11 +11,8 @@ namespace com.VisionXR.ModelClasses
         [Header("Board Properties")]
         public List<GameObject> Holes;
         public List<GameObject> HolesTriggers;
+        public List<GameObject> StrikerRotations;
         public List<SplineContainer> strikerStrips;
-        public List<Transform> Striker1Positions;
-        public List<Transform> Striker2Positions;
-        public List<Transform> Striker3Positions;
-        public List<Transform> Striker4Positions;
         public List<Transform> FinePositions;
         public List<Transform> PlayerPositions;
         public List<Transform> AvatarPositions;
@@ -35,14 +32,11 @@ namespace com.VisionXR.ModelClasses
         {
             Holes.Clear();
             HolesTriggers.Clear();
-            Striker1Positions.Clear();
-            Striker2Positions.Clear();
-            Striker3Positions.Clear();
-            Striker4Positions.Clear();
             FinePositions.Clear();
             PlayerPositions.Clear();
             AvatarPositions.Clear();
             strikerStrips.Clear();
+            StrikerRotations.Clear();
         }
 
 
@@ -53,26 +47,10 @@ namespace com.VisionXR.ModelClasses
     
         public List<Transform> GetFinePositions() => FinePositions;
         public Transform GetAvatarPositions(int playerId) => AvatarPositions[playerId - 1].transform;
-        public List<Transform> GetStrikerPosition(int id)
+        public GameObject GetStrikerRotations(int id)
         {
         
-            if(id == 1)
-            {
-                
-                return Striker1Positions;
-            }
-            else if(id == 2)
-            {
-                return Striker2Positions;
-            }
-            else if(id == 3)
-            {
-                return Striker3Positions;
-            }
-            else // id == 4
-            {
-                return Striker4Positions;
-            }
+           return StrikerRotations[id - 1];
         }
 
         public SplineContainer GetStrikerStrip(int id)
@@ -128,23 +106,9 @@ namespace com.VisionXR.ModelClasses
             AvatarPositions = avatarPositions;
         }
 
-        public void SetStrikerPositions(int id, List<Transform> strikerPositions)
+        public void SetStrikerRotations(List<GameObject> strikerRotations)
         {
-            switch (id)
-            {
-                case 1:
-                    Striker1Positions = strikerPositions;
-                    break;
-                case 2:
-                    Striker2Positions = strikerPositions;
-                    break;
-                case 3:
-                    Striker3Positions = strikerPositions;
-                    break;
-                case 4:
-                    Striker4Positions = strikerPositions;
-                    break;
-            }
+            StrikerRotations = strikerRotations;
         }
 
         public void SetPlayerPositions(List<Transform> playerPositions)

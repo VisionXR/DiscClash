@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [Header(" Canvas Objects")]
     public MainCanvasUIManager mainCanvasUIManager;
     public CenterCanvasUIManager centerCanvasUIManager;
-    public TrickshotCanvasUIManager trickshotCanvasUIManager;
+ 
     public TutorialCanvasUIManager tutorialCanvasUIManager;
     
   
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         uiOutputData.StartFTUEEvent += StartFTUE;
         uiOutputData.StartTutorialEvent += StartTutorial;
         uiOutputData.StartSinglePlayerGameEvent += StartSP;
-        uiOutputData.StartTrickShotsEvent += StartTrickShots;
+     
         uiOutputData.StartMultiPlayerGameEvent += StartMP;
         uiOutputData.EndTutorialEvent += GoToHome;
 
@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
         uiOutputData.StartFTUEEvent -= StartFTUE;
         uiOutputData.StartTutorialEvent -= StartTutorial;
         uiOutputData.StartSinglePlayerGameEvent -= StartSP;
-        uiOutputData.StartTrickShotsEvent -= StartTrickShots;
+  
         uiOutputData.StartMultiPlayerGameEvent -= StartMP;
         uiOutputData.EndTutorialEvent -= GoToHome;
 
@@ -60,12 +60,6 @@ public class UIManager : MonoBehaviour
         mainCanvasUIManager.ShowMultiPlayerPanels();
     }
 
-    private void StartTrickShots()
-    {
-        ResetCanvases();
-        trickshotCanvasUIManager.gameObject.SetActive(true);
-        trickshotCanvasUIManager.ShowStartPanel();
-    }
 
     private void StartSP()
     {
@@ -120,7 +114,7 @@ public class UIManager : MonoBehaviour
     {
         mainCanvasUIManager.gameObject.SetActive(false);
         centerCanvasUIManager.gameObject.SetActive(false);
-        trickshotCanvasUIManager.gameObject.SetActive(false);
+    
         tutorialCanvasUIManager.gameObject.SetActive(false);       
         
     }
