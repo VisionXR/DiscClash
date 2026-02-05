@@ -17,7 +17,6 @@ public class PlayerDetailsView : MonoBehaviour
     public Image CoinImage;
     public Image PlayerImage;
     public Image PlayerTimerImage;
-    public Image PlayerTurnImage;
 
 
     private void OnDisable()
@@ -53,8 +52,8 @@ public class PlayerDetailsView : MonoBehaviour
 
     public void SetTurnImage(Color c)
     {
-        PlayerTurnImage.color = c;
-        PlayerTurnImage.fillAmount = 1;
+        PlayerTimerImage.color = c;
+        PlayerTimerImage.fillAmount = 1;
     }
     public void SetPlayerImage(Sprite image)
     {

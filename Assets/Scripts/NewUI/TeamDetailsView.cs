@@ -25,8 +25,7 @@ public class TeamDetailsView : MonoBehaviour
     public Image Player2Image;
     public Image Player1TimerImage;
     public Image Player2TimerImage;
-    public Image Player1TurnImage;
-    public Image Player2TurnImage;
+
 
 
 
@@ -91,11 +90,11 @@ public class TeamDetailsView : MonoBehaviour
     {
         if (id == 1 || id == 3)
         {
-            Player1TurnImage.color = color;     
+            Player1TimerImage.color = color;     
         }
         else
         {
-            Player2TurnImage.color = color;     
+            Player2TimerImage.color = color;     
         }       
 
     }
