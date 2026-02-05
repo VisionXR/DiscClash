@@ -79,7 +79,7 @@ namespace com.VisionXR.GameElements
         {
             float start = 0.01f;
             float end = 0.99f;
-            int totalValues = 7;
+            int totalValues = 10;
 
             float3 localPos;
             float3 localTangent;
