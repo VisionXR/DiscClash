@@ -33,6 +33,7 @@ namespace com.VisionXR.GameElements
         public List<StrikerInfo> strikerDetails;
         public SplineContainer strikerSpline;
         public List<GameObject> holes;
+        public LineRenderer debugLine;
 
         // local variables
         private List<CoinInfo> hitCoinList = new List<CoinInfo>();
@@ -79,7 +80,7 @@ namespace com.VisionXR.GameElements
         {
             float start = 0.01f;
             float end = 0.99f;
-            int totalValues = 10;
+            int totalValues = 11;
 
             float3 localPos;
             float3 localTangent;
@@ -171,6 +172,12 @@ namespace com.VisionXR.GameElements
             {
                 dir = (currentSelectedCoin.FinalPos - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
+
+                debugLine.positionCount = 3;
+                debugLine.SetPosition(0, Striker.transform.position);
+                debugLine.SetPosition(1, currentSelectedCoin.FinalPos);
+                debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
+
             }
             else
             {
@@ -182,6 +189,7 @@ namespace com.VisionXR.GameElements
 
         private IEnumerator Strike(Vector3 direction, float strikeForce, CoinInfo coinInfo)
         {
+         
             aIMovement.ShowFingerCloseAnimation(coinInfo.Coin.transform.position);
             yield return new WaitForSeconds(aIData.strikeWaitTime);
             aIMovement.ShowFingerStrikeAnimation(coinInfo.Coin.transform.position);
