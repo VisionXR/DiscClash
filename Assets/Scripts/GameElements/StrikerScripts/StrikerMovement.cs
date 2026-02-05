@@ -121,9 +121,9 @@ namespace com.VisionXR.GameElements
                 if (!isBlocked) break;
 
                 // Move slightly along the spline direction to find a gap
-                currentCheckPos += dir * (radius / 10f);
+                currentCheckPos += dir * (radius / 2f);
 
-                if (++safetyCounter > 100)
+                if (++safetyCounter > 10)
                 {
                     return evalPos; // Return original if no spot found
                 }

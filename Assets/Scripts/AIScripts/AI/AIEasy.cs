@@ -163,26 +163,36 @@ namespace com.VisionXR.GameElements
 
             // Set force and striker position
             force = currentSelectedCoin.distance + 1.1f;
-            Striker.transform.position = strikerMovement.
-            FindStrikerNextPosition(currentSelectedCoin.strikerInfo.strikerPos, currentSelectedCoin.strikerInfo.tangentDir);
+            Striker.transform.position = strikerMovement.FindStrikerNextPosition(currentSelectedCoin.strikerInfo.strikerPos, currentSelectedCoin.strikerInfo.tangentDir);
             Striker.transform.rotation = boardData.GetStrikerRotations(MyId).transform.rotation;
+
+            Debug.Log("Angle " + currentSelectedCoin.angle);
 
             // Strike if angle is within range
             if (currentSelectedCoin.angle < CutOffAngle)
             {
-                dir = (currentSelectedCoin.FinalPos - Striker.transform.position).normalized;
-                yield return Strike(dir, force, currentSelectedCoin);
 
                 debugLine.positionCount = 3;
                 debugLine.SetPosition(0, Striker.transform.position);
                 debugLine.SetPosition(1, currentSelectedCoin.FinalPos);
                 debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
 
+                dir = (currentSelectedCoin.FinalPos - Striker.transform.position).normalized;
+                yield return Strike(dir, force, currentSelectedCoin);
+
+              
+
             }
             else
             {
+                debugLine.positionCount = 3;
+                debugLine.SetPosition(0, Striker.transform.position);
+                debugLine.SetPosition(1, currentSelectedCoin.Coin.transform.position);
+                debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
+
                 dir = (currentSelectedCoin.Coin.transform.position - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
+               
             }
 
         }
