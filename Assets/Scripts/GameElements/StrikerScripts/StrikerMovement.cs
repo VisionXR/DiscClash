@@ -81,8 +81,6 @@ namespace com.VisionXR.GameElements
 
             nudgeDir = nudgeDir.normalized;
 
-            Debug.Log("Nudge Dir is " + nudgeDir.ToString());
-
             // 3. Apply position with collision check
             transform.position = FindStrikerNextPosition(localPos, nudgeDir);
 
