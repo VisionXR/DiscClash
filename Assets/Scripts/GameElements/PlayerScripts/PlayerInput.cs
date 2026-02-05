@@ -234,11 +234,9 @@ namespace com.VisionXR.GameElements
 
         private void MoveStriker(float val)
         {
+         
             player.strikerMovement.MoveStriker(val);
         }
-
-
-
 
         private void RotateCoins(float val)
         {
@@ -248,7 +246,6 @@ namespace com.VisionXR.GameElements
                 player.AllCoinsRotatedEvent?.Invoke(coinData.AllCoinsYRotationValue);
             }
         }
-
 
         public void StartRotation()
         {

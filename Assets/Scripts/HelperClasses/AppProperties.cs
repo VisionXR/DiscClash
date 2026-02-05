@@ -61,13 +61,6 @@ public class AppProperties : MonoBehaviour
         // stop any ongoing
         StopVibration();
 
-#if UNITY_EDITOR
-        // Editor fallback: simple vibrate call (no duration/amplitude control)
-        Handheld.Vibrate();
-        _vibrationCoroutine = StartCoroutine(PlayVibrationCoroutine(durationSeconds));
-        return;
-#endif
-
 #if UNITY_ANDROID && !UNITY_EDITOR
         try
         {
@@ -109,13 +102,6 @@ public class AppProperties : MonoBehaviour
         }
 #endif
 
-#if UNITY_IOS && !UNITY_EDITOR
-        // iOS: Unity doesn't expose advanced haptics natively. Use Handheld.Vibrate for fallback.
-        // For richer haptics on iOS use native plugin / Unity's iOS haptics packages.
-        Handheld.Vibrate();
-        _vibrationCoroutine = StartCoroutine(PlayVibrationCoroutine(durationSeconds));
-        return;
-#endif
 
         // Generic fallback
         Handheld.Vibrate();

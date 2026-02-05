@@ -64,6 +64,8 @@ namespace com.VisionXR.GameElements
         {
             if (strikerSpline == null) return;
 
+            normalisedValue = Mathf.Clamp(normalisedValue, 0.01f, 0.99f);
+
             // 1. Evaluate Position and Tangent (Direction) from Spline
             // float3 is used by the Spline package; we convert to Vector3
             float3 localPos;
