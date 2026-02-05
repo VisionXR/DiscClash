@@ -24,6 +24,7 @@ namespace com.VisionXR.GameElements
         [SerializeField] private int comparisonDepth = 4;
         [SerializeField] private AIMovement aIMovement;
         [SerializeField] private float CutOffAngle = 15;
+        [SerializeField] private float forceAdder = 1;
 
 
        
@@ -80,7 +81,7 @@ namespace com.VisionXR.GameElements
         {
             float start = 0.01f;
             float end = 0.99f;
-            int totalValues = 11;
+            int totalValues = 5;
 
             float3 localPos;
             float3 localTangent;
@@ -162,11 +163,10 @@ namespace com.VisionXR.GameElements
 
 
             // Set force and striker position
-            force = currentSelectedCoin.distance + 1.1f;
+
             Striker.transform.position = strikerMovement.FindStrikerNextPosition(currentSelectedCoin.strikerInfo.strikerPos, currentSelectedCoin.strikerInfo.tangentDir);
             Striker.transform.rotation = boardData.GetStrikerRotations(MyId).transform.rotation;
 
-            Debug.Log("Angle " + currentSelectedCoin.angle);
 
             // Strike if angle is within range
             if (currentSelectedCoin.angle < CutOffAngle)
@@ -176,6 +176,13 @@ namespace com.VisionXR.GameElements
                 debugLine.SetPosition(0, Striker.transform.position);
                 debugLine.SetPosition(1, currentSelectedCoin.FinalPos);
                 debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
+
+                // Non-linear weighting for angle contribution
+                float a = Mathf.Clamp01(currentSelectedCoin.angle / CutOffAngle);
+                // Choose one curve:
+                float w = a * a;
+
+                force = currentSelectedCoin.distance + w * forceAdder + 0.5f;
 
                 dir = (currentSelectedCoin.FinalPos - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
@@ -190,6 +197,8 @@ namespace com.VisionXR.GameElements
                 debugLine.SetPosition(1, currentSelectedCoin.Coin.transform.position);
                 debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
 
+
+                force = currentSelectedCoin.distance + forceAdder;
                 dir = (currentSelectedCoin.Coin.transform.position - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
                
