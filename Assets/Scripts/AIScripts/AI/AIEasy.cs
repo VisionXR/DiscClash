@@ -198,7 +198,7 @@ namespace com.VisionXR.GameElements
                 debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
 
 
-                force = currentSelectedCoin.distance + forceAdder;
+                force = currentSelectedCoin.distance + forceAdder + 0.5f;
                 dir = (currentSelectedCoin.Coin.transform.position - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
                
