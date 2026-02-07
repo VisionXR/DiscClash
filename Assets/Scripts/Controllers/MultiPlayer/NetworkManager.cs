@@ -37,7 +37,7 @@ namespace com.VisionXR.Controllers
             networkInputData.JoinRoomEvent += JoinRoom;
             networkInputData.JoinLobbyEvent += JoinLobby;
 
-            networkInputData.LeaveRoomEvent += DisconnectFromRoom;
+            networkInputData.LeaveRoomEvent += LeaveRoom;
 
         }
 
@@ -50,7 +50,7 @@ namespace com.VisionXR.Controllers
             networkInputData.JoinRoomEvent -= JoinRoom;
             networkInputData.JoinLobbyEvent -= JoinLobby;
 
-            networkInputData.LeaveRoomEvent -= DisconnectFromRoom;
+            networkInputData.LeaveRoomEvent -= LeaveRoom;
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace com.VisionXR.Controllers
         /// <summary>
         /// Disconnects from the current room and shuts down the runner.
         /// </summary>
-        public void DisconnectFromRoom()
+        public void LeaveRoom()
         {
             if (runner != null)
             {
@@ -252,10 +252,6 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        public async Task FetchSessions(string lobbyName, Action LobbySuccessEvent, Action<string> LobbyFailedEvent)
-        {
-            
-        }
     }
 
 }

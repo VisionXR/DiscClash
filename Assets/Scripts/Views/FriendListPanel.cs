@@ -30,7 +30,7 @@ namespace com.VisionXR.Views
            
             myPlayerSettings.UserFriendsReceived += NewFriendsListReceived;
           
-            DisplayFriendList(myPlayerSettings.GetMyFriends());
+       
         }
 
         private void OnDisable()
@@ -41,7 +41,7 @@ namespace com.VisionXR.Views
 
         private void NewFriendsListReceived(List<Friend> list)
         {
-            DisplayFriendList(myPlayerSettings.GetMyFriends());
+          
         }
 
         public void DisplayFriendList(List<Friend> friends)

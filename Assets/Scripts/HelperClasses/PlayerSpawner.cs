@@ -42,17 +42,6 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             DespawnPlayer();
         }
 
-        if (player.IsMasterClient)
-        {
-            // set new host if the master client leaves
-
-            Player newPlayer = playersData.GetMainPlayer();
-            if (newPlayer!= null && newPlayer.myId == 2)
-            {
-                networkOutputData.SetHost(true);
-            }
-        }
-
     }
 
     public void SpawnPlayer(PlayerRef playerRef)

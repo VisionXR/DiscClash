@@ -33,11 +33,11 @@ namespace com.VisionXR.Controller
         private void SaveData()
         {
             PlayerData newPlayerData = new PlayerData();
-            newPlayerData.dominantHand = playerSettings.myDominantHand;
+        
             newPlayerData.BoardId = playerSettings.MyBoard;
             newPlayerData.StrikerId = playerSettings.MyStrikerId;
             newPlayerData.region = playerSettings.serverRegion;
-            newPlayerData.isPassThroughOn = playerSettings.isPassThrough;
+          
 
 
             //  PlayerPrefs.SetString(Key,JsonUtility.ToJson(newPlayerData));
@@ -54,11 +54,11 @@ namespace com.VisionXR.Controller
                 try
                 {
                     data = JsonUtility.FromJson<PlayerData>(playerData);
-                    playerSettings.SetDominantHand(data.dominantHand);
+                  
                     playerSettings.SetBoard(data.BoardId);
                     playerSettings.SetStriker(data.StrikerId);
                     playerSettings.SetServerRegion(data.region);
-                    playerSettings.SetPassThrough(data.isPassThroughOn);
+                 
                 }
                 catch (Exception e)
                 {
@@ -73,11 +73,11 @@ namespace com.VisionXR.Controller
                 try
                 {
                     data = JsonUtility.FromJson<PlayerData>(playerDataString);
-                    playerSettings.SetDominantHand(data.dominantHand);
+               
                     playerSettings.SetBoard(data.BoardId);
                     playerSettings.SetStriker(data.StrikerId);
                     playerSettings.SetServerRegion(data.region);
-                    playerSettings.SetPassThrough(data.isPassThroughOn);
+                  
                 }
                 catch(Exception e)
                 {

@@ -63,6 +63,22 @@ namespace com.VisionXR.ModelClasses
             DestroyAllPlayersEvent?.Invoke();
         }
 
+        public void AddPlayer(Player p)
+        {
+            CurrentPlayers.Add(p);
+            PlayerJoinedEvent?.Invoke(p);
+        }
+
+        public void RemovePlayer(Player p)
+        {
+            if (CurrentPlayers.Contains(p))
+            {
+                PlayerLeftEvent?.Invoke(p);
+                CurrentPlayers.Remove(p);
+                CurrentPlayers.RemoveAll(go => go == null);
+            }
+        }
+
 
         public Player GetPlayer(int id)
         {
@@ -124,21 +140,7 @@ namespace com.VisionXR.ModelClasses
             return CurrentPlayers.Count;
         }
 
-        public void AddPlayer(Player p)
-        {           
-            CurrentPlayers.Add(p);
-            PlayerJoinedEvent?.Invoke(p);
-        }
 
-        public void RemovePlayer(Player p)
-        {
-            if (CurrentPlayers.Contains(p))
-            {             
-                PlayerLeftEvent?.Invoke(p);
-                CurrentPlayers.Remove(p);
-                CurrentPlayers.RemoveAll(go => go == null);
-            }
-        }
 
 
         public void PlayerImageLoaded()

@@ -22,7 +22,7 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-            DisplayFriendList(myPlayerSettings.GetMyFriends());
+            
         }
 
         public void DisplayFriendList(List<Friend> friends)

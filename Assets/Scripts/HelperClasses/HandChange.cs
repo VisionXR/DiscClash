@@ -14,13 +14,13 @@ public class HandChange : MonoBehaviour
 
     private void OnEnable()
     {
-        myPlayerSettings.DominantHandChanged += OnDominantHandChanged;
+        
         OnDominantHandChanged(DominantHand.BOTH);
     }
 
     private void OnDisable()
     {
-        myPlayerSettings.DominantHandChanged -= OnDominantHandChanged;
+        
     }
 
     private void OnDominantHandChanged(DominantHand hand)

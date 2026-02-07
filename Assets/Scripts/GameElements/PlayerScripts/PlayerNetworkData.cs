@@ -31,9 +31,7 @@ namespace com.VisionXR.HelperClasses
         [Networked, OnChangedRender(nameof(OnSnapShotReceived))][HideInInspector] public GameSnapshot gameSnapshot { get; set; }     
         [Networked, OnChangedRender(nameof(OnGameDataReceived))][HideInInspector] public NetworkGameData networkGameData { get; set; }
 
- 
-       
-           
+            
                 
         public override void Spawned()
         {

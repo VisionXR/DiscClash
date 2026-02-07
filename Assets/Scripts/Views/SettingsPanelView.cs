@@ -44,24 +44,7 @@ namespace com.VisionXR.Views
             ResetImages();
             playerNameIf.text = myPlayerSettings.MyName;
             ResetHandImages();
-            if (myPlayerSettings.myDominantHand == DominantHand.RIGHT)
-            {
-                RightHandSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
-                RightHandSelectedImage.color = Color.white;
-            }
-            else
-            {
-                LeftHandSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
-                LeftHandSelectedImage.color = Color.white;
-            }
-            if(myPlayerSettings.isPassThrough)
-            {
-                passThroughSlider.value = 1;
-            }
-            else
-            {
-                passThroughSlider.value = 0;
-            }
+
         }
 
         private void ResetHandImages()
@@ -95,20 +78,6 @@ namespace com.VisionXR.Views
             AudioManager.instance.SetBackGroundVolume(musicSlider.value);
         }
 
-        public void PassThroughChanged()
-        {
-            float value = passThroughSlider.value;
-            if(value == 0)
-            {
-                myPlayerSettings.SetPassThrough(false);
-            }
-            else
-            {
-                myPlayerSettings.SetPassThrough(true);
-            }
-            myPlayerSettings.SaveSettings();
-        }
-
       
         public void OnValueChanged(string output)
         {
@@ -130,27 +99,6 @@ namespace com.VisionXR.Views
             {
               //  AvatarEditorDeeplink.LaunchAvatarEditor();
             }
-        }
-
-
-        public void OnRightHandClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            ResetHandImages();
-            myPlayerSettings.SetDominantHand(DominantHand.RIGHT);
-            RightHandSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
-            RightHandSelectedImage.color = Color.white;
-            myPlayerSettings.SaveSettings();
-        }
-
-        public void OnLeftHandClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            ResetHandImages();
-            myPlayerSettings.SetDominantHand(DominantHand.LEFT);
-            LeftHandSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
-            LeftHandSelectedImage.color = Color.white;
-            myPlayerSettings.SaveSettings();
         }
     }
 }

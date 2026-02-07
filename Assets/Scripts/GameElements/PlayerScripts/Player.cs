@@ -18,20 +18,21 @@ namespace com.VisionXR.GameElements
         public BoardDataSO boardData;
         public PlayersDataSO playersData;
 
-        [Header("Local Objects")]
-        public GameObject playerAvatarObj;
+        [Header("Striker Objects")]
         public GameObject myStriker;
         public Rigidbody strikerRigidBody;
-        public GameObject myAvatar;
-
-
-        [Header("Local Scripts")]      
-        public AIPlayer aiPlayer;
         public StrikerMovement strikerMovement;
         public StrikerShooting strikerShoot;
         public StrikerArrow strikerArrow;
         public StrikerProperties strikerProperties;
+
+
+
+        [Header("Avatar Scripts")]
+        public AIPlayer aiPlayer;
+        public GameObject myAvatar;
         public AIMovement aIMovement;
+    
 
         [Header(" Player Properties ")]
         // Serialized fields
