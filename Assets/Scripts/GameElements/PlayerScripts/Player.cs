@@ -86,7 +86,8 @@ namespace com.VisionXR.GameElements
             gameObject.name = "Player " + myId;
 
           
-           StartCoroutine(ConstructPlayer());
+            playersData.AddPlayer(this);
+            StartCoroutine(ConstructPlayer());
         }
     
         public void SetMyImage(Sprite image)

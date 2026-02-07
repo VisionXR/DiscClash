@@ -20,10 +20,11 @@ namespace com.VisionXR.Views
         public NetworkOutputSO networkOutput;
         public OculusDataSO oculusData;
 
-       
+
         [Header(" Panel Objects ")]
-        public GameObject TwoPlayerPanel;
-        public GameObject FourPlayerPanel;
+        public GameObject CenterCanvas;
+        public GameObject TwoPlayerWaitingPanel;
+        public GameObject FourPlayerWaitingPanel;
         public GameObject PrivatePublicPanel;
 
 
@@ -61,13 +62,16 @@ namespace com.VisionXR.Views
 
         private void OnConnectionSuccess()
         {
-            if(uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            Debug.Log("Connection Success");
+
+            CenterCanvas.SetActive(true);
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
-                TwoPlayerPanel.SetActive(true);
+                TwoPlayerWaitingPanel.SetActive(true);
             }
             else
             {
-                FourPlayerPanel.SetActive(true);
+                FourPlayerWaitingPanel.SetActive(true);
             }
 
             BlockerImage.gameObject.SetActive(false);
@@ -80,6 +84,8 @@ namespace com.VisionXR.Views
         {
             BlockerImage.gameObject.SetActive(false);
             StopAllCoroutines();
+
+            roomName.text = "Failed to Connect. Try Again...";
         }
 
         public void JoinRoomBtnClicked()

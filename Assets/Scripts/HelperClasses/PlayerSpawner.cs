@@ -38,7 +38,8 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
    
 
         if (Runner.LocalPlayer == player)
-        {      
+        {
+            networkOutputData.SetHost(false);
             DespawnPlayer();
         }
 

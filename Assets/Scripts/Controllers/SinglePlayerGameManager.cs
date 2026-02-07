@@ -16,8 +16,6 @@ namespace com.VisionXR.Controllers
         public StrikerDataSO strikerData;
         public GameDataSO gameData;
         public InputDataSO inputData;
-        public LeaderBoardSO leaderBoard;
-        public AchievementsDataSO achievementsData;
 
 
         [Header("Scripts")]
@@ -352,10 +350,9 @@ namespace com.VisionXR.Controllers
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
             {
-                leaderBoard.WriteToLeaderBoard(1, "SinglePlayer");
-                leaderBoard.WriteToLeaderBoard(1, "TotalGames");
+              
                 AudioManager.instance.PlayWinningSound();
-                achievementsData.SinglePlayerWon();
+               
                 winPs1.Play();
                 winPs2.Play();
             }

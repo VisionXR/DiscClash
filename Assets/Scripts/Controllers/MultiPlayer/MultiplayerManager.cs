@@ -20,11 +20,15 @@ namespace com.VisionXR.Controllers
         public GameDataSO gameData;
         public UIOutputDataSO uiOutputData;
         public InputDataSO inputData;
-        public MyPlayerSettings playerSettings;
-        public BoardDataSO boardData;
-        public LeaderBoardSO leaderBoard;
-        public AchievementsDataSO achievementsData;
-        
+
+        [Header("Panels")]
+        public GameObject centerCanvas;
+        public GameObject waitingPanel2Players;
+        public GameObject ScorePanel2Players;
+        public GameObject ScorePanel4Players;
+        public GameObject inputPanel2Players;
+        public GameObject inputPanel4Players;
+
 
         [Header("Scripts")]
         public BlackAndWhiteLogic blackAndWhiteLogic;
@@ -41,7 +45,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            uiOutputData.SetIsPlaying(true);
+            
 
             uiOutputData.ExitGameEvent += OnExitGame;
             uiOutputData.HomeEvent += OnExitGame;
@@ -140,16 +144,25 @@ namespace com.VisionXR.Controllers
             strikerData.ResetFoul();
             coinData.CreateAllCoins();
 
-            if(networkOutputData.IsHost())
+
+            centerCanvas.SetActive(false);
+            waitingPanel2Players.SetActive(false);
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            {
+                ScorePanel2Players.SetActive(true);
+            
+            }
+            else
+            {
+                ScorePanel4Players.SetActive(true);
+                
+            }
+
+            if (networkOutputData.IsHost())
             {
                 GameResult result = new GameResult();
                 result.currentTurnId = id;
                 dataManager.SendGameResult(result);
-
-                if (!Application.isEditor)
-                {
-                    achievementsData.MultiPlayerGameStart();
-                }
 
                 if (id == 1)
                 {
@@ -162,8 +175,11 @@ namespace com.VisionXR.Controllers
         }
     
         private void StrikeStarted(int id, float f)
-        {         
+        {
+            inputPanel2Players.SetActive(false);
+            inputPanel4Players.SetActive(false);
             inputData.DeactivateInput();
+
             if (isFirstTurn)
             {
                 Player p = playersData.GetMainPlayer();
@@ -232,6 +248,13 @@ namespace com.VisionXR.Controllers
             else
             {
                 gameData.ChangeTurn(result.currentTurnId);
+
+                Player p = playersData.GetPlayer(result.currentTurnId);
+                if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
+                {
+                    inputPanel2Players.SetActive(true);
+                    inputPanel4Players.SetActive(true);
+                }
             }
         }
         private void ReceiveFine(PlayerCoin coin)
@@ -374,12 +397,7 @@ namespace com.VisionXR.Controllers
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
             {
-                if (!Application.isEditor)
-                {
-                    leaderBoard.WriteToLeaderBoard(1, "MultiPlayer");
-                    leaderBoard.WriteToLeaderBoard(1, "TotalGames");
-                    achievementsData.MultiPlayerGameWOn();
-                }
+      
                 AudioManager.instance.PlayWinningSound();
               
                 winPs1.Play();
@@ -412,7 +430,7 @@ namespace com.VisionXR.Controllers
             inputData.DeactivateInput();
             coinData.DestroyAllCoins();
             networkInputData.LeaveRoom();
-            uiOutputData.SetIsPlaying(false);
+            
         }
 
     }

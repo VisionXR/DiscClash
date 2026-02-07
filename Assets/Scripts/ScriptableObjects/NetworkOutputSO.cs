@@ -20,8 +20,13 @@ namespace com.VisionXR.ModelClasses
 
         // Actions
         public Action<List<AvailableRooms>> RoomListUpdatedEvent;
-        
+
         // Methods      
+
+        private void OnEnable()
+        {
+            isHost = false;
+        }
 
         public void SetHost(bool value)
         {

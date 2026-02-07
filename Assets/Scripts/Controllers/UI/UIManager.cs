@@ -113,8 +113,7 @@ public class UIManager : MonoBehaviour
     private void ResetCanvases()
     {
         mainCanvasUIManager.gameObject.SetActive(false);
-        centerCanvasUIManager.gameObject.SetActive(false);
-    
+        centerCanvasUIManager.gameObject.SetActive(false);    
         tutorialCanvasUIManager.gameObject.SetActive(false);       
         
     }

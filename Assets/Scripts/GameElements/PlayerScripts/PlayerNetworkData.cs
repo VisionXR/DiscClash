@@ -133,7 +133,6 @@ namespace com.VisionXR.HelperClasses
 
             // recorder and speaker
 
-
         }
 
         private void OnStrikerDataReceived()
@@ -209,11 +208,6 @@ namespace com.VisionXR.HelperClasses
             networkInputData.PutFine(coin);
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_PlayerReady(int id)
-        {        
-            networkInputData.PlayerReadyEvent?.Invoke(id); 
-        }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
         public void RPC_PlayerStrikeStarted(float force, Vector3 dir)

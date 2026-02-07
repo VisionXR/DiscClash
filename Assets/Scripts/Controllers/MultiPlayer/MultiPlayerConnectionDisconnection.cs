@@ -1,35 +1,31 @@
 using com.VisionXR.GameElements;
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System.Collections;
+using com.VisionXR.Views;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MultiPlayerConnectionDisconnection : MonoBehaviour
 {
     [Header(" Scriptable Objects")]
     public PlayersDataSO playersData;
-    public UIOutputDataSO uiOutputData;
-    public UIInputDataSO uiInputData;
-    public NetworkInputSO networkInputData;
-    public NetworkOutputSO networkOutputData;
-    public OculusDataSO oculusData;
 
     [Header(" States ")]
     public DataManager dataManager;
     public List<bool> isPlayerReady;
     public bool isPlayerInGame;
 
+    [Header(" UI Panels ")]
+    public WaitingPanel waitingPanel;
+
 
 
     private void OnEnable()
     {
         
-
         playersData.PlayerJoinedEvent += PlayerJoined;
         playersData.PlayerLeftEvent += PlayerLeft;
-        networkInputData.PlayerReadyEvent += OnPlayerReadyReceived;
-        uiOutputData.PlayAgainEvent += PlayAgain;
 
     }
 
@@ -37,47 +33,15 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     {
         playersData.PlayerJoinedEvent -= PlayerJoined;
         playersData.PlayerLeftEvent -= PlayerLeft;
-
-        networkInputData.PlayerReadyEvent -= OnPlayerReadyReceived;
-        uiOutputData.PlayAgainEvent -= PlayAgain;
+        
     }
-
-    private void PlayAgain()
-    {
-       StartCoroutine(WaitAndReplay());
-    }
-
-    private IEnumerator WaitAndReplay()
-    {
-        yield return new WaitForSeconds(1);
-        if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2 && playersData.CurrentPlayers.Count == 2)
-        {
-
-           
-  
-
-
-        }
-        else if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1vsP2 && playersData.CurrentPlayers.Count == 4)
-        {
-
-           
-
-
-        }
-        else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsP3P4 && playersData.CurrentPlayers.Count == 4)
-        {
-
-
-        }
-    }
-
-
 
 
     private void PlayerJoined(Player player)
     {
-      
+        waitingPanel.SetName(player.myId, player.name);
+        waitingPanel.SetStatus(player.myId, "Joined");
+        waitingPanel.SetImage(player.myId, player.GetMyImage());
     }
 
     private void PlayerLeft(Player player)
@@ -85,35 +49,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
       
     }
 
-    private void OnPlayerReadyReceived(int id)
-    {
-        isPlayerReady[id-1] = true;
-        uiInputData.SetPlayerStatusEvent?.Invoke(id, "Ready");
-
-        foreach(bool b in isPlayerReady)
-        {
-            if (!b)
-            {
-                return;
-            }
-        }
-
-        if (networkOutputData.IsHost())
-        {         
-            dataManager.StartGame(1);         
-            isPlayerInGame= true;
-         
-
-        }
-        else
-        {        
-
-            isPlayerInGame = true;
-           
-
-        }
-    }
-
+ 
     public void EndGame()
     {
        

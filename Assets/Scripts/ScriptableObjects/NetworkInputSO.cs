@@ -11,7 +11,6 @@ namespace com.VisionXR.ModelClasses
     {
         // In Game Events
         public Action<int> StartGameEvent;
-        public Action<int> PlayerReadyEvent;
         public Action<PlayerCoin> PutFineEvent;
         public Action<string> DestroyCoinsFellInThisTurnEvent;
         public Action<CurrentGameData> CurrentGameDataReceivedEvent;

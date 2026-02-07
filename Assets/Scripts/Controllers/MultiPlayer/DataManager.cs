@@ -17,15 +17,6 @@ public class DataManager : MonoBehaviour
     public PlayerNetworkData mainPlayerNetworkData;
 
 
-    private void OnEnable()
-    {
-        uiOutputData.PlayerReadyEvent += SendReadyStatus;
-    }
-
-    private void OnDisable()
-    {
-        uiOutputData.PlayerReadyEvent -= SendReadyStatus;
-    }
 
     public void StartGame(int id)
     {
@@ -64,12 +55,6 @@ public class DataManager : MonoBehaviour
         mainPlayerNetworkData.RPC_PutFine(coin);
     }
 
-    public void SendReadyStatus(int id)
-    {
-        SetMainPlayer();
-        mainPlayerNetworkData.RPC_PlayerReady(id);
-    }
-
     public void SendStrikerChange(int playerId,int strikerId)
     {
         SetMainPlayer();
@@ -84,8 +69,4 @@ public class DataManager : MonoBehaviour
             mainPlayerNetworkData = mainPlayer.gameObject.GetComponent<PlayerNetworkData>();
         }
     }
-
-
-
-
 }
