@@ -20,9 +20,8 @@ public class ScorePanel4Player : MonoBehaviour
     public TeamDetailsView teamB;
 
     [Header(" canvas objects")]
-    public GameObject CenterCanvas;
     public GameObject OtherPlayerDisconnectionPanel;
-    public GameResultPanelView gameResultView;
+
 
 
     private Coroutine turnTimeRoutine = null;
@@ -30,20 +29,16 @@ public class ScorePanel4Player : MonoBehaviour
 
     private void OnEnable()
     {
-     
-
-       
+          
         gameData.TurnChangedEvent += TurnChanged;
        
         uiOutputData.ShowGameResultEvent += ShowGameResult;
-        uiOutputData.HomeEvent += TurnOff;
-        uiOutputData.ExitGameEvent += TurnOff;
+
         uiOutputData.PlayAgainEvent += Reset;
         uiOutputData.CoinsSetEvent += SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
 
-        uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent += ShowImages;
 
@@ -54,18 +49,15 @@ public class ScorePanel4Player : MonoBehaviour
     private void OnDisable()
     {
         
-
         gameData.TurnChangedEvent -= TurnChanged;
        
         uiOutputData.ShowGameResultEvent -= ShowGameResult;
-        uiOutputData.HomeEvent -= TurnOff;
-        uiOutputData.ExitGameEvent -= TurnOff;
+
         uiOutputData.PlayAgainEvent -= Reset;
         uiOutputData.CoinsSetEvent -= SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;
 
-        uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
 
         playerData.PlayerImageLoadedEvent -= ShowImages;
@@ -128,16 +120,11 @@ public class ScorePanel4Player : MonoBehaviour
 
     }
 
-    private void TurnOff()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void ShowOtherPlayerDisconnection()
     {
         if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1P2vsP3P4)
         {
-            CenterCanvas.SetActive(true);
+            
             OtherPlayerDisconnectionPanel.SetActive(true);
             gameObject.SetActive(false);
         }
@@ -145,7 +132,7 @@ public class ScorePanel4Player : MonoBehaviour
         {
             if(playerData.CurrentPlayers.Count < 3)
             {
-                CenterCanvas.SetActive(true);
+                
                 OtherPlayerDisconnectionPanel.SetActive(true);
                 gameObject.SetActive(false);
             }
@@ -157,9 +144,7 @@ public class ScorePanel4Player : MonoBehaviour
     {
         StopTurnTime();
         TurnChanged(result.winningPlayerId);
-        CenterCanvas.SetActive(true);
-        gameResultView.gameObject.SetActive(true) ;
-        gameResultView.ShowResult(result);
+      
     }
 
     public void ShowPlayerDetails(Player p)

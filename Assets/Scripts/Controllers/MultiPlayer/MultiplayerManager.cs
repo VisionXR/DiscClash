@@ -22,7 +22,6 @@ namespace com.VisionXR.Controllers
         public InputDataSO inputData;
 
         [Header("Panels")]
-        public GameObject centerCanvas;
         public GameObject waitingPanel2Players;
         public GameObject ScorePanel2Players;
         public GameObject ScorePanel4Players;
@@ -144,8 +143,7 @@ namespace com.VisionXR.Controllers
             strikerData.ResetFoul();
             coinData.CreateAllCoins();
 
-
-            centerCanvas.SetActive(false);
+            connectionDisconnection.StartGame();
             waitingPanel2Players.SetActive(false);
             if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {

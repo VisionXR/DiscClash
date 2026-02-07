@@ -29,18 +29,21 @@ public class MainCanvasUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-
+        uiOutputData.HomeEvent += ShowHome;
+        uiOutputData.ExitGameEvent += ShowHome;
     }
 
     private void OnDisable()
     {
-
+        uiOutputData.HomeEvent -= ShowHome;
+        uiOutputData.ExitGameEvent -= ShowHome;
     }
 
     public void ShowHome()
     {
-        Debug.Log(" showing home");
+       
         ResetHomePanels();
+        ResetAllPanels();
         HomePanel.SetActive(true);
         MainPanel.SetActive(true);
         MainSettingsPanel.SetActive(true);

@@ -10,10 +10,10 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 {
     [Header(" Scriptable Objects")]
     public PlayersDataSO playersData;
+    public UIInputDataSO uiInputData;
 
     [Header(" States ")]
     public DataManager dataManager;
-    public List<bool> isPlayerReady;
     public bool isPlayerInGame;
 
     [Header(" UI Panels ")]
@@ -36,7 +36,6 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
         
     }
 
-
     private void PlayerJoined(Player player)
     {
         waitingPanel.SetName(player.myId, player.name);
@@ -46,13 +45,25 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void PlayerLeft(Player player)
     {
-      
+        if (isPlayerInGame)
+        {
+            uiInputData.OtherPlayerLeft();
+        }
+        else
+        {
+
+        }
     }
 
  
     public void EndGame()
     {
-       
+       isPlayerInGame = false;
+    }
+
+    public void StartGame()
+    {
+        isPlayerInGame = true;
     }
 
     public void LaunchInvitePanel()

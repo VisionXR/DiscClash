@@ -21,7 +21,6 @@ public class ScorePanel2Player : MonoBehaviour
     
 
     [Header(" canvas objects")]
-    public GameObject CenterCanvas;
     public GameObject OtherPlayerDisconnectionPanel;
     public GameResultPanelView gameResultView;
 
@@ -35,13 +34,12 @@ public class ScorePanel2Player : MonoBehaviour
         gameData.TurnChangedEvent += TurnChanged;
       
         uiOutputData.ShowGameResultEvent += ShowGameResult;
-        uiOutputData.HomeEvent += TurnOff;
-        uiOutputData.ExitGameEvent += TurnOff;
+
         uiOutputData.PlayAgainEvent += Reset;
         uiOutputData.CoinsSetEvent += SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
-        uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
+
 
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent += ShowImages;
@@ -56,13 +54,11 @@ public class ScorePanel2Player : MonoBehaviour
         gameData.TurnChangedEvent -= TurnChanged;
       
         uiOutputData.ShowGameResultEvent -= ShowGameResult;
-        uiOutputData.HomeEvent -= TurnOff;
-        uiOutputData.ExitGameEvent -= TurnOff;
+
         uiOutputData.PlayAgainEvent -= Reset;
         uiOutputData.CoinsSetEvent -= SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;    
-        uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
 
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent -= ShowImages;
@@ -99,11 +95,6 @@ public class ScorePanel2Player : MonoBehaviour
         StopTurnTime();
     }
 
-    private void TurnOff()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void Reset()
     {
         StopTurnTime();
@@ -116,15 +107,13 @@ public class ScorePanel2Player : MonoBehaviour
     private void ShowGameResult(GameResult result)
     {
         StopTurnTime();
-        TurnChanged(result.winningPlayerId);
-        CenterCanvas.SetActive(true);
-        gameResultView.gameObject.SetActive(true) ;
-        gameResultView.ShowResult(result);
+        TurnChanged(result.winningPlayerId);    
+      
     }
 
     public void ShowOtherPlayerDisconnection()
     {
-        CenterCanvas.SetActive(true);
+        
         OtherPlayerDisconnectionPanel.SetActive(true);
         gameObject.SetActive(false);
     }

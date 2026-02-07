@@ -11,12 +11,15 @@ public class CenterCanvasUIManager : MonoBehaviour
     [Header(" Scriptable Objects")]
     public UIOutputDataSO uiOutputData;
     public UIInputDataSO uiInputData;
+    public PlayersDataSO playerData;
     public OculusDataSO oculusData;
 
     [Header(" Center Panel Objects")]
     public GameObject LoadingPanel;
     public GameObject DestinationFailedPanel;
     public GameObject DestinationChangePanel;
+    public GameObject GameResultPanel;
+    public GameObject OtherPlayerDisconnectPanel;
 
     [Header(" Main Panel Objects")]
     public List<GameObject> allPanles;
@@ -30,6 +33,12 @@ public class CenterCanvasUIManager : MonoBehaviour
     {
         OnLoadingSuccessEvent += LoadingSuccess;
         OnLoadingFailedEvent += LoadingFailed;
+
+        uiOutputData.ShowGameResultEvent += ShowGameResult;
+        uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
+
+        uiOutputData.HomeEvent += ResetPanels;
+        uiOutputData.ExitGameEvent += ResetPanels;
     }
 
 
@@ -37,6 +46,12 @@ public class CenterCanvasUIManager : MonoBehaviour
     {
         OnLoadingSuccessEvent -= LoadingSuccess;
         OnLoadingFailedEvent -= LoadingFailed;
+
+        uiOutputData.ShowGameResultEvent -= ShowGameResult;
+        uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
+
+        uiOutputData.HomeEvent -= ResetPanels;
+        uiOutputData.ExitGameEvent -= ResetPanels;
     }
 
     private void LoadingSuccess()
@@ -65,6 +80,30 @@ public class CenterCanvasUIManager : MonoBehaviour
         ResetPanels();
         LoadingPanel.SetActive(true);
         oculusData.ConnectToDestination(destination, OnLoadingSuccessEvent, OnLoadingFailedEvent);
+    }
+
+    public void ShowGameResult( GameResult result)
+    {
+        GameResultPanel.SetActive(true);
+        GameResultPanel.GetComponent<GameResultPanelView>().ShowResult(result);
+    }
+
+    public void ShowOtherPlayerDisconnection()
+    {
+        if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1P2vsP3P4)
+        {
+
+            OtherPlayerDisconnectPanel.SetActive(true);
+           
+        }
+        else
+        {
+            if (playerData.CurrentPlayers.Count < 3)
+            {
+                OtherPlayerDisconnectPanel.SetActive(true);              
+            }
+        }
+
     }
 
 
