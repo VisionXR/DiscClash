@@ -90,7 +90,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             dataManager.StartGame(1);
-           
+    
         }
 
         private void StartConnectingAnimation(int id)

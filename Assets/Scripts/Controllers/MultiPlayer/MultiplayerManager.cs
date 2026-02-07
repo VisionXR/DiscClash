@@ -23,6 +23,7 @@ namespace com.VisionXR.Controllers
 
         [Header("Panels")]
         public GameObject waitingPanel2Players;
+        public GameObject waitingPanel4Players;
         public GameObject ScorePanel2Players;
         public GameObject ScorePanel4Players;
         public GameObject inputPanel2Players;
@@ -145,6 +146,7 @@ namespace com.VisionXR.Controllers
 
             connectionDisconnection.StartGame();
             waitingPanel2Players.SetActive(false);
+            waitingPanel4Players.SetActive(false);
             if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 ScorePanel2Players.SetActive(true);

@@ -252,15 +252,14 @@ MonoBehaviour:
   camPositionData: {fileID: 11400000, guid: 255cae767d8ec8347bd4c97795db2f7e, type: 2}
   boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   playersData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
-  playerAvatarObj: {fileID: 3042119161163333186, guid: 4aca1fd905cf50a4d86324154b883dcb, type: 3}
   myStriker: {fileID: 0}
   strikerRigidBody: {fileID: 0}
-  myAvatar: {fileID: 0}
-  aiPlayer: {fileID: 8655069913760380767}
   strikerMovement: {fileID: 0}
   strikerShoot: {fileID: 0}
   strikerArrow: {fileID: 0}
   strikerProperties: {fileID: 0}
+  aiPlayer: {fileID: 8655069913760380767}
+  myAvatar: {fileID: 0}
   aIMovement: {fileID: 0}
   myId: 0
   myAvatarID: 0
@@ -323,8 +322,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
   coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
+  strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
   player: {fileID: 3804511622267319064}
   canIRotate: 0
+  maxRayDistance: 10
+  dragSensitivity: 5
+  coinRotateSensitivity: 0.2
 --- !u!114 &8778300311534466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,8 +460,8 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: b7882b6e9d51c4f49ab35496410c2403, type: 2}
   gameData: {fileID: 11400000, guid: 802cdc42bc65ea84ba2f602bace7689c, type: 2}
   coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
-  boardData: {fileID: 11400000, guid: 924ac5d6157efc846a17de0c7aeb0b05, type: 2}
-  strikerData: {fileID: 0}
+  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
+  strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
   player: {fileID: 3804511622267319064}
   networkData: {fileID: -4098720205520104998}
   currentFrameNumber: 0
