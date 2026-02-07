@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace com.VisionXR.Views
     {
         [Header("Scriptable Objects")]
         public PlayersDataSO playerData;
+        public UIOutputDataSO uiOutputData;
         public NetworkOutputSO networkOutputData;
         public DataManager dataManager;
 
@@ -48,10 +50,22 @@ namespace com.VisionXR.Views
             // Note: Changed .name to .text so it actually shows on the UI!
             playerNames[id - 1].text = name;
 
-            if(playerData.NoOfPlayers() == 2 && networkOutputData.isHost)
+
+            if(uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
-                StartButton.SetActive(true);
+                if (playerData.NoOfPlayers() == 2 && networkOutputData.isHost)
+                {
+                    StartButton.SetActive(true);
+                }
             }
+            else
+            {
+                if (playerData.NoOfPlayers() == 4 && networkOutputData.isHost)
+                {
+                    StartButton.SetActive(true);
+                }
+            }
+           
         }
 
         public void SetStatus(int id, string status)

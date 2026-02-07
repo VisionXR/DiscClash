@@ -1,4 +1,5 @@
 using com.VisionXR.GameElements;
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using System.Collections;
@@ -13,13 +14,15 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     public PlayersDataSO playersData;
     public UIInputDataSO uiInputData;
     public InputDataSO inputData;
+    public UIOutputDataSO uiOutputData;
 
     [Header(" States ")]
     public DataManager dataManager;
     public bool isPlayerInGame;
 
     [Header(" UI Panels ")]
-    public WaitingPanel waitingPanel;
+    public WaitingPanel waitingPanel2Player;
+    public WaitingPanel waitingPanel4Player;
 
 
 
@@ -41,9 +44,18 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void PlayerJoined(Player player)
     {
-        waitingPanel.SetName(player.myId, player.myName);
-        waitingPanel.SetStatus(player.myId, "Joined");
-        waitingPanel.SetImage(player.myId, player.GetMyImage());
+        if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+        {
+            waitingPanel2Player.SetName(player.myId, player.myName);
+            waitingPanel2Player.SetStatus(player.myId, "Joined");
+            waitingPanel2Player.SetImage(player.myId, player.GetMyImage());
+        }
+        else
+        {
+            waitingPanel4Player.SetName(player.myId, player.myName);
+            waitingPanel4Player.SetStatus(player.myId, "Joined");
+            waitingPanel4Player.SetImage(player.myId, player.GetMyImage());
+        }
     }
 
     private void PlayerLeft(Player player)
