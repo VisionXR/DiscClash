@@ -58,6 +58,12 @@ namespace com.VisionXR.ModelClasses
 
         // Methods
 
+        void OnEnable()
+        {
+            // Initialize variables if needed
+            isPlaying = false;
+        }
+
         public void SetCoinImages(Sprite white, Sprite black, Sprite Red, Sprite blackAndwhite)
         {
             WhiteCoin = white;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8badc2f093f754ca2c073306f26ff6, type: 3}
   m_Name: UIOutputDataSO
   m_EditorClassIdentifier: 
-  gameType: 0
+  gameType: 1
   game: 0
   multiPlayerGameMode: 0
   singlePlayerGameMode: 0
@@ -21,8 +21,9 @@ MonoBehaviour:
   roomType: 0
   isPlaying: 0
   region: 0
-  MyCoinsId: 0
+  MyCoinsId: 2
   MyBoard: 0
+  NoOfPlayers: 2
   WhiteCoin: {fileID: 21300000, guid: 1024bc9bc22a79c46b08ce8e478d45d8, type: 3}
   BlackCoin: {fileID: 21300000, guid: e539a33eacd2763448b7653c8b497e51, type: 3}
   RedCoin: {fileID: 21300000, guid: db66e92c85ea3354f856c36a8716f129, type: 3}

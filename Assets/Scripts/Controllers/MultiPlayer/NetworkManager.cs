@@ -149,7 +149,6 @@ namespace com.VisionXR.Controllers
         {
             InitializeNetworkRunner();
 
-            Debug.Log(" Joining " + roomName);
 
             var result = await runner.StartGame(new StartGameArgs
             {

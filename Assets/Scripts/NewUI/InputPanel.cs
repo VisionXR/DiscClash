@@ -47,6 +47,8 @@ public class InputPanel : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoi
 
     private void OnDisable()
     {
+        sliderImage.gameObject.SetActive(false);
+
         // Stop the routine to prevent errors when the panel is hidden
         if (_hintCoroutine != null)
         {
