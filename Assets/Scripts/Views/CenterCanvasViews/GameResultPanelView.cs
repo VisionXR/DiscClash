@@ -61,10 +61,6 @@ namespace com.VisionXR.Views
         public TMP_Text player2RedScore;
         public TMP_Text player2TotalScore;
 
-        [Header("Other Details")]
-        public GameObject CenterCanvas;
-
-
 
         public void ShowResult(GameResult result)
         {
@@ -296,7 +292,7 @@ namespace com.VisionXR.Views
             uiOutputData.GoToHome();
 
             gameObject.SetActive(false);
-            CenterCanvas.SetActive(false);
+          
         }
 
         public void OnPlayAgainButtonClicked()
@@ -304,7 +300,7 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();        
             uiOutputData.PlayAgain();   
             gameObject.SetActive(false);
-            CenterCanvas.SetActive(false);
+          
         }
 
     }

@@ -11,7 +11,6 @@ namespace com.VisionXR.Views
         public UIInputDataSO uiInputData;
 
         [Header(" Canvas Objects")]
-        public GameObject CenterCanvas;
         public Destination currentDestination;
         private void OnEnable()
         {
@@ -33,7 +32,6 @@ namespace com.VisionXR.Views
         public void OnNoButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            CenterCanvas.SetActive(false);
             gameObject.SetActive(false);
         }
    

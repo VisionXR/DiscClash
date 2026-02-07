@@ -20,11 +20,6 @@ public class ScorePanel2Player : MonoBehaviour
     public PlayerDetailsView rightPlayer;
     
 
-    [Header(" canvas objects")]
-    public GameObject OtherPlayerDisconnectionPanel;
-    public GameResultPanelView gameResultView;
-
-
 
     private Coroutine turnTimeRoutine = null;
 
@@ -111,12 +106,6 @@ public class ScorePanel2Player : MonoBehaviour
       
     }
 
-    public void ShowOtherPlayerDisconnection()
-    {
-        
-        OtherPlayerDisconnectionPanel.SetActive(true);
-        gameObject.SetActive(false);
-    }
 
     public void ShowPlayerDetails(Player p)
     {

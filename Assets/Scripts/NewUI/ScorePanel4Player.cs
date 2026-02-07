@@ -19,10 +19,6 @@ public class ScorePanel4Player : MonoBehaviour
     public TeamDetailsView teamA;
     public TeamDetailsView teamB;
 
-    [Header(" canvas objects")]
-    public GameObject OtherPlayerDisconnectionPanel;
-
-
 
     private Coroutine turnTimeRoutine = null;
 
@@ -120,25 +116,6 @@ public class ScorePanel4Player : MonoBehaviour
 
     }
 
-    public void ShowOtherPlayerDisconnection()
-    {
-        if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1P2vsP3P4)
-        {
-            
-            OtherPlayerDisconnectionPanel.SetActive(true);
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            if(playerData.CurrentPlayers.Count < 3)
-            {
-                
-                OtherPlayerDisconnectionPanel.SetActive(true);
-                gameObject.SetActive(false);
-            }
-        }
-
-    }
 
     private void ShowGameResult(GameResult result)
     {

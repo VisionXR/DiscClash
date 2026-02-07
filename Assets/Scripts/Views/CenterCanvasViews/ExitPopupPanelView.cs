@@ -8,9 +8,6 @@ namespace com.VisionXR.Views
         [Header(" Scriptable Objects")]
         public UIOutputDataSO uiOutputData;
 
-        [Header(" Canvas Objects")]
-        public GameObject CenterCanvas;
-
         private void OnEnable()
         {
             AudioManager.instance.PlayPopUpSound();
@@ -19,14 +16,13 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             uiOutputData.ExitGame();
-            CenterCanvas.SetActive(false);
+         
             gameObject.SetActive(false);
         }
 
         public void OnNoButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            CenterCanvas.SetActive(false);
             gameObject.SetActive(false);
         }
 

@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     [Header(" Scriptable Objects")]
     public PlayersDataSO playersData;
     public UIInputDataSO uiInputData;
+    public InputDataSO inputData;
 
     [Header(" States ")]
     public DataManager dataManager;
@@ -31,6 +33,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void OnDisable()
     {
+        isPlayerInGame = false;
         playersData.PlayerJoinedEvent -= PlayerJoined;
         playersData.PlayerLeftEvent -= PlayerLeft;
         
@@ -38,7 +41,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void PlayerJoined(Player player)
     {
-        waitingPanel.SetName(player.myId, player.name);
+        waitingPanel.SetName(player.myId, player.myName);
         waitingPanel.SetStatus(player.myId, "Joined");
         waitingPanel.SetImage(player.myId, player.GetMyImage());
     }
@@ -48,6 +51,8 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
         if (isPlayerInGame)
         {
             uiInputData.OtherPlayerLeft();
+            inputData.DeactivateInput();
+            isPlayerInGame = false;
         }
         else
         {
@@ -64,6 +69,16 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     public void StartGame()
     {
         isPlayerInGame = true;
+        StartCoroutine(ShowPlayers());
+    }
+
+    private IEnumerator ShowPlayers()
+    {
+        yield return new WaitForSeconds(1);
+        foreach (Player p in playersData.CurrentPlayers)
+        {
+            uiInputData.ShowPlayerDetails(p);
+        }
     }
 
     public void LaunchInvitePanel()
