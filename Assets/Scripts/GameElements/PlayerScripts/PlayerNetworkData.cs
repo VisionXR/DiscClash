@@ -218,14 +218,15 @@ namespace com.VisionXR.HelperClasses
             }
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_PlayerStrikeForceStarted()
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Unreliable)]
+        public void RPC_PlayerStrikeForceChanged(float val)
         {
             if (!HasStateAuthority)
             {
-                receivePlayerData.PlayerStrikeForceStarted();
+                receivePlayerData.PlayerStrikeForceChanged(val);
             }
         }
+
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
         public void RPC_PlayerStrikeEnded()

@@ -393,6 +393,7 @@ namespace com.VisionXR.Controllers
         private void HandleVictory(GameResult gameResult)
         {
             // Update LeaderBoard
+            uiOutputData.GameCompleted(gameResult);
 
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
@@ -402,6 +403,8 @@ namespace com.VisionXR.Controllers
               
                 winPs1.Play();
                 winPs2.Play();
+
+                CalculatePoints();
             }
             else
             {
@@ -409,11 +412,11 @@ namespace com.VisionXR.Controllers
             }
 
 
-            EndGame(gameResult);
+            EndGame();
         }
 
 
-        public void EndGame(GameResult result)
+        public void EndGame()
         {
             inputData.DeactivateInput();
             coinData.DestroyAllCoins();
@@ -421,9 +424,70 @@ namespace com.VisionXR.Controllers
             {
                 p.myStriker.SetActive(false);
             }
-            uiOutputData.GameCompleted(result);
+         
             connectionDisconnection.EndGame();
         }
+
+        private void CalculatePoints()
+        {
+            Player mainPlayer = playersData.GetMainPlayer();
+            int leaderboardPoints = 0;
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            {
+
+                if (mainPlayer.myId == 1)
+                {
+                    if (gameData.P1Score > gameData.P2Score)
+                    {
+                        leaderboardPoints = gameData.P1Score - gameData.P2Score;
+                    }
+                    else
+                    {
+                        leaderboardPoints = 1;
+                    }
+                }
+                else
+                {
+                    if (gameData.P2Score > gameData.P1Score)
+                    {
+                        leaderboardPoints = gameData.P2Score - gameData.P1Score;
+                    }
+                    else
+                    {
+                        leaderboardPoints = 1;
+                    }
+                }
+            }
+            else
+            {
+                if (mainPlayer.myTeam == Team.TeamA)
+                {
+                    if (gameData.TeamAScore > gameData.TeamBScore)
+                    {
+                        leaderboardPoints = gameData.TeamAScore - gameData.TeamBScore;
+                    }
+                    else
+                    {
+                        leaderboardPoints = 1;
+                    }
+                }
+                else
+                {
+                    if (gameData.TeamBScore > gameData.TeamAScore)
+                    {
+                        leaderboardPoints = gameData.TeamBScore - gameData.TeamAScore;
+                    }
+                    else
+                    {
+                        leaderboardPoints = 1;
+                    }
+                }
+            }
+
+            Debug.Log("Points Earned: " + leaderboardPoints);
+            // Here you can add code to update the player's points in a leaderboard or player profile
+        }
+
 
         private void OnExitGame()   
         {           

@@ -21,6 +21,12 @@ public class GameDataSO : ScriptableObject
     public int P4Whites;
     public int P4Blacks;
     public int P4Red;
+
+
+    public int P1Score;
+    public int P2Score;
+    public int TeamAScore;
+    public int TeamBScore;
     public bool isRedCovered;
     public bool ShouldICoverCoin;
     public int currentTurnId = 1;
@@ -134,5 +140,9 @@ public class GameDataSO : ScriptableObject
         P4Red = 0;
         isRedCovered = false;
         ShouldICoverCoin = false;
+        P1Score = 0;
+        P2Score = 0;
+        TeamAScore = 0;
+        TeamBScore = 0;
     }
 }

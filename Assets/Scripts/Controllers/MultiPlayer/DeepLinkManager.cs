@@ -22,6 +22,19 @@ public class DeepLinkManager : MonoBehaviour
     public Action OnFailedEvent;
     public Action RoomCreateSuccessEvent, RoomJoinSuccessEvent, LobbyJoinSuccessEvent;
     public Action<string> RoomCreateFailedEvent, RoomJoinFailedEvent, LobbyJoinFailedEvent;
+
+
+    private void Awake()
+    {
+        // Subscribe to the event for when the app is already running
+        Application.deepLinkActivated += OnDeepLinkActivated;
+
+        // Check if the app was started via a deep link
+        if (!string.IsNullOrEmpty(Application.absoluteURL))
+        {
+            OnDeepLinkActivated(Application.absoluteURL);
+        }
+    }
     private void OnEnable()
     {
         oculusData.ConnectToDestinationEvent += ConnectToDestination;
@@ -36,6 +49,8 @@ public class DeepLinkManager : MonoBehaviour
         LobbyJoinFailedEvent += LobbyJoinFailed;
 
         networkOutput.RoomListUpdatedEvent += RoomListUpdated;
+
+      
     }
 
     private void OnDisable()
@@ -52,6 +67,14 @@ public class DeepLinkManager : MonoBehaviour
         LobbyJoinFailedEvent -= LobbyJoinFailed;
 
         networkOutput.RoomListUpdatedEvent -= RoomListUpdated;
+    }
+
+    private void OnDeepLinkActivated(string url)
+    {
+        Debug.Log("Disc Clash: Link Received: " + url);
+        // Example URL: discclash://pvp?lobbyId=XYZ
+
+      
     }
 
     private void ConnectToDestination(Destination destination, Action OnConnected, Action OnFailed)

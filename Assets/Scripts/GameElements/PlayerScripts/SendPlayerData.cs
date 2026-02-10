@@ -45,7 +45,7 @@ namespace com.VisionXR.GameElements
             gameData.TurnChangedEvent += OnTurnChanged;
             player.strikeStartedEvent += PlayerStrikeStarted;
             player.strikeEndedEvent += PlayerStrikeEnded;
-            player.strikeForceStartedEvent += PlayerStrikeForceStarted;
+            player.strikeForceChangedEvent += PlayerStrikeForceChanged;
             player.aIMovementEvent += AIMoved;
             player.AllCoinsRotatedEvent += CoinsRotated;
         }
@@ -55,7 +55,7 @@ namespace com.VisionXR.GameElements
             gameData.TurnChangedEvent -= OnTurnChanged;
             player.strikeStartedEvent -= PlayerStrikeStarted;   
             player.strikeEndedEvent -= PlayerStrikeEnded;
-            player.strikeForceStartedEvent -= PlayerStrikeForceStarted;
+            player.strikeForceChangedEvent -= PlayerStrikeForceChanged;
             player.aIMovementEvent -= AIMoved;
             player.AllCoinsRotatedEvent -= CoinsRotated;
             StopAllCoroutines();
@@ -71,9 +71,9 @@ namespace com.VisionXR.GameElements
             networkData.RPC_SendAIData(data);
         }
 
-        private void PlayerStrikeForceStarted()
+        private void PlayerStrikeForceChanged(float val)
         {
-            networkData.RPC_PlayerStrikeForceStarted();
+            networkData.RPC_PlayerStrikeForceChanged(val);
         }
 
 

@@ -43,14 +43,16 @@ namespace com.VisionXR.GameElements
             {
                 player.strikerMovement.ResetStriker(); // Reset the striker
                 player.myStriker.SetActive(true);
+                player.strikerArrow.TurnOnArrow();
 
                 if (player.myPlayerControl == PlayerControl.Local) // local player
                 {
                     boardData.TurnOnHoles();
+                 
                     if (player.myPlayerRole == PlayerRole.Human)
                     {
 
-                        player.strikerArrow.TurnOnArrow();
+                      
                         inputData.ActivateInput();
                         playerInput.enabled = true;
                     }
@@ -64,6 +66,7 @@ namespace com.VisionXR.GameElements
                 }
                 else // Remote player
                 {
+
                     boardData.TurnOffHoles();
                     inputData.DeactivateInput();
                 }

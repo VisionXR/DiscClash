@@ -129,7 +129,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             PlayerProperties p3 = new PlayerProperties();
 
             p3.myId = 3;
-            p3.myOculusID = 3;
+            p3.myOculusID = 3.ToString();
             p3.myName = "AI3";
             p3.myStrikerID = 0;
             p3.imageURL = "";
@@ -168,7 +168,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             PlayerProperties p4 = new PlayerProperties();
 
             p4.myId = 4;
-            p4.myOculusID = 4;
+            p4.myOculusID = 4.ToString();
             p4.myName = "AI4";
             p4.myStrikerID = 0;
             p4.imageURL = "";
@@ -212,7 +212,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             PlayerProperties p2 = new PlayerProperties();
 
             p2.myId = 2;
-            p2.myOculusID = 2;
+            p2.myOculusID = 2.ToString();
             p2.myName = "AI2";
             p2.myStrikerID = 0;
             p2.imageURL = "";
@@ -251,7 +251,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             PlayerProperties p4 = new PlayerProperties();
 
             p4.myId = 4;
-            p4.myOculusID = 4;
+            p4.myOculusID = 4.ToString();
             p4.myName = "AI4";
             p4.myStrikerID = 0;
             p4.imageURL = "";

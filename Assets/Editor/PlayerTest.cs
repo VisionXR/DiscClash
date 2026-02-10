@@ -61,7 +61,7 @@ namespace com.VisionXR.EditorTools
 
                 testPlayerProperties.myId = EditorGUILayout.IntField("My ID", testPlayerProperties.myId);
                 testPlayerProperties.myStrikerID = EditorGUILayout.IntField("Striker ID", testPlayerProperties.myStrikerID);
-                testPlayerProperties.myOculusID = (ulong)EditorGUILayout.LongField("Oculus ID", (long)testPlayerProperties.myOculusID);
+                testPlayerProperties.myOculusID = EditorGUILayout.TextField("Oculus ID", testPlayerProperties.myOculusID);
                 testPlayerProperties.myName = EditorGUILayout.TextField("Name", testPlayerProperties.myName);
                 testPlayerProperties.imageURL = EditorGUILayout.TextField("Image URL", testPlayerProperties.imageURL);
 

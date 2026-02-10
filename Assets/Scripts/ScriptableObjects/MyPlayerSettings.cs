@@ -17,7 +17,7 @@ using UnityEngine;
         public string MyName;
         public Sprite MyProfileImage;
         public string ImageUrl;
-        public ulong MyOculusId;
+        public string MyOculusId;
         public int MyCoins;
         public int MyPoints;
       
@@ -27,7 +27,7 @@ using UnityEngine;
        
 
         // Events
-        public Action<ulong> UserDataReceived;
+        public Action<string> UserDataReceived;
         
         public Action<Sprite> UserProfileImageReceived;
         public Action<List<Friend>> UserFriendsReceived;
@@ -41,7 +41,7 @@ using UnityEngine;
         public Action<int> CoinsChangedEvent;
 
 
-        public void SetUserNameAndId(string userName, ulong Id)
+        public void SetUserNameAndId(string userName, string Id)
         {
             MyName = userName;
             MyOculusId = Id;

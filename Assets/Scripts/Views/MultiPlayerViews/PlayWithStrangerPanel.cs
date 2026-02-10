@@ -22,7 +22,6 @@ namespace com.VisionXR.Views
 
 
         [Header(" Panel Objects ")]
-        public GameObject CenterCanvas;
         public GameObject TwoPlayerWaitingPanel;
         public GameObject FourPlayerWaitingPanel;
         public GameObject PrivatePublicPanel;
@@ -64,7 +63,7 @@ namespace com.VisionXR.Views
         {
             Debug.Log("Connection Success");
 
-            CenterCanvas.SetActive(true);
+           
             if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 TwoPlayerWaitingPanel.SetActive(true);

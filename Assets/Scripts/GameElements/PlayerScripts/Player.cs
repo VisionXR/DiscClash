@@ -39,7 +39,7 @@ namespace com.VisionXR.GameElements
         public int myId;
         public int myAvatarID = 1;
         public int myStrikerID = 1;
-        public ulong myOculusID;  
+        public string myOculusID;  
         private Sprite myImage;
         public string myName;
         public string imageURL;
@@ -56,7 +56,7 @@ namespace com.VisionXR.GameElements
         public Action<GameObject> aICreatedEvent;
         public Action<float,Vector3> strikeStartedEvent;
         public Action strikeEndedEvent;
-        public Action strikeForceStartedEvent;
+        public Action<float> strikeForceChangedEvent;
         public Action<float> AllCoinsRotatedEvent;
 
 
@@ -193,7 +193,7 @@ namespace com.VisionXR.GameElements
             {
                 strikerShoot.StrikeStartedEvent += StrikeStarted;
                 strikerShoot.StrikeFinishedEvent += StrikeFinished;
-                
+                strikerShoot.StrikeForceChangedEvent += StrikeForceChanged;
             }
         }
 
@@ -203,7 +203,7 @@ namespace com.VisionXR.GameElements
             {
                 strikerShoot.StrikeStartedEvent -= StrikeStarted;
                 strikerShoot.StrikeFinishedEvent -= StrikeFinished;
-                
+                strikerShoot.StrikeForceChangedEvent -= StrikeForceChanged;
             }
         }
 
@@ -223,11 +223,11 @@ namespace com.VisionXR.GameElements
             }
         }
 
-        private void StrikeForceStarted()
-        {
-            strikeForceStartedEvent?.Invoke();
-        }
 
+        public void StrikeForceChanged(float newForce)
+        {
+            strikeForceChangedEvent?.Invoke(newForce);
+        }
 
         public void StrikeStarted(float a, Vector3 dir)
         {

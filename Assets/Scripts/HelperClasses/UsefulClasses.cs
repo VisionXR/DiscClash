@@ -231,7 +231,7 @@ namespace com.VisionXR.HelperClasses
     {
         public int myId;
         public int myStrikerID = 1;
-        public ulong myOculusID;
+        public string myOculusID;
         public string imageURL;
         public string myName;
 

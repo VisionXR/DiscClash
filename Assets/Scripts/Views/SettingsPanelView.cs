@@ -19,16 +19,11 @@ namespace com.VisionXR.Views
         [SerializeField] private GameObject MainPanel;
         [SerializeField] private GameObject HomePanel;
 
-        [Space(5)]
-        [Header("Selection Images")]
-        [SerializeField] private Image LeftHandSelectedImage;
-        [SerializeField] private Image RightHandSelectedImage;
 
         [Space(5)]
         [Header("Local Variables")]
         [SerializeField] private Image profileImage;
         [SerializeField] private Slider musicSlider;
-        [SerializeField] private Slider passThroughSlider;
         [SerializeField] private TMP_InputField playerNameIf;
         
 
@@ -43,16 +38,8 @@ namespace com.VisionXR.Views
             ProfilePanel.SetActive(true);
             ResetImages();
             playerNameIf.text = myPlayerSettings.MyName;
-            ResetHandImages();
 
-        }
 
-        private void ResetHandImages()
-        {
-            RightHandSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
-            RightHandSelectedImage.color = AppProperties.instance.IdleColor;
-            LeftHandSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
-            LeftHandSelectedImage.color = AppProperties.instance.IdleColor;
         }
 
         public void OnEquipmentButtonClicked()

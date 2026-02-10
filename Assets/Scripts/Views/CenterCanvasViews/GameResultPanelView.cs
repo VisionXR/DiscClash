@@ -146,6 +146,8 @@ namespace com.VisionXR.Views
                     player1RedScore.text = (gameData.P1Red * 3).ToString();
                     player1TotalScore.text = (gameData.P1Whites + gameData.P2Whites + gameData.P1Red * 3).ToString();
 
+                    gameData.P1Score = gameData.P1Whites + gameData.P2Whites + gameData.P1Red * 3;
+
                 }
                 else
                 {
@@ -156,6 +158,8 @@ namespace com.VisionXR.Views
                     player1Score.text = (gameData.P1Blacks + gameData.P2Blacks).ToString();
                     player1TotalScore.text = (gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3).ToString();
                     player1RedScore.text = (gameData.P1Red * 3).ToString();
+
+                    gameData.P1Score = gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3;
                 }
             }
 
@@ -169,6 +173,8 @@ namespace com.VisionXR.Views
                     player2Score.text = (gameData.P1Whites + gameData.P2Whites).ToString();
                     player2RedScore.text = (gameData.P2Red * 3).ToString();
                     player2TotalScore.text = (gameData.P1Whites + gameData.P2Whites + gameData.P2Red * 3).ToString();
+
+                    gameData.P2Score = gameData.P1Whites + gameData.P2Whites + gameData.P2Red * 3;
                 }
                 else
                 {
@@ -176,6 +182,8 @@ namespace com.VisionXR.Views
                     player2Score.text = (gameData.P1Blacks + gameData.P2Blacks).ToString();
                     player2RedScore.text = (gameData.P2Red * 3).ToString();
                     player2TotalScore.text = (gameData.P1Blacks + gameData.P2Blacks + gameData.P2Red * 3).ToString();
+
+                    gameData.P2Score = gameData.P1Blacks + gameData.P2Blacks + gameData.P2Red * 3;
                 }
             }
 
@@ -192,6 +200,8 @@ namespace com.VisionXR.Views
                 player1Score.text = (gameData.P1Whites + gameData.P1Blacks).ToString();
                 player1RedScore.text = (gameData.P1Red * 3).ToString();
                 player1TotalScore.text = (gameData.P1Whites + gameData.P1Blacks + gameData.P1Red * 3).ToString();
+
+                gameData.P1Score = gameData.P1Whites + gameData.P1Blacks + gameData.P1Red * 3;
             }
 
 
@@ -204,6 +214,8 @@ namespace com.VisionXR.Views
                 player2Score.text = (gameData.P2Whites + gameData.P2Blacks).ToString();
                 player2RedScore.text = (gameData.P2Red * 3).ToString();
                 player2TotalScore.text = (gameData.P2Whites + gameData.P2Blacks + gameData.P2Red * 3).ToString();
+
+                gameData.P2Score = gameData.P2Whites + gameData.P2Blacks + gameData.P2Red * 3;
             }
 
 
@@ -230,6 +242,7 @@ namespace com.VisionXR.Views
                 TeamAScore.text = (gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites).ToString();
                 TeamARedScore.text = (gameData.P1Red * 3 + gameData.P2Red * 3).ToString();
                 TeamATotalScore.text = (gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites + gameData.P1Red * 3 + gameData.P2Red * 3).ToString();
+                gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites + gameData.P1Red * 3 + gameData.P2Red * 3);
 
             }
 
@@ -240,6 +253,7 @@ namespace com.VisionXR.Views
                 TeamBScore.text = (gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks).ToString();
                 TeamBRedScore.text = (gameData.P3Red * 3 + gameData.P4Red * 3).ToString();
                 TeamBTotalScore.text = (gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3).ToString();
+                gameData.TeamBScore = (gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
 
             }
          
@@ -266,6 +280,7 @@ namespace com.VisionXR.Views
                 TeamAScore.text = (gameData.P1Whites + gameData.P2Whites + gameData.P1Blacks + gameData.P2Blacks).ToString();
                 TeamARedScore.text = (gameData.P1Red * 3 + gameData.P2Red * 3).ToString();
                 TeamATotalScore.text = (gameData.P1Whites + gameData.P2Whites + gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3 + gameData.P2Red * 3).ToString();
+                gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3 + gameData.P2Red * 3);
             }
 
             if (p3 != null && p4 != null)
@@ -275,6 +290,7 @@ namespace com.VisionXR.Views
                 TeamBScore.text = (gameData.P3Whites + gameData.P4Whites + gameData.P3Blacks + gameData.P4Blacks).ToString();
                 TeamBRedScore.text = (gameData.P3Red * 3 + gameData.P4Red * 3).ToString();
                 TeamBTotalScore.text = (gameData.P3Whites + gameData.P4Whites + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3).ToString();
+                gameData.TeamBScore = (gameData.P3Whites + gameData.P4Whites + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
 
             }
           

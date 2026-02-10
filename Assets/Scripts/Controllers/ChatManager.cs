@@ -36,12 +36,12 @@ namespace com.VisionXR.Controllers
             playerSettings.UserDataReceived -= ConnectToPhotonChat;          
         }
 
-        private void ConnectToPhotonChat(ulong id)
+        private void ConnectToPhotonChat(string id)
         {
 
             Debug.Log(" Connecting to chat");
 
-            chatUserName = id.ToString();
+            chatUserName = id;
 
             chatClient = new ChatClient(this);
 

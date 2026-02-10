@@ -16,7 +16,6 @@ namespace com.VisionXR.ModelClasses
         public AIDifficulty aIDifficulty;
         public PlayerCoin playerCoin;
         public RoomType roomType;
-        public bool isPlaying = false;
         public ServerRegion region;
         public int MyCoinsId = 0;
         public int MyBoard = 0;
@@ -60,8 +59,7 @@ namespace com.VisionXR.ModelClasses
 
         void OnEnable()
         {
-            // Initialize variables if needed
-            isPlaying = false;
+           
         }
 
         public void SetCoinImages(Sprite white, Sprite black, Sprite Red, Sprite blackAndwhite)
@@ -195,12 +193,6 @@ namespace com.VisionXR.ModelClasses
         {
             TurnOffSpeakerEvent?.Invoke();
         }
-
-        public void SetIsPlaying(bool val)
-        {
-            isPlaying = val;
-        }
-
     
     }
 }

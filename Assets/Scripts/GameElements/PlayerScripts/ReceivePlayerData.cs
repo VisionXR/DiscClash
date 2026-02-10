@@ -61,9 +61,9 @@ public class ReceivePlayerData : MonoBehaviour
         playerData.PlayerStrikeStartedEvent?.Invoke(gameData.currentTurnId, 1);
     }
 
-    public void PlayerStrikeForceStarted()
+    public void PlayerStrikeForceChanged(float val)
     {
-        
+        player.strikerShoot.SetStrikerArrow(val);
     }
 
     public void PlayerStrikeEnded()

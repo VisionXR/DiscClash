@@ -93,6 +93,40 @@ namespace com.VisionXR.Views
     
         }
 
+        public void InviteBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+
+            // 2. Prepare the invite data
+            // Example: discclash://1v1/Classic/India/Room_123
+            string gameMode = "1v1";
+            string gameType = "Classic";
+            string region = "India";
+            string roomName = "Room_" + Random.Range(100, 999); // Use real room ID here
+
+        //    string inviteLink = $"discclash://{gameMode}/{gameType}/{region}/{roomName}";
+            string inviteLink = "https://www.visionxr.co.in/";
+            string shareMessage = "Hey! Join me for a game of Disc Clash (Carrom). Tap the link to play: " + inviteLink;
+
+            // 3. Trigger the Native Share Popup
+            new NativeShare()
+                .SetText(shareMessage)
+                .SetSubject("Disc Clash Invite") // Used for Email/SMS subjects
+                .SetCallback((result, shareTarget) =>
+                {
+                    Debug.Log($"Disc Clash: Share result: {result}, selected app: {shareTarget}");
+
+                    if (result == NativeShare.ShareResult.Shared)
+                    {
+                        // You could reward the player with 10 coins here!
+                        Debug.Log("Player successfully shared the invite!");
+                    }
+                })
+                .Share();
+        
+
+        }
+
         private void StartConnectingAnimation(int id)
         {
             // Safety: Stop existing one if called twice

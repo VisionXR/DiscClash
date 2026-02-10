@@ -18,12 +18,16 @@ namespace com.VisionXR.Views
         public OculusDataSO oculusData;
 
 
-        [Header(" Panel Objects ")]
-        public GameObject TwoPlayerPanel;
-        public GameObject FourPlayerPanel;
-        public GameObject PrivatePublicPanel;
+        [Header(" UI Objects ")]  
         public Image BlockerImage;
         public TMP_Text roomName;
+
+
+        [Header(" Panel Objects ")]
+        public GameObject TwoPlayerWaitingPanel;
+        public GameObject FourPlayerWaitingPanel;
+        public GameObject PrivatePublicPanel;
+
 
 
         [Space(5)]
@@ -64,11 +68,11 @@ namespace com.VisionXR.Views
         {
             if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
-                TwoPlayerPanel.SetActive(true);
+                TwoPlayerWaitingPanel.SetActive(true);
             }
             else
             {
-                FourPlayerPanel.SetActive(true);
+                FourPlayerWaitingPanel.SetActive(true);
             }
 
             BlockerImage.gameObject.SetActive(false);

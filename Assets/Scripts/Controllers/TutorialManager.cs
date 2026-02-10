@@ -48,14 +48,14 @@ namespace com.VisionXR.Controllers
         private void OnEnable()
         {
             uiOutputData.ExitGameEvent += SkipButtonClicked;
-            uiOutputData.SetIsPlaying(true);
+         
        
         }
 
         private void OnDisable()
         {
             uiOutputData.ExitGameEvent -= SkipButtonClicked;
-            uiOutputData.SetIsPlaying(false);
+          
         }
 
         public void StartFTUE(Destination d)
