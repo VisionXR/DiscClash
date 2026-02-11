@@ -1,4 +1,3 @@
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -10,19 +9,16 @@ using PlayFab.ClientModels;
 
 public class AuthManager : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
     public MyPlayerSettings playerSettings;
 
-    private void Start()
+    public void Login()
     {
-        
-
-  
-
         if (!Application.isEditor)
         {
             Debug.Log("Trying to login!");
             PlayGamesPlatform.Activate();
-            Login();
+            PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
         }
         else
         {
@@ -31,16 +27,11 @@ public class AuthManager : MonoBehaviour
         }
     }
 
-    public void Login()
-    {
-        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
-    }
-
     internal void ProcessAuthentication(SignInStatus status)
     {
         if (status == SignInStatus.Success)
         {
-            Debug.Log("Disc Clash: Google Login Successful! Proceeding to PlayFab...");
+            Debug.Log("Disc Clash: Google Login Successful!");
 
             // 1. First, set local UI data (Name and Image)
             string name = Social.localUser.userName;
@@ -54,6 +45,9 @@ public class AuthManager : MonoBehaviour
         else
         {
             Debug.LogError("Disc Clash: Google Login Failed: " + status);
+
+            // Simplified Editor Mock
+            playerSettings.SetUserNameAndId("TejaBhai", "12345");
         }
     }
 

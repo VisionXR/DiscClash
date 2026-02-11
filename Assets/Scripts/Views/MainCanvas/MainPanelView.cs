@@ -18,7 +18,8 @@ namespace com.VisionXR.Views
 
         [Header(" Panels ")]
         public GameObject SinglePlayerPanel;
-        public GameObject PrivatePublicPanel;
+        public GameObject PlayWithFriendsPanel;
+        public GameObject PlayWithStrangersPanel;
         public GameObject InternetToast;
         public GameObject MainSettingsPanel;
 
@@ -36,7 +37,7 @@ namespace com.VisionXR.Views
             gameObject.SetActive(false);
         }
 
-        public void OnMultiPlayerClicked()
+        public void OnOnlineMultiPlayerClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             if(Application.internetReachability == NetworkReachability.NotReachable)
@@ -45,8 +46,26 @@ namespace com.VisionXR.Views
                 return;
             }
 
-            uiOutputData.SetGameType(GameType.MultiPlayer);
-            PrivatePublicPanel.SetActive(true);
+            uiOutputData.SetGameType(GameType.OnlineMultiPlayer);
+            uiOutputData.SetRoomType(RoomType.Public);
+            PlayWithStrangersPanel.SetActive(true);
+            MainSettingsPanel.SetActive(false);
+            gameObject.SetActive(false);
+        }
+
+        public void OnPlayWithFriendsClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                DisplayToast();
+                return;
+            }
+
+            uiOutputData.SetGameType(GameType.PlayWithFriends);
+            uiOutputData.SetRoomType(RoomType.Private);
+
+            PlayWithFriendsPanel.SetActive(true);
             MainSettingsPanel.SetActive(false);
             gameObject.SetActive(false);
         }

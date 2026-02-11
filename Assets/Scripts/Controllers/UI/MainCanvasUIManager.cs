@@ -11,7 +11,6 @@ public class MainCanvasUIManager : MonoBehaviour
     public UIInputDataSO uiInputData;
     
 
-
     [Header(" Main Panel Objects")]
     public GameObject TwoPlayerPanel;
     public GameObject FourPlayerPanel;

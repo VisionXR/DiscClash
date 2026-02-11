@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
-using TMPro;
-using System.Collections;
-using System;
+
 
 namespace com.VisionXR.Views
 {
@@ -15,18 +13,13 @@ namespace com.VisionXR.Views
         [Header(" Scriptable Objects ")]
         public MyPlayerSettings playerSettings;
         public UIOutputDataSO uiOutputData;
-        public DestinationDataSO destinationData;
-
-
-        [Header(" UI Objects ")]  
-        public Image BlockerImage;
-        public TMP_Text roomName;
+        public UIInputDataSO uiInputData;
+        
 
 
         [Header(" Panel Objects ")]
-        public GameObject TwoPlayerWaitingPanel;
-        public GameObject FourPlayerWaitingPanel;
-        public GameObject PrivatePublicPanel;
+        public GameObject MainPanel;
+        public GameObject MainSettingsPanel;
 
 
 
@@ -43,54 +36,17 @@ namespace com.VisionXR.Views
         [SerializeField] private Image BlackAndWhiteSelectedImage;
         [SerializeField] private Image FreeStyleSelectedImage;
 
-        // local variables
-
-        private Coroutine roomStatusRoutine;
-        private Action OnConnectionSuccessEvent, OnConnectionFailEvent;
+      
 
         private void OnEnable()
         {
             ResetButtons();
             Initialize();
 
-            OnConnectionSuccessEvent += OnConnectionSuccess;
-            OnConnectionFailEvent += OnConnectionFail;
-
-        }
-        private void OnDisable()
-        {
-            OnConnectionSuccessEvent -= OnConnectionSuccess;
-            OnConnectionFailEvent -= OnConnectionFail;
-
         }
 
-        private void OnConnectionSuccess()
-        {
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
-            {
-                TwoPlayerWaitingPanel.SetActive(true);
-            }
-            else
-            {
-                FourPlayerWaitingPanel.SetActive(true);
-            }
-
-            BlockerImage.gameObject.SetActive(false);
-            gameObject.SetActive(false);
-
-            StopAllCoroutines();
-        }
-
-        private void OnConnectionFail()
-        {
-            BlockerImage.gameObject.SetActive(false);
-            StopAllCoroutines();
-        }
         private void Initialize()
         {
-
-            roomName.text = "";
-            BlockerImage.gameObject.SetActive(false);
 
             // Game mode selection
             if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
@@ -153,34 +109,19 @@ namespace com.VisionXR.Views
             uiOutputData.SetMyCoinsId(playerSettings.MyCoinsId);
             Destination d = new Destination();
             d.multiPlayerGameMode = uiOutputData.multiPlayerGameMode;
-            d.gameType = GameType.MultiPlayer;
+            d.gameType = GameType.PlayWithFriends;
             d.game = uiOutputData.game;
             d.region = playerSettings.serverRegion;
             d.isJoinable = true;
-            d.roomName = "NA";
-            BlockerImage.gameObject.SetActive(true);
-            destinationData.ConnectToDestination(d, OnConnectionSuccessEvent, OnConnectionFailEvent);
-            StartCoroutine(ConnectingToRoom());
+            d.roomName = "";
+
+            uiInputData.ShowDestination(d);
+            gameObject.SetActive(false);
+
         }
 
 
-        private IEnumerator ConnectingToRoom()
-        {
-            while (true)
-            {
-                roomName.text = "Connecting.";
-                yield return new WaitForSeconds(0.5f);
-                roomName.text = "Connecting..";
-                yield return new WaitForSeconds(0.5f);
-                roomName.text = "Connecting...";
-                yield return new WaitForSeconds(0.5f);
-                roomName.text = "Connecting....";
-                yield return new WaitForSeconds(0.5f);
-                roomName.text = "Connecting.....";
-                yield return new WaitForSeconds(0.5f);
-                roomName.text = "Connecting......";
-            }
-        }
+
 
         public void P1VsP2ButtonClicked()
         {
@@ -289,7 +230,8 @@ namespace com.VisionXR.Views
         public void OnBackButtonClicked()
         {          
             AudioManager.instance.PlayButtonClickSound();
-            PrivatePublicPanel.SetActive(true);
+            MainPanel.SetActive(true);
+            MainSettingsPanel.SetActive(true);
             gameObject.SetActive(false);
            
         }

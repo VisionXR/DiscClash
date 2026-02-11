@@ -137,10 +137,10 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class PlayerData
     {
-        public DominantHand dominantHand;
+        
         public int StrikerId;
         public int BoardId;
-        public bool isPassThroughOn;
+        public int CoinsId;
         public ServerRegion region;
 
     }

@@ -58,7 +58,7 @@ namespace com.VisionXR.Controllers
                 {
                     PlayerProperties p1 = new PlayerProperties();
                     p1.myId = 1;
-                    p1.myOculusID = playerSettings.MyOculusId ;
+                    p1.myOculusID = playerSettings.MyId ;
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
                   
@@ -71,7 +71,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p2 = new PlayerProperties();
                     p2.myId = 2;
-                    p2.myOculusID = playerSettings.MyOculusId;
+                    p2.myOculusID = playerSettings.MyId;
                     p2.myName = "AI2";
                     p2.myStrikerID = 0;
               
@@ -90,7 +90,7 @@ namespace com.VisionXR.Controllers
                 {
                     PlayerProperties p1 = new PlayerProperties();
                     p1.myId = 1;
-                    p1.myOculusID = playerSettings.MyOculusId;
+                    p1.myOculusID = playerSettings.MyId;
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
              
@@ -103,7 +103,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p2 = new PlayerProperties();
                     p2.myId = 2;
-                    p2.myOculusID = playerSettings.MyOculusId;
+                    p2.myOculusID = playerSettings.MyId;
                     p2.myName = "AI2";
                     p2.myStrikerID = 0;
                   
@@ -124,7 +124,7 @@ namespace com.VisionXR.Controllers
                 {
                     PlayerProperties p1 = new PlayerProperties();
                     p1.myId = 1;
-                    p1.myOculusID = playerSettings.MyOculusId;
+                    p1.myOculusID = playerSettings.MyId;
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
 
@@ -136,7 +136,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p2 = new PlayerProperties();
                     p2.myId = 2;
-                    p2.myOculusID = playerSettings.MyOculusId;
+                    p2.myOculusID = playerSettings.MyId;
                     p2.myName = "AI2";
                     p2.myStrikerID = 0;
 
@@ -148,7 +148,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p3 = new PlayerProperties();
                     p3.myId = 3;
-                    p3.myOculusID = playerSettings.MyOculusId;
+                    p3.myOculusID = playerSettings.MyId;
                     p3.myName = "AI3";
                     p3.myStrikerID = 0;
                  
@@ -161,7 +161,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p4 = new PlayerProperties();
                     p4.myId = 4;
-                    p4.myOculusID = playerSettings.MyOculusId;
+                    p4.myOculusID = playerSettings.MyId;
                     p4.myName = "AI4";
                     p4.myStrikerID = 0;
 
@@ -181,7 +181,7 @@ namespace com.VisionXR.Controllers
                 {
                     PlayerProperties p1 = new PlayerProperties();
                     p1.myId = 1;
-                    p1.myOculusID = playerSettings.MyOculusId;
+                    p1.myOculusID = playerSettings.MyId;
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
           
@@ -194,7 +194,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p2 = new PlayerProperties();
                     p2.myId = 2;
-                    p2.myOculusID = playerSettings.MyOculusId;
+                    p2.myOculusID = playerSettings.MyId;
                     p2.myName = "AI2";
                     p2.myStrikerID = 0;
 
@@ -206,7 +206,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p3 = new PlayerProperties();
                     p3.myId = 3;
-                    p3.myOculusID = playerSettings.MyOculusId;
+                    p3.myOculusID = playerSettings.MyId;
                     p3.myName = "AI3";
                     p3.myStrikerID = 0;
 
@@ -218,7 +218,7 @@ namespace com.VisionXR.Controllers
 
                     PlayerProperties p4 = new PlayerProperties();
                     p4.myId = 4;
-                    p4.myOculusID = playerSettings.MyOculusId;
+                    p4.myOculusID = playerSettings.MyId;
                     p4.myName = "AI4";
                     p4.myStrikerID = 0;
 

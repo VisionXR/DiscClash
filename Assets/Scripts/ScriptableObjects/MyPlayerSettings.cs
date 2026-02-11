@@ -12,17 +12,13 @@ using UnityEngine;
         public int MyStrikerId;
         public int MyBoard;
         public int MyCoinsId;
-        public int MyArena;
         public int MyAvatar;
         public string MyName;
         public Sprite MyProfileImage;
         public string ImageUrl;
-        public string MyOculusId;
+        public string MyId;
         public int MyCoins;
         public int MyPoints;
-      
-      
-        public List<Friend> MyFriends = new List<Friend>();
         public ServerRegion serverRegion;
        
 
@@ -44,8 +40,8 @@ using UnityEngine;
         public void SetUserNameAndId(string userName, string Id)
         {
             MyName = userName;
-            MyOculusId = Id;
-            UserDataReceived?.Invoke(MyOculusId);
+            MyId = Id;
+            UserDataReceived?.Invoke(MyId);
         }
 
         public void SetMyName(string Name)

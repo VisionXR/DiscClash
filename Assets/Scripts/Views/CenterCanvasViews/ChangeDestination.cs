@@ -14,11 +14,16 @@ namespace com.VisionXR.Views
         public UIInputDataSO uiInputData;
 
         [Header("UI Elements")]
-        public GameObject ScorePanel2Players;
-        public GameObject ScorePanel4Players;
         public TMP_Text statusText;
         public GameObject RetryButton;
         public GameObject HomeButton;
+
+        [Header("Panel Objects")]
+        public GameObject ScorePanel2Players;
+        public GameObject ScorePanel4Players;
+        public GameObject waitingPanel2Players;
+        public GameObject waitingPanel4Players;
+      
 
         // Events
         public Action DestinationSuccessEvent;
@@ -104,17 +109,17 @@ namespace com.VisionXR.Views
                     ScorePanel4Players.SetActive(true);
                 }
             }
-            else if (currentDestination.gameType == GameType.MultiPlayer)
+            else if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
             {
                 if (currentDestination.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
                 {
-                    ScorePanel2Players.SetActive(true);
+                    waitingPanel2Players.SetActive(true);
 
                 }
                 else
                 {
 
-                    ScorePanel4Players.SetActive(true);
+                    waitingPanel4Players.SetActive(true);
                 }
             }
 

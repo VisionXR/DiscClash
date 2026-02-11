@@ -1,7 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
-using System.Collections;
 using System.IO;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace com.VisionXR.Controller
         public BoardDataSO boardData;
 
         [Header(" Local Objects")]
-        public string Key = "RealCarromData";
+        public string Key = "DiscClash";
         public PlayerData data;
 
 
@@ -36,11 +35,9 @@ namespace com.VisionXR.Controller
         
             newPlayerData.BoardId = playerSettings.MyBoard;
             newPlayerData.StrikerId = playerSettings.MyStrikerId;
+            newPlayerData.CoinsId = playerSettings.MyCoins;
             newPlayerData.region = playerSettings.serverRegion;
           
-
-
-            //  PlayerPrefs.SetString(Key,JsonUtility.ToJson(newPlayerData));
             SaveData(Key, JsonUtility.ToJson(newPlayerData));
         }
 
@@ -48,7 +45,7 @@ namespace com.VisionXR.Controller
         {
             string playerData = LoadData(Key);
 
-            if(playerData != "")
+            if(!string.IsNullOrEmpty(playerData))
             {
               
                 try
@@ -57,6 +54,7 @@ namespace com.VisionXR.Controller
                   
                     playerSettings.SetBoard(data.BoardId);
                     playerSettings.SetStriker(data.StrikerId);
+                    playerSettings.SetCoins(data.CoinsId);
                     playerSettings.SetServerRegion(data.region);
                  
                 }
@@ -66,25 +64,7 @@ namespace com.VisionXR.Controller
                 }
             }
 
-            if(PlayerPrefs.HasKey(Key))
-            {
-                
-                string playerDataString = PlayerPrefs.GetString(Key);
-                try
-                {
-                    data = JsonUtility.FromJson<PlayerData>(playerDataString);
-               
-                    playerSettings.SetBoard(data.BoardId);
-                    playerSettings.SetStriker(data.StrikerId);
-                    playerSettings.SetServerRegion(data.region);
-                  
-                }
-                catch(Exception e)
-                {
-                    Debug.Log(" Something wrong with loading data");
-                }
-              
-            }
+          
 
         }
 
@@ -93,9 +73,6 @@ namespace com.VisionXR.Controller
             // 1. Define the full path
             // Path.Combine handles the slashes (/) correctly for Windows, Mac, iOS, or Android
             string path = Path.Combine(Application.persistentDataPath, fileName + ".txt");
-
-            // 2. Convert your data object to a JSON string
-
 
             // 3. Write the string to the file
             File.WriteAllText(path, data);

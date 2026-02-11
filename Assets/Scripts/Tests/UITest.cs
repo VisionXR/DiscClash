@@ -25,7 +25,7 @@ public class UITest : MonoBehaviour
     {
         if(Input.GetKeyDown(multiPlayerBtn))
         {
-            mainPanelView.OnMultiPlayerClicked();
+            mainPanelView.OnOnlineMultiPlayerClicked();
         }
 
         else if(Input.GetKeyDown(playWithFriendsBtn))

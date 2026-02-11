@@ -80,7 +80,7 @@ namespace com.VisionXR.Views
                     SetFourPlayerData(result);
                 }
             }
-            else if(uiOutputData.gameType == GameType.MultiPlayer)
+            else if((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
             {
                 if(uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
                 {

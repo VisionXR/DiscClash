@@ -124,7 +124,7 @@ namespace com.VisionXR.Controllers
                     GameMode = gameMode,
                     SessionProperties = customRoomProps,
                     IsVisible = isRoomOpen,
-                    AuthValues = new AuthenticationValues(playerSettings.MyOculusId.ToString()),
+                    AuthValues = new AuthenticationValues(playerSettings.MyId.ToString()),
                     CustomLobbyName = networkOutputData.CommonLobby,
                     PlayerCount = uiOutputData.NoOfPlayers,
                     SessionName = roomName

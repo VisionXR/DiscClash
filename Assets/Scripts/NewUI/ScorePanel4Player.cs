@@ -202,7 +202,7 @@ public class ScorePanel4Player : MonoBehaviour
                 }
             }
         }
-        else if (uiOutputData.gameType == GameType.MultiPlayer)
+        else if ((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
         {
             if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1vsP2)
             {
@@ -266,7 +266,7 @@ public class ScorePanel4Player : MonoBehaviour
         SetTurnIndicator(id);
 
 
-        if (uiOutputData.gameType == GameType.MultiPlayer)
+        if (uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends)
         {
             if (turnTimeRoutine == null)
             {

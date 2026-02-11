@@ -2,7 +2,6 @@ using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
 using System;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class DeepLinkManager : MonoBehaviour
 {
@@ -18,10 +17,10 @@ public class DeepLinkManager : MonoBehaviour
 
     // Action
     public Destination currentDestination;
-    public Action OnConnectedEvent;
-    public Action OnFailedEvent;
-    public Action RoomCreateSuccessEvent, RoomJoinSuccessEvent, LobbyJoinSuccessEvent;
-    public Action<string> RoomCreateFailedEvent, RoomJoinFailedEvent, LobbyJoinFailedEvent;
+    public Action OnDestinationSuccesEvent;
+    public Action OnDestinationFailEvent;
+    public Action RoomCreateSuccessEvent, RoomJoinSuccessEvent;
+    public Action<string> RoomCreateFailedEvent, RoomJoinFailedEvent;
 
 
     private void Awake()
@@ -34,6 +33,10 @@ public class DeepLinkManager : MonoBehaviour
         {
             OnDeepLinkActivated(Application.absoluteURL);
         }
+        else
+        {
+            Debug.Log("Disc Clash: No deep link detected on startup.");
+        }
     }
     private void OnEnable()
     {
@@ -44,12 +47,6 @@ public class DeepLinkManager : MonoBehaviour
 
         RoomJoinSuccessEvent += RoomJoinSuccess;
         RoomJoinFailedEvent += RoomJoinFailed;
-
-        LobbyJoinSuccessEvent += LobbyJoinSuccess;
-        LobbyJoinFailedEvent += LobbyJoinFailed;
-
-        networkOutput.RoomListUpdatedEvent += RoomListUpdated;
-
       
     }
 
@@ -63,10 +60,6 @@ public class DeepLinkManager : MonoBehaviour
         RoomJoinSuccessEvent -= RoomJoinSuccess;
         RoomJoinFailedEvent -= RoomJoinFailed;
 
-        LobbyJoinSuccessEvent -= LobbyJoinSuccess;
-        LobbyJoinFailedEvent -= LobbyJoinFailed;
-
-        networkOutput.RoomListUpdatedEvent -= RoomListUpdated;
     }
 
     private void OnDeepLinkActivated(string url)
@@ -83,8 +76,8 @@ public class DeepLinkManager : MonoBehaviour
         uiOutputData.gameType = destination.gameType;
    
 
-        this.OnConnectedEvent = OnConnected;
-        this.OnFailedEvent = OnFailed;
+        OnDestinationSuccesEvent = OnConnected;
+        OnDestinationFailEvent = OnFailed;
 
         if(destination.gameType == GameType.SinglePlayer)
         {
@@ -92,19 +85,20 @@ public class DeepLinkManager : MonoBehaviour
             uiOutputData.singlePlayerGameMode = destination.singlePlayerGameMode;
            
 
-            OnConnectedEvent?.Invoke();
+            OnDestinationSuccesEvent?.Invoke();
             uiInputData.StartSinglePlayerGame();
            
             
         }
-        else if (destination.gameType == GameType.MultiPlayer)
+        else if ((destination.gameType == GameType.OnlineMultiPlayer|| destination.gameType == GameType.PlayWithFriends))
         {
             uiOutputData.game = destination.game;
             uiOutputData.multiPlayerGameMode = destination.multiPlayerGameMode;
         
-            if(destination.roomName == "NA")
+            if(destination.roomName == "")
             {
-                JoinLobby();
+                string roomName = playerSettings.MyId.ToString();
+                networkInput.CreateRoom(playerSettings.serverRegion, roomName, RoomCreateSuccessEvent, RoomCreateFailedEvent);
             }
             else
             {
@@ -113,25 +107,11 @@ public class DeepLinkManager : MonoBehaviour
         }
         else if (destination.gameType == GameType.Tutorial)
         {
-            OnConnectedEvent?.Invoke();
+            OnDestinationSuccesEvent?.Invoke();
             uiInputData.StartTutorial();
         
         }
 
-    }
-
-
-    public void JoinLobby()
-    {
-        string lobbyName = Enum.GetName(typeof(MultiPlayerGameMode), uiOutputData.multiPlayerGameMode) + Enum.GetName(typeof(Game), uiOutputData.game);
-        networkOutput.CommonLobby = lobbyName;
-        networkInput.JoinLobby(playerSettings.serverRegion, lobbyName, LobbyJoinSuccessEvent, LobbyJoinFailedEvent);
-    }
-
-    public void CreateRoom()
-    {
-        string roomName = playerSettings.MyOculusId.ToString();
-        networkInput.CreateRoom(playerSettings.serverRegion, roomName, RoomCreateSuccessEvent, RoomCreateFailedEvent);
     }
 
     private void RoomCreateSuccess()
@@ -141,18 +121,15 @@ public class DeepLinkManager : MonoBehaviour
         currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
         currentDestination.region = playerSettings.serverRegion;
 
-
-
         uiInputData.StartMultiPlayerGame();
         currentDestination.isJoinable = true;
-    
-
-        OnConnectedEvent?.Invoke();
+   
+        OnDestinationSuccesEvent?.Invoke();
     }
     private void RoomCreateFailed(string reason)
     {
-       
-        OnFailedEvent?.Invoke();
+
+        OnDestinationFailEvent?.Invoke();
         
     }
     public void RoomJoinSuccess()
@@ -162,47 +139,16 @@ public class DeepLinkManager : MonoBehaviour
         currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
         currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
 
-
-
         uiInputData.StartMultiPlayerGame();
-     
-
         currentDestination.isJoinable = false;
-      
-
-        OnConnectedEvent?.Invoke();
+        OnDestinationSuccesEvent?.Invoke();
 
     }
 
     public void RoomJoinFailed(string reason)
-    {
-       
-        OnFailedEvent?.Invoke();
-     
+    {       
+        OnDestinationFailEvent?.Invoke();    
     }
 
-    private void LobbyJoinSuccess()
-    {
-        
-    }
-    private void LobbyJoinFailed(string reason)
-    {
-       
-        OnFailedEvent?.Invoke();
-     
-    }
-
-    private void RoomListUpdated(List<AvailableRooms> roomList)
-    {
-       
-        if (roomList != null && roomList.Count > 0)
-        {
-             networkInput.JoinRoom(playerSettings.serverRegion, roomList[0].roomName, RoomJoinSuccessEvent, RoomJoinFailedEvent);
-        }
-        else
-        {
-              CreateRoom();
-        }
-    }
 }
                     
