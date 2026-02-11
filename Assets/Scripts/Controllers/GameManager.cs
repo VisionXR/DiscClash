@@ -7,8 +7,9 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Objects")]
         public UIOutputDataSO uiOutputData;
+        public UIInputDataSO uiInputData;
         public InputDataSO inputData;
-        public OculusDataSO oculusData;
+        
 
         [Header("Game Objects")]
         public GameObject SinglePlayerManager;
@@ -19,27 +20,22 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            uiOutputData.StartSinglePlayerGameEvent += StartSinglePlayer;
-            uiOutputData.StartMultiPlayerGameEvent += StartMultiPlayer;
-            uiOutputData.StartTutorialEvent += StartTutorial;
-            uiOutputData.StartFTUEEvent += StartFTUE;
-           
-          
+            uiInputData.StartSinglePlayerGameEvent += StartSinglePlayer;
+            uiInputData.StartMultiPlayerGameEvent += StartMultiPlayer;
+            uiInputData.StartTutorialEvent += StartTutorial;
 
-            uiOutputData.ExitGameEvent += StopGame;
-            uiOutputData.HomeEvent += StopGame;
+            uiInputData.ExitGameEvent += StopGame;
+            uiInputData.HomeEvent += StopGame;
         }
 
         private void OnDisable()
         {
-            uiOutputData.StartSinglePlayerGameEvent -= StartSinglePlayer; 
-            uiOutputData.StartMultiPlayerGameEvent -= StartMultiPlayer;
-            uiOutputData.StartTutorialEvent -= StartTutorial;
-         
-            uiOutputData.StartFTUEEvent -= StartFTUE;
+            uiInputData.StartSinglePlayerGameEvent -= StartSinglePlayer;
+            uiInputData.StartMultiPlayerGameEvent -= StartMultiPlayer;
+            uiInputData.StartTutorialEvent -= StartTutorial;
 
-            uiOutputData.ExitGameEvent += StopGame;
-            uiOutputData.HomeEvent += StopGame;
+            uiInputData.ExitGameEvent += StopGame;
+            uiInputData.HomeEvent += StopGame;
         }
 
 
@@ -62,14 +58,6 @@ namespace com.VisionXR.Controllers
             TutorialManager.SetActive(true);
             TutorialManager.GetComponent<TutorialManager>().StartTutorial();
         }
-
-        private void StartFTUE(HelperClasses.Destination destination)
-        {
-            ResetManagers();
-            TutorialManager.SetActive(true);
-            TutorialManager.GetComponent<TutorialManager>().StartFTUE(destination);
-        }
-
 
         private void StopGame()
         {

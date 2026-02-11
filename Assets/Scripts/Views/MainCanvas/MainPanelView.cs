@@ -13,7 +13,7 @@ namespace com.VisionXR.Views
         public UIOutputDataSO uiOutputData;
         public MyPlayerSettings myPlayerSettings;
         public NetworkOutputSO networkOutputData;
-        public OculusDataSO oculusData;
+        public DestinationDataSO destinationData;
 
 
         [Header(" Panels ")]
@@ -58,26 +58,14 @@ namespace com.VisionXR.Views
             d.gameType = GameType.Tutorial;
             d.roomName = "NA";
             d.lobbyName = "NA";
-            oculusData.ConnectToDestination(d,OnConnectionSuccess,OnConnectionFailure);
+            destinationData.ConnectToDestination(d, OnConnectionSuccess, OnConnectionFailure);
             
             MainSettingsPanel.SetActive(false);
             gameObject.SetActive(false);
         }
 
 
-        public void TrickShotClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            uiOutputData.SetGameType(GameType.TrickShots);
-            Destination d = new Destination();
-            d.gameType = GameType.TrickShots;
-            d.roomName = "NA";
-            d.lobbyName = "NA";
-            oculusData.ConnectToDestination(d, OnConnectionSuccess, OnConnectionFailure);
-
-            MainSettingsPanel.SetActive(false);
-            gameObject.SetActive(false);
-        }
+   
         private void DisplayToast()
         {
             InternetToast.SetActive(true);

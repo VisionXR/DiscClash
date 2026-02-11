@@ -18,7 +18,7 @@ namespace com.VisionXR.Views
         public UIOutputDataSO uiOutputData;
         public NetworkInputSO networkInput;
         public NetworkOutputSO networkOutput;
-        public OculusDataSO oculusData;
+        public DestinationDataSO destinationData;
 
 
         [Header(" Panel Objects ")]
@@ -101,7 +101,7 @@ namespace com.VisionXR.Views
             d.isJoinable = true;
             d.roomName = "NA";
             BlockerImage.gameObject.SetActive(true);
-            oculusData.ConnectToDestination(d, OnConnectionSuccessEvent, OnConnectionFailEvent);
+            destinationData.ConnectToDestination(d, OnConnectionSuccessEvent, OnConnectionFailEvent);
             StartCoroutine(ConnectingToRoom());
         }
       

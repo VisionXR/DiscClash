@@ -8,7 +8,7 @@ namespace com.VisionXR.Views
     {
 
         [Header("Scriptable Objects")]
-        public UIOutputDataSO uIOutputData;
+        public UIInputDataSO uIInputData;
 
         [Header("UI Objects")]
         public Sprite SpeakerOnSprite;
@@ -41,7 +41,7 @@ namespace com.VisionXR.Views
             {
                 isSpeakerOn = false;
                 SpeakerImage.sprite = SpeakerOffSprite;
-                uIOutputData.TurnOffSpeaker();
+                uIInputData.TurnOffSpeaker();
 
             }
             else
@@ -49,7 +49,7 @@ namespace com.VisionXR.Views
 
                 isSpeakerOn = true;
                 SpeakerImage.sprite = SpeakerOnSprite;
-                uIOutputData.TurnOnSpeaker();
+                uIInputData.TurnOnSpeaker();
             }
         }
     

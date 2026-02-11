@@ -10,7 +10,8 @@ namespace com.VisionXR.Views
     public class GameResultPanelView : MonoBehaviour
     {
         [Header("Scriptable Objects ")]
-        public UIOutputDataSO uiOutputData;    
+        public UIOutputDataSO uiOutputData;  
+        public UIInputDataSO uiInputData;
         public GameDataSO gameData;
         public PlayersDataSO playersData;
         public GameResultData gameResultData;
@@ -305,7 +306,7 @@ namespace com.VisionXR.Views
         public void OnHomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiOutputData.GoToHome();
+            uiInputData.GoToHome();
 
             gameObject.SetActive(false);
           
@@ -313,8 +314,8 @@ namespace com.VisionXR.Views
 
         public void OnPlayAgainButtonClicked()
         {
-            AudioManager.instance.PlayButtonClickSound();        
-            uiOutputData.PlayAgain();   
+            AudioManager.instance.PlayButtonClickSound();
+            uiInputData.PlayAgain();
             gameObject.SetActive(false);
           
         }

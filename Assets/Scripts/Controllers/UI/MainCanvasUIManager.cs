@@ -9,7 +9,7 @@ public class MainCanvasUIManager : MonoBehaviour
     [Header(" Scriptable Objects")]
     public UIOutputDataSO uiOutputData;
     public UIInputDataSO uiInputData;
-    public OculusDataSO oculusData;
+    
 
 
     [Header(" Main Panel Objects")]
@@ -29,14 +29,14 @@ public class MainCanvasUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        uiOutputData.HomeEvent += ShowHome;
-        uiOutputData.ExitGameEvent += ShowHome;
+        uiInputData.HomeEvent += ShowHome;
+        uiInputData.ExitGameEvent += ShowHome;
     }
 
     private void OnDisable()
     {
-        uiOutputData.HomeEvent -= ShowHome;
-        uiOutputData.ExitGameEvent -= ShowHome;
+        uiInputData.HomeEvent -= ShowHome;
+        uiInputData.ExitGameEvent -= ShowHome;
     }
 
     public void ShowHome()

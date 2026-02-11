@@ -27,10 +27,10 @@ public class ScorePanel2Player : MonoBehaviour
     {
               
         gameData.TurnChangedEvent += TurnChanged;
-      
-        uiOutputData.ShowGameResultEvent += ShowGameResult;
 
-        uiOutputData.PlayAgainEvent += Reset;
+        uiInputData.ShowGameResultEvent += ShowGameResult;
+
+        uiInputData.PlayAgainEvent += Reset;
         uiOutputData.CoinsSetEvent += SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
@@ -47,10 +47,10 @@ public class ScorePanel2Player : MonoBehaviour
     {
        
         gameData.TurnChangedEvent -= TurnChanged;
-      
-        uiOutputData.ShowGameResultEvent -= ShowGameResult;
 
-        uiOutputData.PlayAgainEvent -= Reset;
+        uiInputData.ShowGameResultEvent -= ShowGameResult;
+
+        uiInputData.PlayAgainEvent -= Reset;
         uiOutputData.CoinsSetEvent -= SetCoins;
 
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;    

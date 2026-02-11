@@ -6,7 +6,7 @@ namespace com.VisionXR.Views
     public class ExitPopupPanelView : MonoBehaviour
     {
         [Header(" Scriptable Objects")]
-        public UIOutputDataSO uiOutputData;
+        public UIInputDataSO uiInputData;
 
         private void OnEnable()
         {
@@ -15,7 +15,7 @@ namespace com.VisionXR.Views
         public void OnYesButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiOutputData.ExitGame();
+            uiInputData.ExitGame();
          
             gameObject.SetActive(false);
         }

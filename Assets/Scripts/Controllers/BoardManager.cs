@@ -14,7 +14,7 @@ namespace com.VisionXR.Controllers
         public MyPlayerSettings myPlayerSettings;
         public BoardDataSO boardData;
         public UIOutputDataSO uIOutputData;
-       
+        public UIInputDataSO uiInputData;
 
         [Header(" Boards")]
         public GameObject BoardPos;
@@ -32,11 +32,7 @@ namespace com.VisionXR.Controllers
         {
             myPlayerSettings.BoardChangedEvent += CreateNewBoardFromResources;
             uIOutputData.SetMyBoardEvent += CreateNewBoardFromResources;
-            uIOutputData.StartTutorialEvent += StartTutorial;
-            uIOutputData.StartTrickShotsEvent += StartTutorial; // Assuming StartTrickShots is similar to StartTutorial
-            uIOutputData.StartFTUEEvent += StartFTUE;
-            uIOutputData.EndTutorialEvent += EndTutorial;
-            uIOutputData.StopTrickShotsEvent += EndTutorial;
+            uiInputData.StartTutorialEvent += StartTutorial;
            
         }
 
@@ -44,20 +40,10 @@ namespace com.VisionXR.Controllers
         {
             myPlayerSettings.BoardChangedEvent -= CreateNewBoardFromResources;
             uIOutputData.SetMyBoardEvent -= CreateNewBoardFromResources;
-            uIOutputData.StartTutorialEvent -= StartTutorial;
-            uIOutputData.StartTrickShotsEvent -= StartTutorial;
-            uIOutputData.StartFTUEEvent -= StartFTUE;
-            uIOutputData.EndTutorialEvent -= EndTutorial;
-            uIOutputData.StopTrickShotsEvent -= EndTutorial;
+            uiInputData.StartTutorialEvent -= StartTutorial;
+
         }
 
-        private void StartFTUE(Destination destination)
-        {
-            if (currentBoard != null)
-            {
-                currentBoard.SetActive(false);
-            }
-        }
 
         private void StartTutorial()
         {

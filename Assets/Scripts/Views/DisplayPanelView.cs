@@ -10,11 +10,12 @@ namespace com.VisionXR.Views
     public class DisplayPanelView : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        [SerializeField] private GameDataSO gameData;
-        [SerializeField] private CoinDataSO coinData;
-        [SerializeField] private PlayersDataSO playerData;
-        [SerializeField] private UIOutputDataSO uiOutputData;
-        [SerializeField] private MyPlayerSettings playerSettings;
+        public GameDataSO gameData;
+        public CoinDataSO coinData;
+        public PlayersDataSO playerData;
+        public UIOutputDataSO uiOutputData;
+        public UIInputDataSO uiInputData;
+        public MyPlayerSettings playerSettings;
 
         [Header("Text Objects")]
         [SerializeField] private GameObject turnPanel;
@@ -28,8 +29,8 @@ namespace com.VisionXR.Views
         {
             gameData.TurnChangedEvent += OnTurnChanged;
             coinData.CreateCoinEvent += CheckForFoul;
-            uiOutputData.ExitGameEvent += ResetDisplay;
-            uiOutputData.HomeEvent += ResetDisplay;
+            uiInputData.ExitGameEvent += ResetDisplay;
+            uiInputData.HomeEvent += ResetDisplay;
             coinData.ShowFoulEvent += ShowFoul;
         }
 
@@ -37,8 +38,8 @@ namespace com.VisionXR.Views
         {
             gameData.TurnChangedEvent -= OnTurnChanged;
             coinData.CreateCoinEvent -= CheckForFoul;
-            uiOutputData.ExitGameEvent -= ResetDisplay;
-            uiOutputData.HomeEvent -= ResetDisplay;
+            uiInputData.ExitGameEvent -= ResetDisplay;
+            uiInputData.HomeEvent -= ResetDisplay;
             coinData.ShowFoulEvent -= ShowFoul;
         }
 

@@ -19,6 +19,7 @@ namespace com.VisionXR.Controllers
         public StrikerDataSO strikerData;
         public GameDataSO gameData;
         public UIOutputDataSO uiOutputData;
+        public UIInputDataSO uiInputData;
         public InputDataSO inputData;
 
         [Header("Panels")]
@@ -45,10 +46,10 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            
 
-            uiOutputData.ExitGameEvent += OnExitGame;
-            uiOutputData.HomeEvent += OnExitGame;
+
+            uiInputData.ExitGameEvent += OnExitGame;
+            uiInputData.HomeEvent += OnExitGame;
            
             playersData.PlayerStrikeStartedEvent += StrikeStarted;
             playersData.PlayerStrikeFinishedEvent += StrikeFinished;
@@ -72,9 +73,9 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
-      
-            uiOutputData.ExitGameEvent -= OnExitGame;
-            uiOutputData.HomeEvent -= OnExitGame;
+
+            uiInputData.ExitGameEvent -= OnExitGame;
+            uiInputData.HomeEvent -= OnExitGame;
            
 
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
@@ -393,7 +394,7 @@ namespace com.VisionXR.Controllers
         private void HandleVictory(GameResult gameResult)
         {
             // Update LeaderBoard
-            uiOutputData.GameCompleted(gameResult);
+            uiInputData.GameCompleted(gameResult);
 
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)

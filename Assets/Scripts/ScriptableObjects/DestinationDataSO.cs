@@ -5,15 +5,14 @@ using UnityEngine;
 
 namespace com.VisionXR.ModelClasses
 {
-    [CreateAssetMenu(fileName = "OculusDataSO", menuName = "ScriptableObjects/OculusDataSO", order = 1)]
-    public class OculusDataSO : ScriptableObject
+    [CreateAssetMenu(fileName = "DestinationDataSO", menuName = "ScriptableObjects/DestinationDataSO", order = 1)]
+    public class DestinationDataSO : ScriptableObject
     {
         // variables
-
+        public Destination currentDestination;
 
         // events
-        public Action<MultiPlayerGameMode, string, string, bool> SetDestinationEvent;
-        public Action<string, string, string> GoToDestinationEvent;
+
         public Action ClearDestinationEvent;
         public Action<Destination,Action,Action> ConnectToDestinationEvent;
 
@@ -22,14 +21,9 @@ namespace com.VisionXR.ModelClasses
 
         public void ConnectToDestination(Destination destination,Action OnConnectionSuccess,Action OnConnectionFail)
         {
+            currentDestination = destination;
             ConnectToDestinationEvent?.Invoke(destination,OnConnectionSuccess, OnConnectionFail);
         }
-
-        public void ClearDestination()
-        {
-            ClearDestinationEvent?.Invoke();
-        }
-
 
     }
 }

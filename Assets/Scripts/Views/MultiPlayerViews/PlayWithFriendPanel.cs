@@ -15,7 +15,7 @@ namespace com.VisionXR.Views
         [Header(" Scriptable Objects ")]
         public MyPlayerSettings playerSettings;
         public UIOutputDataSO uiOutputData;
-        public OculusDataSO oculusData;
+        public DestinationDataSO destinationData;
 
 
         [Header(" UI Objects ")]  
@@ -159,7 +159,7 @@ namespace com.VisionXR.Views
             d.isJoinable = true;
             d.roomName = "NA";
             BlockerImage.gameObject.SetActive(true);
-            oculusData.ConnectToDestination(d, OnConnectionSuccessEvent, OnConnectionFailEvent);
+            destinationData.ConnectToDestination(d, OnConnectionSuccessEvent, OnConnectionFailEvent);
             StartCoroutine(ConnectingToRoom());
         }
 

@@ -7,8 +7,12 @@ namespace com.VisionXR.Views
 {
     public class NetworkDisconnectPanel : MonoBehaviour
     {
+        [Header(" Scriptable Objects")]
+        public UIInputDataSO uiInputData;
+
+        [Header(" UI Elements")]
         public TMP_Text reason;
-        public UIOutputDataSO uiOutputData;
+      
        
         private void OnEnable()
         {
@@ -17,7 +21,7 @@ namespace com.VisionXR.Views
         public void OnHomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiOutputData.GoToHome();
+            uiInputData.GoToHome();
             gameObject.SetActive(false);
         }
         public void SetReason(string msg)

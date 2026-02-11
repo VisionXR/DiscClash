@@ -12,8 +12,9 @@ namespace com.VisionXR.Views
 
         [Header("Scriptable Objects")]
         public UIOutputDataSO uiOutputData;
-        public OculusDataSO oculusData;
+        public UIInputDataSO uiInputData;
         public MyPlayerSettings myplayerSettings;
+       
 
         [Header("Panels")]
         [SerializeField] private GameObject MainPanel;
@@ -32,22 +33,13 @@ namespace com.VisionXR.Views
         [SerializeField] private Image FreeStyleSelectedImage;
 
 
-        private Action OnConnectionSuccessEvent, OnConnectionFailEvent;
-        public Destination currentDestination;
+      
+        private Destination currentDestination;
 
         private void OnEnable()
         {
             ResetSelectedImages();
             Initialize();
-
-            OnConnectionSuccessEvent += OnConnectionSuccess;
-            OnConnectionFailEvent += OnConnectionFail;
-        }
-
-        private void OnDisable()
-        {
-            OnConnectionSuccessEvent -= OnConnectionSuccess;
-            OnConnectionFailEvent -= OnConnectionFail;
         }
 
         private void Initialize()
@@ -181,32 +173,11 @@ namespace com.VisionXR.Views
             uiOutputData.SetMyBoard(myplayerSettings.MyBoard);
             uiOutputData.SetMyCoinsId(myplayerSettings.MyCoinsId);
 
-            oculusData.ConnectToDestination(currentDestination, OnConnectionSuccessEvent, OnConnectionFailEvent);
-        }
-
-        public void OnConnectionSuccess()
-        {
-
-         
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-            {
-                TwoPlayerScorePanel.SetActive(true);
-                FourPlayerScorePanel.SetActive(false);
-
-            }
-            else 
-            {
-                TwoPlayerScorePanel.SetActive(false);
-                FourPlayerScorePanel.SetActive(true);
-            }
+            uiInputData.ShowDestination(currentDestination);
 
             gameObject.SetActive(false);
         }
 
-        public void OnConnectionFail()
-        {
-            Debug.Log(" In Connection fail");
-        }
         public void BackButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
@@ -222,7 +193,6 @@ namespace com.VisionXR.Views
 
             vs1AISelectedImage.color = AppProperties.instance.IdleColor;
             vs3AISelectedImage.color = AppProperties.instance.IdleColor;
-
 
         }
 

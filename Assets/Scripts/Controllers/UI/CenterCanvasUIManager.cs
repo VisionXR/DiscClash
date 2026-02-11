@@ -12,11 +12,11 @@ public class CenterCanvasUIManager : MonoBehaviour
     public UIOutputDataSO uiOutputData;
     public UIInputDataSO uiInputData;
     public PlayersDataSO playerData;
-    public OculusDataSO oculusData;
+    public DestinationDataSO destinationData;
+
 
     [Header(" Center Panel Objects")]
     public GameObject LoadingPanel;
-    public GameObject DestinationFailedPanel;
     public GameObject DestinationChangePanel;
     public GameObject GameResultPanel;
     public GameObject OtherPlayerDisconnectPanel;
@@ -25,62 +25,34 @@ public class CenterCanvasUIManager : MonoBehaviour
     public List<GameObject> allPanles;
 
     // Actions;
-    public Action OnLoadingSuccessEvent;
-    public Action OnLoadingFailedEvent;
+
 
 
     private void OnEnable()
     {
-        OnLoadingSuccessEvent += LoadingSuccess;
-        OnLoadingFailedEvent += LoadingFailed;
 
-        uiOutputData.ShowGameResultEvent += ShowGameResult;
+        uiInputData.ShowGameResultEvent += ShowGameResult;
         uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
 
-        uiOutputData.HomeEvent += ResetPanels;
-        uiOutputData.ExitGameEvent += ResetPanels;
+        uiInputData.HomeEvent += ResetPanels;
+        uiInputData.ExitGameEvent += ResetPanels;
+
+        uiInputData.ShowDestinationPanelEvent += ShowDestinationChangePanel;
     }
 
 
     private void OnDisable()
     {
-        OnLoadingSuccessEvent -= LoadingSuccess;
-        OnLoadingFailedEvent -= LoadingFailed;
 
-        uiOutputData.ShowGameResultEvent -= ShowGameResult;
+        uiInputData.ShowGameResultEvent -= ShowGameResult;
         uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
 
-        uiOutputData.HomeEvent -= ResetPanels;
-        uiOutputData.ExitGameEvent -= ResetPanels;
+        uiInputData.HomeEvent -= ResetPanels;
+        uiInputData.ExitGameEvent -= ResetPanels;
+
+        uiInputData.ShowDestinationPanelEvent -= ShowDestinationChangePanel;
     }
 
-    private void LoadingSuccess()
-    {
-        ResetPanels();
-        gameObject.SetActive(false);
-    }
-
-    private void LoadingFailed()
-    {
-        ResetPanels();
-        DestinationFailedPanel.SetActive(false);
-    }
-
-    public  void ShowChangeDestinationPanel(Destination destination)
-    {
-
-        ResetPanels();
-        DestinationChangePanel.SetActive(true);
-        DestinationChangePanel.GetComponent<ChangeDestination>().SetDestination(destination);
-    }
-
-    public void ShowConnectDestinationPanel(Destination destination)
-    {
-
-        ResetPanels();
-        LoadingPanel.SetActive(true);
-        oculusData.ConnectToDestination(destination, OnLoadingSuccessEvent, OnLoadingFailedEvent);
-    }
 
     public void ShowGameResult( GameResult result)
     {
@@ -104,6 +76,12 @@ public class CenterCanvasUIManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void ShowDestinationChangePanel(Destination destination)
+    {
+        DestinationChangePanel.SetActive(true);
+        DestinationChangePanel.GetComponent<ChangeDestination>().ConnectToDestination(destination);
     }
 
 

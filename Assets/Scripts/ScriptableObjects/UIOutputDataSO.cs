@@ -21,122 +21,23 @@ namespace com.VisionXR.ModelClasses
         public int MyBoard = 0;
         public int NoOfPlayers = 2;
 
+        // coin Images
         public Sprite WhiteCoin;
         public Sprite BlackCoin;
         public Sprite RedCoin;
         public Sprite BlackAndWhiteCoin;
-        // Events
 
-
-        public Action StartSinglePlayerGameEvent;
-        public Action StartMultiPlayerGameEvent;
-        public Action StartTutorialEvent;
-        public Action StartTrickShotsEvent;
-      
-        public Action<Destination> StartFTUEEvent;
-        public Action EndTutorialEvent;
-        public Action StopTrickShotsEvent;
-
-        public Action<int> PlayerReadyEvent;
-        public Action<GameResult> ShowGameResultEvent;
-
-        public Action ExitGameEvent;
-        public Action HomeEvent;
-        public Action PlayAgainEvent;
-
-        // Mic And Speaker Events
-        public Action TurnOnMicEvent;
-        public Action TurnOffMicEvent;
-        public Action TurnOnSpeakerEvent;
-        public Action TurnOffSpeakerEvent;
 
         // Board And Coins Events
         public Action<int> SetMyCoinsIdEvent;
         public Action<int> SetMyBoardEvent;
         public Action CoinsSetEvent;
 
+
         // Methods
-
-        void OnEnable()
-        {
-           
-        }
-
-        public void SetCoinImages(Sprite white, Sprite black, Sprite Red, Sprite blackAndwhite)
-        {
-            WhiteCoin = white;
-            BlackCoin = black;
-            RedCoin = Red;
-            BlackAndWhiteCoin = blackAndwhite;
-            CoinsSetEvent?.Invoke();
-        }
-
         public void SetPlayerCount(int total)
         {
             NoOfPlayers = total;
-        }
-
-        public void SetMyCoinsId(int id)
-        {
-            MyCoinsId = id;
-            SetMyCoinsIdEvent?.Invoke(id);
-        }
-
-        public void SetMyBoard(int id)
-        {
-
-            MyBoard = id;
-            SetMyBoardEvent?.Invoke(id);
-        }
-        public void StartSinglePlayerGame()
-        {
-            StartSinglePlayerGameEvent?.Invoke();
-        }
-
-        public void StartTrickShots()
-        {
-            StartTrickShotsEvent?.Invoke();
-        }
-        public void StartMultiPlayerGame()
-        {
-            StartMultiPlayerGameEvent?.Invoke();
-        }
-
-        public void StartTutorial()
-        {
-            StartTutorialEvent?.Invoke();
-        }
-
-        public void StartFTUE(Destination destination)
-        {
-            StartFTUEEvent?.Invoke(destination);
-        }
-
-        public void EndTutorial()
-        {
-            EndTutorialEvent?.Invoke();
-        }
-
-        public void GameCompleted(GameResult gameResult)
-        {
-            ShowGameResultEvent?.Invoke(gameResult);
-        }
-
-        public void ExitGame()
-        {
-            ExitGameEvent?.Invoke();
-        }
-
-
-
-        public void GoToHome()
-        {
-            HomeEvent?.Invoke();
-        }
-
-        public void PlayAgain()
-        {
-            PlayAgainEvent?.Invoke();
         }
 
         public void SetGameType(GameType gameType)
@@ -169,30 +70,27 @@ namespace com.VisionXR.ModelClasses
             this.playerCoin = playerCoin;
         }
 
-
-        public void PlayerReady(int id)
+        public void SetMyCoinsId(int id)
         {
-            PlayerReadyEvent?.Invoke(id);
+            MyCoinsId = id;
+            SetMyCoinsIdEvent?.Invoke(id);
         }
 
-        public void TurnOnMic()
+        public void SetMyBoard(int id)
         {
-            TurnOnMicEvent?.Invoke();
-        }
-        public void TurnOffMic()
-        {
-            TurnOffMicEvent?.Invoke();
+
+            MyBoard = id;
+            SetMyBoardEvent?.Invoke(id);
         }
 
-        public void TurnOnSpeaker()
+        public void SetCoinImages(Sprite white, Sprite black, Sprite Red, Sprite blackAndwhite)
         {
-            TurnOnSpeakerEvent?.Invoke();
+            WhiteCoin = white;
+            BlackCoin = black;
+            RedCoin = Red;
+            BlackAndWhiteCoin = blackAndwhite;
+            CoinsSetEvent?.Invoke();
         }
 
-        public void TurnOffSpeaker()
-        {
-            TurnOffSpeakerEvent?.Invoke();
-        }
-    
     }
 }

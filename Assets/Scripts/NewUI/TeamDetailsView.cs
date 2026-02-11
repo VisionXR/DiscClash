@@ -134,26 +134,5 @@ public class TeamDetailsView : MonoBehaviour
       
     }
 
-    public void ResetButton(int id)
-    {
-  
-    }
-
-    public void ReadyBtnClicked(int id)
-    {
-        Debug.Log(" Ready clicked " + id);
-        AudioManager.instance.PlayButtonClickSound();
-        ResetButton(id);
-        SetStatus(id,"Ready");
-        uiOutputData.PlayerReady(id);
-
-    }
-
-    public void SetStatus(int id,string status)
-    {
-      
-    }
-
-
 }
     

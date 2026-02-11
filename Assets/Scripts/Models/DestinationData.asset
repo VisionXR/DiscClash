@@ -9,6 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc42eda993379ef4d857d07bb093149f, type: 3}
-  m_Name: OculusDataSO
+  m_Script: {fileID: 11500000, guid: aa549042af6c46040ae817ecda708b28, type: 3}
+  m_Name: DestinationData
   m_EditorClassIdentifier: 
+  currentDestination:
+    region: 0
+    gameType: 3
+    game: 0
+    multiPlayerGameMode: 0
+    singlePlayerGameMode: 0
+    lobbyName: 
+    roomName: 
+    isJoinable: 0

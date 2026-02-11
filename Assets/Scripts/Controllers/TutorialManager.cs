@@ -47,14 +47,14 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            uiOutputData.ExitGameEvent += SkipButtonClicked;
+            uiInputData.ExitGameEvent += SkipButtonClicked;
          
        
         }
 
         private void OnDisable()
         {
-            uiOutputData.ExitGameEvent -= SkipButtonClicked;
+            uiInputData.ExitGameEvent -= SkipButtonClicked;
           
         }
 
@@ -403,14 +403,9 @@ namespace com.VisionXR.Controllers
             inputData.DeactivateInput();
 
             EndTutorial();
-            uiOutputData.EndTutorial();
+       //     uiOutputData.EndTutorial();
           
 
-            if (isFTUE)
-            {
-                isFTUE = false;
-                uiInputData.ConnectToDestination(NewDestination);
-            }
 
             gameObject.SetActive(false);
         }
@@ -437,14 +432,9 @@ namespace com.VisionXR.Controllers
             inputData.DeactivateInput();
 
             EndTutorial();
-            uiOutputData.EndTutorial();
+       //     uiOutputData.EndTutorial();
          
 
-            if (isFTUE)
-            {
-                isFTUE= false;
-                uiInputData.ConnectToDestination(NewDestination);
-            }
 
             gameObject.SetActive(false);
         }

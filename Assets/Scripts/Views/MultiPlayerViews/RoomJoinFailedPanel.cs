@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class RoomJoinFailedPanel : MonoBehaviour
 {
-    public UIOutputDataSO uiOutputData;
+    public UIInputDataSO uiInputData;
     public void OkBtnClicked()
     {
         AudioManager.instance.PlayButtonClickSound();
-        uiOutputData.GoToHome();
+        uiInputData.GoToHome();
         gameObject.SetActive(false);
     }
 }

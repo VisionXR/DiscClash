@@ -10,27 +10,72 @@ namespace com.VisionXR.ModelClasses
     public class UIInputDataSO : ScriptableObject   
     {
         // variables
-    
 
-        // Events
-        public Action<GameResult> ShowGameResultEvent;       
+
+        // Game Events
+        public Action StartSinglePlayerGameEvent;
+        public Action StartMultiPlayerGameEvent;
+        public Action StartTutorialEvent;
+
+        public Action ExitGameEvent;
+        public Action HomeEvent;
+        public Action PlayAgainEvent;
+        public Action<GameResult> ShowGameResultEvent;
+
+
+        //Network  Events    
         public Action ResetPanelsEvent;
+        public Action<Destination> ShowDestinationPanelEvent;
         public Action<Player> ShowPlayerDetailsEvent;
         public Action OtherPlayerLeftGameEvent;
 
-        public Action<MultiPlayerGameMode> GoToGamePanelEvent;
-        public Action DestinationFailedEvent;
 
-        public Action<Destination> ConnectToDestinationEvent;
-        public Action<Destination> ChangeDestinationEvent;
+        // Mic And Speaker Events
+        public Action TurnOnMicEvent;
+        public Action TurnOffMicEvent;
+        public Action TurnOnSpeakerEvent;
+        public Action TurnOffSpeakerEvent;
 
 
-        public Action<int> SetButtonEvent;
-        public Action<int,string> SetPlayerStatusEvent;
 
         // Methods
 
+        public void StartSinglePlayerGame()
+        {
+            StartSinglePlayerGameEvent?.Invoke();
+        }
+        public void StartMultiPlayerGame()
+        {
+            StartMultiPlayerGameEvent?.Invoke();
+        }
+        public void StartTutorial()
+        {
+            StartTutorialEvent?.Invoke();
+        }
+        public void GameCompleted(GameResult gameResult)
+        {
+            ShowGameResultEvent?.Invoke(gameResult);
+        }
 
+        public void ExitGame()
+        {
+            ExitGameEvent?.Invoke();
+        }
+
+        public void GoToHome()
+        {
+            HomeEvent?.Invoke();
+        }
+
+        public void PlayAgain()
+        {
+            PlayAgainEvent?.Invoke();
+        }
+
+        public void ShowDestination(Destination destination)
+        {
+            ShowDestinationPanelEvent?.Invoke(destination);
+        }
 
         public void ResetPanels()
         {
@@ -47,19 +92,23 @@ namespace com.VisionXR.ModelClasses
             OtherPlayerLeftGameEvent?.Invoke();
         }
 
-        public void GoToGamePanel(MultiPlayerGameMode mode)
+        public void TurnOnMic()
         {
-            GoToGamePanelEvent?.Invoke(mode);
+            TurnOnMicEvent?.Invoke();
+        }
+        public void TurnOffMic()
+        {
+            TurnOffMicEvent?.Invoke();
         }
 
-        public void ConnectToDestination(Destination d)
+        public void TurnOnSpeaker()
         {
-            ConnectToDestinationEvent?.Invoke(d);
+            TurnOnSpeakerEvent?.Invoke();
         }
 
-        public void ChangeDestination(Destination d)
+        public void TurnOffSpeaker()
         {
-            ChangeDestinationEvent?.Invoke(d);
+            TurnOffSpeakerEvent?.Invoke();
         }
     }
 }

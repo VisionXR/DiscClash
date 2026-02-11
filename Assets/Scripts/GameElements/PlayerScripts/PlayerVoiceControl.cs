@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerVoiceControl : MonoBehaviour { 
 
     [Header(" Scriptable Objects Objects")]
-    public UIOutputDataSO uIOutputData;
+    public UIInputDataSO uIInputData;
 
     [Header(" Local Objects")]
     public Player currentPlayer;
@@ -16,18 +16,18 @@ public class PlayerVoiceControl : MonoBehaviour {
 
     public void OnEnable()
     {
-        uIOutputData.TurnOnMicEvent += TurnOnMic;
-        uIOutputData.TurnOffMicEvent += TurnOffMic;
-        uIOutputData.TurnOnSpeakerEvent += TurnOnSpeaker;
-        uIOutputData.TurnOffSpeakerEvent += TurnOffSpeaker;
+        uIInputData.TurnOnMicEvent += TurnOnMic;
+        uIInputData.TurnOffMicEvent += TurnOffMic;
+        uIInputData.TurnOnSpeakerEvent += TurnOnSpeaker;
+        uIInputData.TurnOffSpeakerEvent += TurnOffSpeaker;
     }
 
     private void OnDisable()
     {
-        uIOutputData.TurnOnMicEvent -= TurnOnMic;
-        uIOutputData.TurnOffMicEvent -= TurnOffMic; 
-        uIOutputData.TurnOnSpeakerEvent -= TurnOnSpeaker;
-        uIOutputData.TurnOffSpeakerEvent -= TurnOffSpeaker;
+        uIInputData.TurnOnMicEvent -= TurnOnMic;
+        uIInputData.TurnOffMicEvent -= TurnOffMic;
+        uIInputData.TurnOnSpeakerEvent -= TurnOnSpeaker;
+        uIInputData.TurnOffSpeakerEvent -= TurnOffSpeaker;
     }
 
     private void TurnOnSpeaker()
