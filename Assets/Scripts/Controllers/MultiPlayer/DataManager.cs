@@ -3,70 +3,73 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour
+namespace com.VisionXR.Controllers
 {
-    [Header(" Scriptable Objects")]
-    public NetworkOutputSO networkOutputData;
-    public UIOutputDataSO uiOutputData;
-    public PlayersDataSO playerData;
-    public GameDataSO gameData;
-    public CoinData coinData;
-
-    [Header("Game Objects")]
-    public Player mainPlayer;
-    public PlayerNetworkData mainPlayerNetworkData;
-
-
-
-    public void StartGame(int id)
+    public class DataManager : MonoBehaviour
     {
-        SetMainPlayer();
-        if (networkOutputData.IsHost())
+        [Header(" Scriptable Objects")]
+        public NetworkOutputSO networkOutputData;
+        public UIOutputDataSO uiOutputData;
+        public PlayersDataSO playerData;
+        public GameDataSO gameData;
+        public CoinData coinData;
+
+        [Header("Game Objects")]
+        public Player mainPlayer;
+        public PlayerNetworkData mainPlayerNetworkData;
+
+
+
+        public void StartGame(int id)
         {
-            mainPlayerNetworkData.RPC_StartGame(id);
-          
+            SetMainPlayer();
+            if (networkOutputData.IsHost())
+            {
+                mainPlayerNetworkData.RPC_StartGame(id);
+
+            }
         }
-    }
 
-    public void SendGameData(CurrentGameData data)
-    {
-       
-        SetMainPlayer();
-        mainPlayerNetworkData.SetGameData(data);  
-    
-    }
-
-    public void SendGameResult(GameResult gameResult)
-    {
-        SetMainPlayer();
-        mainPlayerNetworkData.RPC_SendGameData(JsonUtility.ToJson(gameResult));
-    }
-
-    public void SendDestroyCoinsInThisTurn(string data)
-    {
-        SetMainPlayer(); 
-        mainPlayerNetworkData.SetDestroyCoins(data);
-        
-    }
-
-    public void SendFine(PlayerCoin coin)
-    {
-        SetMainPlayer();
-        mainPlayerNetworkData.RPC_PutFine(coin);
-    }
-
-    public void SendStrikerChange(int playerId,int strikerId)
-    {
-        SetMainPlayer();
-        mainPlayerNetworkData.RPC_ChangeStriker(playerId,strikerId);
-    }
-
-    private void SetMainPlayer()
-    {
-        if (mainPlayer == null)
+        public void SendGameData(CurrentGameData data)
         {
-            mainPlayer = playerData.GetMainPlayer();
-            mainPlayerNetworkData = mainPlayer.gameObject.GetComponent<PlayerNetworkData>();
+
+            SetMainPlayer();
+            mainPlayerNetworkData.SetGameData(data);
+
+        }
+
+        public void SendGameResult(GameResult gameResult)
+        {
+            SetMainPlayer();
+            mainPlayerNetworkData.RPC_SendGameData(JsonUtility.ToJson(gameResult));
+        }
+
+        public void SendDestroyCoinsInThisTurn(string data)
+        {
+            SetMainPlayer();
+            mainPlayerNetworkData.SetDestroyCoins(data);
+
+        }
+
+        public void SendFine(PlayerCoin coin)
+        {
+            SetMainPlayer();
+            mainPlayerNetworkData.RPC_PutFine(coin);
+        }
+
+        public void SendStrikerChange(int playerId, int strikerId)
+        {
+            SetMainPlayer();
+            mainPlayerNetworkData.RPC_ChangeStriker(playerId, strikerId);
+        }
+
+        private void SetMainPlayer()
+        {
+            if (mainPlayer == null)
+            {
+                mainPlayer = playerData.GetMainPlayer();
+                mainPlayerNetworkData = mainPlayer.gameObject.GetComponent<PlayerNetworkData>();
+            }
         }
     }
 }

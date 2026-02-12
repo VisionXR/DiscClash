@@ -1,8 +1,4 @@
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -21,18 +17,12 @@ namespace com.VisionXR.Controllers
         public GameObject currentBoard;
 
 
-        private IEnumerator Start()
-        {
-            yield return new WaitForSeconds(1);
-            CreateNewBoardFromResources(myPlayerSettings.MyBoard);
-        }
-
 
         private void OnEnable()
         {
             myPlayerSettings.BoardChangedEvent += CreateNewBoardFromResources;
             uIOutputData.SetMyBoardEvent += CreateNewBoardFromResources;
-            uiInputData.StartTutorialEvent += StartTutorial;
+            
            
         }
 
@@ -40,34 +30,15 @@ namespace com.VisionXR.Controllers
         {
             myPlayerSettings.BoardChangedEvent -= CreateNewBoardFromResources;
             uIOutputData.SetMyBoardEvent -= CreateNewBoardFromResources;
-            uiInputData.StartTutorialEvent -= StartTutorial;
+          
 
-        }
-
-
-        private void StartTutorial()
-        {
-            if (currentBoard != null)
-            {
-                currentBoard.SetActive(false);
-            }
-        }
-
-        private void EndTutorial()
-        {
-            if (currentBoard != null)
-            {
-                currentBoard.SetActive(true);
-            }
         }
 
         public void CreateNewBoardFromResources(int i)
         {
             
-
             if (currentBoard != null)
-            {
-                
+            {               
                 Destroy(currentBoard);
             }
 
