@@ -19,7 +19,7 @@ namespace com.VisionXR.Views
 
         [Header(" Panel Objects ")]
         public GameObject MainPanel;
-        public GameObject MainSettingsPanel;
+     
 
 
         [Header(" Selection HightLight Images ")]
@@ -239,7 +239,7 @@ namespace com.VisionXR.Views
         {          
             AudioManager.instance.PlayButtonClickSound();
             MainPanel.SetActive(true);
-            MainSettingsPanel.SetActive(true);
+          
             gameObject.SetActive(false);        
         }
 

@@ -10,7 +10,6 @@ namespace com.VisionXR.Controller
     {
         [Header(" Scriptable Objects")]
         public MyPlayerSettings playerSettings;
-        public BoardDataSO boardData;
 
         [Header(" Local Objects")]
         public string Key = "DiscClash";
@@ -37,7 +36,8 @@ namespace com.VisionXR.Controller
             newPlayerData.StrikerId = playerSettings.MyStrikerId;
             newPlayerData.CoinsId = playerSettings.MyCoins;
             newPlayerData.region = playerSettings.serverRegion;
-          
+            newPlayerData.isLoggedIn = playerSettings.IsLoggedIn;
+
             SaveData(Key, JsonUtility.ToJson(newPlayerData));
         }
 
@@ -56,7 +56,8 @@ namespace com.VisionXR.Controller
                     playerSettings.SetStriker(data.StrikerId);
                     playerSettings.SetCoins(data.CoinsId);
                     playerSettings.SetServerRegion(data.region);
-                 
+                    playerSettings.SetLogIn(data.isLoggedIn);
+
                 }
                 catch (Exception e)
                 {

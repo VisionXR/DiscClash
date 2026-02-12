@@ -1,4 +1,3 @@
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +11,10 @@ public class MainCanvasUIManager : MonoBehaviour
     
 
     [Header(" Main Panel Objects")]
-    public GameObject TwoPlayerPanel;
-    public GameObject FourPlayerPanel;
     public GameObject HomePanel;
     public GameObject MainPanel;
-    public GameObject MainSettingsPanel;
+    public GameObject LoginPanel;
+
 
 
     [Header(" All Panel Objects")]
@@ -28,52 +26,35 @@ public class MainCanvasUIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        uiInputData.HomeEvent += ShowHome;
-        uiInputData.ExitGameEvent += ShowHome;
+        uiInputData.HomeEvent += ShowHomePanel;
+        uiInputData.ExitGameEvent += ShowHomePanel;
+        uiInputData.ShowLoginEvent += ShowLoginPanel;
     }
 
     private void OnDisable()
     {
-        uiInputData.HomeEvent -= ShowHome;
-        uiInputData.ExitGameEvent -= ShowHome;
+        uiInputData.HomeEvent -= ShowHomePanel;
+        uiInputData.ExitGameEvent -= ShowHomePanel;
+        uiInputData.ShowLoginEvent -= ShowLoginPanel;
     }
 
-    public void ShowHome()
+    public void ShowHomePanel()
     {
        
         ResetHomePanels();
         ResetAllPanels();
         HomePanel.SetActive(true);
         MainPanel.SetActive(true);
-        MainSettingsPanel.SetActive(true);
+      
     }
 
-    public void ShowSinglePlayerPanels()
+    public void ShowLoginPanel()
     {
+        ResetHomePanels();
         ResetAllPanels();
-        if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-        {
-            TwoPlayerPanel.SetActive(true);
-        }
-        else
-        {
-            FourPlayerPanel.SetActive(true);
-        }
+        LoginPanel.SetActive(true);
+        
     }
-
-    public void ShowMultiPlayerPanels()
-    {
-        ResetAllPanels();
-        if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
-        {
-            TwoPlayerPanel.SetActive(true);
-        }
-        else
-        {
-            FourPlayerPanel.SetActive(true);
-        }
-    }
-
 
     private void ResetAllPanels()
     {

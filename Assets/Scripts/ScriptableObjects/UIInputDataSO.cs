@@ -20,11 +20,11 @@ namespace com.VisionXR.ModelClasses
         public Action ExitGameEvent;
         public Action HomeEvent;
         public Action PlayAgainEvent;
+        public Action ShowLoginEvent;
         public Action<GameResult> ShowGameResultEvent;
 
 
         //Network  Events    
-        public Action ResetPanelsEvent;
         public Action<Destination> ShowDestinationPanelEvent;
         public Action<Player> ShowPlayerDetailsEvent;
         public Action OtherPlayerLeftGameEvent;
@@ -72,14 +72,15 @@ namespace com.VisionXR.ModelClasses
             PlayAgainEvent?.Invoke();
         }
 
+        public void ShowLogin()
+        {
+            ShowLoginEvent?.Invoke();
+        }   
+
+
         public void ShowDestination(Destination destination)
         {
             ShowDestinationPanelEvent?.Invoke(destination);
-        }
-
-        public void ResetPanels()
-        {
-            ResetPanelsEvent?.Invoke();
         }
 
         public void ShowPlayerDetails(Player p)

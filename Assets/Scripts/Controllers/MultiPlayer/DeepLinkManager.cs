@@ -12,15 +12,19 @@ public class DeepLinkManager : MonoBehaviour
     public UIOutputDataSO uiOutputData;
     public NetworkInputSO networkInput;
     public NetworkOutputSO networkOutput;
-
+    public CloudDataSO cloudData;
 
 
     // Action
+    public Destination homeDestination;
     public Destination currentDestination;
     public Action OnDestinationSuccesEvent;
     public Action OnDestinationFailEvent;
     public Action RoomCreateSuccessEvent, RoomJoinSuccessEvent;
     public Action<string> RoomCreateFailedEvent, RoomJoinFailedEvent;
+
+    // scripts
+  
 
 
     private void Awake()
@@ -36,6 +40,9 @@ public class DeepLinkManager : MonoBehaviour
         else
         {
             Debug.Log("Disc Clash: No deep link detected on startup.");
+            currentDestination = homeDestination;
+
+            CheckLogin();
         }
     }
     private void OnEnable()
@@ -65,10 +72,64 @@ public class DeepLinkManager : MonoBehaviour
     private void OnDeepLinkActivated(string url)
     {
         Debug.Log("Disc Clash: Link Received: " + url);
-        // Example URL: discclash://pvp?lobbyId=XYZ
+        // Example URL: DiscClash://{"region":1,"gameType":0,"game":0,"multiPlayerGameMode":1,"singlePlayerGameMode":0,
+        // "lobbyName":"US_West","roomName":"DragonDen","isJoinable":true}
 
-      
+        Destination linkData = ParseDeepLink(url);
+        if (linkData != null)
+        {
+            // Handle the parsed link data
+
+            currentDestination = linkData;
+        }
+
+        CheckLogin();
     }
+
+    public Destination ParseDeepLink(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return null;
+
+        try
+        {
+            // 1. Strip the custom scheme
+            string prefix = "DiscClash://";
+            if (!url.StartsWith(prefix)) return null;
+
+            string jsonPart = url.Substring(prefix.Length);
+
+            // 2. Decode URL characters (e.g., %22 to ", %20 to space)
+            string decodedJson = Uri.UnescapeDataString(jsonPart);
+
+            // 3. Deserialize into your Destination class
+            // Note: JsonUtility works if the JSON keys match field names exactly.
+            // Newtonsoft.Json is more forgiving with formatting.
+            Destination dest = JsonUtility.FromJson<Destination>(decodedJson);
+
+            return dest;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Deep Link Parse Error: {e.Message}");
+            return null;
+        }
+    }
+
+    private void CheckLogin()
+    {
+        playerSettings.LoadSettings();
+        if(!playerSettings.IsLoggedIn)
+        {
+            Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
+            uiInputData.ShowLogin();
+        }
+        else
+        {
+            Debug.Log("Disc Clash: User already logged in. Proceeding to destination.");
+            cloudData.LoginToGoogle();
+        }
+    }
+
 
     private void ConnectToDestination(Destination destination, Action OnConnected, Action OnFailed)
     {
@@ -111,9 +172,14 @@ public class DeepLinkManager : MonoBehaviour
             uiInputData.StartTutorial();
         
         }
+        else if (destination.gameType == GameType.Home)
+        {
+            OnDestinationSuccesEvent?.Invoke();
+            uiInputData.GoToHome();
+
+        }
 
     }
-
     private void RoomCreateSuccess()
     {
        
@@ -144,7 +210,6 @@ public class DeepLinkManager : MonoBehaviour
         OnDestinationSuccesEvent?.Invoke();
 
     }
-
     public void RoomJoinFailed(string reason)
     {       
         OnDestinationFailEvent?.Invoke();    

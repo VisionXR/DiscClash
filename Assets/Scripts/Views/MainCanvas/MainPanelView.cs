@@ -21,19 +21,14 @@ namespace com.VisionXR.Views
         public GameObject PlayWithFriendsPanel;
         public GameObject PlayWithStrangersPanel;
         public GameObject InternetToast;
-        public GameObject MainSettingsPanel;
-
-
-        private Action OnConnectionSuccess;
-        private Action OnConnectionFailure;
-
+    
 
         public void OnSinglePlayerClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             SinglePlayerPanel.SetActive(true);
             uiOutputData.SetGameType(GameType.SinglePlayer);
-            MainSettingsPanel.SetActive(false);
+            
             gameObject.SetActive(false);
         }
 
@@ -49,7 +44,6 @@ namespace com.VisionXR.Views
             uiOutputData.SetGameType(GameType.OnlineMultiPlayer);
             uiOutputData.SetRoomType(RoomType.Public);
             PlayWithStrangersPanel.SetActive(true);
-            MainSettingsPanel.SetActive(false);
             gameObject.SetActive(false);
         }
 
@@ -66,7 +60,7 @@ namespace com.VisionXR.Views
             uiOutputData.SetRoomType(RoomType.Private);
 
             PlayWithFriendsPanel.SetActive(true);
-            MainSettingsPanel.SetActive(false);
+        
             gameObject.SetActive(false);
         }
         public void OnTutorialClicked()
@@ -77,10 +71,9 @@ namespace com.VisionXR.Views
             d.gameType = GameType.Tutorial;
             d.roomName = "NA";
             d.lobbyName = "NA";
-            destinationData.ConnectToDestination(d, OnConnectionSuccess, OnConnectionFailure);
-            
-            MainSettingsPanel.SetActive(false);
-            gameObject.SetActive(false);
+
+         //   destinationData.ConnectToDestination(d, OnConnectionSuccess, OnConnectionFailure);          
+         //   gameObject.SetActive(false);
         }
 
 

@@ -137,29 +137,12 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class PlayerData
     {
-        
+        public bool isLoggedIn = false;
         public int StrikerId;
         public int BoardId;
         public int CoinsId;
         public ServerRegion region;
 
-    }
-    [Serializable]
-    public class AvatarData
-    {
-        public byte[] avatarInfo;
-
-    }
-    [Serializable]
-    public class NotificationMessage
-    {
-        public ServerRegion region;
-        public MultiPlayerGameMode multiPlayerGameMode;
-        public Game game;
-        public int MyBoard;
-        public AIDifficulty difficulty;
-        public string roomName;
-        public string playerName;
     }
 
     [Serializable]
@@ -200,30 +183,6 @@ namespace com.VisionXR.HelperClasses
         public string skuName;
         public bool isPurchased = false;
         public string Price;
-    }
-
-    [Serializable]
-    public class ProfileImage
-    {
-        public Sprite image;
-    }
-
-        [Serializable]
-    public class Friend
-    {
-        public ulong FriendID;
-        public string FriendName;
-       
-    }
-
-    [Serializable]
-    public class AvailableRooms
-    {
-        public string  roomName;
-        public MultiPlayerGameMode gameMode;
-        public Game game;
-        public int MyBoard;
-        public AIDifficulty aiDifficulty;
     }
 
     [Serializable]

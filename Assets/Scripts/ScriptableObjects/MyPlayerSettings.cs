@@ -1,6 +1,5 @@
 using com.VisionXR.HelperClasses;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
  namespace com.VisionXR.ModelClasses
@@ -9,6 +8,8 @@ using UnityEngine;
     public class MyPlayerSettings : ScriptableObject
     {
         // Player Data
+        public LoginType loginType;
+        public bool IsLoggedIn;
         public int MyStrikerId;
         public int MyBoard;
         public int MyCoinsId;
@@ -25,33 +26,31 @@ using UnityEngine;
         // Events
         public Action<string> UserDataReceived;
         
-        public Action<Sprite> UserProfileImageReceived;
-        public Action<List<Friend>> UserFriendsReceived;
+        public Action<Sprite> UserProfileImageReceived;        
         public Action<ServerRegion> ServerRegionChangedEvent;
         public Action SaveSettingsEvent;
         public Action LoadSettingsEvent;
         
-        public Action GetFriendsEvent;
+
         public Action<int> BoardChangedEvent;
         public Action<int> StrikerChangedEvent;
         public Action<int> CoinsChangedEvent;
 
 
+        private void OnEnable()
+        {
+            IsLoggedIn = false;
+        }
+
+        public void SetLoginType(LoginType type)
+        {
+            loginType = type;
+        }
         public void SetUserNameAndId(string userName, string Id)
         {
             MyName = userName;
             MyId = Id;
             UserDataReceived?.Invoke(MyId);
-        }
-
-        public void SetMyName(string Name)
-        {
-            MyName = Name;
-        }
-
-        public void SetMyPoints(int points)
-        {
-            MyPoints = points;
         }
 
         public void SetBoard(int id)
@@ -72,12 +71,6 @@ using UnityEngine;
             CoinsChangedEvent?.Invoke(id);
         }
 
-
-        public void SetProfileUrl(string url)
-        {
-            ImageUrl = url;
-
-        }
         public void SetUserProfileImage(Sprite s)
         {
             MyProfileImage = s;
@@ -90,21 +83,10 @@ using UnityEngine;
             ServerRegionChangedEvent?.Invoke(serverRegion);
         }
 
-
-
-        public string GetMyName()
+        public void SetLogIn(bool status)
         {
-            return MyName;
+            IsLoggedIn = status;
         }
-        public int GeyMyPoints()
-        {
-            return MyPoints;
-        }
-        public string GetMyImage()
-        {
-            return ImageUrl;
-        }
-
 
         public void SaveSettings()
         {

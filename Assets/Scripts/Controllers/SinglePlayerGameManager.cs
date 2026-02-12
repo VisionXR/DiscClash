@@ -33,9 +33,6 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-
-
-
             uiInputData.HomeEvent += ExitGame;
             uiInputData.ExitGameEvent += ExitGame;
             uiInputData.PlayAgainEvent += PlayAgain;
@@ -172,6 +169,7 @@ namespace com.VisionXR.Controllers
             }
 
             StartCoroutine(WaitForSeconds(0.1f, firstTurn));
+
         }
 
         private IEnumerator WaitForSeconds(float v,int turnid)

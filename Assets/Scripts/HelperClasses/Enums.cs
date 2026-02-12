@@ -2,10 +2,9 @@
 namespace com.VisionXR.HelperClasses
 {
 
-
+    public enum LoginType { Google, Guest }
     public enum SwipeDirection { LEFT, RIGHT,UP,DOWN };
     public enum TouchZone { LEFT,RIGHT,MIDDLE}
-    public enum DominantHand { RIGHT, LEFT ,BOTH};
     public enum NetworkType { Host, Client }
     public enum PlayerRole { Human, AI }
     public enum PlayerControl { Local, Remote }

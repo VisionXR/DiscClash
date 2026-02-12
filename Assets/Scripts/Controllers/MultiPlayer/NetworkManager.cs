@@ -25,7 +25,7 @@ namespace com.VisionXR.Controllers
         public GameObject NetworkRunnerObject; // Prefab for creating a network runner instance
         public NetworkRunner runner;
         // Local variables
-        private List<AvailableRooms> rooms;
+
      
 
         /// <summary>

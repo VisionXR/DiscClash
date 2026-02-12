@@ -6,13 +6,34 @@ using UnityEngine;
 // Add PlayFab Namespaces
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 
 public class AuthManager : MonoBehaviour
 {
     [Header("Scriptable Objects")]
     public MyPlayerSettings playerSettings;
+    public CloudDataSO cloudData;
 
-    public void Login()
+
+    private void OnEnable()
+    {
+        cloudData.LoginToGoogleEvent += GoogleLogin;
+        cloudData.GuestLoginEvent += GuestLogin;
+    }
+
+    private void OnDisable()
+    {
+        cloudData.LoginToGoogleEvent -= GoogleLogin;
+        cloudData.GuestLoginEvent -= GuestLogin;
+    }
+
+    private void GuestLogin()
+    {
+        // Simplified Editor Mock
+        playerSettings.SetUserNameAndId("Guest_Player", "12345");
+    }
+
+    public void GoogleLogin()
     {
         if (!Application.isEditor)
         {
@@ -35,9 +56,12 @@ public class AuthManager : MonoBehaviour
 
             // 1. First, set local UI data (Name and Image)
             string name = Social.localUser.userName;
-            string googleID = Social.localUser.id;
-            playerSettings.SetUserNameAndId(name, googleID);
+            string googleID = Social.localUser.id;          
             StartCoroutine(LoadProfileImage());
+
+            playerSettings.SetUserNameAndId(name, googleID);
+            playerSettings.SetLogIn(true);
+            playerSettings.SaveSettings();
 
             // 2. Trigger PlayFab Login
             RequestTokenAndLoginToPlayFab();

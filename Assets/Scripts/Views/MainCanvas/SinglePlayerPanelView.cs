@@ -18,7 +18,6 @@ namespace com.VisionXR.Views
 
         [Header("Panels")]
         [SerializeField] private GameObject MainPanel;
-        [SerializeField] private GameObject MainSettingsPanel;
         [SerializeField] private GameObject TwoPlayerScorePanel;
         [SerializeField] private GameObject FourPlayerScorePanel;
 
@@ -182,7 +181,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             MainPanel.SetActive(true);
-            MainSettingsPanel.SetActive(true);
+           
             gameObject.SetActive(false);
         }
 

@@ -10,7 +10,7 @@ public class NetworkState : MonoBehaviour, INetworkRunnerCallbacks
 {
 
     public NetworkOutputSO networkOutputData;
-    private List<AvailableRooms> rooms;
+ 
     public void OnConnectedToServer(NetworkRunner runner)
     {
         Debug.Log(" Connected to server ");
@@ -96,67 +96,67 @@ public class NetworkState : MonoBehaviour, INetworkRunnerCallbacks
     {
       
 
-        // Print custom properties for the first 10 sessions
-        int sessionCount = Mathf.Min(sessionList.Count, 2);
+        //// Print custom properties for the first 10 sessions
+        //int sessionCount = Mathf.Min(sessionList.Count, 2);
 
-        rooms = new List<AvailableRooms>();
+        //rooms = new List<AvailableRooms>();
 
 
-        for (int i = 0; i < sessionCount; i++)
-        {
-            var sessionItem = sessionList[i];
-            AvailableRooms roomsItem = new AvailableRooms();
+        //for (int i = 0; i < sessionCount; i++)
+        //{
+        //    var sessionItem = sessionList[i];
+        //    AvailableRooms roomsItem = new AvailableRooms();
 
-            roomsItem.roomName = sessionItem.Name;
+        //    roomsItem.roomName = sessionItem.Name;
 
-            if (sessionItem.Properties.TryGetValue("gamemode", out var gameModeProperty) && gameModeProperty.IsInt)
-            {
-                var gameMode = (int)gameModeProperty.PropertyValue;
-                roomsItem.gameMode = (com.VisionXR.HelperClasses.MultiPlayerGameMode)gameMode;
+        //    if (sessionItem.Properties.TryGetValue("gamemode", out var gameModeProperty) && gameModeProperty.IsInt)
+        //    {
+        //        var gameMode = (int)gameModeProperty.PropertyValue;
+        //        roomsItem.gameMode = (com.VisionXR.HelperClasses.MultiPlayerGameMode)gameMode;
 
-            }
-            else
-            {
-                Debug.Log("Gamemode property not found or not an integer.");
-            }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Gamemode property not found or not an integer.");
+        //    }
 
-            if (sessionItem.Properties.TryGetValue("game", out var gameProperty) && gameProperty.IsInt)
-            {
-                var game = (int)gameProperty.PropertyValue;
-                roomsItem.game = (Game)game;
+        //    if (sessionItem.Properties.TryGetValue("game", out var gameProperty) && gameProperty.IsInt)
+        //    {
+        //        var game = (int)gameProperty.PropertyValue;
+        //        roomsItem.game = (Game)game;
 
-            }
-            else
-            {
-                Debug.Log("Game property not found or not an integer.");
-            }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Game property not found or not an integer.");
+        //    }
 
-            if (sessionItem.Properties.TryGetValue("board", out var board) && gameProperty.IsInt)
-            {
-                var boardId = (int)board.PropertyValue;
-                roomsItem.MyBoard = boardId;
+        //    if (sessionItem.Properties.TryGetValue("board", out var board) && gameProperty.IsInt)
+        //    {
+        //        var boardId = (int)board.PropertyValue;
+        //        roomsItem.MyBoard = boardId;
 
-            }
-            else
-            {
-                Debug.Log("No board id found .");
-            }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("No board id found .");
+        //    }
 
-            if (sessionItem.Properties.TryGetValue("difficulty", out var aiDifficulty) && gameProperty.IsInt)
-            {
-                var difficluty = (int)aiDifficulty.PropertyValue;
-                roomsItem.aiDifficulty = (AIDifficulty)difficluty;
+        //    if (sessionItem.Properties.TryGetValue("difficulty", out var aiDifficulty) && gameProperty.IsInt)
+        //    {
+        //        var difficluty = (int)aiDifficulty.PropertyValue;
+        //        roomsItem.aiDifficulty = (AIDifficulty)difficluty;
 
-            }
-            else
-            {
-                Debug.Log("No board id found .");
-            }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("No board id found .");
+        //    }
 
-            rooms.Add(roomsItem);
-        }
+        //    rooms.Add(roomsItem);
+        //}
 
-        networkOutputData.SetAvailableRooms(rooms);
+        //networkOutputData.SetAvailableRooms(rooms);
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)

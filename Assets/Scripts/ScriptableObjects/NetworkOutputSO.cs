@@ -1,7 +1,5 @@
 using com.VisionXR.HelperClasses;
 using Fusion;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -12,14 +10,13 @@ namespace com.VisionXR.ModelClasses
     {
         // variables
         public ServerRegion currentRegion;
-        public List<AvailableRooms> roomsAvailable = new List<AvailableRooms>();
         public bool isHost;
         public string RoomName;
-        public string CommonLobby = "Real Carrom Lobby";
+        public string CommonLobby = "DiscClashLobby";
         public NetworkRunner _runner;
 
-        // Actions
-        public Action<List<AvailableRooms>> RoomListUpdatedEvent;
+
+  
 
         // Methods      
 
@@ -38,10 +35,5 @@ namespace com.VisionXR.ModelClasses
             return isHost;
         }
 
-        public void SetAvailableRooms(List<AvailableRooms> availableRooms)
-        {
-            roomsAvailable = availableRooms;
-            RoomListUpdatedEvent?.Invoke(roomsAvailable);
-        }
     }
 }
