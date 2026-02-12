@@ -53,7 +53,7 @@ public class MainCanvasUIManager : MonoBehaviour
         ResetHomePanels();
         ResetAllPanels();
         LoginPanel.SetActive(true);
-        
+        Debug.Log("Showing Login Panel");
     }
 
     private void ResetAllPanels()

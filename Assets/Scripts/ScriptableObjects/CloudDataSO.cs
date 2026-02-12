@@ -8,12 +8,15 @@ namespace com.VisionXR.ModelClasses
     public class CloudDataSO : ScriptableObject   
     {
         // variables
-
+        public int coins;
 
 
         //Network  Events    
         public Action LoginToGoogleEvent;
         public Action GuestLoginEvent;
+        public Action EditorLoginEvent;
+
+        public Action FetchCoinsEvent;
 
 
         // Methods
@@ -29,7 +32,17 @@ namespace com.VisionXR.ModelClasses
             GuestLoginEvent?.Invoke();
         }
 
-       
+        public void EditorLogin()
+        {
+            EditorLoginEvent?.Invoke();
+        }
+
+        public void FetchCoins()
+        {
+            FetchCoinsEvent?.Invoke();
+        }
+
+
     }
 }
         

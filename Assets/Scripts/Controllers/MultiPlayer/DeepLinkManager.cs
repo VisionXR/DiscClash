@@ -2,6 +2,7 @@ using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
 using System;
 using UnityEngine;
+using System.Collections;
 
 namespace com.VisionXR.Controllers
 {
@@ -45,7 +46,7 @@ namespace com.VisionXR.Controllers
                 Debug.Log("Disc Clash: No deep link detected on startup.");
                 currentDestination = homeDestination;
 
-                CheckLogin();
+                StartCoroutine(CheckLogin());
             }
         }
         private void OnEnable()
@@ -86,7 +87,7 @@ namespace com.VisionXR.Controllers
                 currentDestination = linkData;
             }
 
-            CheckLogin();
+            StartCoroutine(CheckLogin());
         }
 
         public Destination ParseDeepLink(string url)
@@ -118,8 +119,10 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void CheckLogin()
+        private IEnumerator CheckLogin()
         {
+            yield return new WaitForSeconds(1); // Small delay to ensure all systems are initialized
+
             playerSettings.LoadSettings();
             if (!playerSettings.IsLoggedIn)
             {
@@ -129,7 +132,15 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.Log("Disc Clash: User already logged in. Proceeding to destination.");
-                cloudData.LoginToGoogle();
+
+                if (Application.isEditor)
+                {
+                   cloudData.EditorLogin();
+                }
+                else
+                {
+                    cloudData.LoginToGoogle();
+                }
             }
         }
 

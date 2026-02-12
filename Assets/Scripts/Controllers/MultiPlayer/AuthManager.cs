@@ -21,12 +21,36 @@ namespace com.VisionXR.Controllers
         {
             cloudData.LoginToGoogleEvent += GoogleLogin;
             cloudData.GuestLoginEvent += GuestLogin;
+            cloudData.EditorLoginEvent += EditorLogin;
         }
 
         private void OnDisable()
         {
             cloudData.LoginToGoogleEvent -= GoogleLogin;
             cloudData.GuestLoginEvent -= GuestLogin;
+            cloudData.EditorLoginEvent -= EditorLogin;
+        }
+
+        private void EditorLogin()
+        {
+            // Simplified Editor Mock
+            playerSettings.SetUserNameAndId("Guest_Player", "12345");
+            playerSettings.SetLogIn(true);
+            playerSettings.SaveSettings();
+
+            // If in Editor, use a fixed string so you always log into the same test account
+            // If on Mobile, use the unique Device ID
+            string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
+
+            var request = new LoginWithCustomIDRequest
+            {
+                CustomId = customId,
+                CreateAccount = true,
+                TitleId = PlayFabSettings.TitleId
+            };
+
+            Debug.Log("Disc Clash: Logging in as Guest/Editor...");
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
         }
 
         private void GuestLogin()

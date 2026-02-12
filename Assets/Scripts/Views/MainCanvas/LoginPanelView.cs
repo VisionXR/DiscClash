@@ -13,7 +13,14 @@ public class LoginPanelView : MonoBehaviour
     {
         AudioManager.instance.PlayButtonClickSound();
         playerSettings.SetLoginType(LoginType.Google);
-        cloudData.LoginToGoogle();
+        if (Application.isEditor)
+        {
+            cloudData.EditorLogin();
+        }
+        else
+        {
+            cloudData.LoginToGoogle();
+        }
         gameObject.SetActive(false);
     }
 
