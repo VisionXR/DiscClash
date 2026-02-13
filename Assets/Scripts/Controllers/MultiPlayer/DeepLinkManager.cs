@@ -21,7 +21,6 @@ namespace com.VisionXR.Controllers
 
         // Action
         public Destination homeDestination;
-        public Destination currentDestination;
         public Action OnDestinationSuccesEvent;
         public Action OnDestinationFailEvent;
         public Action RoomCreateSuccessEvent, RoomJoinSuccessEvent;
@@ -44,7 +43,7 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.Log("Disc Clash: No deep link detected on startup.");
-                currentDestination = homeDestination;
+                destinationData.currentDestination = homeDestination;
 
                 StartCoroutine(CheckLogin());
             }
@@ -84,7 +83,7 @@ namespace com.VisionXR.Controllers
             {
                 // Handle the parsed link data
 
-                currentDestination = linkData;
+                destinationData.currentDestination = linkData;
             }
 
             StartCoroutine(CheckLogin());
@@ -121,6 +120,8 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator CheckLogin()
         {
+            
+
             yield return new WaitForSeconds(1); // Small delay to ensure all systems are initialized
 
             playerSettings.LoadSettings();
@@ -133,9 +134,11 @@ namespace com.VisionXR.Controllers
             {
                 Debug.Log("Disc Clash: User already logged in. Proceeding to destination.");
 
+                uiInputData.ShowLoadingPanel();
+
                 if (Application.isEditor)
                 {
-                   cloudData.EditorLogin();
+                    cloudData.EditorLogin();
                 }
                 else
                 {
@@ -147,7 +150,7 @@ namespace com.VisionXR.Controllers
 
         private void ConnectToDestination(Destination destination, Action OnConnected, Action OnFailed)
         {
-            currentDestination = destination;
+            destinationData.currentDestination = destination;
             uiOutputData.gameType = destination.gameType;
 
 
@@ -177,7 +180,7 @@ namespace com.VisionXR.Controllers
                 }
                 else
                 {
-                    networkInput.JoinRoom(destination.GetRegion(), currentDestination.roomName, RoomJoinSuccessEvent, RoomJoinFailedEvent);
+                    networkInput.JoinRoom(destination.GetRegion(), destinationData.currentDestination.roomName, RoomJoinSuccessEvent, RoomJoinFailedEvent);
                 }
             }
             else if (destination.gameType == GameType.Tutorial)
@@ -197,12 +200,12 @@ namespace com.VisionXR.Controllers
         private void RoomCreateSuccess()
         {
 
-            currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
-            currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
-            currentDestination.region = playerSettings.serverRegion;
+            destinationData.currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
+            destinationData.currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
+            destinationData.currentDestination.region = playerSettings.serverRegion;
 
             uiInputData.StartMultiPlayerGame();
-            currentDestination.isJoinable = true;
+            destinationData.currentDestination.isJoinable = true;
 
             OnDestinationSuccesEvent?.Invoke();
         }
@@ -215,12 +218,12 @@ namespace com.VisionXR.Controllers
         public void RoomJoinSuccess()
         {
 
-            currentDestination.region = playerSettings.serverRegion;
-            currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
-            currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
+            destinationData.currentDestination.region = playerSettings.serverRegion;
+            destinationData.currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
+            destinationData.currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
 
             uiInputData.StartMultiPlayerGame();
-            currentDestination.isJoinable = false;
+            destinationData.currentDestination.isJoinable = false;
             OnDestinationSuccesEvent?.Invoke();
 
         }

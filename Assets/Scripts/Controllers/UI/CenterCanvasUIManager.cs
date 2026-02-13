@@ -38,6 +38,7 @@ public class CenterCanvasUIManager : MonoBehaviour
         uiInputData.ExitGameEvent += ResetPanels;
 
         uiInputData.ShowDestinationPanelEvent += ShowDestinationChangePanel;
+        uiInputData.ShowLoadingPanelEvent += ShowLoadingPanel;
     }
 
 
@@ -51,6 +52,7 @@ public class CenterCanvasUIManager : MonoBehaviour
         uiInputData.ExitGameEvent -= ResetPanels;
 
         uiInputData.ShowDestinationPanelEvent -= ShowDestinationChangePanel;
+        uiInputData.ShowLoadingPanelEvent -= ShowLoadingPanel;
     }
 
 
@@ -82,6 +84,11 @@ public class CenterCanvasUIManager : MonoBehaviour
     {
         DestinationChangePanel.SetActive(true);
         DestinationChangePanel.GetComponent<ChangeDestination>().ConnectToDestination(destination);
+    }
+
+    public void ShowLoadingPanel()
+    {
+        LoadingPanel.SetActive(true);
     }
 
 

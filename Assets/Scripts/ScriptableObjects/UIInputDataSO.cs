@@ -2,6 +2,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 namespace com.VisionXR.ModelClasses
@@ -26,6 +27,7 @@ namespace com.VisionXR.ModelClasses
 
         //Network  Events    
         public Action<Destination> ShowDestinationPanelEvent;
+        public Action ShowLoadingPanelEvent;
         public Action<Player> ShowPlayerDetailsEvent;
         public Action OtherPlayerLeftGameEvent;
 
@@ -81,6 +83,11 @@ namespace com.VisionXR.ModelClasses
         public void ShowDestination(Destination destination)
         {
             ShowDestinationPanelEvent?.Invoke(destination);
+        }
+
+        public void ShowLoadingPanel()
+        {
+            ShowLoadingPanelEvent?.Invoke();
         }
 
         public void ShowPlayerDetails(Player p)

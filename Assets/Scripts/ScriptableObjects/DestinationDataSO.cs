@@ -21,7 +21,7 @@ namespace com.VisionXR.ModelClasses
 
         public void ConnectToDestination(Destination destination,Action OnConnectionSuccess,Action OnConnectionFail)
         {
-            currentDestination = destination;
+           
             ConnectToDestinationEvent?.Invoke(destination,OnConnectionSuccess, OnConnectionFail);
         }
 

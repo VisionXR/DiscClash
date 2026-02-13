@@ -125,6 +125,8 @@ namespace com.VisionXR.Controllers
         {
             Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
 
+            cloudData.PlayFabLoginSuccess();
+
             // OPTIONAL: Update PlayFab display name to match Google name
             UpdatePlayFabDisplayName(Social.localUser.userName);
         }
@@ -132,6 +134,8 @@ namespace com.VisionXR.Controllers
         private void OnPlayFabFailure(PlayFabError error)
         {
             Debug.Log("Disc Clash: PlayFab Login Error: " + error.GenerateErrorReport());
+
+            cloudData.PlayFabLoginFailure();
         }
 
         private void UpdatePlayFabDisplayName(string name)

@@ -2,7 +2,7 @@ using com.VisionXR.ModelClasses;
 using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.EconomyModels;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -13,30 +13,43 @@ namespace com.VisionXR.Controllers
         public CloudDataSO cloudData;
 
 
+        // Actions
+        private Action OnCoinFetchSuccessEvent;
+        private Action OnCoinFetchFailureEvent;
+
+        public Action OnBonusReceivedEvent;
+        public Action OnBonusNotReceivedEvent;
+        public Action OnBonusFailedEvent;
+
 
         private void OnEnable()
         {
             cloudData.FetchCoinsEvent += FetchUserCoins;
+            cloudData.DeductEntryFeeEvent += DeductEntryFee;
+            cloudData.GrantWinningsEvent += GrantWinnings;
         }
 
         private void OnDisable()
         {
             cloudData.FetchCoinsEvent -= FetchUserCoins;
+            cloudData.DeductEntryFeeEvent -= DeductEntryFee;
+            cloudData.GrantWinningsEvent -= GrantWinnings;
         }
-
-        
 
         /// <summary>
         /// Call this after a successful Login to sync the player's wallet.
         /// </summary>
-        public void FetchUserCoins()
+        public void FetchUserCoins(Action OnSuccess,Action OnFailure)
         {
+            OnCoinFetchSuccessEvent = OnSuccess;
+            OnCoinFetchFailureEvent = OnFailure;
+
             var request = new GetUserInventoryRequest();
 
-            PlayFabClientAPI.GetUserInventory(request, OnFetchSuccess, OnFetchError);
+            PlayFabClientAPI.GetUserInventory(request, OnCoinFetchSuccess, OnCoinFetchError);
         }
 
-        private void OnFetchSuccess(GetUserInventoryResult result)
+        private void OnCoinFetchSuccess(GetUserInventoryResult result)
         {
             // "CN" is your currency code for Coins
             if (result.VirtualCurrency.ContainsKey("CN"))
@@ -50,18 +63,18 @@ namespace com.VisionXR.Controllers
                 }
 
                 Debug.Log($"[CloudManager] Coins Synced: {coinBalance}");
+                OnCoinFetchSuccessEvent?.Invoke();
             }
         }
 
-        private void OnFetchError(PlayFabError error)
+        private void OnCoinFetchError(PlayFabError error)
         {
             Debug.LogError($"[CloudManager] Failed to fetch coins: {error.GenerateErrorReport()}");
 
+            OnCoinFetchFailureEvent?.Invoke();
             // If internet fails here, you might want to trigger a 'Retry' popup
             // as we discussed for the game flow.
         }
-
-
 
         public void CheckDailyBonus()
         {
@@ -73,7 +86,15 @@ namespace com.VisionXR.Controllers
                 GeneratePlayStreamEvent = true
             };
 
-            PlayFabClientAPI.ExecuteCloudScript(request, OnDailyBonusResult, OnFetchError);
+            PlayFabClientAPI.ExecuteCloudScript(request, OnDailyBonusResult, OnBonusFetchError);
+        }
+
+        private void OnBonusFetchError(PlayFabError error)
+        {
+            Debug.LogError($"[CloudManager] Failed to fetch coins: {error.GenerateErrorReport()}");
+
+            // If internet fails here, you might want to trigger a 'Retry' popup
+            // as we discussed for the game flow.
         }
 
         private void OnDailyBonusResult(ExecuteCloudScriptResult result)
@@ -87,11 +108,6 @@ namespace com.VisionXR.Controllers
                 if (response.success)
                 {
                     Debug.Log($"[CloudManager] Bonus Claimed! Added {response.amount} coins.");
-
-                    // Refresh the coins in your SO by calling the fetch function we wrote
-                    FetchUserCoins();
-
-                    // Trigger your UI here (e.g., showing the coin animation)
                 }
                 else
                 {

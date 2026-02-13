@@ -15,9 +15,15 @@ namespace com.VisionXR.ModelClasses
         public Action LoginToGoogleEvent;
         public Action GuestLoginEvent;
         public Action EditorLoginEvent;
+        public Action<int> DeductEntryFeeEvent;
+        public Action<int> GrantWinningsEvent;
 
-        public Action FetchCoinsEvent;
 
+        public Action<Action,Action> FetchCoinsEvent;
+
+
+        public Action PlayFabLoginSuccessEvent;
+        public Action PlayFabLoginFailureEvent;
 
         // Methods
   
@@ -37,9 +43,29 @@ namespace com.VisionXR.ModelClasses
             EditorLoginEvent?.Invoke();
         }
 
-        public void FetchCoins()
+        public void FetchCoins(Action OnSuccess,Action OnFailure)
         {
-            FetchCoinsEvent?.Invoke();
+            FetchCoinsEvent?.Invoke(OnSuccess,OnFailure);
+        }
+
+        public void PlayFabLoginSuccess()
+        {
+            PlayFabLoginSuccessEvent?.Invoke();
+        }
+
+        public void PlayFabLoginFailure()
+        {
+            PlayFabLoginFailureEvent?.Invoke();
+        }
+
+        public void DeductEntryFee(int amount)
+        {
+            DeductEntryFeeEvent?.Invoke(amount);
+        }
+
+        public void GrantWinnings(int amount)
+        {
+            GrantWinningsEvent?.Invoke(amount);
         }
 
 

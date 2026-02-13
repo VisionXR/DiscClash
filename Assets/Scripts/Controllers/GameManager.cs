@@ -1,4 +1,5 @@
 using com.VisionXR.ModelClasses;
+using System;
 using UnityEngine;
 
 namespace com.VisionXR.Controllers
@@ -9,14 +10,21 @@ namespace com.VisionXR.Controllers
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
         public InputDataSO inputData;
+        public CloudDataSO cloudData;
+        public DestinationDataSO destinationData;
         
 
         [Header("Game Objects")]
         public GameObject SinglePlayerManager;
         public GameObject MultiPlayerManager;
         public GameObject TutorialManager;
-        
 
+        // Events
+        public Action OnCoinFetchSuccessEvent;
+        public Action OnCoinFetchFailureEvent;
+
+        public Action OnDestinationSuccessEvent;
+        public Action OnDestinationFailureEvent;
 
         private void OnEnable()
         {
@@ -26,6 +34,12 @@ namespace com.VisionXR.Controllers
 
             uiInputData.ExitGameEvent += StopGame;
             uiInputData.HomeEvent += StopGame;
+
+            cloudData.PlayFabLoginSuccessEvent += LoginSuccess;
+            cloudData.PlayFabLoginFailureEvent += LoginFailure;
+
+            OnCoinFetchFailureEvent += CoinFetchFailure;
+            OnCoinFetchSuccessEvent += CoinFetchSuccess;
         }
 
         private void OnDisable()
@@ -36,8 +50,34 @@ namespace com.VisionXR.Controllers
 
             uiInputData.ExitGameEvent += StopGame;
             uiInputData.HomeEvent += StopGame;
+
+            cloudData.PlayFabLoginSuccessEvent -= LoginSuccess;
+            cloudData.PlayFabLoginFailureEvent -= LoginFailure;
+
+            OnCoinFetchFailureEvent -= CoinFetchFailure;
+            OnCoinFetchSuccessEvent -= CoinFetchSuccess;
         }
 
+        private void LoginSuccess()
+        {
+            cloudData.FetchCoins(OnCoinFetchSuccessEvent,OnCoinFetchFailureEvent);
+        }
+
+        private void LoginFailure()
+        {
+            
+        }
+
+        private void CoinFetchSuccess()
+        {
+            //destinationData.ConnectToDestination(destinationData.currentDestination, OnDestinationSuccessEvent, OnDestinationFailureEvent);
+            uiInputData.ShowDestination(destinationData.currentDestination);
+        }
+
+        private void CoinFetchFailure()
+        {
+
+        }
 
         private void StartSinglePlayer()
         {
