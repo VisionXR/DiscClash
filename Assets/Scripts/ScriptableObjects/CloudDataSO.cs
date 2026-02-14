@@ -11,23 +11,35 @@ namespace com.VisionXR.ModelClasses
         public int coins;
 
 
-        //Network  Events    
+        //Login  Events    
         public Action LoginToGoogleEvent;
         public Action GuestLoginEvent;
         public Action EditorLoginEvent;
-        public Action<int> DeductEntryFeeEvent;
-        public Action<int> GrantWinningsEvent;
 
-
-        public Action<Action,Action> FetchCoinsEvent;
-
+        public Action StartFetchEvent;
+        public Action RetryEvent;
 
         public Action PlayFabLoginSuccessEvent;
         public Action PlayFabLoginFailureEvent;
 
-        // Methods
-  
 
+
+        // coin events
+        public Action<int> DeductEntryFeeEvent;
+        public Action<int> GrantWinningsEvent;
+        public Action<Action,Action> FetchCoinsEvent;
+
+        public Action FetchSuccessEvent;
+        public Action FetchFailureEvent;
+
+
+
+        // Methods
+
+        private void OnEnable()
+        {
+            coins = 0;
+        }
         public void LoginToGoogle()
         {
             LoginToGoogleEvent?.Invoke();
@@ -66,6 +78,26 @@ namespace com.VisionXR.ModelClasses
         public void GrantWinnings(int amount)
         {
             GrantWinningsEvent?.Invoke(amount);
+        }
+
+        public void StartFetch()
+        {
+            StartFetchEvent?.Invoke();
+        }
+
+        public void Retry()
+        {
+            RetryEvent?.Invoke();
+        }
+
+        public void FetchSuccess()
+        {
+            FetchSuccessEvent?.Invoke();
+        }
+
+        public void FetchFailure()
+        {
+            FetchFailureEvent?.Invoke();
         }
 
 

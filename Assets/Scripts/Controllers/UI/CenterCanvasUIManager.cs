@@ -20,6 +20,7 @@ public class CenterCanvasUIManager : MonoBehaviour
     public GameObject DestinationChangePanel;
     public GameObject GameResultPanel;
     public GameObject OtherPlayerDisconnectPanel;
+    public GameObject InternetDisconnectedPanel;
 
     [Header(" Main Panel Objects")]
     public List<GameObject> allPanles;

@@ -1,53 +1,161 @@
-using UnityEngine;
-using TMPro;
+using com.VisionXR.HelperClasses;
+using com.VisionXR.ModelClasses;
+using NUnit.Framework;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
 public class LoadingPanelView : MonoBehaviour
 {
+    [Header("Scriptable Objects")]
+    public UIInputDataSO uiInputData;
+    public UIOutputDataSO uiOutputData;
+    public CloudDataSO cloudData;
+    public DestinationDataSO destinationData;
+    public MyPlayerSettings playerSettings;
+
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI statusText;
 
-    [Header("Settings")]
-    [SerializeField] private string baseMessage = "Fetching data from cloud";
-    [SerializeField] private float animationSpeed = 0.5f;
+    [Header("Messages")]
+    [SerializeField] private string topMessage = "Fetching Data";
+    [SerializeField] private string bottomMessage = "Please Wait";
+
+    [Header("Animation Settings")]
+    [SerializeField, Tooltip("Seconds between dot updates")] private float animationSpeed = 0.5f;
+    [SerializeField, Tooltip("Maximum number of dots to show")] private int maxDots = 3;
+
+    [Header("UI Elements")]
+    public GameObject RetryButton;
+    public GameObject PlayOfflineBtn;
 
     private Coroutine animationCoroutine;
 
+    private void Awake()
+    {
+        if (maxDots < 1) maxDots = 3;
+        if (animationSpeed <= 0f) animationSpeed = 0.5f;
+    }
+
     private void OnEnable()
     {
-        // Start the animation as soon as the panel is active
         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-        animationCoroutine = StartCoroutine(AnimateText());
+        animationCoroutine = StartCoroutine(AnimateTwoLinePulse());
+
+        cloudData.FetchSuccessEvent += OnLoginFetchSuccess;
+        cloudData.FetchFailureEvent += OnLoginFetchFailure;
+
+        RetryButton.SetActive(false);
+        PlayOfflineBtn.SetActive(false);
     }
 
     private void OnDisable()
     {
-        // Clean up when the panel is hidden
+      
+
+        cloudData.FetchSuccessEvent -= OnLoginFetchSuccess;
+        cloudData.FetchFailureEvent -= OnLoginFetchFailure;
+    }
+
+    // Called when LoginFetchManager reports success
+    private void OnLoginFetchSuccess()
+    {
+
         if (animationCoroutine != null)
         {
             StopCoroutine(animationCoroutine);
             animationCoroutine = null;
         }
+
+        playerSettings.SetLoginType(LoginType.Google);
+        uiInputData.ShowDestination(destinationData.currentDestination);
+
+        gameObject.SetActive(false);
+
     }
 
-    private IEnumerator AnimateText()
+    // Called when LoginFetchManager reports failure
+    private void OnLoginFetchFailure()
+    {
+        if (animationCoroutine != null)
+        {
+            StopCoroutine(animationCoroutine);
+            animationCoroutine = null;
+        }
+
+        topMessage = "Something Went Wrong";
+        bottomMessage = " Retru or play offline";
+        statusText.text = $"{topMessage}\n{bottomMessage}";
+
+        RetryButton.SetActive(true);
+        PlayOfflineBtn.SetActive(true);
+        // UI's retry button should call loginFetchManager.RetryFetch() or StartLoginAndFetchCoins()
+    }
+
+    private IEnumerator AnimateTwoLinePulse()
     {
         int dotCount = 0;
+        bool increasing = true;
+
         while (true)
         {
             string dots = new string('.', dotCount);
-            statusText.text = $"{baseMessage}{dots}";
+            statusText.text = $"{topMessage}\n{bottomMessage}{dots}";
 
-            dotCount++;
-            if (dotCount > 3) dotCount = 0;
+            // advance dotCount in a ping-pong fashion: 0..maxDots..0
+            if (increasing)
+            {
+                dotCount++;
+                if (dotCount > maxDots)
+                {
+                    // switch direction and step back so maxDots is visible once
+                    dotCount = Mathf.Max(0, maxDots - 1);
+                    increasing = false;
+                }
+            }
+            else
+            {
+                dotCount--;
+                if (dotCount < 0)
+                {
+                    dotCount = Mathf.Min(1, maxDots); // start increasing again
+                    increasing = true;
+                }
+            }
 
             yield return new WaitForSeconds(animationSpeed);
         }
     }
 
-    // Call this from AuthManager when PlayFab is done
-    public void HideLoading()
+    // Public API to change messages at runtime (optional)
+    public void SetMessages(string top, string bottom)
     {
-        gameObject.SetActive(false);
+        topMessage = top ?? topMessage;
+        bottomMessage = bottom ?? bottomMessage;
     }
+
+    public void RetryBtnClicked()
+    {
+        AudioManager.instance.PlayButtonClickSound();
+
+        if (animationCoroutine != null) StopCoroutine(animationCoroutine);
+        animationCoroutine = StartCoroutine(AnimateTwoLinePulse());
+        cloudData.Retry();
+
+        RetryButton.SetActive(false);
+        PlayOfflineBtn.SetActive(false);
+        Debug.Log("Retry clicked");
+    }
+
+    public void PlayOfflineBtnClicked()
+    {
+        AudioManager.instance.PlayButtonClickSound();
+
+        playerSettings.SetLoginType(LoginType.Guest);
+        uiInputData.ShowDestination(destinationData.homeDestination);
+        gameObject.SetActive(false);
+        Debug.Log("Play Offline Clicked");
+    }
+
+
 }

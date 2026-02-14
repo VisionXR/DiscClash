@@ -35,11 +35,6 @@ namespace com.VisionXR.Controllers
             uiInputData.ExitGameEvent += StopGame;
             uiInputData.HomeEvent += StopGame;
 
-            cloudData.PlayFabLoginSuccessEvent += LoginSuccess;
-            cloudData.PlayFabLoginFailureEvent += LoginFailure;
-
-            OnCoinFetchFailureEvent += CoinFetchFailure;
-            OnCoinFetchSuccessEvent += CoinFetchSuccess;
         }
 
         private void OnDisable()
@@ -51,33 +46,10 @@ namespace com.VisionXR.Controllers
             uiInputData.ExitGameEvent += StopGame;
             uiInputData.HomeEvent += StopGame;
 
-            cloudData.PlayFabLoginSuccessEvent -= LoginSuccess;
-            cloudData.PlayFabLoginFailureEvent -= LoginFailure;
-
-            OnCoinFetchFailureEvent -= CoinFetchFailure;
-            OnCoinFetchSuccessEvent -= CoinFetchSuccess;
         }
 
-        private void LoginSuccess()
-        {
-            cloudData.FetchCoins(OnCoinFetchSuccessEvent,OnCoinFetchFailureEvent);
-        }
+    
 
-        private void LoginFailure()
-        {
-            
-        }
-
-        private void CoinFetchSuccess()
-        {
-            //destinationData.ConnectToDestination(destinationData.currentDestination, OnDestinationSuccessEvent, OnDestinationFailureEvent);
-            uiInputData.ShowDestination(destinationData.currentDestination);
-        }
-
-        private void CoinFetchFailure()
-        {
-
-        }
 
         private void StartSinglePlayer()
         {

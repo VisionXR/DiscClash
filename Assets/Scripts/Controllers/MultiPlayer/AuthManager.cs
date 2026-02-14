@@ -35,8 +35,7 @@ namespace com.VisionXR.Controllers
         {
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player", "12345");
-            playerSettings.SetLogIn(true);
-            playerSettings.SaveSettings();
+        
 
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID
@@ -49,7 +48,7 @@ namespace com.VisionXR.Controllers
                 TitleId = PlayFabSettings.TitleId
             };
 
-            Debug.Log("Disc Clash: Logging in as Guest/Editor...");
+   
             PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
         }
 
@@ -86,19 +85,11 @@ namespace com.VisionXR.Controllers
                 StartCoroutine(LoadProfileImage());
 
                 playerSettings.SetUserNameAndId(name, googleID);
-                playerSettings.SetLogIn(true);
-                playerSettings.SaveSettings();
 
                 // 2. Trigger PlayFab Login
                 RequestTokenAndLoginToPlayFab();
             }
-            else
-            {
-                Debug.LogError("Disc Clash: Google Login Failed: " + status);
 
-                // Simplified Editor Mock
-                playerSettings.SetUserNameAndId("TejaBhai", "12345");
-            }
         }
 
         private void RequestTokenAndLoginToPlayFab()
@@ -125,10 +116,12 @@ namespace com.VisionXR.Controllers
         {
             Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
 
+            playerSettings.SetLogIn(true);
+            playerSettings.SaveSettings();
             cloudData.PlayFabLoginSuccess();
 
-            // OPTIONAL: Update PlayFab display name to match Google name
-            UpdatePlayFabDisplayName(Social.localUser.userName);
+            //// OPTIONAL: Update PlayFab display name to match Google name
+            //UpdatePlayFabDisplayName(Social.localUser.userName);
         }
 
         private void OnPlayFabFailure(PlayFabError error)
@@ -136,14 +129,6 @@ namespace com.VisionXR.Controllers
             Debug.Log("Disc Clash: PlayFab Login Error: " + error.GenerateErrorReport());
 
             cloudData.PlayFabLoginFailure();
-        }
-
-        private void UpdatePlayFabDisplayName(string name)
-        {
-            var request = new UpdateUserTitleDisplayNameRequest { DisplayName = name };
-            PlayFabClientAPI.UpdateUserTitleDisplayName(request,
-                res => Debug.Log("PlayFab Display Name Updated"),
-                err => Debug.LogWarning("Could not update PlayFab Display Name"));
         }
 
         private IEnumerator LoadProfileImage()

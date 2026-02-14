@@ -18,24 +18,21 @@ namespace com.VisionXR.Controllers
         public NetworkOutputSO networkOutput;
         public CloudDataSO cloudData;
 
-
         // Action
-        public Destination homeDestination;
+        
         public Action OnDestinationSuccesEvent;
         public Action OnDestinationFailEvent;
-        public Action RoomCreateSuccessEvent, RoomJoinSuccessEvent;
-        public Action<string> RoomCreateFailedEvent, RoomJoinFailedEvent;
+        public Action RoomCreateSuccessEvent;
+        public Action RoomJoinSuccessEvent;
+        public Action<string> RoomCreateFailedEvent;
+        public Action<string>  RoomJoinFailedEvent;
 
-        // scripts
 
-
-
+        // Game loop start here
         private void Awake()
         {
-            // Subscribe to the event for when the app is already running
             Application.deepLinkActivated += OnDeepLinkActivated;
 
-            // Check if the app was started via a deep link
             if (!string.IsNullOrEmpty(Application.absoluteURL))
             {
                 OnDeepLinkActivated(Application.absoluteURL);
@@ -43,11 +40,11 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.Log("Disc Clash: No deep link detected on startup.");
-                destinationData.currentDestination = homeDestination;
-
+                destinationData.currentDestination = destinationData.homeDestination;
                 StartCoroutine(CheckLogin());
             }
         }
+
         private void OnEnable()
         {
             destinationData.ConnectToDestinationEvent += ConnectToDestination;
@@ -57,6 +54,7 @@ namespace com.VisionXR.Controllers
 
             RoomJoinSuccessEvent += RoomJoinSuccess;
             RoomJoinFailedEvent += RoomJoinFailed;
+
 
         }
 
@@ -69,22 +67,15 @@ namespace com.VisionXR.Controllers
 
             RoomJoinSuccessEvent -= RoomJoinSuccess;
             RoomJoinFailedEvent -= RoomJoinFailed;
-
+            
         }
 
         private void OnDeepLinkActivated(string url)
         {
             Debug.Log("Disc Clash: Link Received: " + url);
-            // Example URL: DiscClash://{"region":1,"gameType":0,"game":0,"multiPlayerGameMode":1,"singlePlayerGameMode":0,
-            // "lobbyName":"US_West","roomName":"DragonDen","isJoinable":true}
-
+        
             Destination linkData = ParseDeepLink(url);
-            if (linkData != null)
-            {
-                // Handle the parsed link data
-
-                destinationData.currentDestination = linkData;
-            }
+            destinationData.currentDestination = linkData ?? destinationData.homeDestination;
 
             StartCoroutine(CheckLogin());
         }
@@ -95,20 +86,12 @@ namespace com.VisionXR.Controllers
 
             try
             {
-                // 1. Strip the custom scheme
                 string prefix = "DiscClash://";
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
-
-                // 2. Decode URL characters (e.g., %22 to ", %20 to space)
                 string decodedJson = Uri.UnescapeDataString(jsonPart);
-
-                // 3. Deserialize into your Destination class
-                // Note: JsonUtility works if the JSON keys match field names exactly.
-                // Newtonsoft.Json is more forgiving with formatting.
                 Destination dest = JsonUtility.FromJson<Destination>(decodedJson);
-
                 return dest;
             }
             catch (Exception e)
@@ -120,31 +103,19 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator CheckLogin()
         {
-            
-
-            yield return new WaitForSeconds(1); // Small delay to ensure all systems are initialized
+            yield return new WaitForSeconds(1);
 
             playerSettings.LoadSettings();
+
+
             if (!playerSettings.IsLoggedIn)
             {
                 Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
                 uiInputData.ShowLogin();
+                yield break;
             }
-            else
-            {
-                Debug.Log("Disc Clash: User already logged in. Proceeding to destination.");
 
-                uiInputData.ShowLoadingPanel();
-
-                if (Application.isEditor)
-                {
-                    cloudData.EditorLogin();
-                }
-                else
-                {
-                    cloudData.LoginToGoogle();
-                }
-            }
+            cloudData.StartFetch();
         }
 
 
@@ -153,7 +124,6 @@ namespace com.VisionXR.Controllers
             destinationData.currentDestination = destination;
             uiOutputData.gameType = destination.gameType;
 
-
             OnDestinationSuccesEvent = OnConnected;
             OnDestinationFailEvent = OnFailed;
 
@@ -161,14 +131,10 @@ namespace com.VisionXR.Controllers
             {
                 uiOutputData.game = destination.game;
                 uiOutputData.singlePlayerGameMode = destination.singlePlayerGameMode;
-
-
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.StartSinglePlayerGame();
-
-
             }
-            else if ((destination.gameType == GameType.OnlineMultiPlayer || destination.gameType == GameType.PlayWithFriends))
+            else if (destination.gameType == GameType.OnlineMultiPlayer || destination.gameType == GameType.PlayWithFriends)
             {
                 uiOutputData.game = destination.game;
                 uiOutputData.multiPlayerGameMode = destination.multiPlayerGameMode;
@@ -187,37 +153,32 @@ namespace com.VisionXR.Controllers
             {
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.StartTutorial();
-
             }
             else if (destination.gameType == GameType.Home)
             {
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.GoToHome();
-
             }
-
         }
+
         private void RoomCreateSuccess()
         {
-
             destinationData.currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
             destinationData.currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
             destinationData.currentDestination.region = playerSettings.serverRegion;
 
             uiInputData.StartMultiPlayerGame();
             destinationData.currentDestination.isJoinable = true;
-
             OnDestinationSuccesEvent?.Invoke();
         }
+
         private void RoomCreateFailed(string reason)
         {
-
             OnDestinationFailEvent?.Invoke();
-
         }
+
         public void RoomJoinSuccess()
         {
-
             destinationData.currentDestination.region = playerSettings.serverRegion;
             destinationData.currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
             destinationData.currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
@@ -225,13 +186,11 @@ namespace com.VisionXR.Controllers
             uiInputData.StartMultiPlayerGame();
             destinationData.currentDestination.isJoinable = false;
             OnDestinationSuccesEvent?.Invoke();
-
         }
+
         public void RoomJoinFailed(string reason)
         {
             OnDestinationFailEvent?.Invoke();
         }
-
     }
 }
-                    
