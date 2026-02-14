@@ -48,6 +48,7 @@ namespace com.VisionXR.GameElements
         private int MyId;
         private StrikerMovement strikerMovement;
         private StrikerShooting strikerShooting;
+        public StrikerArrow strikerArrow;
 
         void OnEnable()
         {
@@ -67,6 +68,7 @@ namespace com.VisionXR.GameElements
             Striker = striker;
             strikerMovement = Striker.GetComponent<StrikerMovement>();  
             strikerShooting = Striker.GetComponent<StrikerShooting>();
+            strikerArrow = Striker.GetComponent<StrikerArrow>();
             holes = boardData.GetHoles();
             transform.position = boardData.GetAvatarPositions(id).position;
             transform.rotation = boardData.GetAvatarPositions(id).rotation;        
@@ -167,6 +169,13 @@ namespace com.VisionXR.GameElements
             Striker.transform.position = strikerMovement.FindStrikerNextPosition(currentSelectedCoin.strikerInfo.strikerPos, currentSelectedCoin.strikerInfo.tangentDir);
             Striker.transform.rotation = boardData.GetStrikerRotations(MyId).transform.rotation;
 
+            yield return new WaitForSeconds(0.5f);
+
+            Vector3 worldDir = (currentSelectedCoin.FinalPos - Striker.transform.position).normalized;
+
+            StartCoroutine(RotateStrikerTowards(worldDir, 0.5f));
+            yield return new WaitForSeconds(0.5f);
+
 
             // Strike if angle is within range
             if (currentSelectedCoin.angle < CutOffAngle)
@@ -206,6 +215,38 @@ namespace com.VisionXR.GameElements
 
         }
 
+        /// <summary>
+        /// Smoothly rotate the striker so its forward points toward worldDirection (keeps y-axis stable).
+        /// duration is seconds for the rotation to complete.
+        /// </summary>
+        private IEnumerator RotateStrikerTowards(Vector3 worldDirection, float duration)
+        {
+            // flatten direction to horizontal plane to avoid unwanted pitch
+            Vector3 flatDir = new Vector3(worldDirection.x, 0f, worldDirection.z);
+            if (flatDir.sqrMagnitude <= 0.0001f)
+                yield break;
+
+            Quaternion startRot = Striker.transform.rotation;
+            Quaternion targetRot = Quaternion.LookRotation(flatDir.normalized, Vector3.up);
+
+            float t = 0f;
+            // if duration is zero or tiny, snap immediately
+            if (duration <= 0f)
+            {
+                Striker.transform.rotation = targetRot;
+                yield break;
+            }
+
+            while (t < 1f)
+            {
+                t += Time.deltaTime / duration;
+                Striker.transform.rotation = Quaternion.Slerp(startRot, targetRot, Mathf.SmoothStep(0f, 1f, t));
+                yield return null;
+            }
+
+            Striker.transform.rotation = targetRot;
+        }
+
         private IEnumerator Strike(Vector3 direction, float strikeForce, CoinInfo coinInfo)
         {
          
@@ -215,6 +256,8 @@ namespace com.VisionXR.GameElements
             yield return new WaitForSeconds(0.1f);
            
             strikerShooting.FireStriker(direction, strikeForce);
+
+            strikerArrow.TurnOffArrow();
             yield return new WaitForSeconds(0.1f);
             hitCoinList.Clear();
         }

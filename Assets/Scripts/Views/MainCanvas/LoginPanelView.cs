@@ -5,7 +5,7 @@ using UnityEngine;
 public class LoginPanelView : MonoBehaviour
 {
     [Header("Scriptable Objects")]
-
+    public UIInputDataSO uIInputData;
     public CloudDataSO cloudData;
     public MyPlayerSettings playerSettings;
 
@@ -13,6 +13,9 @@ public class LoginPanelView : MonoBehaviour
     {
         AudioManager.instance.PlayButtonClickSound();
         playerSettings.SetLoginType(LoginType.Google);
+        uIInputData.ShowLoadingPanel();
+
+        
         if (Application.isEditor)
         {
             cloudData.EditorLogin();

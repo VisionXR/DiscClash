@@ -56,21 +56,17 @@ namespace com.VisionXR.Controllers
         {
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId("Guest_Player", "12345");
+            playerSettings.SetLogIn(false);
+            playerSettings.SaveSettings();
         }
 
         public void GoogleLogin()
         {
-            if (!Application.isEditor)
-            {
-                Debug.Log("Trying to login!");
+                 Debug.Log("Trying to login!");
                 PlayGamesPlatform.Activate();
                 PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
-            }
-            else
-            {
-                // Simplified Editor Mock
-                playerSettings.SetUserNameAndId("Editor_Player", "12345");
-            }
+            
+
         }
 
         internal void ProcessAuthentication(SignInStatus status)
