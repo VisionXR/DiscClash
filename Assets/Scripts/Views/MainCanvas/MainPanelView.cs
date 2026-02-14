@@ -1,7 +1,9 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace com.VisionXR.Views
@@ -14,6 +16,8 @@ namespace com.VisionXR.Views
         public MyPlayerSettings myPlayerSettings;
         public NetworkOutputSO networkOutputData;
         public DestinationDataSO destinationData;
+        public MyPlayerSettings playerSettings;
+        public CloudDataSO cloudData;
 
 
         [Header(" Panels ")]
@@ -21,7 +25,19 @@ namespace com.VisionXR.Views
         public GameObject PlayWithFriendsPanel;
         public GameObject PlayWithStrangersPanel;
         public GameObject InternetToast;
-    
+
+        [Header(" Player UI ")]
+        public Image playerImage;
+        public TMP_Text playerName;
+        public TMP_Text playerCoins;
+
+
+        private void OnEnable()
+        {
+            playerImage.sprite = myPlayerSettings.MyProfileImage;
+            playerName.text = myPlayerSettings.MyName;
+            playerCoins.text = cloudData.coins.ToString();
+        }
 
         public void OnSinglePlayerClicked()
         {

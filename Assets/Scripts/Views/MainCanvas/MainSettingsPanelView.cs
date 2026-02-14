@@ -1,19 +1,25 @@
+using com.VisionXR.ModelClasses;
 using UnityEngine;
 
 namespace com.VisionXR.Views
 {
     public class MainSettingsPanelView : MonoBehaviour
     {
- 
+
+        [Header(" Scriptable Objects ")]
+        public UIInputDataSO uIInputData;
+        public MyPlayerSettings playerSettings;
+
 
         [Header(" Panels ")]
-        [SerializeField] private GameObject MainPanel;
-        [SerializeField] private GameObject SettingsPanel;
-        [SerializeField] private GameObject RulesPanel;
-        [SerializeField] private GameObject AboutUsPanel;
-        [SerializeField] private GameObject LeaderBoardPanel;
-        [SerializeField] private GameObject PurchasePanel;
-        [SerializeField] private GameObject AchievementsPanel;
+        public GameObject LoginPanel;
+        public GameObject MainPanel;
+        public GameObject SettingsPanel;
+        public GameObject RulesPanel;
+        public GameObject AboutUsPanel;
+        public GameObject LeaderBoardPanel;
+        public GameObject PurchasePanel;
+        public GameObject AchievementsPanel;
 
     
         public void HomeButtonClicked()
@@ -65,7 +71,17 @@ namespace com.VisionXR.Views
             AchievementsPanel.SetActive(true);
         }
 
-       
+        public void LogoutBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            ResetPanels();
+            playerSettings.IsLoggedIn = false;
+            playerSettings.SaveSettings();
+            uIInputData.ShowLogin();
+
+        }
+
+
         private void ResetPanels()
         {
             MainPanel.SetActive(false);

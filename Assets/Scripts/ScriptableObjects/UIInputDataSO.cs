@@ -24,6 +24,9 @@ namespace com.VisionXR.ModelClasses
         public Action ShowLoginEvent;
         public Action<GameResult> ShowGameResultEvent;
 
+        //General Events
+      
+
 
         //Network  Events    
         public Action<Destination> ShowDestinationPanelEvent;
