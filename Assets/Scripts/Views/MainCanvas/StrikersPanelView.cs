@@ -19,6 +19,7 @@ namespace com.VisionXR.Views
         public AchievementsDataSO achievementsData;
         public StrikerDataSO strikerData;
         public PlayersDataSO playersData;
+        public AppDataSO appData;
 
 
         [Header("Panel Objects")]
@@ -179,7 +180,7 @@ namespace com.VisionXR.Views
             }
             else
             {
-                Debug.Log(" in here ");
+                
                 MyPlayerSettings.SetStriker(id);
                 MyPlayerSettings.SaveSettings();
                 InitializeStrikers();
@@ -238,7 +239,7 @@ namespace com.VisionXR.Views
             foreach (Image strikerImage in strikerSelectedImages)
             {
                 strikerImage.gameObject.GetComponent<UIGradient>().enabled = false;
-                strikerImage.color = AppProperties.instance.IdleColor;
+                strikerImage.color = appData.IdleColor;
             }
         }
 
@@ -287,9 +288,9 @@ namespace com.VisionXR.Views
             premiumImage.gameObject.GetComponent<UIGradient>().enabled = false;
             achievementImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            defaultImage.color = AppProperties.instance.IdleColor;
-            premiumImage.color = AppProperties.instance.IdleColor;
-            achievementImage.color = AppProperties.instance.IdleColor;
+            defaultImage.color = appData.IdleColor;
+            premiumImage.color = appData.IdleColor;
+            achievementImage.color = appData.IdleColor;
         }
     }
 }

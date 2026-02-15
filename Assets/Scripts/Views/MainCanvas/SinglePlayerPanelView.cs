@@ -14,6 +14,7 @@ namespace com.VisionXR.Views
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
         public MyPlayerSettings myplayerSettings;
+        public AppDataSO appData;
        
 
         [Header("Panels")]
@@ -190,8 +191,8 @@ namespace com.VisionXR.Views
             vs1AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             vs3AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            vs1AISelectedImage.color = AppProperties.instance.IdleColor;
-            vs3AISelectedImage.color = AppProperties.instance.IdleColor;
+            vs1AISelectedImage.color = appData.IdleColor;
+            vs3AISelectedImage.color = appData.IdleColor;
 
         }
 
@@ -201,8 +202,8 @@ namespace com.VisionXR.Views
             BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            BlackAndWhiteSelectedImage.color = AppProperties.instance.IdleColor;
-            FreeStyleSelectedImage.color = AppProperties.instance.IdleColor;
+            BlackAndWhiteSelectedImage.color = appData.IdleColor;
+            FreeStyleSelectedImage.color = appData.IdleColor;
 
         }
 
@@ -212,9 +213,9 @@ namespace com.VisionXR.Views
             MediumSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             HardSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            EasySelectedImage.color = AppProperties.instance.IdleColor;
-            MediumSelectedImage.color = AppProperties.instance.IdleColor;
-            HardSelectedImage.color = AppProperties.instance.IdleColor;
+            EasySelectedImage.color = appData.IdleColor;
+            MediumSelectedImage.color = appData.IdleColor;
+            HardSelectedImage.color = appData.IdleColor;
         }
         private void ResetSelectedImages()
         {
@@ -232,15 +233,15 @@ namespace com.VisionXR.Views
 
           
 
-            vs1AISelectedImage.color = AppProperties.instance.IdleColor;
-            vs3AISelectedImage.color = AppProperties.instance.IdleColor;
+            vs1AISelectedImage.color = appData.IdleColor;
+            vs3AISelectedImage.color = appData.IdleColor;
 
-            BlackAndWhiteSelectedImage.color = AppProperties.instance.IdleColor;
-            FreeStyleSelectedImage.color = AppProperties.instance.IdleColor;
+            BlackAndWhiteSelectedImage.color = appData.IdleColor;
+            FreeStyleSelectedImage.color = appData.IdleColor;
 
-            EasySelectedImage.color = AppProperties.instance.IdleColor;
-            MediumSelectedImage.color = AppProperties.instance.IdleColor;
-            HardSelectedImage.color = AppProperties.instance.IdleColor;
+            EasySelectedImage.color = appData.IdleColor;
+            MediumSelectedImage.color = appData.IdleColor;
+            HardSelectedImage.color = appData.IdleColor;
         }
 
 

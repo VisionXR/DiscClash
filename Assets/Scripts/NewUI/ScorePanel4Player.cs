@@ -62,10 +62,10 @@ public class ScorePanel4Player : MonoBehaviour
 
     private void ResetImages()
     {
-        teamA.SetPlayerImage(1,AppProperties.instance.DummyPersonIcon);
-        teamA.SetPlayerImage(2, AppProperties.instance.DummyPersonIcon);
-        teamB.SetPlayerImage(3, AppProperties.instance.DummyPersonIcon);
-        teamB.SetPlayerImage(4, AppProperties.instance.DummyPersonIcon);
+        teamA.SetPlayerImage(1,null);
+        teamA.SetPlayerImage(2, null);
+        teamB.SetPlayerImage(3, null);
+        teamB.SetPlayerImage(4, null);
     }
 
     private void ShowImages()

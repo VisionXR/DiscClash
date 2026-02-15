@@ -14,6 +14,7 @@ namespace com.VisionXR.GameElements
         public CoinDataSO coinData;
         public BoardDataSO boardData;
         public StrikerDataSO strikerData;
+        public AppDataSO appData;
 
         [Header("Local Objects")]
         public Player player;
@@ -82,7 +83,7 @@ namespace com.VisionXR.GameElements
                 initialWorldPoint = hit.point;
                 touchedStrikerTransform = striker;
 
-                AppProperties.instance.PlayVibration();
+                appData.PlayStrikervibration();
                 strikerData.isAimimg = true;
                 return;
             }
@@ -99,7 +100,7 @@ namespace com.VisionXR.GameElements
 
                 // Optionally show rotation canvas
                 //   coinData.ShowRotationCanvasEvent?.Invoke();
-                AppProperties.instance.PlayVibration();
+                appData.PlayStrikervibration();
                 return;
             }
 
@@ -196,7 +197,7 @@ namespace com.VisionXR.GameElements
                 float normalizedForce = Mathf.Clamp01(dragDistance / maxDragDistance);
 
                 // Fire with computed force
-                AppProperties.instance.PlayStrikerVibration();
+                appData.PlayStrikervibration();
                 player.strikerShoot.FireStriker(normalizedForce);
                 strikerData.isAimimg = false;
 

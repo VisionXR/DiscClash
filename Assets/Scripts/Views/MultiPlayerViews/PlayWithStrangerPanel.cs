@@ -14,6 +14,7 @@ namespace com.VisionXR.Views
         public MyPlayerSettings playerSettings;
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
+        public AppDataSO appData;
 
 
 
@@ -255,10 +256,10 @@ namespace com.VisionXR.Views
             P1P2VsP3P4SelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
            
 
-            P1VsP2SelectedImage.color = AppProperties.instance.IdleColor;
-            P1AIVsP2AISelectedImage.color = AppProperties.instance.IdleColor;
-            P1P2VsAISelectedImage.color = AppProperties.instance.IdleColor;
-            P1P2VsP3P4SelectedImage.color = AppProperties.instance.IdleColor;
+            P1VsP2SelectedImage.color = appData.IdleColor;
+            P1AIVsP2AISelectedImage.color = appData.IdleColor;
+            P1P2VsAISelectedImage.color = appData.IdleColor;
+            P1P2VsP3P4SelectedImage.color = appData.IdleColor;
            
         }
         public void ResetGameTypeImages()
@@ -266,8 +267,8 @@ namespace com.VisionXR.Views
             BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            BlackAndWhiteSelectedImage.color = AppProperties.instance.IdleColor;
-            FreeStyleSelectedImage.color = AppProperties.instance.IdleColor;
+            BlackAndWhiteSelectedImage.color = appData.IdleColor;
+            FreeStyleSelectedImage.color = appData.IdleColor;
         }
         public void ResetDifficulty()
         {
@@ -276,9 +277,9 @@ namespace com.VisionXR.Views
             MediumSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             HardSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            EasyelectedImage.color = AppProperties.instance.IdleColor;
-            MediumSelectedImage.color = AppProperties.instance.IdleColor;
-            HardSelectedImage.color = AppProperties.instance.IdleColor;
+            EasyelectedImage.color = appData.IdleColor;
+            MediumSelectedImage.color = appData.IdleColor;
+            HardSelectedImage.color = appData.IdleColor;
         }
         private void ResetButtons()
         {
@@ -288,25 +289,25 @@ namespace com.VisionXR.Views
             P1P2VsP3P4SelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             
 
-            P1VsP2SelectedImage.color = AppProperties.instance.IdleColor;
-            P1AIVsP2AISelectedImage.color = AppProperties.instance.IdleColor;
-            P1P2VsAISelectedImage.color = AppProperties.instance.IdleColor;
-            P1P2VsP3P4SelectedImage.color = AppProperties.instance.IdleColor;
+            P1VsP2SelectedImage.color = appData.IdleColor;
+            P1AIVsP2AISelectedImage.color = appData.IdleColor;
+            P1P2VsAISelectedImage.color = appData.IdleColor;
+            P1P2VsP3P4SelectedImage.color = appData.IdleColor;
            
 
             BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            BlackAndWhiteSelectedImage.color = AppProperties.instance.IdleColor;
-            FreeStyleSelectedImage.color = AppProperties.instance.IdleColor;
+            BlackAndWhiteSelectedImage.color = appData.IdleColor;
+            FreeStyleSelectedImage.color = appData.IdleColor;
 
             EasyelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             MediumSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             HardSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            EasyelectedImage.color = AppProperties.instance.IdleColor;
-            MediumSelectedImage.color = AppProperties.instance.IdleColor;
-            HardSelectedImage.color = AppProperties.instance.IdleColor;
+            EasyelectedImage.color = appData.IdleColor;
+            MediumSelectedImage.color = appData.IdleColor;
+            HardSelectedImage.color = appData.IdleColor;
         }
     
 

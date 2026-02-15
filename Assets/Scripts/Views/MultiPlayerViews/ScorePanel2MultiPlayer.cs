@@ -152,8 +152,6 @@ namespace com.VisionXR.Views
             Player1Name.text = "";
             Player2Name.text = "";
 
-            player1Image.sprite = AppProperties.instance.DummyPersonIcon;
-            player2Image.sprite = AppProperties.instance.DummyPersonIcon;
 
         }
 

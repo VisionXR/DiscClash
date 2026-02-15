@@ -65,8 +65,8 @@ public class ScorePanel2Player : MonoBehaviour
 
     private void ResetImages()
     {
-        leftPlayer.SetPlayerImage(AppProperties.instance.DummyPersonIcon);
-        rightPlayer.SetPlayerImage(AppProperties.instance.DummyPersonIcon);
+        leftPlayer.SetPlayerImage(null);
+        rightPlayer.SetPlayerImage(null);
     }
 
     private void ShowImages()

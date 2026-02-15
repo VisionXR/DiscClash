@@ -15,6 +15,7 @@ namespace com.VisionXR.Views
         public MyPlayerSettings MyPlayerSettings;
         public PurchaseDataSO purchaseData;
         public AchievementsDataSO achievementsData;
+        public AppDataSO appData;
 
 
         [Header("Panel Objects")]
@@ -157,7 +158,7 @@ namespace com.VisionXR.Views
             foreach (Image boardImage in coinSelectedImages)
             {
                 boardImage.gameObject.GetComponent<UIGradient>().enabled = false;
-                boardImage.color = AppProperties.instance.IdleColor;
+                boardImage.color = appData.IdleColor;
             }
         }
 
@@ -205,9 +206,9 @@ namespace com.VisionXR.Views
             premiumImage.gameObject.GetComponent<UIGradient>().enabled = false;
             achievementImage.gameObject.GetComponent<UIGradient>().enabled = false;
 
-            defaultImage.color = AppProperties.instance.IdleColor;
-            premiumImage.color = AppProperties.instance.IdleColor;
-            achievementImage.color = AppProperties.instance.IdleColor;
+            defaultImage.color = appData.IdleColor;
+            premiumImage.color = appData.IdleColor;
+            achievementImage.color = appData.IdleColor;
         }
     }
 }

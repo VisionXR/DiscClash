@@ -1,3 +1,4 @@
+using com.VisionXR.ModelClasses;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ namespace com.VisionXR.Views
         [Header(" Game Objects")]
         public GameObject GeneralRulesPanel;
         public GameObject GameRulesPanel;
+        public AppDataSO appData;
 
         [Header("Panels")]
         public GameObject MainPanel;
@@ -47,8 +49,8 @@ namespace com.VisionXR.Views
 
         void ResetImages()
         {
-            GameRulesSelectedImage.color = AppProperties.instance.IdleColor;
-            GeneralRulesSelectedImage.color = AppProperties.instance.IdleColor;
+            GameRulesSelectedImage.color = appData.IdleColor;
+            GeneralRulesSelectedImage.color =   appData.IdleColor;
 
             GameRulesSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;
             GeneralRulesSelectedImage.gameObject.GetComponent<UIGradient>().enabled = false;

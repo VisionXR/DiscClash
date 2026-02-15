@@ -1,4 +1,5 @@
 
+using com.VisionXR.ModelClasses;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PurchasePanel : MonoBehaviour
 {
     [Header("Scriptable Objects")]
     public PurchaseDataSO purchaseData;
+    public AppDataSO appData;
 
     [Header("Panel Elements")]
     public GameObject strikerPanel;
@@ -198,13 +200,13 @@ public class PurchasePanel : MonoBehaviour
         coinPanel.SetActive(false);
 
         strikerPanelImage.gameObject.GetComponent<UIGradient>().enabled = false;
-        strikerPanelImage.color = AppProperties.instance.IdleColor;
+        strikerPanelImage.color = appData.IdleColor;
 
         boardPanelImage.gameObject.GetComponent<UIGradient>().enabled = false;
-        boardPanelImage.color = AppProperties.instance.IdleColor;
+        boardPanelImage.color = appData.IdleColor;
 
         coinPanelImage.gameObject.GetComponent<UIGradient>().enabled = false;
-        coinPanelImage.color = AppProperties.instance.IdleColor;
+        coinPanelImage.color = appData.IdleColor;
 
     }
 

@@ -42,10 +42,7 @@ namespace com.VisionXR.Controllers
 
             fineLogic.PutFineEvent += PutFine;
 
-            gameData.TurnChangedEvent += TurnChanged;
-
-
-            StartCoroutine(StartGame());
+            gameData.TurnChangedEvent += TurnChanged;       
         }
 
         private void OnDisable()
@@ -62,17 +59,11 @@ namespace com.VisionXR.Controllers
 
             gameData.TurnChangedEvent -= TurnChanged;
 
-
         }
 
-        private void TurnChanged(int id)
+        public void StartGame()
         {
-            Player p = playersData.GetPlayer(id);
-            if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
-            {
-                inputPanel2Players.SetActive(true);
-                inputPanel4Players.SetActive(true);
-            }
+            StartCoroutine(StartGameRoutine());
         }
 
         private void PlayAgain()
@@ -122,7 +113,7 @@ namespace com.VisionXR.Controllers
             }
 
         }
-        private IEnumerator StartGame()
+        private IEnumerator StartGameRoutine()
         {
 
             coinData.ResetData();
@@ -202,6 +193,16 @@ namespace com.VisionXR.Controllers
 
         }
 
+        private void TurnChanged(int id)
+        {
+            Player p = playersData.GetPlayer(id);
+            if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
+            {
+                inputPanel2Players.SetActive(true);
+                inputPanel4Players.SetActive(true);
+            }
+        }
+
         private void PutFine(PlayerCoin coin)
         {
             coinData.CreateCoin(coin);
@@ -210,7 +211,6 @@ namespace com.VisionXR.Controllers
         public void ProcessPlayerData(Player p, int Whites, int Blacks, int Red, bool isFoul)
         {
             
-
             IncrementScore(p, Whites, Blacks, Red, isFoul);
 
             bool ShouldIContinueTurn = DeterminePlayerTurn(p, Whites, Blacks, Red, isFoul);

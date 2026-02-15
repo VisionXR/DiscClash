@@ -4,29 +4,9 @@ using UnityEngine;
 
 public class AppProperties : MonoBehaviour
 {
-    public static AppProperties instance;
-    public MyPlayerSettings playerSettings;
+    [Header("Scriptable Objects")]
+    public AppDataSO appData;
    
-
-    [Header(" Colors ")]
-    public Color SelectedColor;
-    public Color HoverColor;
-    public Color IdleColor;
-    public Color HoverIdle;
-
-    [Header(" Static Icons")]
-    public Sprite AIIcon;
-    public Sprite DummyPersonIcon;
-
-    [Header(" Local variables")]
-    public float vibrationDuration = 0.5f;
-    [Range(0f, 1f)]
-    public float vibrationAmplitude = 0.1f;
-    [Range(0f, 1f)]
-    public float vibrationAmplitudeForStriking = 1f;
-
-
-    private bool isLeft, isRight;
 
     // Android vibrator cache
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -37,19 +17,27 @@ public class AppProperties : MonoBehaviour
 
     private Coroutine _vibrationCoroutine;
 
-    private void Awake()
+
+    private void OnEnable()
     {
-        instance = this;
+        appData.PlayButtonVibrationEvent += PlayButtonVibration;
+        appData.PlayStrikerVibrationEvent += PlayStrikerVibration;
     }
 
-    public void PlayVibration()
+    private void OnDisable()
     {
-        PlayVibration(vibrationDuration, vibrationAmplitude);
+        appData.PlayButtonVibrationEvent -= PlayButtonVibration;
+        appData.PlayStrikerVibrationEvent -= PlayStrikerVibration;
+    }
+
+    public void PlayButtonVibration()
+    {
+        PlayVibration(appData.vibrationDuration, appData.vibrationAmplitude);
     }
 
     public void PlayStrikerVibration()
     {
-        PlayVibration(vibrationDuration, vibrationAmplitudeForStriking);
+        PlayVibration(appData.vibrationDuration, appData.vibrationAmplitudeForStriking);
     }
 
     public void PlayVibration(float durationSeconds, float amplitude01)
