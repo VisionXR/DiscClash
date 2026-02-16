@@ -1,9 +1,9 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using NUnit.Framework;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadingPanelView : MonoBehaviour
 {
@@ -15,32 +15,39 @@ public class LoadingPanelView : MonoBehaviour
     public MyPlayerSettings playerSettings;
 
     [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI statusText;
-
-    [Header("Messages")]
-    [SerializeField] private string topMessage = "Fetching Data";
-    [SerializeField] private string bottomMessage = "Please Wait";
+    public TextMeshProUGUI statusText;
+    public Image ConnectingImage;
 
     [Header("Animation Settings")]
     [SerializeField, Tooltip("Seconds between dot updates")] private float animationSpeed = 0.5f;
     [SerializeField, Tooltip("Maximum number of dots to show")] private int maxDots = 3;
+    [SerializeField, Tooltip("Degrees per second for connecting image rotation")] private float rotationSpeed = 180f;
+    [SerializeField, Tooltip("If true rotates clockwise")] private bool rotateClockwise = true;
 
     [Header("UI Elements")]
     public GameObject RetryButton;
     public GameObject PlayOfflineBtn;
 
+    // local variables
     private Coroutine animationCoroutine;
+    private string topMessage, bottomMessage;
 
     private void Awake()
     {
         if (maxDots < 1) maxDots = 3;
         if (animationSpeed <= 0f) animationSpeed = 0.5f;
+        if (rotationSpeed < 0f) rotationSpeed = Mathf.Abs(rotationSpeed);
+
+        // default messages
+        topMessage = "Fetching Data";
+        bottomMessage = "Please Wait";
     }
 
     private void OnEnable()
     {
+        // start the combined animation coroutine
         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-        animationCoroutine = StartCoroutine(AnimateTwoLinePulse());
+        animationCoroutine = StartCoroutine(AnimateTwoLinePulseAndRotate());
 
         cloudData.FetchSuccessEvent += OnLoginFetchSuccess;
         cloudData.FetchFailureEvent += OnLoginFetchFailure;
@@ -51,7 +58,15 @@ public class LoadingPanelView : MonoBehaviour
 
     private void OnDisable()
     {
-      
+        if (animationCoroutine != null)
+        {
+            StopCoroutine(animationCoroutine);
+            animationCoroutine = null;
+        }
+
+        // stop rotating and optionally reset rotation
+        if (ConnectingImage != null)
+            ConnectingImage.rectTransform.localRotation = Quaternion.identity;
 
         cloudData.FetchSuccessEvent -= OnLoginFetchSuccess;
         cloudData.FetchFailureEvent -= OnLoginFetchFailure;
@@ -60,18 +75,20 @@ public class LoadingPanelView : MonoBehaviour
     // Called when LoginFetchManager reports success
     private void OnLoginFetchSuccess()
     {
-
         if (animationCoroutine != null)
         {
             StopCoroutine(animationCoroutine);
             animationCoroutine = null;
         }
 
+        // reset rotation on success
+        if (ConnectingImage != null)
+            ConnectingImage.rectTransform.localRotation = Quaternion.identity;
+
         playerSettings.SetLoginType(LoginType.Google);
         uiInputData.ShowDestination(destinationData.currentDestination);
 
         gameObject.SetActive(false);
-
     }
 
     // Called when LoginFetchManager reports failure
@@ -83,55 +100,68 @@ public class LoadingPanelView : MonoBehaviour
             animationCoroutine = null;
         }
 
+        // show error messages and enable retry controls
         topMessage = "Something Went Wrong";
-        bottomMessage = " Retru or play offline";
+        bottomMessage = " Retry or play offline";
         statusText.text = $"{topMessage}\n{bottomMessage}";
 
         RetryButton.SetActive(true);
         PlayOfflineBtn.SetActive(true);
-        // UI's retry button should call loginFetchManager.RetryFetch() or StartLoginAndFetchCoins()
     }
 
-    private IEnumerator AnimateTwoLinePulse()
+    // Combined animation: two-line text with ping-pong dots and continuous rotation of the ConnectingImage.
+    private IEnumerator AnimateTwoLinePulseAndRotate()
     {
         int dotCount = 0;
         bool increasing = true;
 
+        // Safety: ensure default messages are set
+        if (string.IsNullOrEmpty(topMessage)) topMessage = "Fetching Data";
+        if (string.IsNullOrEmpty(bottomMessage)) bottomMessage = "Please Wait";
+
+        // Use a high-frequency loop to keep rotation smooth while updating dots at animationSpeed intervals.
+        float elapsedSinceDotUpdate = 0f;
         while (true)
         {
-            string dots = new string('.', dotCount);
-            statusText.text = $"{topMessage}\n{bottomMessage}{dots}";
-
-            // advance dotCount in a ping-pong fashion: 0..maxDots..0
-            if (increasing)
+            // rotate every frame
+            float sign = rotateClockwise ? -1f : 1f; // negative z rotates clockwise visually in UI
+            if (ConnectingImage != null)
             {
-                dotCount++;
-                if (dotCount > maxDots)
-                {
-                    // switch direction and step back so maxDots is visible once
-                    dotCount = Mathf.Max(0, maxDots - 1);
-                    increasing = false;
-                }
-            }
-            else
-            {
-                dotCount--;
-                if (dotCount < 0)
-                {
-                    dotCount = Mathf.Min(1, maxDots); // start increasing again
-                    increasing = true;
-                }
+                ConnectingImage.rectTransform.Rotate(0f, 0f, sign * rotationSpeed * Time.deltaTime);
             }
 
-            yield return new WaitForSeconds(animationSpeed);
+            // update dot timer
+            elapsedSinceDotUpdate += Time.deltaTime;
+            if (elapsedSinceDotUpdate >= animationSpeed)
+            {
+                elapsedSinceDotUpdate = 0f;
+
+                string dots = new string('.', dotCount);
+                statusText.text = $"{topMessage}\n{bottomMessage}{dots}";
+
+                // ping-pong dot logic
+                if (increasing)
+                {
+                    dotCount++;
+                    if (dotCount > maxDots)
+                    {
+                        dotCount = Mathf.Max(0, maxDots - 1);
+                        increasing = false;
+                    }
+                }
+                else
+                {
+                    dotCount--;
+                    if (dotCount < 0)
+                    {
+                        dotCount = Mathf.Min(1, maxDots);
+                        increasing = true;
+                    }
+                }
+            }
+
+            yield return null;
         }
-    }
-
-    // Public API to change messages at runtime (optional)
-    public void SetMessages(string top, string bottom)
-    {
-        topMessage = top ?? topMessage;
-        bottomMessage = bottom ?? bottomMessage;
     }
 
     public void RetryBtnClicked()
@@ -139,7 +169,7 @@ public class LoadingPanelView : MonoBehaviour
         AudioManager.instance.PlayButtonClickSound();
 
         if (animationCoroutine != null) StopCoroutine(animationCoroutine);
-        animationCoroutine = StartCoroutine(AnimateTwoLinePulse());
+        animationCoroutine = StartCoroutine(AnimateTwoLinePulseAndRotate());
         cloudData.Retry();
 
         RetryButton.SetActive(false);
@@ -156,6 +186,4 @@ public class LoadingPanelView : MonoBehaviour
         gameObject.SetActive(false);
         Debug.Log("Play Offline Clicked");
     }
-
-
 }
