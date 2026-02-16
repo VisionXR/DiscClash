@@ -26,11 +26,13 @@ namespace com.VisionXR.Views
         private void CreateStriker()
         {
             strikerData.CreateStriker(1, playerSettings.MyStrikerId, null);
+            coinData.CreateAllCoins(1);
         }
 
         private void DestroyStriker()
         {
             strikerData.DestroyStriker(1);
+            coinData.DestroyAllCoins();
         }
 
         public void BoardBtnClicked()
