@@ -17,9 +17,10 @@ namespace com.VisionXR.ModelClasses
         public PlayerCoin playerCoin;
         public RoomType roomType;
         public ServerRegion region;
-        public int MyCoinsId = 0;
-        public int MyBoard = 0;
         public int NoOfPlayers = 2;
+
+        public int MyBoard;
+        public int MyCoinsId;
 
         // coin Images
         public Sprite WhiteCoin;
@@ -68,19 +69,6 @@ namespace com.VisionXR.ModelClasses
         public void SetPlayerCoin(PlayerCoin playerCoin)
         {
             this.playerCoin = playerCoin;
-        }
-
-        public void SetMyCoinsId(int id)
-        {
-            MyCoinsId = id;
-            SetMyCoinsIdEvent?.Invoke(id);
-        }
-
-        public void SetMyBoard(int id)
-        {
-
-            MyBoard = id;
-            SetMyBoardEvent?.Invoke(id);
         }
 
         public void SetCoinImages(Sprite white, Sprite black, Sprite Red, Sprite blackAndwhite)

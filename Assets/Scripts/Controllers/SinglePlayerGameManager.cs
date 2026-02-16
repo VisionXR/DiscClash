@@ -71,7 +71,7 @@ namespace com.VisionXR.Controllers
             coinData.ResetData();
             strikerData.ResetFoul();
 
-            coinData.CreateAllCoins();
+         //   coinData.CreateAllCoins();
 
 
             int firstTurn = 1;
@@ -120,7 +120,7 @@ namespace com.VisionXR.Controllers
            
             playersData.CreateSinglePlayers();
             yield return new WaitForSeconds(0.1f);
-            coinData.CreateAllCoins();
+     //       coinData.CreateAllCoins();
            
             int firstTurn = 1;
 
@@ -205,7 +205,7 @@ namespace com.VisionXR.Controllers
 
         private void PutFine(PlayerCoin coin)
         {
-            coinData.CreateCoin(coin);
+           // coinData.CreateCoin(coin);
         }
 
         public void ProcessPlayerData(Player p, int Whites, int Blacks, int Red, bool isFoul)

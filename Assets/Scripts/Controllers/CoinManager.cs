@@ -14,6 +14,7 @@ public class CoinManager : MonoBehaviour
     public UIOutputDataSO uIOutputData;
     public BoardDataSO boardData;
 
+
     /// <summary>
     /// Subscribes to coin-related events when enabled.
     /// </summary>
@@ -78,11 +79,11 @@ public class CoinManager : MonoBehaviour
     /// <summary>
     /// Creates all coins by instantiating the coin prefab and placing it on the board.
     /// </summary>
-    public void CreateCoins()
+    public void CreateCoins(int coinsId)
     {
         DestroyCoins();
 
-        string resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/AllCoins";
+        string resourcePath = "Coins/Coins" + coinsId + "/AllCoins";
         GameObject allCoinsPrefab = Resources.Load<GameObject>(resourcePath);
 
         if (allCoinsPrefab != null)
@@ -145,7 +146,7 @@ public class CoinManager : MonoBehaviour
     /// Creates a single coin of the specified type and places it on the board.
     /// </summary>
     /// <param name="coin">The type of coin to create.</param>
-    public void CreateCoin(PlayerCoin coin)
+    public void CreateCoin(PlayerCoin coin,int coinsId)
     {
         GameObject newCoin = null;
         Vector3 newCoinPos = FindCoinPosition();
@@ -153,7 +154,7 @@ public class CoinManager : MonoBehaviour
 
         if (coin == PlayerCoin.White)
         {
-            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/WhiteCoin";
+            resourcePath = "Coins/Coins" + coinsId + "/WhiteCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -168,7 +169,7 @@ public class CoinManager : MonoBehaviour
         }
         else if (coin == PlayerCoin.Black)
         {
-            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/BlackCoin";
+            resourcePath = "Coins/Coins" + coinsId + "/BlackCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {
@@ -183,7 +184,7 @@ public class CoinManager : MonoBehaviour
         }
         else if (coin == PlayerCoin.Red)
         {
-            resourcePath = "Coins/Coins" + uIOutputData.MyCoinsId + "/RedCoin";
+            resourcePath = "Coins/Coins" + coinsId + "/RedCoin";
             newCoin = Resources.Load<GameObject>(resourcePath);
             if (newCoin != null)
             {

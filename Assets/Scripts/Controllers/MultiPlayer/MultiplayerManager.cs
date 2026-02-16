@@ -143,7 +143,7 @@ namespace com.VisionXR.Controllers
             coinData.ResetData();
             coinData.ResetCount();
             strikerData.ResetFoul();
-            coinData.CreateAllCoins();
+         //   coinData.CreateAllCoins();
 
             connectionDisconnection.StartGame();
             waitingPanel2Players.SetActive(false);
@@ -260,7 +260,7 @@ namespace com.VisionXR.Controllers
         }
         private void ReceiveFine(PlayerCoin coin)
         {
-            coinData.CreateCoin(coin);
+           // coinData.CreateCoin(coin,coinsId);
         }
 
         public void ProcessPlayerData(Player p, int Whites, int Blacks, int Red, bool isFoul)

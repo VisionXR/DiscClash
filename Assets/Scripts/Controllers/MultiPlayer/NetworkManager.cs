@@ -235,13 +235,13 @@ namespace com.VisionXR.Controllers
                     uiOutputData.SetGame((Game)(int)gameProp);
 
                 if (props.TryGetValue("board", out var boardProp))
-                    uiOutputData.SetMyBoard((int)boardProp);
+                   // uiOutputData.SetMyBoard((int)boardProp);
 
                 if (props.TryGetValue("difficulty", out var difficultyProp))
                     uiOutputData.SetAIDifficulty((AIDifficulty)(int)difficultyProp);
 
                 if (props.TryGetValue("myCoinsId", out var coinProp))
-                    uiOutputData.SetMyCoinsId((int)coinProp);
+                   // uiOutputData.SetMyCoinsId((int)coinProp);
 
                 Debug.Log("[Network] Session properties received and assigned.");
             }

@@ -93,7 +93,7 @@ namespace com.VisionXR.EditorTools
                 {
                   
 
-                    coinData.CreateAllCoins();
+                    coinData.CreateAllCoins(0);
 
                     Debug.Log($"[PlayerTest] Attempting to create player: {testPlayerProperties.myName} with ID: {playerId}");
 

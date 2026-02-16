@@ -71,6 +71,7 @@ using UnityEngine;
             CoinsChangedEvent?.Invoke(id);
         }
 
+
         public void SetUserProfileImage(Sprite s)
         {
             MyProfileImage = s;

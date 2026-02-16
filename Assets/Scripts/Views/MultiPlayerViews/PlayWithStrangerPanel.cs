@@ -45,8 +45,6 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
 
-            uiOutputData.SetMyBoard(playerSettings.MyBoard);
-            uiOutputData.SetMyCoinsId(playerSettings.MyCoinsId);
             Destination d = new Destination();    
             d.multiPlayerGameMode = uiOutputData.multiPlayerGameMode;
             d.gameType = GameType.OnlineMultiPlayer;

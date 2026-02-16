@@ -43,7 +43,7 @@ namespace com.VisionXR.Views
             coinData.ShowFoulEvent -= ShowFoul;
         }
 
-        private void CheckForFoul(PlayerCoin coin)
+        private void CheckForFoul(PlayerCoin coin, int coinsId)
         {
             if (coin == PlayerCoin.White || coin == PlayerCoin.Black)
             {

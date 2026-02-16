@@ -170,8 +170,6 @@ namespace com.VisionXR.Views
             currentDestination.roomName = "NA";
             currentDestination.lobbyName = "NA";
 
-            uiOutputData.SetMyBoard(myplayerSettings.MyBoard);
-            uiOutputData.SetMyCoinsId(myplayerSettings.MyCoinsId);
 
             uiInputData.ShowDestination(currentDestination);
 

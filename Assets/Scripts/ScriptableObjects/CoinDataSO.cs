@@ -27,7 +27,7 @@ namespace com.VisionXR.ModelClasses
 
 
         // Events
-        public Action CreateAllCoinsEvent;
+        public Action<int> CreateAllCoinsEvent;
         public Action DestroyAllCoinsEvent;
 
         public Action ShowRotationCanvasEvent;
@@ -35,7 +35,7 @@ namespace com.VisionXR.ModelClasses
         public Action<float> SetAllCoinsRotationEvent;
 
 
-        public Action<PlayerCoin> CreateCoinEvent;
+        public Action<PlayerCoin,int> CreateCoinEvent;
         public Action<string> DestroyCoinEvent;
 
 
@@ -96,17 +96,17 @@ namespace com.VisionXR.ModelClasses
            
             CoinpocketedUntoHoleEvent?.Invoke(hole);
         }
-        public void CreateAllCoins()
+        public void CreateAllCoins(int id)
         {
-            CreateAllCoinsEvent?.Invoke();
+            CreateAllCoinsEvent?.Invoke(id);
         }
         public void DestroyAllCoins()
         {
             DestroyAllCoinsEvent?.Invoke();
         }
-        public void CreateCoin(PlayerCoin coin)
+        public void CreateCoin(PlayerCoin coin,int id)
         {
-            CreateCoinEvent?.Invoke(coin);
+            CreateCoinEvent?.Invoke(coin,id);
         }
     
         public void RegisterCoin(Rigidbody coin)
