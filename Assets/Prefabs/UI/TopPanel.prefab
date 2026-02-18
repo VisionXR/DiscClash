@@ -1445,6 +1445,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerBtn
       objectReference: {fileID: 0}
+    - target: {fileID: 7282921215727948109, guid: 4f8d3cc090982e04bac91f29529bf6c2, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 9212264904721470316, guid: 4f8d3cc090982e04bac91f29529bf6c2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1525,7 +1529,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5281540247445439849, guid: 4f8d3cc090982e04bac91f29529bf6c2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

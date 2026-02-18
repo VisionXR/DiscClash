@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 namespace com.VisionXR.ModelClasses
@@ -10,9 +11,8 @@ namespace com.VisionXR.ModelClasses
     {
         // variables
         public GameType gameType;
-        public Game game;
-        public MultiPlayerGameMode multiPlayerGameMode;
-        public SinglePlayerGameMode singlePlayerGameMode;
+        public GameMode gameMode;
+        public Challenge challenge;
         public AIDifficulty aIDifficulty;
         public PlayerCoin playerCoin;
         public RoomType roomType;
@@ -45,23 +45,21 @@ namespace com.VisionXR.ModelClasses
         {
             this.gameType = gameType;
         }
-        public void SetGame(Game game)
+        public void SetChallenge(Challenge challenge)
         {
-            this.game = game;
+            this.challenge = challenge;
+        }
+
+        public void SetGameMode(GameMode gameMode)
+        {
+            this.gameMode = gameMode;
         }
 
         public void SetRoomType(RoomType roomType)
         {
             this.roomType = roomType;
         }
-        public void SetGameMode(MultiPlayerGameMode gameMode)
-        {
-            multiPlayerGameMode = gameMode;
-        }
-        public void SetSingleGameMode(SinglePlayerGameMode singleGameMode)
-        {
-            singlePlayerGameMode = singleGameMode;
-        }
+
         public void SetAIDifficulty(AIDifficulty aIDifficulty)
         {
             this.aIDifficulty = aIDifficulty;

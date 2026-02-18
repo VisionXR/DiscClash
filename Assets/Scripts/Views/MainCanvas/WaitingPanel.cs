@@ -52,7 +52,7 @@ namespace com.VisionXR.Views
             playerNames[id - 1].text = name;
 
 
-            if(uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if(uiOutputData.gameMode == GameMode.P1vsP2)
             {
                 if (playerData.NoOfPlayers() == 2 && networkOutputData.isHost)
                 {

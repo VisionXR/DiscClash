@@ -150,9 +150,8 @@ namespace com.VisionXR.HelperClasses
     {
         public ServerRegion region;
         public GameType gameType;
-        public Game game;
-        public MultiPlayerGameMode multiPlayerGameMode;
-        public SinglePlayerGameMode singlePlayerGameMode;
+        public Challenge challenge;
+        public GameMode gameMode;
         public string lobbyName;
         public string roomName;
         public bool isJoinable;
@@ -166,14 +165,22 @@ namespace com.VisionXR.HelperClasses
 
     }
 
+    [Serializable]
+    public class Lobby
+    {
+        public string LobbyName;
+        public int EntryFee;
+        
+
+    }
+
 
     [Serializable]
     public class LinkData
     {
         public GameType gameType;
-        public Game game;
-        public MultiPlayerGameMode multiPlayerGameMode;
-        public SinglePlayerGameMode singlePlayerGameMode;
+        public GameMode gameMode;
+        public Challenge challenge;
     }
 
 

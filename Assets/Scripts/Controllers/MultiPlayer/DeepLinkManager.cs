@@ -127,17 +127,17 @@ namespace com.VisionXR.Controllers
             OnDestinationSuccesEvent = OnConnected;
             OnDestinationFailEvent = OnFailed;
 
-            if (destination.gameType == GameType.SinglePlayer)
+            if (destination.gameType == GameType.VsCPU)
             {
-                uiOutputData.game = destination.game;
-                uiOutputData.singlePlayerGameMode = destination.singlePlayerGameMode;
+                uiOutputData.challenge = destination.challenge;
+                uiOutputData.gameMode = destination.gameMode;
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.StartSinglePlayerGame();
             }
             else if (destination.gameType == GameType.OnlineMultiPlayer || destination.gameType == GameType.PlayWithFriends)
             {
-                uiOutputData.game = destination.game;
-                uiOutputData.multiPlayerGameMode = destination.multiPlayerGameMode;
+                uiOutputData.challenge = destination.challenge;
+                uiOutputData.challenge = destination.challenge;
 
                 if (destination.roomName == "")
                 {

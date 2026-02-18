@@ -16,7 +16,7 @@ namespace com.VisionXR.GameElements
 
         public void AIShouldPlay()
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 PlayBlackAndWhite();
             }

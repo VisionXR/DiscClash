@@ -60,24 +60,12 @@ public class CenterCanvasUIManager : MonoBehaviour
     public void ShowGameResult( GameResult result)
     {
         GameResultPanel.SetActive(true);
-        GameResultPanel.GetComponent<GameResultPanelView>().ShowResult(result);
+       // GameResultPanel.GetComponent<GameResultPanelView>().ShowResult(result);
     }
 
     public void ShowOtherPlayerDisconnection()
     {
-        if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1P2vsP3P4)
-        {
-
-            OtherPlayerDisconnectPanel.SetActive(true);
-           
-        }
-        else
-        {
-            if (playerData.CurrentPlayers.Count < 3)
-            {
-                OtherPlayerDisconnectPanel.SetActive(true);              
-            }
-        }
+       
 
     }
 

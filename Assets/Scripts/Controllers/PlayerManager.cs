@@ -3,7 +3,6 @@ using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
 using System;
 using com.VisionXR.GameElements;
-using Fusion;
 
 namespace com.VisionXR.Controllers
 {
@@ -52,7 +51,7 @@ namespace com.VisionXR.Controllers
 
         public void CreatePlayersForSinglePlayer()
         {
-            if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)        
+            if(uiOutputData.gameMode == GameMode.PvsAI)        
             {
                 if(uiOutputData.playerCoin == PlayerCoin.White)  
                 {
@@ -118,7 +117,7 @@ namespace com.VisionXR.Controllers
                     CreatePlayer(p2);
                 }
             }
-            else
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
             {
                 if (uiOutputData.playerCoin == PlayerCoin.White)
                 {

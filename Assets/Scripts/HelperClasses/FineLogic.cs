@@ -15,11 +15,11 @@ public class FineLogic : MonoBehaviour
 
     public void CheckFine(Player currentPlayer, int Whites, int Blacks, int Reds, bool isFoul)
     {
-        if (uiOutputData.game == Game.BlackAndWhite)
+        if (uiOutputData.challenge == Challenge.BlackAndWhite)
         {
             CheckFineBW(currentPlayer, Whites, Blacks, Reds, isFoul);
         }
-        else if(uiOutputData.game == Game.FreeStyle)
+        else if(uiOutputData.challenge == Challenge.FreeStyle)
         {
             CheckFineFS(currentPlayer, Whites, Blacks, Reds, isFoul);
         }

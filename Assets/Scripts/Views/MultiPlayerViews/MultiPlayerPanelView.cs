@@ -110,29 +110,29 @@ namespace com.VisionXR.Views
         private void Initialize()
         {
             // Game mode selection
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if (uiOutputData.gameMode == GameMode.P1vsP2)
             {
                 P1VsP2SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1VsP2SelectedImage.color = Color.white;
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
+            else if (uiOutputData.gameMode == GameMode.P1P2vsAI)
             {
                 P1P2VsAISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1P2VsAISelectedImage.color = Color.white;
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            else if (uiOutputData.gameMode == GameMode.P1AIvsP2AI)
             {
                 P1AIVsP2AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1AIVsP2AISelectedImage.color = Color.white;
             }
 
             // Game Type selection
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 BlackAndWhiteSelectedImage.color = Color.white;
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 FreeStyleSelectedImage.color = Color.white;
@@ -190,7 +190,7 @@ namespace com.VisionXR.Views
 
             P1VsP2SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             P1VsP2SelectedImage.color = Color.white;
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1vsP2);
+            uiOutputData.SetGameMode(GameMode.P1vsP2);
             ChangeJoinRoomText();
            
         }
@@ -203,7 +203,7 @@ namespace com.VisionXR.Views
             P1AIVsP2AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             P1AIVsP2AISelectedImage.color = Color.white;
 
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1AIvsP2AI);
+            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             ChangeJoinRoomText();
           
 
@@ -216,12 +216,12 @@ namespace com.VisionXR.Views
             P1P2VsAISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             P1P2VsAISelectedImage.color = Color.white;
 
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1P2vsAI);
+            uiOutputData.SetGameMode(GameMode.P1P2vsAI);
             ChangeJoinRoomText();
            
         }
 
-        public void OnBlackAndWhiteClicked()
+        public void BlackAndWhiteClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameTypeImages();
@@ -229,11 +229,11 @@ namespace com.VisionXR.Views
             BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             BlackAndWhiteSelectedImage.color = Color.white;
 
-            uiOutputData.SetGame(Game.BlackAndWhite);
+            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
            
 
         }
-        public void OnFreeStyleClicked()
+        public void FreeStyleClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameTypeImages();
@@ -241,11 +241,11 @@ namespace com.VisionXR.Views
             FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             FreeStyleSelectedImage.color = Color.white;
 
-            uiOutputData.SetGame(Game.FreeStyle);
+            uiOutputData.SetChallenge(Challenge.FreeStyle);
            
         }
 
-        public void OnEasyButtonClicked()
+        public void EasyButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetDifficulty();
@@ -256,7 +256,7 @@ namespace com.VisionXR.Views
             uiOutputData.SetAIDifficulty(AIDifficulty.Easy);
         }
 
-        public void OnMediumButtonClicked()
+        public void MediumButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetDifficulty();
@@ -267,7 +267,7 @@ namespace com.VisionXR.Views
             uiOutputData.SetAIDifficulty(AIDifficulty.Medium);
         }
 
-        public void OnHardButtonClicked()
+        public void HardButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetDifficulty();
@@ -280,7 +280,7 @@ namespace com.VisionXR.Views
 
         private void ChangeJoinRoomText()
         {
-            joinRoomText.text = " Join Random ( " + Enum.GetName(typeof(MultiPlayerGameMode), uiOutputData.multiPlayerGameMode) + " )";
+          //  joinRoomText.text = " Join Random ( " + Enum.GetName(typeof(MultiPlayerGameMode), uiOutputData.multiPlayerGameMode) + " )";
         }
 
         public void OnBackButtonClicked()

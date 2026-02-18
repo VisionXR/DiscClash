@@ -108,8 +108,8 @@ namespace com.VisionXR.Controllers
             
                 var customRoomProps = new Dictionary<string, SessionProperty>
                 {
-                    { "gamemode", (int)uiOutputData.multiPlayerGameMode },
-                    { "game", (int)uiOutputData.game },
+                    { "gamemode", (int)uiOutputData.gameMode },
+                    { "challenge", (int)uiOutputData.challenge },
                     { "board", uiOutputData.MyBoard },
                     { "difficulty", (int)uiOutputData.aIDifficulty },
                     { "myCoinsId", uiOutputData.MyCoinsId }
@@ -229,10 +229,10 @@ namespace com.VisionXR.Controllers
                 var props = runner.SessionInfo.Properties;
 
                 if (props.TryGetValue("gamemode", out var gameModeProp))
-                    uiOutputData.SetGameMode((HelperClasses.MultiPlayerGameMode)(int)gameModeProp);
+                    uiOutputData.SetGameMode((HelperClasses.GameMode)(int)gameModeProp);
 
-                if (props.TryGetValue("game", out var gameProp))
-                    uiOutputData.SetGame((Game)(int)gameProp);
+                if (props.TryGetValue("challenge", out var gameProp))
+                    uiOutputData.SetChallenge((Challenge)(int)gameProp);
 
                 if (props.TryGetValue("board", out var boardProp))
                    // uiOutputData.SetMyBoard((int)boardProp);
