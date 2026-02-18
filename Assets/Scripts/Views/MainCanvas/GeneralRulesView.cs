@@ -13,11 +13,10 @@ namespace com.VisionXR.Views
 
         [Header("Panels")]
         public GameObject MainPanel;
-        public GameObject HomePanel;
 
         [Header("Selection Images")]
-        [SerializeField] private Image GameRulesSelectedImage;
-        [SerializeField] private Image GeneralRulesSelectedImage;
+        public Image GameRulesSelectedImage;
+        public Image GeneralRulesSelectedImage;
 
         private void OnEnable()
         {
@@ -60,7 +59,6 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             MainPanel.SetActive(true);
-            HomePanel.SetActive(true);
             gameObject.SetActive(false);
         }
 

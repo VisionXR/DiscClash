@@ -18,6 +18,7 @@ namespace com.VisionXR.ModelClasses
         public RoomType roomType;
         public ServerRegion region;
         public int NoOfPlayers = 2;
+        public int EntryFee = 0;
 
         public int MyBoard;
         public int MyCoinsId;
@@ -45,6 +46,12 @@ namespace com.VisionXR.ModelClasses
         {
             this.gameType = gameType;
         }
+
+        public void SetEntryFee(int fee)
+        {
+            this.EntryFee = fee;
+        }
+
         public void SetChallenge(Challenge challenge)
         {
             this.challenge = challenge;

@@ -2,7 +2,6 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace com.VisionXR.Views
 {
@@ -18,19 +17,62 @@ namespace com.VisionXR.Views
        
 
         [Header("Panels")]
-        public GameObject MainPanel;
+        public GameObject HomePanel;
+        public GameObject AssetSelectionPanel;
 
 
-        public void StartSinglePlayerClicked()
-        {          
-            AudioManager.instance.PlayButtonClickSound();    
-  
+        public void PvsAI_BW_BtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            AssetSelectionPanel.SetActive(true);
+            uiOutputData.SetEntryFee(50);
+            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
+            gameObject.SetActive(false);
+
+        }
+
+        public void PvsAI_FS_BtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            AssetSelectionPanel.SetActive(true);
+            uiOutputData.SetEntryFee(50);
+            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetChallenge(Challenge.FreeStyle);
+            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
+            gameObject.SetActive(false);
+
+        }
+
+        public void PAIvsAIAI_BW_BtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            AssetSelectionPanel.SetActive(true);
+            uiOutputData.SetEntryFee(75);
+            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
+            gameObject.SetActive(false);
+
+        }
+
+        public void PAIvsAIAI_FS_BtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            AssetSelectionPanel.SetActive(true);
+            uiOutputData.SetEntryFee(75);
+            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetChallenge(Challenge.FreeStyle);
+            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
+            gameObject.SetActive(false);
+
         }
 
         public void BackButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            MainPanel.SetActive(true);
+            HomePanel.SetActive(true);
            
             gameObject.SetActive(false);
         }

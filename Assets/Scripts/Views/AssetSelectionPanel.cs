@@ -12,6 +12,9 @@ namespace com.VisionXR.Views
         public StrikerDataSO strikerData;
         public CoinDataSO coinData;
 
+        [Header("Panels")]
+        public GameObject LobbyPanel;
+
 
         private void OnEnable()
         {
@@ -52,6 +55,7 @@ namespace com.VisionXR.Views
 
         public void NextBtnClicked()
         {
+            AudioManager.instance.PlayButtonClickSound();
 
         }
     }

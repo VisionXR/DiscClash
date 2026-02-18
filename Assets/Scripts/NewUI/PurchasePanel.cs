@@ -16,7 +16,7 @@ public class PurchasePanel : MonoBehaviour
     public GameObject boardPanel;
     public GameObject coinPanel;
     public GameObject mainPanel;
-    public GameObject mainSettingsPanel;
+
 
     [Header("List Elements")]
     public List<TMP_Text> strikerPriceTexts;

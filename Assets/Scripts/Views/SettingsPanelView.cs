@@ -15,16 +15,15 @@ namespace com.VisionXR.Views
    
 
         [Header("Panels")]
-        [SerializeField] private GameObject ProfilePanel;
-        [SerializeField] private GameObject MainPanel;
-        [SerializeField] private GameObject HomePanel;
+        public GameObject ProfilePanel;
+        public GameObject MainPanel;
 
 
         [Space(5)]
         [Header("Local Variables")]
-        [SerializeField] private Image profileImage;
-        [SerializeField] private Slider musicSlider;
-        [SerializeField] private TMP_InputField playerNameIf;
+        public Image profileImage;
+        public Slider musicSlider;
+        public TMP_InputField playerNameIf;
         
 
         private void OnEnable()
@@ -75,7 +74,6 @@ namespace com.VisionXR.Views
         public void BackButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            HomePanel.SetActive(true);
             MainPanel.SetActive(true);
             gameObject.SetActive(false);
         }

@@ -54,11 +54,10 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             VsCPUPanel.SetActive(true);
             uiOutputData.SetGameType(GameType.VsCPU);
-
             gameObject.SetActive(false);
         }
 
-        public void OnOnlineMultiPlayerClicked()
+        public void OnlineMultiPlayerBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             if(Application.internetReachability == NetworkReachability.NotReachable)
@@ -73,7 +72,7 @@ namespace com.VisionXR.Views
             gameObject.SetActive(false);
         }
 
-        public void OnPlayWithFriendsClicked()
+        public void PlayWithFriendsBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             if (Application.internetReachability == NetworkReachability.NotReachable)
@@ -89,7 +88,7 @@ namespace com.VisionXR.Views
         
             gameObject.SetActive(false);
         }
-        public void OnTutorialClicked()
+        public void TutorialBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             uiOutputData.SetGameType(GameType.Tutorial);

@@ -148,6 +148,7 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class Destination
     {
+        public int EntryFee;
         public ServerRegion region;
         public GameType gameType;
         public Challenge challenge;
@@ -155,22 +156,10 @@ namespace com.VisionXR.HelperClasses
         public string lobbyName;
         public string roomName;
         public bool isJoinable;
-
-     
-
         public ServerRegion GetRegion()
         {
             return Enum.TryParse(lobbyName, true, out ServerRegion serverRegion) ? serverRegion : ServerRegion.any;
         }
-
-    }
-
-    [Serializable]
-    public class Lobby
-    {
-        public string LobbyName;
-        public int EntryFee;
-        
 
     }
 
