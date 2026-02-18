@@ -72,7 +72,7 @@ namespace com.VisionXR.Views
         {
 
             // setting title
-            if (uiOutputData.game == Game.BlackAndWhite) 
+            if (uiOutputData.challenge == Challenge.BlackAndWhite) 
             {
                 Player1Title.text = "Black And White";
                 Player2Title.text = "Black And White";

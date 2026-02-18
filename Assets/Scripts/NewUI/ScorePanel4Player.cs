@@ -125,14 +125,14 @@ public class ScorePanel4Player : MonoBehaviour
     {
         if (p.myId == 1  || p.myId == 2)
         {
-            teamA.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));  
+          
             teamA.SetPlayerName(p.myId,p.myName);
             teamA.SetPlayerImage(p.myId,p.GetMyImage());
 
         }
         else {
 
-            teamB.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));
+        
             teamB.SetPlayerName(p.myId,p.myName);
             teamB.SetPlayerImage(p.myId,p.GetMyImage());
           
@@ -145,134 +145,7 @@ public class ScorePanel4Player : MonoBehaviour
     {
         AudioManager.instance.StopClockSound();
 
-        if (uiOutputData.gameType == GameType.SinglePlayer)
-        {
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
-            {
-                if (uiOutputData.game == Game.BlackAndWhite)
-                {
-                    Player p = playerData.GetPlayer(1);
-                    if(p.myCoin == PlayerCoin.White)
-                    {
-                        int whiteScore1 = gameData.P1Whites+gameData.P2Whites+gameData.P3Whites+gameData.P4Whites;
-                        int redScore1 = (gameData.P1Red +gameData.P2Red)*3;
-                        int totalScore1 = whiteScore1+redScore1;
 
-                        teamA.SetScore(whiteScore1, redScore1, totalScore1);
-
-                        int blackScore2 = gameData.P1Blacks + gameData.P2Blacks+gameData.P3Blacks+gameData.P4Blacks;   
-                        int redScore2 = (gameData.P3Red+gameData.P4Red) * 3;
-                        int totalScore2 = blackScore2 + redScore2;
-
-                        teamB.SetScore(blackScore2, redScore2, totalScore2);
-
-
-                    }
-                    else
-                    {
-                        int blackScore1 = gameData.P1Blacks + gameData.P2Blacks+gameData.P3Blacks+gameData.P4Blacks;   
-                        int redScore1 = (gameData.P1Red+gameData.P2Red) * 3;
-                        int totalScore1 = blackScore1 + redScore1;
-
-                        teamA.SetScore(blackScore1, redScore1, totalScore1);   
-
-                        int whiteScore2 = gameData.P1Whites + gameData.P2Whites+gameData.P3Whites+gameData.P4Whites; 
-                        int redScore2 = (gameData.P3Red+gameData.P4Red) * 3;
-                        int totalScore2 = whiteScore2 + redScore2;
-
-                        teamB.SetScore(whiteScore2, redScore2, totalScore2);
-
-                    }
-                }
-                else if (uiOutputData.game == Game.FreeStyle)   
-                {
-                    int blackScore1 = gameData.P1Blacks +gameData.P2Blacks;
-                    int whiteScore1 = gameData.P1Whites + gameData.P2Whites;
-                    int redScore1 = (gameData.P1Red + gameData.P2Red) * 3;
-                    int totalScore1 = blackScore1 + redScore1+whiteScore1;
-
-                    teamA.SetScore(blackScore1+whiteScore1, redScore1, totalScore1);
-
-                    int whiteScore2 = gameData.P3Whites + gameData.P4Whites;
-                    int blackScore2 = gameData.P3Blacks + gameData.P4Blacks;
-                    int redScore2 = (gameData.P3Red + gameData.P4Red) * 3;
-                    int totalScore2 = whiteScore2 + redScore2+blackScore2;
-
-                    teamB.SetScore(whiteScore2+blackScore2, redScore2, totalScore2);
-                }
-            }
-        }
-        else if ((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
-        {
-            if (uiOutputData.multiPlayerGameMode != MultiPlayerGameMode.P1vsP2)
-            {
-
-                if (uiOutputData.game == Game.BlackAndWhite)
-                {
-                    Player p = playerData.GetPlayer(1);
-                    if (p.myCoin == PlayerCoin.White)
-                    {
-                        int whiteScore1 = gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites;
-                        int redScore1 = (gameData.P1Red + gameData.P2Red) * 3;
-                        int totalScore1 = whiteScore1 + redScore1;
-
-                        teamA.SetScore(whiteScore1, redScore1, totalScore1);
-
-                        int blackScore2 = gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks;
-                        int redScore2 = (gameData.P3Red + gameData.P4Red) * 3;
-                        int totalScore2 = blackScore2 + redScore2;
-
-                        teamB.SetScore(blackScore2, redScore2, totalScore2);
-
-
-                    }
-                    else
-                    {
-                        int blackScore1 = gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks;
-                        int redScore1 = (gameData.P1Red + gameData.P2Red) * 3;
-                        int totalScore1 = blackScore1 + redScore1;
-
-                        teamA.SetScore(blackScore1, redScore1, totalScore1);
-
-                        int whiteScore2 = gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites;
-                        int redScore2 = (gameData.P3Red + gameData.P4Red) * 3;
-                        int totalScore2 = whiteScore2 + redScore2;
-
-                        teamB.SetScore(whiteScore2, redScore2, totalScore2);
-
-                    }
-                }
-                else if (uiOutputData.game == Game.FreeStyle)
-                {
-                    int blackScore1 = gameData.P1Blacks + gameData.P2Blacks;
-                    int whiteScore1 = gameData.P1Whites + gameData.P2Whites;
-                    int redScore1 = (gameData.P1Red + gameData.P2Red) * 3;
-                    int totalScore1 = blackScore1 + redScore1 + whiteScore1;
-
-                    teamA.SetScore(blackScore1 + whiteScore1, redScore1, totalScore1);
-
-                    int whiteScore2 = gameData.P3Whites + gameData.P4Whites;
-                    int blackScore2 = gameData.P3Blacks + gameData.P4Blacks;
-                    int redScore2 = (gameData.P3Red + gameData.P4Red) * 3;
-                    int totalScore2 = whiteScore2 + redScore2 + blackScore2;
-
-                    teamB.SetScore(whiteScore2 + blackScore2, redScore2, totalScore2);
-                }
-            }
-        }
-
-
-        ResetIndicators();
-        SetTurnIndicator(id);
-
-
-        if (uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends)
-        {
-            if (turnTimeRoutine == null)
-            {
-                turnTimeRoutine = StartCoroutine(StartTurnTime(id));
-            }
-        }
     }
 
 
@@ -373,7 +246,7 @@ public class ScorePanel4Player : MonoBehaviour
 
         if (p.myId == 1 || p.myId == 2)
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
@@ -386,7 +259,7 @@ public class ScorePanel4Player : MonoBehaviour
                     teamA.SetRedImage(uiOutputData.RedCoin);
                 }
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (   uiOutputData.challenge == Challenge.FreeStyle)
             {
                 teamA.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                 teamA.SetRedImage(uiOutputData.RedCoin);
@@ -394,7 +267,7 @@ public class ScorePanel4Player : MonoBehaviour
         }
         else
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
@@ -407,7 +280,7 @@ public class ScorePanel4Player : MonoBehaviour
                     teamB.SetRedImage(uiOutputData.RedCoin);
                 }
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 teamB.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                 teamB.SetRedImage(uiOutputData.RedCoin);

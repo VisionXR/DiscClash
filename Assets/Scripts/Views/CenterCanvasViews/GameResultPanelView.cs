@@ -63,37 +63,37 @@ namespace com.VisionXR.Views
         public TMP_Text player2TotalScore;
 
 
-        public void ShowResult(GameResult result)
-        {
-            ResetData();
+        //public void ShowResult(GameResult result)
+        //{
+        //    ResetData();
 
-            if (uiOutputData.gameType == GameType.SinglePlayer)
-            {
-                if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-                {
-                    TwoPlayersObject.SetActive(true);
-                    SetTwoPlayerData(result);
-                }
-                else
-                {
-                    FourPlayersObject.SetActive(true);
-                    SetFourPlayerData(result);
-                }
-            }
-            else if((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
-            {
-                if(uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
-                {
-                    TwoPlayersObject.SetActive(true);
-                    SetTwoPlayerData(result);
-                }
-                else
-                {
-                    FourPlayersObject.SetActive(true);
-                    SetFourPlayerData(result);
-                }
-            }
-        }
+        //    if (uiOutputData.gameType == GameType.SinglePlayer)
+        //    {
+        //        if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+        //        {
+        //            TwoPlayersObject.SetActive(true);
+        //            SetTwoPlayerData(result);
+        //        }
+        //        else
+        //        {
+        //            FourPlayersObject.SetActive(true);
+        //            SetFourPlayerData(result);
+        //        }
+        //    }
+        //    else if((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
+        //    {
+        //        if(uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+        //        {
+        //            TwoPlayersObject.SetActive(true);
+        //            SetTwoPlayerData(result);
+        //        }
+        //        else
+        //        {
+        //            FourPlayersObject.SetActive(true);
+        //            SetFourPlayerData(result);
+        //        }
+        //    }
+        //}
 
         private void SetTwoPlayerData(GameResult result)
         {
@@ -101,11 +101,11 @@ namespace com.VisionXR.Views
             player1Nam.text = playersData.GetPlayer(1).myName;
             player2Nam.text = playersData.GetPlayer(2).myName;
 
-            if(uiOutputData.game == Game.BlackAndWhite)
+            if(uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 ShowBlackAndWhite2PlayerScore();
             }
-            else if(uiOutputData.game == Game.FreeStyle)
+            else if(uiOutputData.challenge == Challenge.FreeStyle)
             {
                 ShowFreeStyle2PlayerScore();
             }
@@ -119,11 +119,11 @@ namespace com.VisionXR.Views
             player3Name.text = playersData.GetPlayer(3).myName;
             player4Name.text = playersData.GetPlayer(4).myName;
 
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 ShowBlackAndWhite4PlayerScore();
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 ShowFreeStyle4PlayerScore();
             }

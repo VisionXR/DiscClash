@@ -42,13 +42,13 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void PlayerJoined(Player player)
     {
-        if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+        if (uiOutputData.gameMode == GameMode.P1vsP2)
         {
             waitingPanel2Player.SetName(player.myId, player.myName);
             waitingPanel2Player.SetStatus(player.myId, "Joined");
             waitingPanel2Player.SetImage(player.myId, player.GetMyImage());
         }
-        else
+        else if (uiOutputData.gameMode == GameMode.P1P2vsAI || uiOutputData.gameMode == GameMode.P1AIvsP2AI || uiOutputData.gameMode == GameMode.P1P2vsP3P4)
         {
             waitingPanel4Player.SetName(player.myId, player.myName);
             waitingPanel4Player.SetStatus(player.myId, "Joined");

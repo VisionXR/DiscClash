@@ -50,34 +50,34 @@ namespace com.VisionXR.Views
         {
 
             // Game mode selection
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if (uiOutputData.gameMode == GameMode.P1vsP2)
             {
                 P1VsP2SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1VsP2SelectedImage.color = Color.white;
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
+            else if (uiOutputData.gameMode == GameMode.P1P2vsAI)
             {
                 P1P2VsAISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1P2VsAISelectedImage.color = Color.white;
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            else if (uiOutputData.gameMode == GameMode.P1AIvsP2AI)
             {
                 P1AIVsP2AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1AIVsP2AISelectedImage.color = Color.white;
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsP3P4)
+            else if (uiOutputData.gameMode == GameMode.P1P2vsP3P4)
             {
                 P1P2VsP3P4SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1P2VsP3P4SelectedImage.color = Color.white;
             }
 
             // Game Type selection
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 BlackAndWhiteSelectedImage.color = Color.white;
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 FreeStyleSelectedImage.color = Color.white;
@@ -108,9 +108,9 @@ namespace com.VisionXR.Views
 
 
             Destination d = new Destination();
-            d.multiPlayerGameMode = uiOutputData.multiPlayerGameMode;
+            d.gameMode = uiOutputData.gameMode;
             d.gameType = GameType.PlayWithFriends;
-            d.game = uiOutputData.game;
+            d.challenge = uiOutputData.challenge;
             d.region = playerSettings.serverRegion;
             d.isJoinable = true;
             d.roomName = "";
@@ -132,7 +132,7 @@ namespace com.VisionXR.Views
             P1VsP2SelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(2);
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1vsP2);
+            uiOutputData.SetGameMode(GameMode.P1vsP2);
            
         }
         public void P1AIVsP2AIButtonClicked()
@@ -144,7 +144,7 @@ namespace com.VisionXR.Views
             P1AIVsP2AISelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(2);
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1AIvsP2AI);
+            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
            
 
         }
@@ -157,7 +157,7 @@ namespace com.VisionXR.Views
             P1P2VsAISelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(2);
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1P2vsAI);
+            uiOutputData.SetGameMode(GameMode.P1P2vsAI);
            
         }
 
@@ -170,7 +170,7 @@ namespace com.VisionXR.Views
             P1P2VsP3P4SelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(4);
-            uiOutputData.SetGameMode(MultiPlayerGameMode.P1P2vsP3P4);
+            uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
 
         }
 
@@ -182,7 +182,7 @@ namespace com.VisionXR.Views
             BlackAndWhiteSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             BlackAndWhiteSelectedImage.color = Color.white;
 
-            uiOutputData.SetGame(Game.BlackAndWhite);
+            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
            
 
         }
@@ -194,7 +194,7 @@ namespace com.VisionXR.Views
             FreeStyleSelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             FreeStyleSelectedImage.color = Color.white;
 
-            uiOutputData.SetGame(Game.FreeStyle);
+            uiOutputData.SetChallenge(Challenge.FreeStyle);
            
         }
         public void OnEasyButtonClicked()

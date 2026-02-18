@@ -76,7 +76,7 @@ namespace com.VisionXR.Controllers
 
             int firstTurn = 1;
 
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            if (uiOutputData.gameMode == GameMode.PvsAI)
             {
                 if (uiOutputData.playerCoin == PlayerCoin.White)
                 {
@@ -88,7 +88,7 @@ namespace com.VisionXR.Controllers
                     firstTurn = 2;
                 }
             }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
             {
                 if (uiOutputData.playerCoin == PlayerCoin.White)
                 {
@@ -124,7 +124,7 @@ namespace com.VisionXR.Controllers
            
             int firstTurn = 1;
 
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            if (uiOutputData.gameMode == GameMode.PvsAI)
             {
                 if (uiOutputData.playerCoin == PlayerCoin.White)
                 {
@@ -136,7 +136,7 @@ namespace com.VisionXR.Controllers
                     firstTurn = 2;
                 }
             }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
             {
                 if (uiOutputData.playerCoin == PlayerCoin.White)
                 {
@@ -233,7 +233,7 @@ namespace com.VisionXR.Controllers
         }
         private bool DeterminePlayerTurn(Player p, int Whites, int Blacks, int Red, bool isFoul)
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 return blackAndWhiteLogic.ShouldPlayerContinueTurn(p, Whites, Blacks, Red, isFoul);
             }
@@ -278,11 +278,11 @@ namespace com.VisionXR.Controllers
         }
         private GameResult CheckGameResult(Player p)
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 return blackAndWhiteLogic.CheckWinningCondition(p);
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 return freeStyleLogic.CheckWinningCondition(p);
             }
@@ -322,7 +322,7 @@ namespace com.VisionXR.Controllers
         {
             int id = gameData.currentTurnId;
 
-            if (uiOutputData.singlePlayerGameMode== SinglePlayerGameMode.PvsAI) // Two-player mode
+            if (uiOutputData.gameMode == GameMode.PvsAI) // Two-player mode
             {
                 if (id == 1)
                 {
@@ -373,7 +373,7 @@ namespace com.VisionXR.Controllers
         {
             Player mainPlayer = playersData.GetMainPlayer();
             int leaderboardPoints = 0;
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            if (uiOutputData.gameMode == GameMode.PvsAI)
             {
                
                if( mainPlayer.myId == 1)

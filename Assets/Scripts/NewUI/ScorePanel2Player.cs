@@ -111,14 +111,14 @@ public class ScorePanel2Player : MonoBehaviour
     {
         if (p.myId == 1)
         {
-            leftPlayer.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));  
+          
             leftPlayer.SetPlayerName(p.myName);
             leftPlayer.SetPlayerImage(p.GetMyImage());
            
         }
         else {
 
-            rightPlayer.SetGameName(Enum.GetName(typeof(Game), uiOutputData.game));
+            
             rightPlayer.SetPlayerName(p.myName);
             rightPlayer.SetPlayerImage(p.GetMyImage());
           
@@ -134,121 +134,7 @@ public class ScorePanel2Player : MonoBehaviour
 
         AudioManager.instance.StopClockSound();
 
-        if (uiOutputData.gameType == GameType.SinglePlayer)
-        {
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-            {
-                if (uiOutputData.game == Game.BlackAndWhite)
-                {
-                    Player p = playerData.GetPlayer(1);
-                    if(p.myCoin == PlayerCoin.White)
-                    {
-                        int whiteScore1 = gameData.P1Whites+gameData.P2Whites;
-                        int redScore1 = gameData.P1Red * 3;
-                        int totalScore1 = whiteScore1+redScore1;
-
-                        leftPlayer.SetScore(whiteScore1, redScore1, totalScore1);
-
-                        int blackScore2 = gameData.P1Blacks + gameData.P2Blacks;   
-                        int redScore2 = gameData.P2Red * 3;
-                        int totalScore2 = blackScore2 + redScore2;
-
-                        rightPlayer.SetScore(blackScore2, redScore2, totalScore2);
-
-
-                    }
-                    else
-                    {
-                        int blackScore1 = gameData.P1Blacks + gameData.P2Blacks;   
-                        int redScore1 = gameData.P1Red * 3;
-                        int totalScore1 = blackScore1 + redScore1;
-
-                        leftPlayer.SetScore(blackScore1, redScore1, totalScore1);   
-
-                        int whiteScore2 = gameData.P1Whites + gameData.P2Whites; 
-                        int redScore2 = gameData.P2Red * 3;
-                        int totalScore2 = whiteScore2 + redScore2;
-
-                        rightPlayer.SetScore(whiteScore2, redScore2, totalScore2);
-
-                    }
-                }
-                else if (uiOutputData.game == Game.FreeStyle)   
-                {
-                    int blackScore1 = gameData.P1Blacks;
-                    int whiteScore1 = gameData.P1Whites; 
-                    int redScore1 = gameData.P1Red * 3;
-                    int totalScore1 = blackScore1 + redScore1+whiteScore1;
-
-                    leftPlayer.SetScore(blackScore1+whiteScore1, redScore1, totalScore1);
-
-                    int whiteScore2 =  gameData.P2Whites;
-                    int blackScore2 =  gameData.P2Blacks;    
-                    int redScore2 = gameData.P2Red*3;
-                    int totalScore2 = whiteScore2 + redScore2+blackScore2;
-
-                    rightPlayer.SetScore(whiteScore2+blackScore2, redScore2, totalScore2);
-                }
-            }
-        }
-        else if ((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
-        {
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
-            {
-                if (uiOutputData.game == Game.BlackAndWhite)
-                {
-                    Player p = playerData.GetPlayer(1);
-                    if (p.myCoin == PlayerCoin.White)
-                    {
-                        int whiteScore1 = gameData.P1Whites + gameData.P2Whites;
-                        int redScore1 = gameData.P1Red*3;
-                        int totalScore1 = whiteScore1 + redScore1;
-
-                        leftPlayer.SetScore(whiteScore1, redScore1, totalScore1);
-
-                        int blackScore2 = gameData.P1Blacks + gameData.P2Blacks;
-                        int redScore2 = gameData.P2Red*3;
-                        int totalScore2 = blackScore2 + redScore2;
-
-                        rightPlayer.SetScore(blackScore2, redScore2, totalScore2);
-
-
-                    }
-                    else
-                    {
-                        int blackScore1 = gameData.P1Blacks + gameData.P2Blacks;
-                        int redScore1 = gameData.P1Red*3;
-                        int totalScore1 = blackScore1 + redScore1;
-
-                        leftPlayer.SetScore(blackScore1, redScore1, totalScore1);
-
-                        int whiteScore2 = gameData.P1Whites + gameData.P2Whites;
-                        int redScore2 = gameData.P2Red * 3;
-                        int totalScore2 = whiteScore2 + redScore2;
-
-                        rightPlayer.SetScore(whiteScore2, redScore2, totalScore2);
-
-                    }
-                }
-                else if (uiOutputData.game == Game.FreeStyle)
-                {
-                    int blackScore1 = gameData.P1Blacks;
-                    int whiteScore1 = gameData.P1Whites;
-                    int redScore1 = gameData.P1Red * 3;
-                    int totalScore1 = blackScore1 + redScore1 + whiteScore1;
-
-                    leftPlayer.SetScore(blackScore1 + whiteScore1, redScore1, totalScore1);
-
-                    int whiteScore2 = gameData.P2Whites;
-                    int blackScore2 = gameData.P2Blacks;
-                    int redScore2 = gameData.P2Red*3;
-                    int totalScore2 = whiteScore2 + redScore2 + blackScore2;
-
-                    rightPlayer.SetScore(whiteScore2 + blackScore2, redScore2, totalScore2);
-                }
-
-            }
-        }
+      
 
 
         ResetIndicators();
@@ -339,7 +225,7 @@ public class ScorePanel2Player : MonoBehaviour
 
         if(id == 1)
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
@@ -352,7 +238,7 @@ public class ScorePanel2Player : MonoBehaviour
                     leftPlayer.SetRedImage(uiOutputData.RedCoin);
                 }
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 leftPlayer.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                 leftPlayer.SetRedImage(uiOutputData.RedCoin);
@@ -360,7 +246,7 @@ public class ScorePanel2Player : MonoBehaviour
         }
         else
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
@@ -373,7 +259,7 @@ public class ScorePanel2Player : MonoBehaviour
                     rightPlayer.SetRedImage(uiOutputData.RedCoin);
                 }
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 rightPlayer.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                 rightPlayer.SetRedImage(uiOutputData.RedCoin);

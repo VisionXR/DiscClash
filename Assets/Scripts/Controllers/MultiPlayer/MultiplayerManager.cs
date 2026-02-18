@@ -148,7 +148,7 @@ namespace com.VisionXR.Controllers
             connectionDisconnection.StartGame();
             waitingPanel2Players.SetActive(false);
             waitingPanel4Players.SetActive(false);
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if (uiOutputData.gameMode == GameMode.P1vsP2)
             {
                 ScorePanel2Players.SetActive(true);
             
@@ -301,7 +301,7 @@ namespace com.VisionXR.Controllers
         }
         private bool DeterminePlayerTurn(Player p, int Whites, int Blacks, int Red, bool isFoul)
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 return blackAndWhiteLogic.ShouldPlayerContinueTurn(p, Whites, Blacks, Red, isFoul);
             }
@@ -345,11 +345,11 @@ namespace com.VisionXR.Controllers
         }
         private GameResult CheckGameResult(Player p)
         {
-            if (uiOutputData.game == Game.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 return blackAndWhiteLogic.CheckWinningCondition(p);
             }
-            else if (uiOutputData.game == Game.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
                 return freeStyleLogic.CheckWinningCondition(p);
             }
@@ -368,7 +368,7 @@ namespace com.VisionXR.Controllers
         {
             int id = gameData.currentTurnId;
           
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2) // Two-player mode
+            if (uiOutputData.gameMode == GameMode.P1vsP2) // Two-player mode
             {
                 if(id == 1)
                 {
@@ -433,7 +433,7 @@ namespace com.VisionXR.Controllers
         {
             Player mainPlayer = playersData.GetMainPlayer();
             int leaderboardPoints = 0;
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            if (uiOutputData.gameMode == GameMode.PvsAI)
             {
 
                 if (mainPlayer.myId == 1)

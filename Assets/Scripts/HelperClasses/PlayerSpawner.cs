@@ -47,19 +47,19 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
     public void SpawnPlayer(PlayerRef playerRef)
     {
-        if(uiData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+        if(uiData.gameMode == com.VisionXR.HelperClasses.GameMode.P1vsP2)
         {
             CreatePlayerForP1VsP2(playerRef);
         }
-        else if(uiData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
+        else if(uiData.gameMode == com.VisionXR.HelperClasses.GameMode.P1P2vsAI)
         {
             CreatePlayersForP1P2VsAI(playerRef);
         }
-        else if (uiData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+        else if (uiData.gameMode == com.VisionXR.HelperClasses.GameMode.P1AIvsP2AI)
         {
             CreatePlayersForP1AIVsP2AI(playerRef);
         }
-        else
+        else if (uiData.gameMode == com.VisionXR.HelperClasses.GameMode.P1P2vsP3P4)
         {
             CreatePlayerForP1P2VsP3P4(playerRef);
         }

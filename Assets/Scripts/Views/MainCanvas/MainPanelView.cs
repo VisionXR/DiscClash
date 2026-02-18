@@ -25,6 +25,7 @@ namespace com.VisionXR.Views
         public GameObject PlayWithFriendsPanel;
         public GameObject PlayWithStrangersPanel;
         public GameObject InternetToast;
+        public GameObject VsCPUPanel;
 
         [Header(" Player UI ")]
         public Image playerImage;
@@ -39,12 +40,21 @@ namespace com.VisionXR.Views
             playerCoins.text = cloudData.coins.ToString();
         }
 
-        public void OnSinglePlayerClicked()
+        public void PracticeOfflineBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             SinglePlayerPanel.SetActive(true);
-            uiOutputData.SetGameType(GameType.SinglePlayer);
+            uiOutputData.SetGameType(GameType.PracticeOffline);
             
+            gameObject.SetActive(false);
+        }
+
+        public void VsCPUBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            VsCPUPanel.SetActive(true);
+            uiOutputData.SetGameType(GameType.VsCPU);
+
             gameObject.SetActive(false);
         }
 

@@ -96,9 +96,9 @@ namespace com.VisionXR.Views
             }
             // Additional logic for successful destination change can be added here.
 
-            if (currentDestination.gameType == GameType.SinglePlayer)
+            if (currentDestination.gameType == GameType.VsCPU)
             {
-                if (currentDestination.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+                if (currentDestination.gameMode == GameMode.PvsAI)
                 {
                     ScorePanel2Players.SetActive(true);
 
@@ -111,7 +111,7 @@ namespace com.VisionXR.Views
             }
             else if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
             {
-                if (currentDestination.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+                if (currentDestination.gameMode == GameMode.P1vsP2)
                 {
                     waitingPanel2Players.SetActive(true);
 
