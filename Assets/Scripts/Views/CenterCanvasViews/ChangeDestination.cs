@@ -19,10 +19,8 @@ namespace com.VisionXR.Views
         public GameObject HomeButton;
 
         [Header("Panel Objects")]
-        public GameObject ScorePanel2Players;
-        public GameObject ScorePanel4Players;
-        public GameObject waitingPanel2Players;
-        public GameObject waitingPanel4Players;
+        public GameObject LobbyAndBetPanel;
+
       
 
         // Events
@@ -98,29 +96,11 @@ namespace com.VisionXR.Views
 
             if (currentDestination.gameType == GameType.VsCPU)
             {
-                if (currentDestination.gameMode == GameMode.PvsAI)
-                {
-                    ScorePanel2Players.SetActive(true);
-
-                }
-                else
-                {
-
-                    ScorePanel4Players.SetActive(true);
-                }
+                LobbyAndBetPanel.SetActive(true);
             }
             else if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
             {
-                if (currentDestination.gameMode == GameMode.P1vsP2)
-                {
-                    waitingPanel2Players.SetActive(true);
-
-                }
-                else
-                {
-
-                    waitingPanel4Players.SetActive(true);
-                }
+                LobbyAndBetPanel.SetActive(true);
             }
 
             gameObject.SetActive(false);
@@ -128,7 +108,7 @@ namespace com.VisionXR.Views
 
         private void OnDestinationFail()
         {
-            Debug.LogError("Destination change failed.");
+           
 
             if (connectingCoroutine != null)
             {

@@ -19,17 +19,22 @@ namespace com.VisionXR.Controllers
         public InputDataSO inputData;
 
 
-        [Header("Scripts")]
+        [Header("Panels")]
         public GameObject inputPanel2Players;
         public GameObject inputPanel4Players;
+
+        [Header("Scripts")]
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
         public FineLogic fineLogic;
-        private bool isFirstTurn = false;
+       
 
         [Header("Local")]
         public ParticleSystem winPs1;
         public ParticleSystem winPs2;
+
+        // local variables
+        private bool isFirstTurn = false;
 
         private void OnEnable()
         {
@@ -42,7 +47,9 @@ namespace com.VisionXR.Controllers
 
             fineLogic.PutFineEvent += PutFine;
 
-            gameData.TurnChangedEvent += TurnChanged;       
+            gameData.TurnChangedEvent += TurnChanged;
+
+            playersData.CreateSinglePlayers();
         }
 
         private void OnDisable()

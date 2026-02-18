@@ -24,6 +24,7 @@ namespace com.VisionXR.Controllers
         public Action OnDestinationFailEvent;
         public Action RoomCreateSuccessEvent;
         public Action RoomJoinSuccessEvent;
+
         public Action<string> RoomCreateFailedEvent;
         public Action<string>  RoomJoinFailedEvent;
 
@@ -122,22 +123,19 @@ namespace com.VisionXR.Controllers
         private void ConnectToDestination(Destination destination, Action OnConnected, Action OnFailed)
         {
             destinationData.currentDestination = destination;
-            uiOutputData.gameType = destination.gameType;
-
+          
             OnDestinationSuccesEvent = OnConnected;
             OnDestinationFailEvent = OnFailed;
 
             if (destination.gameType == GameType.VsCPU)
             {
-                uiOutputData.challenge = destination.challenge;
-                uiOutputData.gameMode = destination.gameMode;
+                
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.StartSinglePlayerGame();
             }
             else if (destination.gameType == GameType.OnlineMultiPlayer || destination.gameType == GameType.PlayWithFriends)
             {
-                uiOutputData.challenge = destination.challenge;
-                uiOutputData.challenge = destination.challenge;
+               
 
                 if (destination.roomName == "")
                 {

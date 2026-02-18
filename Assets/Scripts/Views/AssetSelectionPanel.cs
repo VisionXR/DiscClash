@@ -11,10 +11,11 @@ namespace com.VisionXR.Views
         public MyPlayerSettings playerSettings;
         public StrikerDataSO strikerData;
         public CoinDataSO coinData;
+        public UIOutputDataSO uiOutputData;
+        public UIInputDataSO uiInputData;
 
-        [Header("Panels")]
-        public GameObject LobbyPanel;
-
+        // local variables
+        public Destination destination;
 
         private void OnEnable()
         {
@@ -56,7 +57,12 @@ namespace com.VisionXR.Views
         public void NextBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            destination.gameMode = uiOutputData.gameMode;
+            destination.gameType = uiOutputData.gameType;
+            destination.challenge = uiOutputData.challenge;
 
+            uiInputData.ShowDestination(destination);
+            gameObject.SetActive(false);
         }
     }
 }

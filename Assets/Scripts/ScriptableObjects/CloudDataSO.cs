@@ -25,7 +25,7 @@ namespace com.VisionXR.ModelClasses
 
 
         // coin events
-        public Action<int> DeductEntryFeeEvent;
+        public Action<int,Action,Action> DeductEntryFeeEvent;
         public Action<int> GrantWinningsEvent;
         public Action<Action,Action> FetchCoinsEvent;
 
@@ -70,9 +70,9 @@ namespace com.VisionXR.ModelClasses
             PlayFabLoginFailureEvent?.Invoke();
         }
 
-        public void DeductEntryFee(int amount)
+        public void DeductEntryFee(int amount,Action OnSuccess,Action Onfailure)
         {
-            DeductEntryFeeEvent?.Invoke(amount);
+            DeductEntryFeeEvent?.Invoke(amount,OnSuccess,Onfailure);
         }
 
         public void GrantWinnings(int amount)
