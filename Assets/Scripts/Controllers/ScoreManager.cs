@@ -21,8 +21,8 @@ namespace com.VisionXR.Controllers
         public GameObject inputPanel4Players;
 
         [Header("Score Panels")]
-        public GameObject ScorePanel2Players;
-        public GameObject ScorePanel4Players;
+        public ScorePanel2Player ScorePanel2Players;
+        public ScorePanel4Player ScorePanel4Players;
 
         private void OnEnable()
         {
@@ -44,11 +44,11 @@ namespace com.VisionXR.Controllers
         {
             if(uiOutputData.gameMode == GameMode.PvsAI || uiOutputData.gameMode == GameMode.P1vsP2)
             {
-                ScorePanel2Players.SetActive(true);
+                ScorePanel2Players.gameObject.SetActive(true);
             }
             else
             {
-                ScorePanel4Players.SetActive(true);
+                ScorePanel4Players.gameObject.SetActive(true);
             }
         }
         private void StrikeStarted(int arg1, float arg2)
@@ -69,7 +69,28 @@ namespace com.VisionXR.Controllers
 
         public void UpdateScore()
         {
-
+            if (uiOutputData.gameMode == GameMode.PvsAI || uiOutputData.gameMode == GameMode.P1vsP2)
+            {
+                if(uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    ShowBlackAndWhite2PlayerScore();
+                }
+                else
+                {
+                    ShowFreeStyle2PlayerScore();
+                }
+            }
+            else
+            {
+                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    ShowBlackAndWhite4PlayerScore();
+                }
+                else
+                {
+                    ShowFreeStyle4PlayerScore();
+                }
+            }
         }
 
         private void ShowBlackAndWhite2PlayerScore()
@@ -81,12 +102,14 @@ namespace com.VisionXR.Controllers
                 if (player1.myCoin == PlayerCoin.White)
                 {
                     gameData.P1Score = gameData.P1Whites + gameData.P2Whites + gameData.P1Red * 3;
+                    ScorePanel2Players.leftPlayer.SetScore(gameData.P1Score);
 
                 }
                 else
                 {
 
                     gameData.P1Score = gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3;
+                    ScorePanel2Players.leftPlayer.SetScore(gameData.P1Score);
                 }
             }
 
@@ -99,11 +122,13 @@ namespace com.VisionXR.Controllers
                 {
 
                     gameData.P2Score = gameData.P1Whites + gameData.P2Whites + gameData.P2Red * 3;
+                    ScorePanel2Players.rightPlayer.SetScore(gameData.P2Score);
                 }
                 else
                 {
 
                     gameData.P2Score = gameData.P1Blacks + gameData.P2Blacks + gameData.P2Red * 3;
+                    ScorePanel2Players.rightPlayer.SetScore(gameData.P2Score);
                 }
             }
 
@@ -117,6 +142,7 @@ namespace com.VisionXR.Controllers
             {
 
                 gameData.P1Score = gameData.P1Whites + gameData.P1Blacks + gameData.P1Red * 3;
+                ScorePanel2Players.leftPlayer.SetScore(gameData.P1Score);
             }
 
 
@@ -126,6 +152,7 @@ namespace com.VisionXR.Controllers
             {
 
                 gameData.P2Score = gameData.P2Whites + gameData.P2Blacks + gameData.P2Red * 3;
+                ScorePanel2Players.rightPlayer.SetScore(gameData.P1Score);
             }
 
 
@@ -149,14 +176,14 @@ namespace com.VisionXR.Controllers
             {
               
                 gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites + gameData.P1Red * 3 + gameData.P2Red * 3);
-
+                ScorePanel4Players.teamA.SetScore(gameData.TeamAScore);
             }
 
             if (p3 != null && p4 != null)
             {
              
                 gameData.TeamBScore = (gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
-
+                ScorePanel4Players.teamB.SetScore(gameData.TeamAScore);
             }
 
         }
@@ -179,13 +206,14 @@ namespace com.VisionXR.Controllers
             {
              
                 gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3 + gameData.P2Red * 3);
+                ScorePanel4Players.teamA.SetScore(gameData.TeamAScore);
             }
 
             if (p3 != null && p4 != null)
             {
               
                 gameData.TeamBScore = (gameData.P3Whites + gameData.P4Whites + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
-
+                ScorePanel4Players.teamB.SetScore(gameData.TeamAScore);
             }
 
         }

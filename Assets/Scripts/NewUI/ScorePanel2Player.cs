@@ -118,11 +118,11 @@ public class ScorePanel2Player : MonoBehaviour
 
         ResetIndicators();
         SetTurnIndicator(id);
-        StartTurnTime();
+        StartTurnTime(id);
 
     }
 
-    private void StartTurnTime()
+    private void StartTurnTime(int id)
     {
         if (uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends)
         {
