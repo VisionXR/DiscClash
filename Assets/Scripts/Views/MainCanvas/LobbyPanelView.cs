@@ -19,6 +19,7 @@ namespace com.VisionXR.Views
         [Header(" Panels ")]
         public WaitingPanel BetPanel2Players;
         public WaitingPanel BetPanel4Players;
+        public ChooseSidePanel ChooseSidePanel;
 
         // local variables
         private Coroutine playerRoutine;
@@ -27,6 +28,8 @@ namespace com.VisionXR.Views
         {
             BetPanel2Players.gameObject.SetActive(false);
             BetPanel4Players.gameObject.SetActive(false);
+            ChooseSidePanel.gameObject.SetActive(false);
+
             Show();
 
             if(playerRoutine == null)

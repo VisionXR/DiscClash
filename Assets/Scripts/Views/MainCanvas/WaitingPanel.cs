@@ -14,9 +14,11 @@ namespace com.VisionXR.Views
         [Header("Scriptable Objects")]
         public PlayersDataSO playersData;
         public UIOutputDataSO uiOutputData;
+        public UIInputDataSO uiInputData;
         public CloudDataSO cloudData;
-        
 
+        [Header("UI Elements")]
+        public GameObject ChooseSidePanel;
 
         [Header("UI Elements")]
         public TMP_Text gameModeText;
@@ -74,6 +76,16 @@ namespace com.VisionXR.Views
         private void OnEntryFeesDeductionSuccess()
         {
             Debug.Log("Entry fees success");
+
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                ChooseSidePanel.SetActive(true);
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                StartButton.SetActive(true);
+            }
         }
 
         private void OnEntryFeesDeductionFailure()
@@ -115,8 +127,8 @@ namespace com.VisionXR.Views
         public void StartGameButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            
-    
+            uiInputData.StartGame();
+            gameObject.SetActive(false);
         }
 
         public void InviteBtnClicked()
