@@ -5,7 +5,7 @@ public class AboutUsPanel : MonoBehaviour
 
     [Header(" Game Objects")]
     public GameObject MainPanel;
-    public GameObject HomePanel;
+
 
     [Header(" Url ")]
     public string carromURL;
@@ -17,7 +17,6 @@ public class AboutUsPanel : MonoBehaviour
     {
         AudioManager.instance.PlayButtonClickSound();
         MainPanel.SetActive(true);
-        HomePanel.SetActive(true);
         gameObject.SetActive(false);
     }
 

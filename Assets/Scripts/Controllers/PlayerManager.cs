@@ -53,8 +53,7 @@ namespace com.VisionXR.Controllers
         {
             if(uiOutputData.gameMode == GameMode.PvsAI)        
             {
-                if(uiOutputData.playerCoin == PlayerCoin.White)  
-                {
+
                     PlayerProperties p1 = new PlayerProperties();
                     p1.myId = 1;
                     p1.myOculusID = playerSettings.MyId ;
@@ -64,7 +63,6 @@ namespace com.VisionXR.Controllers
 
                     p1.myPlayerControl = PlayerControl.Local;
                     p1.myPlayerRole = PlayerRole.Human;
-                    p1.myCoin = PlayerCoin.White;
                     p1.myTeam = Team.TeamA;
                     p1.myAiDifficulty = uiOutputData.aIDifficulty;
 
@@ -77,50 +75,16 @@ namespace com.VisionXR.Controllers
 
                     p2.myPlayerControl = PlayerControl.Local;
                     p2.myPlayerRole = PlayerRole.AI;
-                    p2.myCoin = PlayerCoin.Black;
                     p2.myTeam = Team.TeamB;
                     p2.myAiDifficulty = uiOutputData.aIDifficulty;
 
                     CreatePlayer(p1);
                     CreatePlayer(p2);
 
-                }
-                else
-                {
-                    PlayerProperties p1 = new PlayerProperties();
-                    p1.myId = 1;
-                    p1.myOculusID = playerSettings.MyId;
-                    p1.myName = playerSettings.MyName;
-                    p1.myStrikerID = playerSettings.MyStrikerId;
-             
-
-                    p1.myPlayerControl = PlayerControl.Local;
-                    p1.myPlayerRole = PlayerRole.Human;
-                    p1.myCoin = PlayerCoin.Black;
-                    p1.myTeam = Team.TeamA;
-                    p1.myAiDifficulty = uiOutputData.aIDifficulty;
-
-                    PlayerProperties p2 = new PlayerProperties();
-                    p2.myId = 2;
-                    p2.myOculusID = playerSettings.MyId;
-                    p2.myName = "AI2";
-                    p2.myStrikerID = 0;
-                  
-
-                    p2.myPlayerControl = PlayerControl.Local;
-                    p2.myPlayerRole = PlayerRole.AI;
-                    p2.myCoin = PlayerCoin.White;
-                    p2.myTeam = Team.TeamB;
-                    p2.myAiDifficulty = uiOutputData.aIDifficulty;
-
-                    CreatePlayer(p1);
-                    CreatePlayer(p2);
-                }
             }
             else if (uiOutputData.gameMode == GameMode.PAIvsAI)
             {
-                if (uiOutputData.playerCoin == PlayerCoin.White)
-                {
+
                     PlayerProperties p1 = new PlayerProperties();
                     p1.myId = 1;
                     p1.myOculusID = playerSettings.MyId;
@@ -129,7 +93,6 @@ namespace com.VisionXR.Controllers
 
                     p1.myPlayerControl = PlayerControl.Local;
                     p1.myPlayerRole = PlayerRole.Human;
-                    p1.myCoin = PlayerCoin.White;
                     p1.myTeam = Team.TeamA;
                     p1.myAiDifficulty = uiOutputData.aIDifficulty;
 
@@ -141,7 +104,6 @@ namespace com.VisionXR.Controllers
 
                     p2.myPlayerControl = PlayerControl.Local;
                     p2.myPlayerRole = PlayerRole.AI;
-                    p2.myCoin = PlayerCoin.White;
                     p2.myTeam = Team.TeamA;
                     p2.myAiDifficulty = uiOutputData.aIDifficulty;
 
@@ -154,7 +116,6 @@ namespace com.VisionXR.Controllers
 
                     p3.myPlayerControl = PlayerControl.Local;
                     p3.myPlayerRole = PlayerRole.AI;
-                    p3.myCoin = PlayerCoin.Black;
                     p3.myTeam = Team.TeamB;
                     p3.myAiDifficulty = uiOutputData.aIDifficulty;
 
@@ -166,7 +127,6 @@ namespace com.VisionXR.Controllers
 
                     p4.myPlayerControl = PlayerControl.Local;
                     p4.myPlayerRole = PlayerRole.AI;
-                    p4.myCoin = PlayerCoin.Black;
                     p4.myTeam = Team.TeamB;
                     p4.myAiDifficulty = uiOutputData.aIDifficulty;
 
@@ -175,65 +135,7 @@ namespace com.VisionXR.Controllers
                     CreatePlayer(p3);
                     CreatePlayer(p4);
                  
-                }
-                else
-                {
-                    PlayerProperties p1 = new PlayerProperties();
-                    p1.myId = 1;
-                    p1.myOculusID = playerSettings.MyId;
-                    p1.myName = playerSettings.MyName;
-                    p1.myStrikerID = playerSettings.MyStrikerId;
-          
-
-                    p1.myPlayerControl = PlayerControl.Local;
-                    p1.myPlayerRole = PlayerRole.Human;
-                    p1.myCoin = PlayerCoin.Black;
-                    p1.myTeam = Team.TeamA;
-                    p1.myAiDifficulty = uiOutputData.aIDifficulty;
-
-                    PlayerProperties p2 = new PlayerProperties();
-                    p2.myId = 2;
-                    p2.myOculusID = playerSettings.MyId;
-                    p2.myName = "AI2";
-                    p2.myStrikerID = 0;
-
-                    p2.myPlayerControl = PlayerControl.Local;
-                    p2.myPlayerRole = PlayerRole.AI;
-                    p2.myCoin = PlayerCoin.Black;
-                    p2.myTeam = Team.TeamA;
-                    p2.myAiDifficulty = uiOutputData.aIDifficulty;
-
-                    PlayerProperties p3 = new PlayerProperties();
-                    p3.myId = 3;
-                    p3.myOculusID = playerSettings.MyId;
-                    p3.myName = "AI3";
-                    p3.myStrikerID = 0;
-
-                    p3.myPlayerControl = PlayerControl.Local;
-                    p3.myPlayerRole = PlayerRole.AI;
-                    p3.myCoin = PlayerCoin.White;
-                    p3.myTeam = Team.TeamB;
-                    p3.myAiDifficulty = uiOutputData.aIDifficulty;
-
-                    PlayerProperties p4 = new PlayerProperties();
-                    p4.myId = 4;
-                    p4.myOculusID = playerSettings.MyId;
-                    p4.myName = "AI4";
-                    p4.myStrikerID = 0;
-
-                    p4.myPlayerControl = PlayerControl.Local;
-                    p4.myPlayerRole = PlayerRole.AI;
-                    p4.myCoin = PlayerCoin.White;
-                    p4.myTeam = Team.TeamB;
-                    p4.myAiDifficulty = uiOutputData.aIDifficulty;
-
-                    CreatePlayer(p1);
-                    CreatePlayer(p2);
-                    CreatePlayer(p3);
-                    CreatePlayer(p4);
-                }
             }
-
 
         }
 

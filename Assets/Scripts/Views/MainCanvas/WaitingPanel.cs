@@ -1,6 +1,6 @@
-using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,16 +12,27 @@ namespace com.VisionXR.Views
     public class WaitingPanel : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public PlayersDataSO playerData;
+        public PlayersDataSO playersData;
         public UIOutputDataSO uiOutputData;
-        public NetworkOutputSO networkOutputData;
-        public DataManager dataManager;
+        public UIInputDataSO uiInputData;
+        public CloudDataSO cloudData;
 
         [Header("UI Elements")]
+        public GameObject ChooseSidePanel;
+
+        [Header("UI Elements")]
+        public TMP_Text gameModeText;
+        public TMP_Text entryFeeText;
+        public List<TMP_Text> playerCoins;
         public List<TMP_Text> playerNames;
         public List<TMP_Text> playerStatuses;
         public List<Image> playerImages;
         public GameObject StartButton;
+
+        // Actions
+        public Action OnEntryFeesDeductedSuccess;
+        public Action OnEntryFeesDeductedFailure;
+
 
 
         // Keeps track of which status coroutine is running for which player ID
@@ -29,6 +40,7 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+           
 
             StartButton.SetActive(false);
             // When the panel opens, start the "Connecting..." animation for everyone
@@ -37,12 +49,53 @@ namespace com.VisionXR.Views
                 int playerId = i + 1;
                 StartConnectingAnimation(playerId);
             }
+
+            for (int i = 0; i < playerCoins.Count; i++)
+            {
+                playerCoins[i].text = uiOutputData.EntryFee.ToString();
+            }
+
+            gameModeText.text = Enum.GetName(typeof(GameMode), uiOutputData.gameMode);
+            entryFeeText.text = "Entry Fee :"+uiOutputData.EntryFee.ToString();
+
+            OnEntryFeesDeductedSuccess += OnEntryFeesDeductionSuccess;
+            OnEntryFeesDeductedFailure += OnEntryFeesDeductionFailure;
         }
 
         private void OnDisable()
         {
+            
             StopAllCoroutines();
             statusCoroutines.Clear();
+
+            OnEntryFeesDeductedSuccess -= OnEntryFeesDeductionSuccess;
+            OnEntryFeesDeductedFailure -= OnEntryFeesDeductionFailure;
+        }
+
+
+        private void OnEntryFeesDeductionSuccess()
+        {
+            Debug.Log("Entry fees success");
+
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                ChooseSidePanel.SetActive(true);
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                StartButton.SetActive(true);
+            }
+        }
+
+        private void OnEntryFeesDeductionFailure()
+        {
+            Debug.Log("Entry fees failure");
+        }
+
+        public void Deductfee()
+        {
+            cloudData.DeductEntryFee(uiOutputData.EntryFee, OnEntryFeesDeductedSuccess, OnEntryFeesDeductedFailure);
         }
 
         public void SetName(int id, string name)
@@ -51,22 +104,6 @@ namespace com.VisionXR.Views
             // Note: Changed .name to .text so it actually shows on the UI!
             playerNames[id - 1].text = name;
 
-
-            if(uiOutputData.gameMode == GameMode.P1vsP2)
-            {
-                if (playerData.NoOfPlayers() == 2 && networkOutputData.isHost)
-                {
-                    StartButton.SetActive(true);
-                }
-            }
-            else
-            {
-                if (playerData.NoOfPlayers() == 4 && networkOutputData.isHost)
-                {
-                    StartButton.SetActive(true);
-                }
-            }
-           
         }
 
         public void SetStatus(int id, string status)
@@ -90,8 +127,8 @@ namespace com.VisionXR.Views
         public void StartGameButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            dataManager.StartGame(1);
-    
+            uiInputData.StartGame();
+            gameObject.SetActive(false);
         }
 
         public void InviteBtnClicked()
@@ -103,7 +140,7 @@ namespace com.VisionXR.Views
             string gameMode = "1v1";
             string gameType = "Classic";
             string region = "India";
-            string roomName = "Room_" + Random.Range(100, 999); // Use real room ID here
+            string roomName = "Room_" + UnityEngine.Random.Range(100, 999); // Use real room ID here
 
         //    string inviteLink = $"discclash://{gameMode}/{gameType}/{region}/{roomName}";
             string inviteLink = "https://www.visionxr.co.in/";

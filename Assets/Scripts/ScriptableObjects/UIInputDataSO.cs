@@ -17,6 +17,7 @@ namespace com.VisionXR.ModelClasses
         public Action StartSinglePlayerGameEvent;
         public Action StartMultiPlayerGameEvent;
         public Action StartTutorialEvent;
+        public Action StartGameEvent;
 
         public Action ExitGameEvent;
         public Action HomeEvent;
@@ -56,6 +57,11 @@ namespace com.VisionXR.ModelClasses
         public void StartTutorial()
         {
             StartTutorialEvent?.Invoke();
+        }
+
+        public void StartGame()
+        {
+            StartGameEvent?.Invoke();
         }
         public void GameCompleted(GameResult gameResult)
         {

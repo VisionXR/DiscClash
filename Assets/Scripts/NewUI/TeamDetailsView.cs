@@ -99,9 +99,9 @@ public class TeamDetailsView : MonoBehaviour
 
     }
 
-    public void SetScore(int coinScore, int redScore, int totalScore)
+    public void SetScore( int totalScore)
     { 
-        CoinScore.text = coinScore.ToString();
+        CoinScore.text = totalScore.ToString();
       
     }
 

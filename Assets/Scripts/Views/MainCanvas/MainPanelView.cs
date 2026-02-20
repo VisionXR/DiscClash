@@ -21,6 +21,7 @@ namespace com.VisionXR.Views
 
 
         [Header(" Panels ")]
+        public GameObject HomePanel;
         public GameObject SinglePlayerPanel;
         public GameObject PlayWithFriendsPanel;
         public GameObject PlayWithStrangersPanel;
@@ -35,9 +36,7 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-            playerImage.sprite = myPlayerSettings.MyProfileImage;
-            playerName.text = myPlayerSettings.MyName;
-            playerCoins.text = cloudData.coins.ToString();
+          
         }
 
         public void PracticeOfflineBtnClicked()
@@ -46,7 +45,7 @@ namespace com.VisionXR.Views
             SinglePlayerPanel.SetActive(true);
             uiOutputData.SetGameType(GameType.PracticeOffline);
             
-            gameObject.SetActive(false);
+            HomePanel.SetActive(false);
         }
 
         public void VsCPUBtnClicked()
@@ -55,10 +54,10 @@ namespace com.VisionXR.Views
             VsCPUPanel.SetActive(true);
             uiOutputData.SetGameType(GameType.VsCPU);
 
-            gameObject.SetActive(false);
+            HomePanel.SetActive(false);
         }
 
-        public void OnOnlineMultiPlayerClicked()
+        public void OnlineMultiPlayerBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             if(Application.internetReachability == NetworkReachability.NotReachable)
@@ -70,10 +69,11 @@ namespace com.VisionXR.Views
             uiOutputData.SetGameType(GameType.OnlineMultiPlayer);
             uiOutputData.SetRoomType(RoomType.Public);
             PlayWithStrangersPanel.SetActive(true);
-            gameObject.SetActive(false);
+
+            HomePanel.SetActive(false);
         }
 
-        public void OnPlayWithFriendsClicked()
+        public void PlayWithFriendsBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             if (Application.internetReachability == NetworkReachability.NotReachable)
@@ -86,10 +86,10 @@ namespace com.VisionXR.Views
             uiOutputData.SetRoomType(RoomType.Private);
 
             PlayWithFriendsPanel.SetActive(true);
-        
-            gameObject.SetActive(false);
+
+            HomePanel.SetActive(false);
         }
-        public void OnTutorialClicked()
+        public void TutorialBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             uiOutputData.SetGameType(GameType.Tutorial);

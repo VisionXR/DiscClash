@@ -55,7 +55,7 @@ namespace com.VisionXR.EditorTools
                 if (cloudData != null)
                 {
 
-                    cloudData.DeductEntryFee(amount);
+                  //  cloudData.DeductEntryFee(amount);
 
                 }
                 else

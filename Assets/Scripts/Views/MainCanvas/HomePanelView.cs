@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace com.VisionXR.Views
 {
-    public class MainSettingsPanelView : MonoBehaviour
+    public class HomePanelView : MonoBehaviour
     {
 
         [Header(" Scriptable Objects ")]
@@ -13,6 +13,8 @@ namespace com.VisionXR.Views
 
         [Header(" Panels ")]
         public GameObject LoginPanel;
+
+        [Header("Home Panels ")]
         public GameObject MainPanel;
         public GameObject SettingsPanel;
         public GameObject RulesPanel;
@@ -21,7 +23,14 @@ namespace com.VisionXR.Views
         public GameObject PurchasePanel;
         public GameObject AchievementsPanel;
 
-    
+
+        private void OnEnable()
+        {
+            ResetPanels();
+            MainPanel.SetActive(true);
+        }
+
+
         public void HomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();

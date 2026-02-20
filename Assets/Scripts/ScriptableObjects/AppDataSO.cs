@@ -15,6 +15,7 @@ namespace com.VisionXR.ModelClasses
         
 
         [Header(" Local variables")]
+        
         public bool isHapticsOn = true;
         public float vibrationDuration = 0.5f;
         [Range(0f, 1f)]

@@ -63,11 +63,7 @@ public class ScorePanel2Player : MonoBehaviour
         ResetImages();
     }
 
-    private void ResetImages()
-    {
-        leftPlayer.SetPlayerImage(null);
-        rightPlayer.SetPlayerImage(null);
-    }
+  
 
     private void ShowImages()
     {
@@ -89,16 +85,6 @@ public class ScorePanel2Player : MonoBehaviour
     {
         StopTurnTime();
     }
-
-    private void Reset()
-    {
-        StopTurnTime();
-        ResetIndicators(); 
-        leftPlayer.SetScore(0, 0, 0);
-        rightPlayer.SetScore(0, 0, 0);
-
-    }
-
     private void ShowGameResult(GameResult result)
     {
         StopTurnTime();
@@ -106,23 +92,19 @@ public class ScorePanel2Player : MonoBehaviour
       
     }
 
-
     public void ShowPlayerDetails(Player p)
     {
         if (p.myId == 1)
-        {
-          
+        {         
             leftPlayer.SetPlayerName(p.myName);
-            leftPlayer.SetPlayerImage(p.GetMyImage());
-           
+            leftPlayer.SetPlayerImage(p.GetMyImage());         
         }
         else {
 
             
             rightPlayer.SetPlayerName(p.myName);
             rightPlayer.SetPlayerImage(p.GetMyImage());
-          
-        
+                 
         }
 
         SetCoins();
@@ -134,23 +116,37 @@ public class ScorePanel2Player : MonoBehaviour
 
         AudioManager.instance.StopClockSound();
 
-      
-
-
         ResetIndicators();
         SetTurnIndicator(id);
+        StartTurnTime(id);
 
+    }
+
+    private void StartTurnTime(int id)
+    {
         if (uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends)
         {
             if (turnTimeRoutine == null)
             {
-                turnTimeRoutine = StartCoroutine(StartTurnTime(id));
+                turnTimeRoutine = StartCoroutine(StartTurnTimeRoutine(id));
             }
         }
     }
 
+    public void StopTurnTime()
+    {
+        if (turnTimeRoutine != null)
+        {
+            StopCoroutine(turnTimeRoutine);
+            turnTimeRoutine = null;
+        }
+        leftPlayer.ResetTimer();
+        rightPlayer.ResetTimer();
+    }
+
+
     // write a coroutine called startTurnTime where in 45 seconds it goes from 0 to 1
-    public IEnumerator StartTurnTime(int id)
+    public IEnumerator StartTurnTimeRoutine(int id)
     {
         leftPlayer.SetTimer(0);
         rightPlayer.SetTimer(0);
@@ -177,24 +173,6 @@ public class ScorePanel2Player : MonoBehaviour
 
     }
 
-    public void StopTurnTime()
-    {
-        if(turnTimeRoutine != null)
-        {
-            StopCoroutine(turnTimeRoutine);
-            turnTimeRoutine = null;
-        }
-        leftPlayer.ResetTimer();
-        rightPlayer.ResetTimer();
-    }
-    private void ResetIndicators()
-    {
-        leftPlayer.SetTurnImage( Color.white); 
-        rightPlayer.SetTurnImage( Color.white );
-        leftPlayer.ResetTimer();
-        rightPlayer.ResetTimer();
-    }
-
     private void SetTurnIndicator(int id)
     {
         if (id == 1)
@@ -207,7 +185,6 @@ public class ScorePanel2Player : MonoBehaviour
         }
 
     }
-
 
     public void SetCoins()
     {
@@ -266,6 +243,30 @@ public class ScorePanel2Player : MonoBehaviour
             }
         }
       
+    }
+
+    private void ResetImages()
+    {
+        leftPlayer.SetPlayerImage(null);
+        rightPlayer.SetPlayerImage(null);
+
+    }
+
+    private void ResetIndicators()
+    {
+        leftPlayer.SetTurnImage(Color.white);
+        rightPlayer.SetTurnImage(Color.white);
+        leftPlayer.ResetTimer();
+        rightPlayer.ResetTimer();
+    }
+
+    private void Reset()
+    {
+        StopTurnTime();
+        ResetIndicators();
+        leftPlayer.SetScore(0);
+        rightPlayer.SetScore(0);
+
     }
 }
 

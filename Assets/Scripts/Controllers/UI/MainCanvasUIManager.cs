@@ -12,7 +12,6 @@ public class MainCanvasUIManager : MonoBehaviour
 
     [Header(" Main Panel Objects")]
     public GameObject HomePanel;
-    public GameObject MainPanel;
     public GameObject LoginPanel;
 
 
@@ -44,7 +43,7 @@ public class MainCanvasUIManager : MonoBehaviour
         ResetHomePanels();
         ResetAllPanels();
         HomePanel.SetActive(true);
-        MainPanel.SetActive(true);
+
       
     }
 
@@ -53,7 +52,7 @@ public class MainCanvasUIManager : MonoBehaviour
         ResetHomePanels();
         ResetAllPanels();
         LoginPanel.SetActive(true);
-        Debug.Log("Showing Login Panel");
+     
     }
 
     private void ResetAllPanels()

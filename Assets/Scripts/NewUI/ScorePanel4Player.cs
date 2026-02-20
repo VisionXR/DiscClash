@@ -108,8 +108,8 @@ public class ScorePanel4Player : MonoBehaviour
     {
         StopTurnTime();
         ResetIndicators();
-        teamA.SetScore(0, 0, 0);
-        teamB.SetScore(0, 0, 0);
+        teamA.SetScore(0);
+        teamB.SetScore(0);
 
     }
 

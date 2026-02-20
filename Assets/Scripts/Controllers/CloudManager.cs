@@ -133,7 +133,7 @@ namespace com.VisionXR.Controllers
             });
         }
 
-        public void DeductEntryFee(int amount)
+        public void DeductEntryFee(int amount,Action OnSuccess,Action OnFailure)
         {
             var request = new SubtractUserVirtualCurrencyRequest
             {
@@ -142,10 +142,12 @@ namespace com.VisionXR.Controllers
             };
 
             PlayFabClientAPI.SubtractUserVirtualCurrency(request, result => {
-                Debug.Log("Entry fee deducted! New Balance: " + result.Balance);
-                // Start the Disc Clash match here
+                Debug.Log("Deducted! Total Coins: " + result.Balance);
+                OnSuccess?.Invoke();
             }, error => {
-                    Debug.LogError("Not enough coins to play!");               
+
+                Debug.Log("Deduction Failed: " +error.ToString());
+                OnFailure?.Invoke();
             });
         }
     }
