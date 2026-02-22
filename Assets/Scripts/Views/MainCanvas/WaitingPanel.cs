@@ -22,26 +22,27 @@ namespace com.VisionXR.Views
 
         [Header("UI Elements")]
         public TMP_Text gameModeText;
-        public TMP_Text entryFeeText;
         public List<TMP_Text> playerCoins;
         public List<TMP_Text> playerNames;
         public List<TMP_Text> playerStatuses;
         public List<Image> playerImages;
         public GameObject StartButton;
 
+        [Header("UI Elements")]
+        public TMP_Text totalCoinsText;
+
         // Actions
         public Action OnEntryFeesDeductedSuccess;
         public Action OnEntryFeesDeductedFailure;
 
-
-
         // Keeps track of which status coroutine is running for which player ID
         private Dictionary<int, Coroutine> statusCoroutines = new Dictionary<int, Coroutine>();
 
+        // Entry fee animation coroutine reference
+        private Coroutine entryFeeCoroutine;
+
         private void OnEnable()
         {
-           
-
             StartButton.SetActive(false);
             // When the panel opens, start the "Connecting..." animation for everyone
             for (int i = 0; i < playerStatuses.Count; i++)
@@ -55,8 +56,10 @@ namespace com.VisionXR.Views
                 playerCoins[i].text = uiOutputData.EntryFee.ToString();
             }
 
+            // initialize total coins text to zero
+            totalCoinsText.text = "0";
+
             gameModeText.text = Enum.GetName(typeof(GameMode), uiOutputData.gameMode);
-            entryFeeText.text = "Entry Fee :"+uiOutputData.EntryFee.ToString();
 
             OnEntryFeesDeductedSuccess += OnEntryFeesDeductionSuccess;
             OnEntryFeesDeductedFailure += OnEntryFeesDeductionFailure;
@@ -64,37 +67,43 @@ namespace com.VisionXR.Views
 
         private void OnDisable()
         {
-            
             StopAllCoroutines();
             statusCoroutines.Clear();
+
+            // ensure we clear any entry fee coroutine reference (StopAllCoroutines handled)
+            entryFeeCoroutine = null;
 
             OnEntryFeesDeductedSuccess -= OnEntryFeesDeductionSuccess;
             OnEntryFeesDeductedFailure -= OnEntryFeesDeductionFailure;
         }
 
-
         private void OnEntryFeesDeductionSuccess()
         {
             Debug.Log("Entry fees success");
 
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (entryFeeCoroutine == null)
             {
-                ChooseSidePanel.SetActive(true);
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                StartButton.SetActive(true);
-            }
+                entryFeeCoroutine = StartCoroutine(AnimateEntryFeeDeduction(3f));
+            }    
         }
 
         private void OnEntryFeesDeductionFailure()
         {
             Debug.Log("Entry fees failure");
+
+            for (int i = 0; i < playerCoins.Count; i++)
+            {
+                playerCoins[i].text = uiOutputData.EntryFee.ToString();
+            }
+
+            totalCoinsText.text = "0";
         }
 
         public void Deductfee()
         {
+           
+
+            // call cloud to deduct (CloudManager will invoke the success/failure Actions)
             cloudData.DeductEntryFee(uiOutputData.EntryFee, OnEntryFeesDeductedSuccess, OnEntryFeesDeductedFailure);
         }
 
@@ -103,7 +112,6 @@ namespace com.VisionXR.Views
             Debug.Log($"Setting name for player {id}: {name}");
             // Note: Changed .name to .text so it actually shows on the UI!
             playerNames[id - 1].text = name;
-
         }
 
         public void SetStatus(int id, string status)
@@ -127,7 +135,16 @@ namespace com.VisionXR.Views
         public void StartGameButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiInputData.StartGame();
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                ChooseSidePanel.SetActive(true);
+               
+            }
+            else
+            {
+                uiInputData.StartGame();
+            }
+
             gameObject.SetActive(false);
         }
 
@@ -142,7 +159,7 @@ namespace com.VisionXR.Views
             string region = "India";
             string roomName = "Room_" + UnityEngine.Random.Range(100, 999); // Use real room ID here
 
-        //    string inviteLink = $"discclash://{gameMode}/{gameType}/{region}/{roomName}";
+            //    string inviteLink = $"discclash://{gameMode}/{gameType}/{region}/{roomName}";
             string inviteLink = "https://www.visionxr.co.in/";
             string shareMessage = "Hey! Join me for a game of Disc Clash (Carrom). Tap the link to play: " + inviteLink;
 
@@ -161,8 +178,6 @@ namespace com.VisionXR.Views
                     }
                 })
                 .Share();
-        
-
         }
 
         private void StartConnectingAnimation(int id)
@@ -188,6 +203,76 @@ namespace com.VisionXR.Views
                 targetText.text = baseText + new string('.', dotCount);
                 yield return new WaitForSeconds(0.5f);
             }
+        }
+
+        /// <summary>
+        /// Animate the entry fee deduction visually:
+        /// - Each player's displayed coins count down from their entry fee to zero.
+        /// - The totalCoinsText increments showing collected total (sum of deducted amounts).
+        /// - The entire animation runs over the specified duration (seconds).
+        /// </summary>
+        private IEnumerator AnimateEntryFeeDeduction(float duration)
+        {
+            // Read initial values; fallback to uiOutputData.EntryFee if parsing fails
+            int playerCount = Mathf.Max(1, playerCoins.Count);
+            List<int> initialValues = new List<int>(playerCount);
+            int totalInitial = 0;
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                int val;
+                if (!int.TryParse(playerCoins[i].text, out val))
+                {
+                    val = uiOutputData.EntryFee;
+                }
+                initialValues.Add(val);
+                totalInitial += val;
+            }
+
+            float elapsed = 0f;
+            // We'll update every frame for smoothness
+            while (elapsed < duration)
+            {
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                int remainingTotal = 0;
+                for (int i = 0; i < playerCount; i++)
+                {
+                    // decrease from initial -> 0 using ease-out (optional): Mathf.SmoothStep
+                    float eased = Mathf.SmoothStep(initialValues[i], 0f, t);
+                    int remaining = Mathf.CeilToInt(eased); // ceil to avoid early zeros
+                    remaining = Mathf.Max(0, remaining);
+                    playerCoins[i].text = remaining.ToString();
+                    remainingTotal += remaining;
+                }
+
+                int collected = totalInitial - remainingTotal;
+                totalCoinsText.text = collected.ToString();
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            // Ensure final values (exact)
+            for (int i = 0; i < playerCount; i++)
+            {
+                playerCoins[i].text = "0";
+            }
+            totalCoinsText.text = totalInitial.ToString();
+
+
+            // set player coins to zero and total to combined value
+            int combined = uiOutputData.EntryFee * playerCoins.Count;
+            for (int i = 0; i < playerCoins.Count; i++)
+            {
+                playerCoins[i].text = "0";
+            }
+            totalCoinsText.text = combined.ToString();
+
+
+            StartButton.SetActive(true);
+            // clear coroutine reference
+            entryFeeCoroutine = null;
         }
     }
 }

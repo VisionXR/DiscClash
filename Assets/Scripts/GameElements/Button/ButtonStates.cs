@@ -18,13 +18,15 @@ IPointerExitHandler, IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDra
     // local variables
     private bool isHovering = false;
 
+    
+
     public void OnPointerEnter(PointerEventData eventData)
     {
 
-        if (BackgroundImage.gameObject.GetComponent<UIGradient>().enabled == false)
+        if (BackgroundImage.color == appData.IdleColor)
         {
             isHovering = true;
-            HoverImage.color = appData.HoverColor;
+            HoverImage.gameObject.SetActive(true);
             appData.PlayButtonVibration();
 
         }
@@ -34,11 +36,11 @@ IPointerExitHandler, IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDra
     public void OnPointerExit(PointerEventData eventData)
     {
        // Debug.Log(" exit id is " + eventData.);
-        if (BackgroundImage.gameObject.GetComponent<UIGradient>().enabled == false)
+        if (BackgroundImage.color == appData.IdleColor)
         {
             isHovering = false;
-            HoverImage.color = appData.IdleColor;
-           
+            HoverImage.gameObject.SetActive(false);
+
         }
      
     }
@@ -47,8 +49,7 @@ IPointerExitHandler, IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDra
     {
         if (isHovering)
         {
-           
-          
+            AudioManager.instance.PlayButtonClickSound();
         }
     }
 

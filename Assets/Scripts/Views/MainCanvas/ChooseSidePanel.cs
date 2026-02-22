@@ -2,6 +2,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChooseSidePanel : MonoBehaviour
 {
@@ -9,13 +10,25 @@ public class ChooseSidePanel : MonoBehaviour
     public PlayersDataSO playersData;
     public UIOutputDataSO uIOutputData;
     public UIInputDataSO uIInputData;
+    public AppDataSO appData;
 
     [Header("Panels")]
     public GameObject LobbyPanel;
 
+    [Header("Selection Images")]
+    public Image WhiteCoinBg;
+    public Image BlackCoinBg;
+
+
+    private void OnEnable()
+    {
+        ResetImages();
+        WhiteCoinBtnClicked();
+    }
+
     public void WhiteCoinBtnClicked()
     {
-        AudioManager.instance.PlayButtonClickSound();
+      
 
         if(uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode  == GameMode.P1vsP2)
         {
@@ -30,8 +43,9 @@ public class ChooseSidePanel : MonoBehaviour
             SetCoin(4, PlayerCoin.Black);
         }
 
-        uIInputData.StartGame();
-        LobbyPanel.SetActive(false);
+        ResetImages();
+        WhiteCoinBg.color = appData.SelectedColor;
+      
     }
 
     public void BlackCoinBtnClicked()
@@ -50,6 +64,14 @@ public class ChooseSidePanel : MonoBehaviour
             SetCoin(4, PlayerCoin.White);
         }
 
+        ResetImages();
+        BlackCoinBg.color = appData.SelectedColor;
+    }
+
+
+    public void StartGameBtnClicked()
+    {
+  
         uIInputData.StartGame();
         LobbyPanel.SetActive(false);
     }
@@ -61,5 +83,11 @@ public class ChooseSidePanel : MonoBehaviour
         Player p = playersData.GetPlayer(id);
         p.myCoin = playerCoin;
 
+    }
+
+    private void ResetImages()
+    {
+        WhiteCoinBg.color = appData.IdleColor;
+        BlackCoinBg.color = appData.IdleColor;
     }
 }
