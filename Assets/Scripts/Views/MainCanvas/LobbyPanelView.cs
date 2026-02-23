@@ -74,23 +74,16 @@ namespace com.VisionXR.Views
                 {
                     if (uiOutPutData.gameMode == GameMode.PvsAI || uiOutPutData.gameMode == GameMode.P1vsP2)
                     {
-                      
-
                         BetPanel2Players.SetImage(p.myId, p.GetMyImage());
                         BetPanel2Players.SetName(p.myId, p.myName);
                         BetPanel2Players.SetStatus(p.myId, "Joined");
-
-                      
-
                     }
                     else
-                    {
-                      
+                    {                     
 
                         BetPanel4Players.SetImage(p.myId, p.GetMyImage());
                         BetPanel4Players.SetName(p.myId, p.myName);
                         BetPanel4Players.SetStatus(p.myId, "Joined");
-
 
                     }
                 }
