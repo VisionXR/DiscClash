@@ -24,7 +24,6 @@ namespace com.VisionXR.Views
         public TMP_Text gameModeText;
         public List<TMP_Text> playerCoins;
         public List<TMP_Text> playerNames;
-        public List<TMP_Text> playerStatuses;
         public List<Image> playerImages;
         public GameObject StartButton;
 
@@ -35,21 +34,30 @@ namespace com.VisionXR.Views
         public Action OnEntryFeesDeductedSuccess;
         public Action OnEntryFeesDeductedFailure;
 
-        // Keeps track of which status coroutine is running for which player ID
-        private Dictionary<int, Coroutine> statusCoroutines = new Dictionary<int, Coroutine>();
 
         // Entry fee animation coroutine reference
         private Coroutine entryFeeCoroutine;
 
         private void OnEnable()
         {
+            Initialise();
+
+            OnEntryFeesDeductedSuccess += OnEntryFeesDeductionSuccess;
+            OnEntryFeesDeductedFailure += OnEntryFeesDeductionFailure;
+        }
+
+        private void OnDisable()
+        {
+       
+            entryFeeCoroutine = null;
+
+            OnEntryFeesDeductedSuccess -= OnEntryFeesDeductionSuccess;
+            OnEntryFeesDeductedFailure -= OnEntryFeesDeductionFailure;
+        }
+
+        private void Initialise()
+        {
             StartButton.SetActive(false);
-            // When the panel opens, start the "Connecting..." animation for everyone
-            for (int i = 0; i < playerStatuses.Count; i++)
-            {
-                int playerId = i + 1;
-                StartConnectingAnimation(playerId);
-            }
 
             for (int i = 0; i < playerCoins.Count; i++)
             {
@@ -60,21 +68,6 @@ namespace com.VisionXR.Views
             totalCoinsText.text = "0";
 
             gameModeText.text = Enum.GetName(typeof(GameMode), uiOutputData.gameMode);
-
-            OnEntryFeesDeductedSuccess += OnEntryFeesDeductionSuccess;
-            OnEntryFeesDeductedFailure += OnEntryFeesDeductionFailure;
-        }
-
-        private void OnDisable()
-        {
-            StopAllCoroutines();
-            statusCoroutines.Clear();
-
-            // ensure we clear any entry fee coroutine reference (StopAllCoroutines handled)
-            entryFeeCoroutine = null;
-
-            OnEntryFeesDeductedSuccess -= OnEntryFeesDeductionSuccess;
-            OnEntryFeesDeductedFailure -= OnEntryFeesDeductionFailure;
         }
 
         private void OnEntryFeesDeductionSuccess()
@@ -112,19 +105,13 @@ namespace com.VisionXR.Views
             Debug.Log($"Setting name for player {id}: {name}");
             // Note: Changed .name to .text so it actually shows on the UI!
             playerNames[id - 1].text = name;
+
         }
 
         public void SetStatus(int id, string status)
         {
-            // 1. Stop the "Connecting..." animation if it's running
-            if (statusCoroutines.ContainsKey(id))
-            {
-                StopCoroutine(statusCoroutines[id]);
-                statusCoroutines.Remove(id);
-            }
+        
 
-            // 2. Set the final static text
-            playerStatuses[id - 1].text = status;
         }
 
         public void SetImage(int id, Sprite image)
@@ -180,37 +167,7 @@ namespace com.VisionXR.Views
                 .Share();
         }
 
-        private void StartConnectingAnimation(int id)
-        {
-            // Safety: Stop existing one if called twice
-            if (statusCoroutines.ContainsKey(id))
-            {
-                StopCoroutine(statusCoroutines[id]);
-            }
 
-            statusCoroutines[id] = StartCoroutine(AnimateConnectingText(id));
-        }
-
-        private IEnumerator AnimateConnectingText(int id)
-        {
-            TMP_Text targetText = playerStatuses[id - 1];
-            string baseText = "Waiting";
-            int dotCount = 0;
-
-            while (true)
-            {
-                dotCount = (dotCount + 1) % 4; // Cycles 0, 1, 2, 3
-                targetText.text = baseText + new string('.', dotCount);
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
-
-        /// <summary>
-        /// Animate the entry fee deduction visually:
-        /// - Each player's displayed coins count down from their entry fee to zero.
-        /// - The totalCoinsText increments showing collected total (sum of deducted amounts).
-        /// - The entire animation runs over the specified duration (seconds).
-        /// </summary>
         private IEnumerator AnimateEntryFeeDeduction(float duration)
         {
             // Read initial values; fallback to uiOutputData.EntryFee if parsing fails
