@@ -60,7 +60,7 @@ public class CenterCanvasUIManager : MonoBehaviour
     public void ShowGameResult( GameResult result)
     {
         GameResultPanel.SetActive(true);
-       // GameResultPanel.GetComponent<GameResultPanelView>().ShowResult(result);
+        GameResultPanel.GetComponent<GameResultPanelView>().ShowResult(result);
     }
 
     public void ShowOtherPlayerDisconnection()

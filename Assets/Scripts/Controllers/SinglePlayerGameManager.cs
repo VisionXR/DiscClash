@@ -17,6 +17,7 @@ namespace com.VisionXR.Controllers
         public StrikerDataSO strikerData;
         public GameDataSO gameData;
         public InputDataSO inputData;
+        public CloudDataSO cloudData;
 
 
         [Header("Scripts")]
@@ -278,7 +279,7 @@ namespace com.VisionXR.Controllers
 
         private void HandleVictory(GameResult gameResult)
         {
-            uiInputData.GameCompleted(gameResult);
+          
 
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
@@ -288,13 +289,21 @@ namespace com.VisionXR.Controllers
                
                 winPs1.Play();
                 winPs2.Play();
-
+               
                 CalculatePoints();
+
+                gameResult.coinsWon = uiOutputData.EntryFee * 2;
+                gameResult.isMainPlayer = true;
+
+                cloudData.GrantWinnings(uiOutputData.EntryFee * 2,null,null);
             }
             else
             {
                 AudioManager.instance.PlayLosingSound();
+                gameResult.coinsWon = 0;
             }
+
+            uiInputData.GameCompleted(gameResult);
 
             EndGame();
             

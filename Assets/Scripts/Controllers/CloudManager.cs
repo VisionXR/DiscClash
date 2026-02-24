@@ -117,7 +117,7 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        public void GrantWinnings(int amount)
+        public void GrantWinnings(int amount, Action OnSuccess, Action OnFailure)
         {
             var request = new AddUserVirtualCurrencyRequest
             {
@@ -125,11 +125,13 @@ namespace com.VisionXR.Controllers
                 Amount = amount
             };
 
-            PlayFabClientAPI.AddUserVirtualCurrency(request, result => {
-                Debug.Log("Winnings added! Total Coins: " + result.Balance);
-                
-            }, error => {
-                Debug.LogError("Failed to add coins: " + error.GenerateErrorReport());
+            PlayFabClientAPI.AddUserVirtualCurrency(request, result => 
+            {
+                OnSuccess?.Invoke();
+            },
+            error => 
+            {
+                OnFailure?.Invoke();
             });
         }
 

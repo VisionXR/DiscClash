@@ -20,6 +20,7 @@ namespace com.VisionXR.Controllers
         public GameObject inputPanel2Players;
         public GameObject inputPanel4Players;
 
+
         [Header("Score Panels")]
         public ScorePanel2Player ScorePanel2Players;
         public ScorePanel4Player ScorePanel4Players;
@@ -45,10 +46,12 @@ namespace com.VisionXR.Controllers
             if(uiOutputData.gameMode == GameMode.PvsAI || uiOutputData.gameMode == GameMode.P1vsP2)
             {
                 ScorePanel2Players.gameObject.SetActive(true);
+                ScorePanel2Players.ShowImages();
             }
             else
             {
                 ScorePanel4Players.gameObject.SetActive(true);
+                ScorePanel4Players.ShowImages();
             }
         }
         private void StrikeStarted(int arg1, float arg2)
