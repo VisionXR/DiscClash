@@ -23,25 +23,25 @@ IPointerExitHandler, IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDra
     public void OnPointerEnter(PointerEventData eventData)
     {
 
-        if (BackgroundImage.color == appData.IdleColor)
-        {
-            isHovering = true;
-            HoverImage.gameObject.SetActive(true);
-            appData.PlayButtonVibration();
+        //if (BackgroundImage.color == appData.IdleColor)
+        //{
+        //    isHovering = true;
+        //    HoverImage.gameObject.SetActive(true);
+        //    appData.PlayButtonVibration();
 
-        }
+        //}
 
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-       // Debug.Log(" exit id is " + eventData.);
-        if (BackgroundImage.color == appData.IdleColor)
-        {
-            isHovering = false;
-            HoverImage.gameObject.SetActive(false);
+       //// Debug.Log(" exit id is " + eventData.);
+       // if (BackgroundImage.color == appData.IdleColor)
+       // {
+       //     isHovering = false;
+       //     HoverImage.gameObject.SetActive(false);
 
-        }
+       // }
      
     }
 
