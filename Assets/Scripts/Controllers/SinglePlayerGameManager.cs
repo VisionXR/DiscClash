@@ -292,10 +292,20 @@ namespace com.VisionXR.Controllers
                
                 CalculatePoints();
 
-                gameResult.coinsWon = uiOutputData.EntryFee * 2;
+                int winnings = 0;
+                if (uiOutputData.gameMode == GameMode.PvsAI)
+                {
+                    winnings = uiOutputData.EntryFee * 2;
+                }
+                else
+                {
+                   winnings = uiOutputData.EntryFee * 4;
+                }
+
+                gameResult.coinsWon = winnings;
                 gameResult.isMainPlayer = true;
 
-                cloudData.GrantWinnings(uiOutputData.EntryFee * 2,null,null);
+                cloudData.GrantWinnings(winnings,null,null);
             }
             else
             {

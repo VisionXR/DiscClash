@@ -74,7 +74,11 @@ namespace com.VisionXR.Views
                 }
             }
 
-            StartCoroutine(AnimateWinningCoins(3f));
+            if (result.isMainPlayer)
+            {
+                AudioManager.instance.PlayCoinCollectionSound();
+                StartCoroutine(AnimateWinningCoins(3f));
+            }
         }
 
         private void SetTwoPlayerData(GameResult result)

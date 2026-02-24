@@ -1,7 +1,6 @@
 using com.VisionXR.ModelClasses;
 using PlayFab;
 using PlayFab.ClientModels;
-using PlayFab.EconomyModels;
 using System;
 using UnityEngine;
 
@@ -127,6 +126,10 @@ namespace com.VisionXR.Controllers
 
             PlayFabClientAPI.AddUserVirtualCurrency(request, result => 
             {
+                    Debug.Log("Winnings Granted! Total Coins: " + result.Balance);
+                    if (cloudData != null)
+                    cloudData.coins = result.Balance;
+
                 OnSuccess?.Invoke();
             },
             error => 
@@ -143,8 +146,12 @@ namespace com.VisionXR.Controllers
                 Amount = amount
             };
 
-            PlayFabClientAPI.SubtractUserVirtualCurrency(request, result => {
-                Debug.Log("Deducted! Total Coins: " + result.Balance);
+            PlayFabClientAPI.SubtractUserVirtualCurrency(request, result =>
+            {
+
+                Debug.Log("Deducted  Total Coins: " + result.Balance);
+                if (cloudData != null)
+                    cloudData.coins = result.Balance;
                 OnSuccess?.Invoke();
             }, error => {
 
