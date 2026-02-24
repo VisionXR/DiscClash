@@ -20,8 +20,9 @@ namespace com.VisionXR.ModelClasses
         public int NoOfPlayers = 2;
         public int EntryFee = 0;
 
-        public int MyBoard;
+        public int MyBoardId;
         public int MyCoinsId;
+        public int MyStrikerId;
 
         // coin Images
         public Sprite WhiteCoin;
@@ -83,6 +84,21 @@ namespace com.VisionXR.ModelClasses
             RedCoin = Red;
             BlackAndWhiteCoin = blackAndwhite;
             CoinsSetEvent?.Invoke();
+        }
+
+        public void SetMyBoardId(int boardId)
+        {
+            MyBoardId = boardId;
+        }
+
+        public void SetMyStrikerId(int strikerId)
+        {
+            MyStrikerId = strikerId;
+        }
+
+        public void SetMyCoinsId(int coinsId)
+        {
+            MyCoinsId = coinsId;             
         }
 
     }

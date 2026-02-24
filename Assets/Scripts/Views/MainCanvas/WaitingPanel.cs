@@ -109,12 +109,6 @@ namespace com.VisionXR.Views
 
         }
 
-        public void SetStatus(int id, string status)
-        {
-        
-
-        }
-
         public void SetImage(int id, Sprite image)
         {
             playerImages[id - 1].sprite = image;
@@ -227,8 +221,8 @@ namespace com.VisionXR.Views
             }
             totalCoinsText.text = combined.ToString();
 
+            yield return new WaitForSeconds(1f); // small delay before starting the game
 
-          
             ChooseSidePanel.SetActive(true);
             // clear coroutine reference
             entryFeeCoroutine = null;

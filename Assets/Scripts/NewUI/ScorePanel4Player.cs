@@ -98,7 +98,7 @@ public class ScorePanel4Player : MonoBehaviour
         if (p4!= null)          
         {
             teamB.SetPlayerImage(p4.myId, p4.GetMyImage());
-            teamA.SetPlayerName(p4.myId, p4.myName);
+            teamB.SetPlayerName(p4.myId, p4.myName);
         }
        
 

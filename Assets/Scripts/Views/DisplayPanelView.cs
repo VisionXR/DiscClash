@@ -78,7 +78,7 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayTurnChangedSound();
             Player currentPlayer = playerData.GetPlayer(turnId);
             Player mainPlayer = playerData.GetMainPlayer();
-            if (mainPlayer.myId == currentPlayer.myId)
+            if ( mainPlayer != null && mainPlayer.myId == currentPlayer.myId)
             {
                StartCoroutine(ShowPlayerName("Your Turn"));
             }

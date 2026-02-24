@@ -69,11 +69,13 @@ namespace com.VisionXR.Controllers
 
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
 
+            Player p = playersData.GetMainPlayer();
+
             int firstTurn = 1;
 
             if (uiOutputData.gameMode == GameMode.PvsAI)
             {
-                if (uiOutputData.playerCoin == PlayerCoin.White)
+                if (p.myCoin == PlayerCoin.White)
                 {
                     firstTurn = 1;
 
@@ -85,7 +87,7 @@ namespace com.VisionXR.Controllers
             }
             else if (uiOutputData.gameMode == GameMode.PAIvsAI)
             {
-                if (uiOutputData.playerCoin == PlayerCoin.White)
+                if (p.myCoin == PlayerCoin.White)
                 {
                     firstTurn = 1;
                 }
@@ -99,7 +101,7 @@ namespace com.VisionXR.Controllers
 
             if (firstTurn == 1)
             {
-                Player p = playersData.GetMainPlayer();
+              
                 p.GetComponent<PlayerInput>().StartRotation();
                 coinData.ShowRotationCanvasEvent?.Invoke();
                 isFirstTurn = true;

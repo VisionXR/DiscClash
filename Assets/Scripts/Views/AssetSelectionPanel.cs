@@ -20,7 +20,7 @@ namespace com.VisionXR.Views
         public GameObject onlineMultiplayerPanel;
         public GameObject playWithFriendsPanel;
 
-        private Destination destination;
+        public Destination destination;
 
         private void OnEnable()
         {
@@ -35,7 +35,7 @@ namespace com.VisionXR.Views
         private void CreateStriker()
         {
             strikerData.CreateStriker(1, playerSettings.MyStrikerId, null);
-            coinData.CreateAllCoins(playerSettings.MyCoinsId);
+            coinData.CreateAllCoins(uiOutputData.MyCoinsId);
         }
 
         private void DestroyStriker()
