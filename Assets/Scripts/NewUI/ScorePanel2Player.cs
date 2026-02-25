@@ -65,7 +65,7 @@ public class ScorePanel2Player : MonoBehaviour
 
   
 
-    private void ShowImages()
+    public void ShowImages()
     {
         Player p1 = playerData.GetPlayer(1);
         Player p2 = playerData.GetPlayer(2);
@@ -73,11 +73,13 @@ public class ScorePanel2Player : MonoBehaviour
         if (p1 != null)
         {
             leftPlayer.SetPlayerImage(p1.GetMyImage());
+            leftPlayer.SetPlayerName(p1.myName);
         }
 
         if (p2 != null)
         {
             rightPlayer.SetPlayerImage(p2.GetMyImage());
+            rightPlayer.SetPlayerName(p2.myName);
         }
     }
 

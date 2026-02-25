@@ -120,6 +120,8 @@ namespace com.VisionXR.HelperClasses
         public int winningPlayerId;
         public Team winningTeam;
         public bool isVictory;
+        public int coinsWon;
+        public bool isMainPlayer = false;
     }
 
     [SerializeField]

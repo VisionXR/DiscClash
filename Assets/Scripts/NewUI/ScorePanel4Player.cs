@@ -68,7 +68,7 @@ public class ScorePanel4Player : MonoBehaviour
         teamB.SetPlayerImage(4, null);
     }
 
-    private void ShowImages()
+    public void ShowImages()
     {
         Player p1 = playerData.GetPlayer(1);
         Player p2 = playerData.GetPlayer(2);
@@ -76,11 +76,13 @@ public class ScorePanel4Player : MonoBehaviour
         if (p1 != null)
         {
             teamA.SetPlayerImage(p1.myId, p1.GetMyImage());
+            teamA.SetPlayerName(p1.myId, p1.myName);
         }
 
         if (p2 != null)
         {
             teamA.SetPlayerImage(p2.myId, p2.GetMyImage());
+            teamA.SetPlayerName(p2.myId, p2.myName);
         }
 
 
@@ -90,11 +92,13 @@ public class ScorePanel4Player : MonoBehaviour
         if (p3 != null)
         {
             teamB.SetPlayerImage(p3.myId, p3.GetMyImage());
+            teamB.SetPlayerName(p3.myId, p3.myName);
         }
 
         if (p4!= null)          
         {
             teamB.SetPlayerImage(p4.myId, p4.GetMyImage());
+            teamB.SetPlayerName(p4.myId, p4.myName);
         }
        
 

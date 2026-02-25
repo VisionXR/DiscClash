@@ -82,6 +82,14 @@ public class ChooseSidePanel : MonoBehaviour
     {
         Player p = playersData.GetPlayer(id);
         p.myCoin = playerCoin;
+        if(playerCoin == PlayerCoin.White)
+        {
+            p.myTeam = Team.TeamA;
+        }
+        else
+        {
+            p.myTeam = Team.TeamB;
+        }
 
     }
 

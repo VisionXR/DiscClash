@@ -31,9 +31,10 @@ public class AIMovement : MonoBehaviour
     private Vector3 desiredPosition,handdesiredPosition, BotInitPos, HandInitPos,CoinPos;
     private Vector3 hittingDirection,lookDirection;
     public bool canIAnimate = false;
-    
-    
-    
+
+
+    // hand move coroutine reference
+    private Coroutine handMoveRoutine;
 
     void SetInitialPosition()
     {
@@ -103,9 +104,7 @@ public class AIMovement : MonoBehaviour
             }
             else if (details.eventId == 3)
             {
-                //CoinPos = coinPos;
-                //Striker.transform.position = strikerpos;
-                //Striker.transform.eulerAngles = strikerRot;
+
                 HandAnimator.SetBool("CloseFinger", true);
                 HandAnimator.SetBool("FingerStrike", true);
                 StartCoroutine(AfterStrikeFinished());
@@ -119,6 +118,8 @@ public class AIMovement : MonoBehaviour
         Hand.transform.parent = Striker.transform;
         handdesiredPosition = HandPos.transform.position;
         handdesiredRotation = HandPos.transform.rotation;
+
+        StartHandMove(0.5f);
         SendAIMovement(MyId, 1, Vector3.one, Striker.transform.position, Striker.transform.eulerAngles);
            
     }
@@ -128,7 +129,7 @@ public class AIMovement : MonoBehaviour
 
             CoinPos = coinPos;
             hittingDirection = (coinPos - Striker.transform.position).normalized;
-            SetHandPosition();
+         //   SetHandPosition();
             SetBotPosition();
             StartCoroutine(CloseFinger());
             SendAIMovement(MyId, 2, coinPos, Striker.transform.position, Striker.transform.eulerAngles);
@@ -147,18 +148,19 @@ public class AIMovement : MonoBehaviour
     {
         handdesiredRotation = Quaternion.LookRotation(Vector3.Cross(-HandPos.transform.up, hittingDirection), HandPos.transform.up);
         handdesiredPosition = new Vector3(Striker.transform.position.x, HandPos.transform.position.y, Striker.transform.position.z) + hittingDirection * -0.125f;
-     }
+      
+    }
     private void SetBotPosition()
     {
-        float angle = Vector3.SignedAngle(Striker.transform.forward, hittingDirection, Vector3.up);
+        float angle = Vector3.SignedAngle(transform.forward, hittingDirection, Vector3.up);
 
         if (angle > 45)
         {
-            hittingDirection = Quaternion.AngleAxis(45, Vector3.up) * Striker.transform.forward;
+            hittingDirection = Quaternion.AngleAxis(45, Vector3.up) * transform.forward;
         }
         else if (angle < -45)
         {
-            hittingDirection = Quaternion.AngleAxis(-45, Vector3.up) * Striker.transform.forward;
+            hittingDirection = Quaternion.AngleAxis(-45, Vector3.up) * transform.forward;
         }
 
 
@@ -187,6 +189,8 @@ public class AIMovement : MonoBehaviour
         desiredRotation = BotInitRotation;
         handdesiredPosition = HandInitPos;
         handdesiredRotation = HandInitRot;
+
+        StartHandMove(0.5f);
         headdesiredRotation = HeadInitRot;
         Hand.transform.parent = AllParts.transform;
     }
@@ -207,8 +211,8 @@ public class AIMovement : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * aiData.rotationSpeed);
                 transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * aiData.positionSpeed);
 
-                Hand.transform.position = Vector3.Lerp(Hand.transform.position, handdesiredPosition, Time.deltaTime * aiData.positionSpeed);
-                Hand.transform.rotation = Quaternion.Lerp(Hand.transform.rotation, handdesiredRotation, Time.deltaTime * aiData.rotationSpeed);
+                //Hand.transform.position = Vector3.Lerp(Hand.transform.position, handdesiredPosition, Time.deltaTime * aiData.positionSpeed);
+                //Hand.transform.rotation = Quaternion.Lerp(Hand.transform.rotation, handdesiredRotation, Time.deltaTime * aiData.rotationSpeed);
 
 
                 if (Hand.transform.parent == null)
@@ -272,6 +276,62 @@ public class AIMovement : MonoBehaviour
             // Wait for a bit before the next nod
             yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3f)); // Random delay between nods
         }
+    }
+
+    /// <summary>
+    /// Smoothly move the Hand from its current world position/rotation to handdesiredPosition/handdesiredRotation over 'duration' seconds.
+    /// If a previous hand move is running it will be stopped and replaced.
+    /// Call StartHandMove(duration) to begin.
+    /// </summary>
+    /// <param name="duration">Time in seconds for the move. If <= 0 the hand will snap to the target.</param>
+    public void StartHandMove(float duration)
+    {
+        if (handMoveRoutine != null)
+        {
+            StopCoroutine(handMoveRoutine);
+            handMoveRoutine = null;
+        }
+
+        handMoveRoutine = StartCoroutine(MoveHandToDesired(duration));
+    }
+    private IEnumerator MoveHandToDesired(float duration)
+    {
+        if (Hand == null)
+            yield break;
+
+        Debug.Log("Starting hand move to desired position: " + handdesiredPosition + " and rotation: " + handdesiredRotation.eulerAngles);
+
+        // If parented, we still operate in world space to avoid messing local offsets
+        Vector3 startPos = Hand.transform.position;
+        Quaternion startRot = Hand.transform.rotation;
+
+        // Immediate snap when duration is zero or negative
+        if (duration <= 0f)
+        {
+            Hand.transform.position = handdesiredPosition;
+            Hand.transform.rotation = handdesiredRotation;
+            handMoveRoutine = null;
+            yield break;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = Mathf.Clamp01(elapsed / duration);
+            // ease-out for a natural feel
+            float eased = 1f - Mathf.Pow(1f - t, 2f);
+
+            Hand.transform.position = Vector3.Lerp(startPos, handdesiredPosition, eased);
+            Hand.transform.rotation = Quaternion.Slerp(startRot, handdesiredRotation, eased);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        // Ensure exact final values
+        Hand.transform.position = handdesiredPosition;
+        Hand.transform.rotation = handdesiredRotation;
+
+        handMoveRoutine = null;
     }
 
 

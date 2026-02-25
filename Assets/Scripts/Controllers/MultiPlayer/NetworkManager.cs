@@ -110,7 +110,7 @@ namespace com.VisionXR.Controllers
                 {
                     { "gamemode", (int)uiOutputData.gameMode },
                     { "challenge", (int)uiOutputData.challenge },
-                    { "board", uiOutputData.MyBoard },
+                    { "board", uiOutputData.MyBoardId },
                     { "difficulty", (int)uiOutputData.aIDifficulty },
                     { "myCoinsId", uiOutputData.MyCoinsId }
        

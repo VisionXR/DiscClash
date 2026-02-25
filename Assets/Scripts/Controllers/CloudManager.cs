@@ -1,7 +1,6 @@
 using com.VisionXR.ModelClasses;
 using PlayFab;
 using PlayFab.ClientModels;
-using PlayFab.EconomyModels;
 using System;
 using UnityEngine;
 
@@ -117,7 +116,7 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        public void GrantWinnings(int amount)
+        public void GrantWinnings(int amount, Action OnSuccess, Action OnFailure)
         {
             var request = new AddUserVirtualCurrencyRequest
             {
@@ -125,11 +124,17 @@ namespace com.VisionXR.Controllers
                 Amount = amount
             };
 
-            PlayFabClientAPI.AddUserVirtualCurrency(request, result => {
-                Debug.Log("Winnings added! Total Coins: " + result.Balance);
-                
-            }, error => {
-                Debug.LogError("Failed to add coins: " + error.GenerateErrorReport());
+            PlayFabClientAPI.AddUserVirtualCurrency(request, result => 
+            {
+                    Debug.Log("Winnings Granted! Total Coins: " + result.Balance);
+                    if (cloudData != null)
+                    cloudData.coins = result.Balance;
+
+                OnSuccess?.Invoke();
+            },
+            error => 
+            {
+                OnFailure?.Invoke();
             });
         }
 
@@ -141,8 +146,12 @@ namespace com.VisionXR.Controllers
                 Amount = amount
             };
 
-            PlayFabClientAPI.SubtractUserVirtualCurrency(request, result => {
-                Debug.Log("Deducted! Total Coins: " + result.Balance);
+            PlayFabClientAPI.SubtractUserVirtualCurrency(request, result =>
+            {
+
+                Debug.Log("Deducted  Total Coins: " + result.Balance);
+                if (cloudData != null)
+                    cloudData.coins = result.Balance;
                 OnSuccess?.Invoke();
             }, error => {
 

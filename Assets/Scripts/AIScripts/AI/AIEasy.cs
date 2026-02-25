@@ -215,46 +215,14 @@ namespace com.VisionXR.GameElements
 
         }
 
-        /// <summary>
-        /// Smoothly rotate the striker so its forward points toward worldDirection (keeps y-axis stable).
-        /// duration is seconds for the rotation to complete.
-        /// </summary>
-        private IEnumerator RotateStrikerTowards(Vector3 worldDirection, float duration)
-        {
-            // flatten direction to horizontal plane to avoid unwanted pitch
-            Vector3 flatDir = new Vector3(worldDirection.x, 0f, worldDirection.z);
-            if (flatDir.sqrMagnitude <= 0.0001f)
-                yield break;
-
-            Quaternion startRot = Striker.transform.rotation;
-            Quaternion targetRot = Quaternion.LookRotation(flatDir.normalized, Vector3.up);
-
-            float t = 0f;
-            // if duration is zero or tiny, snap immediately
-            if (duration <= 0f)
-            {
-                Striker.transform.rotation = targetRot;
-                yield break;
-            }
-
-            while (t < 1f)
-            {
-                t += Time.deltaTime / duration;
-                Striker.transform.rotation = Quaternion.Slerp(startRot, targetRot, Mathf.SmoothStep(0f, 1f, t));
-                yield return null;
-            }
-
-            Striker.transform.rotation = targetRot;
-        }
-
         private IEnumerator Strike(Vector3 direction, float strikeForce, CoinInfo coinInfo)
         {
-         
+
             aIMovement.ShowFingerCloseAnimation(coinInfo.Coin.transform.position);
             yield return new WaitForSeconds(aIData.strikeWaitTime);
             aIMovement.ShowFingerStrikeAnimation(coinInfo.Coin.transform.position);
             yield return new WaitForSeconds(0.1f);
-           
+
             strikerShooting.FireStriker(direction, strikeForce);
 
             strikerArrow.TurnOffArrow();
@@ -302,7 +270,37 @@ namespace com.VisionXR.GameElements
             return 0;
         }
 
+        /// <summary>
+        /// Smoothly rotate the striker so its forward points toward worldDirection (keeps y-axis stable).
+        /// duration is seconds for the rotation to complete.
+        /// </summary>
+        private IEnumerator RotateStrikerTowards(Vector3 worldDirection, float duration)
+        {
+            // flatten direction to horizontal plane to avoid unwanted pitch
+            Vector3 flatDir = new Vector3(worldDirection.x, 0f, worldDirection.z);
+            if (flatDir.sqrMagnitude <= 0.0001f)
+                yield break;
 
+            Quaternion startRot = Striker.transform.rotation;
+            Quaternion targetRot = Quaternion.LookRotation(flatDir.normalized, Vector3.up);
+
+            float t = 0f;
+            // if duration is zero or tiny, snap immediately
+            if (duration <= 0f)
+            {
+                Striker.transform.rotation = targetRot;
+                yield break;
+            }
+
+            while (t < 1f)
+            {
+                t += Time.deltaTime / duration;
+                Striker.transform.rotation = Quaternion.Slerp(startRot, targetRot, Mathf.SmoothStep(0f, 1f, t));
+                yield return null;
+            }
+
+            Striker.transform.rotation = targetRot;
+        }
     }
 }
 

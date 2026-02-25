@@ -17,6 +17,7 @@ namespace com.VisionXR.Controllers
         public StrikerDataSO strikerData;
         public GameDataSO gameData;
         public InputDataSO inputData;
+        public CloudDataSO cloudData;
 
 
         [Header("Scripts")]
@@ -68,11 +69,13 @@ namespace com.VisionXR.Controllers
 
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
 
+            Player p = playersData.GetMainPlayer();
+
             int firstTurn = 1;
 
             if (uiOutputData.gameMode == GameMode.PvsAI)
             {
-                if (uiOutputData.playerCoin == PlayerCoin.White)
+                if (p.myCoin == PlayerCoin.White)
                 {
                     firstTurn = 1;
 
@@ -84,7 +87,7 @@ namespace com.VisionXR.Controllers
             }
             else if (uiOutputData.gameMode == GameMode.PAIvsAI)
             {
-                if (uiOutputData.playerCoin == PlayerCoin.White)
+                if (p.myCoin == PlayerCoin.White)
                 {
                     firstTurn = 1;
                 }
@@ -98,7 +101,7 @@ namespace com.VisionXR.Controllers
 
             if (firstTurn == 1)
             {
-                Player p = playersData.GetMainPlayer();
+              
                 p.GetComponent<PlayerInput>().StartRotation();
                 coinData.ShowRotationCanvasEvent?.Invoke();
                 isFirstTurn = true;
@@ -278,7 +281,7 @@ namespace com.VisionXR.Controllers
 
         private void HandleVictory(GameResult gameResult)
         {
-            uiInputData.GameCompleted(gameResult);
+          
 
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
@@ -288,13 +291,31 @@ namespace com.VisionXR.Controllers
                
                 winPs1.Play();
                 winPs2.Play();
-
+               
                 CalculatePoints();
+
+                int winnings = 0;
+                if (uiOutputData.gameMode == GameMode.PvsAI)
+                {
+                    winnings = uiOutputData.EntryFee * 2;
+                }
+                else
+                {
+                   winnings = uiOutputData.EntryFee * 4;
+                }
+
+                gameResult.coinsWon = winnings;
+                gameResult.isMainPlayer = true;
+
+                cloudData.GrantWinnings(winnings,null,null);
             }
             else
             {
                 AudioManager.instance.PlayLosingSound();
+                gameResult.coinsWon = 0;
             }
+
+            uiInputData.GameCompleted(gameResult);
 
             EndGame();
             

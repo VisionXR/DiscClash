@@ -40,7 +40,7 @@ namespace com.VisionXR.EditorTools
                 if (cloudData != null)
                 {
 
-                    cloudData.GrantWinnings(200);  
+                  //  cloudData.GrantWinnings(200);  
                   
                 }
                 else

@@ -25,7 +25,7 @@ namespace com.VisionXR.Views
         public List<TMP_Text> playerCoins;
         public List<TMP_Text> playerNames;
         public List<Image> playerImages;
-        public GameObject StartButton;
+
 
         [Header("UI Elements")]
         public TMP_Text totalCoinsText;
@@ -57,7 +57,7 @@ namespace com.VisionXR.Views
 
         private void Initialise()
         {
-            StartButton.SetActive(false);
+           
 
             for (int i = 0; i < playerCoins.Count; i++)
             {
@@ -76,6 +76,7 @@ namespace com.VisionXR.Views
 
             if (entryFeeCoroutine == null)
             {
+                AudioManager.instance.PlayCoinCollectionSound();
                 entryFeeCoroutine = StartCoroutine(AnimateEntryFeeDeduction(3f));
             }    
         }
@@ -105,12 +106,6 @@ namespace com.VisionXR.Views
             Debug.Log($"Setting name for player {id}: {name}");
             // Note: Changed .name to .text so it actually shows on the UI!
             playerNames[id - 1].text = name;
-
-        }
-
-        public void SetStatus(int id, string status)
-        {
-        
 
         }
 
@@ -226,10 +221,12 @@ namespace com.VisionXR.Views
             }
             totalCoinsText.text = combined.ToString();
 
+            yield return new WaitForSeconds(1f); // small delay before starting the game
 
-            StartButton.SetActive(true);
+            ChooseSidePanel.SetActive(true);
             // clear coroutine reference
             entryFeeCoroutine = null;
+            gameObject.SetActive(false);
         }
     }
 }

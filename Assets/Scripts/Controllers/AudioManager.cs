@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource ToastSound;
     [SerializeField] private AudioSource NotificationSound;
     [SerializeField] private AudioSource ClockSound;
+    [SerializeField] private AudioSource CoinCollectionSound;
 
     private void Awake()
     {
@@ -80,5 +81,10 @@ public class AudioManager : MonoBehaviour
     public void StopClockSound()
     {
         ClockSound.Stop();
+    }
+
+    public void PlayCoinCollectionSound()
+    {
+        CoinCollectionSound.Play();
     }
 }

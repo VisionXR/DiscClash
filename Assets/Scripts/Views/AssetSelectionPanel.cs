@@ -15,6 +15,11 @@ namespace com.VisionXR.Views
         public UIInputDataSO uiInputData;
 
         // local variables
+        [Header("Panel Objects")]
+        public GameObject vsCpuPanel;
+        public GameObject onlineMultiplayerPanel;
+        public GameObject playWithFriendsPanel;
+
         public Destination destination;
 
         private void OnEnable()
@@ -30,7 +35,7 @@ namespace com.VisionXR.Views
         private void CreateStriker()
         {
             strikerData.CreateStriker(1, playerSettings.MyStrikerId, null);
-            coinData.CreateAllCoins(1);
+            coinData.CreateAllCoins(uiOutputData.MyCoinsId);
         }
 
         private void DestroyStriker()
@@ -63,6 +68,25 @@ namespace com.VisionXR.Views
 
             uiInputData.ShowDestination(destination);
             gameObject.SetActive(false);
+        }
+
+        public void BackBtnClicked()
+        {
+            if (uiOutputData.gameType == GameType.VsCPU)
+            {
+                vsCpuPanel.SetActive(true);
+            }
+            else if (uiOutputData.gameType == GameType.OnlineMultiPlayer)
+            {
+                onlineMultiplayerPanel.SetActive(true);
+            }
+            else if (uiOutputData.gameType == GameType.PlayWithFriends)
+            {
+                playWithFriendsPanel.SetActive(true);
+            }
+
+            gameObject.SetActive(false);
+
         }
     }
 }
