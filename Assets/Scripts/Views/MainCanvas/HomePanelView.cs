@@ -18,7 +18,6 @@ namespace com.VisionXR.Views
         public GameObject MainPanel;
         public GameObject SettingsPanel;
         public GameObject RulesPanel;
-        public GameObject AboutUsPanel;
         public GameObject LeaderBoardPanel;
         public GameObject PurchasePanel;
         public GameObject AchievementsPanel;
@@ -62,7 +61,6 @@ namespace com.VisionXR.Views
         {
              AudioManager.instance.PlayButtonClickSound();
              ResetPanels();
-             AboutUsPanel.SetActive(true);
         }
 
         public void PurchaseBtnClicked()
@@ -96,7 +94,6 @@ namespace com.VisionXR.Views
             MainPanel.SetActive(false);
             SettingsPanel.SetActive(false);
             RulesPanel.SetActive(false);
-            AboutUsPanel.SetActive(false);
             LeaderBoardPanel.SetActive(false);
             RulesPanel.SetActive(false);
             PurchasePanel.SetActive(false);
