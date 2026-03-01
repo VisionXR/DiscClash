@@ -21,14 +21,8 @@ namespace com.VisionXR.Controllers
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
         public InputDataSO inputData;
+        public CloudDataSO cloudData;
 
-        [Header("Panels")]
-        public GameObject waitingPanel2Players;
-        public GameObject waitingPanel4Players;
-        public GameObject ScorePanel2Players;
-        public GameObject ScorePanel4Players;
-        public GameObject inputPanel2Players;
-        public GameObject inputPanel4Players;
 
 
         [Header("Scripts")]
@@ -37,6 +31,7 @@ namespace com.VisionXR.Controllers
         public FineLogic fineLogic;
         public DataManager dataManager;
         public MultiPlayerConnectionDisconnection connectionDisconnection;
+        public ScoreManager scoreManager;
         private bool isFirstTurn = false;
 
         [Header("Local")]
@@ -143,21 +138,12 @@ namespace com.VisionXR.Controllers
             coinData.ResetData();
             coinData.ResetCount();
             strikerData.ResetFoul();
-         //   coinData.CreateAllCoins();
+
+
+            coinData.CreateAllCoins(uiOutputData.MyCoinsId);
 
             connectionDisconnection.StartGame();
-            waitingPanel2Players.SetActive(false);
-            waitingPanel4Players.SetActive(false);
-            if (uiOutputData.gameMode == GameMode.P1vsP2)
-            {
-                ScorePanel2Players.SetActive(true);
-            
-            }
-            else
-            {
-                ScorePanel4Players.SetActive(true);
-                
-            }
+          
 
             if (networkOutputData.IsHost())
             {
@@ -177,8 +163,7 @@ namespace com.VisionXR.Controllers
     
         private void StrikeStarted(int id, float f)
         {
-            inputPanel2Players.SetActive(false);
-            inputPanel4Players.SetActive(false);
+          
             inputData.DeactivateInput();
 
             if (isFirstTurn)
@@ -249,18 +234,11 @@ namespace com.VisionXR.Controllers
             else
             {
                 gameData.ChangeTurn(result.currentTurnId);
-
-                Player p = playersData.GetPlayer(result.currentTurnId);
-                if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
-                {
-                    inputPanel2Players.SetActive(true);
-                    inputPanel4Players.SetActive(true);
-                }
             }
         }
         private void ReceiveFine(PlayerCoin coin)
         {
-           // coinData.CreateCoin(coin,coinsId);
+            coinData.CreateCoin(coin,uiOutputData.MyCoinsId);
         }
 
         public void ProcessPlayerData(Player p, int Whites, int Blacks, int Red, bool isFoul)
@@ -274,6 +252,8 @@ namespace com.VisionXR.Controllers
             fineLogic.CheckFine(p, Whites, Blacks, Red, isFoul);
 
             GameResult gameResult = CheckGameResult(p);
+
+            scoreManager.UpdateScore();
 
             int turnId = 1;
             if (ShouldIContinueTurn)
@@ -406,10 +386,19 @@ namespace com.VisionXR.Controllers
                 winPs2.Play();
 
                 CalculatePoints();
+
+                int winnings = uiOutputData.EntryFee * 2;
+
+                gameResult.coinsWon = winnings;
+                gameResult.isMainPlayer = true;
+
+                cloudData.GrantWinnings(winnings, null, null);
             }
             else
             {
                 AudioManager.instance.PlayLosingSound();
+
+                gameResult.coinsWon = 0;
             }
 
 

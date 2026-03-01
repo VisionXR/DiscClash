@@ -294,15 +294,7 @@ namespace com.VisionXR.Controllers
                
                 CalculatePoints();
 
-                int winnings = 0;
-                if (uiOutputData.gameMode == GameMode.PvsAI)
-                {
-                    winnings = uiOutputData.EntryFee * 2;
-                }
-                else
-                {
-                   winnings = uiOutputData.EntryFee * 4;
-                }
+                int winnings = uiOutputData.EntryFee * 2; 
 
                 gameResult.coinsWon = winnings;
                 gameResult.isMainPlayer = true;

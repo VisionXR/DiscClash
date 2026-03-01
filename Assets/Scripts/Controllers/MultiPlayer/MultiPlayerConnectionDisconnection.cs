@@ -18,10 +18,6 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     public DataManager dataManager;
     public bool isPlayerInGame;
 
-    [Header(" UI Panels ")]
-    public WaitingPanel waitingPanel2Player;
-    public WaitingPanel waitingPanel4Player;
-
 
 
     private void OnEnable()
@@ -42,18 +38,18 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void PlayerJoined(Player player)
     {
-        if (uiOutputData.gameMode == GameMode.P1vsP2)
-        {
-            waitingPanel2Player.SetName(player.myId, player.myName);
+        //if (uiOutputData.gameMode == GameMode.P1vsP2)
+        //{
+        //    waitingPanel2Player.SetName(player.myId, player.myName);
          
-            waitingPanel2Player.SetImage(player.myId, player.GetMyImage());
-        }
-        else if (uiOutputData.gameMode == GameMode.P1P2vsAI || uiOutputData.gameMode == GameMode.P1AIvsP2AI || uiOutputData.gameMode == GameMode.P1P2vsP3P4)
-        {
-            waitingPanel4Player.SetName(player.myId, player.myName);
+        //    waitingPanel2Player.SetImage(player.myId, player.GetMyImage());
+        //}
+        //else if (uiOutputData.gameMode == GameMode.P1P2vsAI || uiOutputData.gameMode == GameMode.P1AIvsP2AI || uiOutputData.gameMode == GameMode.P1P2vsP3P4)
+        //{
+        //    waitingPanel4Player.SetName(player.myId, player.myName);
         
-            waitingPanel4Player.SetImage(player.myId, player.GetMyImage());
-        }
+        //    waitingPanel4Player.SetImage(player.myId, player.GetMyImage());
+        //}
     }
 
     private void PlayerLeft(Player player)
