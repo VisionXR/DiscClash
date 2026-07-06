@@ -78,7 +78,7 @@ public class PurchasePanel : MonoBehaviour
     public void BackBtnClicked()
     {
         AudioManager.instance.PlayButtonClickSound();
-        gameObject.SetActive(false);
+        uiData.uiManager.ChangeState(purchaseState, false);
 
     }
 
