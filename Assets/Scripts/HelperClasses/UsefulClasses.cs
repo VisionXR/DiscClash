@@ -124,7 +124,7 @@ namespace com.VisionXR.HelperClasses
         public bool isMainPlayer = false;
     }
 
-    [SerializeField]
+    [Serializable]
     public class AIBotAnimationDetails
     {
         public string time;
