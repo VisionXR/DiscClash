@@ -14,7 +14,7 @@ public class GenericState : StateMachineBehaviour
         if (uiData.uiManager != null)
         {
 
-           // uiData.uiManager.mainCanvasView.ShowMainPanel(nextPanelId);
+            uiData.uiManager.mainCanvasView.ShowMainPanel(nextPanelId);
             uiData.uiManager.SetCurrentStateName(currentStateName);
         }
     }
@@ -30,7 +30,7 @@ public class GenericState : StateMachineBehaviour
         if (uiData.uiManager != null)
         {
 
-          //  uiData.uiManager.mainCanvasView.HideMainPanel(nextPanelId);
+            uiData.uiManager.mainCanvasView.HideMainPanel(nextPanelId);
             uiData.uiManager.SetPreviousStateName(currentStateName);
         }
     }

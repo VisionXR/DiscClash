@@ -10,6 +10,8 @@ public class PurchasePanel : MonoBehaviour
     [Header("Scriptable Objects")]
     public PurchaseDataSO purchaseData;
     public AppDataSO appData;
+    public UIDataSO uiData;
+    public string purchaseState;
 
     [Header("Panel Elements")]
     public GameObject strikerPanel;
@@ -34,7 +36,7 @@ public class PurchasePanel : MonoBehaviour
         purchaseData.StrikerAssetPurchasedEvent += SetProductPrices;
         purchaseData.BoardAssetPurchasedEvent += SetProductPrices;
         purchaseData.CoinAssetPurchasedEvent += SetProductPrices;
-        SetProductPrices();
+       
     }
 
     private void OnDisable()

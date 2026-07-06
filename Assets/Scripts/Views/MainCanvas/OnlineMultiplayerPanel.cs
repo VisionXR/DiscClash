@@ -14,17 +14,14 @@ namespace com.VisionXR.Views
         public UIInputDataSO uiInputData;
         public MyPlayerSettings myplayerSettings;
         public AppDataSO appData;
-       
+        public UIDataSO uiData;
 
-        [Header("Panels")]
-        public GameObject HomePanel;
-        public GameObject AssetSelectionPanel;
-
+        public string vsFriendsState;
 
         public void P1vsP2_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+          
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
@@ -36,7 +33,7 @@ namespace com.VisionXR.Views
         public void P1vsP2_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+           
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
@@ -48,7 +45,7 @@ namespace com.VisionXR.Views
         public void P1P2vsAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+          
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1P2vsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
@@ -60,7 +57,7 @@ namespace com.VisionXR.Views
         public void P1P2vsAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+            
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1P2vsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
@@ -72,7 +69,7 @@ namespace com.VisionXR.Views
         public void P1AIvsP2AI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+          
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
@@ -84,7 +81,7 @@ namespace com.VisionXR.Views
         public void P1AIvsP2AI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+           
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
@@ -96,7 +93,7 @@ namespace com.VisionXR.Views
         public void P1P2vsP3P4_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+           
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
@@ -108,7 +105,7 @@ namespace com.VisionXR.Views
         public void P1P2vsP3P4_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
+           
             uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
@@ -121,9 +118,7 @@ namespace com.VisionXR.Views
         public void BackButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            HomePanel.SetActive(true);
-           
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState(vsFriendsState, false);
         }
 
 

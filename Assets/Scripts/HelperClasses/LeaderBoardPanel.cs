@@ -11,6 +11,8 @@ namespace com.VisionXR.HelperClasses
         [Header(" Scriptable Objects")]
         public MyPlayerSettings settings;
         public LeaderBoardSO leaderBoard;
+        public UIDataSO uiData;
+        public string leaderBoardState;
 
         [Header(" Game Objects")]
         public GameObject MainPanel;
@@ -27,15 +29,7 @@ namespace com.VisionXR.HelperClasses
 
         public string apiName = "MultiPlayer";
             
-        private void OnEnable()
-        {
-         
-        }
 
-        private void OnDisable()
-        {
-            
-        }
 
         public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
         {
@@ -82,6 +76,12 @@ namespace com.VisionXR.HelperClasses
         {
             AudioManager.instance.PlayButtonClickSound();
            
+        }
+
+        public void BackButtonClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(leaderBoardState, false);
         }
     }
 }

@@ -7,99 +7,79 @@ namespace com.VisionXR.Views
     {
 
         [Header(" Scriptable Objects ")]
-        public UIInputDataSO uIInputData;
+        public UIInputDataSO uiInputData;
+        public UIDataSO uiData;
         public MyPlayerSettings playerSettings;
 
 
-        [Header(" Panels ")]
-        public GameObject LoginPanel;
+        [Header(" State variables ")]
+        public string vsCpuState;
+        public string vsFriendsState;
+        public string tutorialState;
+        public string settingsState;
+        public string leaderBoardState;
+        public string rulesState;
+        public string infoState;
+        public string purchaseState;
+        public string achievementsState;
 
-        [Header("Home Panels ")]
-        public GameObject MainPanel;
-        public GameObject SettingsPanel;
-        public GameObject RulesPanel;
-        public GameObject LeaderBoardPanel;
-        public GameObject PurchasePanel;
-        public GameObject AchievementsPanel;
-
-
-        private void OnEnable()
-        {
-            ResetPanels();
-            MainPanel.SetActive(true);
-        }
-
-
-        public void HomeButtonClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            MainPanel.SetActive(true);
-        }
 
         public void SettingsButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            SettingsPanel.SetActive(true);
+            uiData.uiManager.ChangeState(settingsState, true);
         }
 
         public void LeaderBoardButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            LeaderBoardPanel.SetActive(true);
+            uiData.uiManager.ChangeState(leaderBoardState, true);
         }
         public void RulesButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            RulesPanel.SetActive(true);
+            uiData.uiManager.ChangeState(rulesState, true);
         }
 
         public void InfoButtonClicked()
         {
-             AudioManager.instance.PlayButtonClickSound();
-             ResetPanels();
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(infoState, true);
+             
         }
 
         public void PurchaseBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            PurchasePanel.SetActive(true);
-            PurchasePanel.GetComponent<PurchasePanel>().Initialise(0);
+            uiData.uiManager.ChangeState(purchaseState, true);
         }
 
         public void AchievementsBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            AchievementsPanel.SetActive(true);
+            uiData.uiManager.ChangeState(achievementsState, true);
+      
         }
 
-        public void LogoutBtnClicked()
+        public void VsCPUBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetPanels();
-            playerSettings.IsLoggedIn = false;
-            playerSettings.SaveSettings();
-            uIInputData.ShowLogin();
-
+            uiData.uiManager.ChangeState(vsCpuState, true);
         }
 
-
-        private void ResetPanels()
+        public void VsFriendsBtnClicked()
         {
-            MainPanel.SetActive(false);
-            SettingsPanel.SetActive(false);
-            RulesPanel.SetActive(false);
-            LeaderBoardPanel.SetActive(false);
-            RulesPanel.SetActive(false);
-            PurchasePanel.SetActive(false);
-            AchievementsPanel.SetActive(false);
-
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(vsFriendsState, true);
         }
+
+        public void TutorialBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(tutorialState, true);
+        }
+
+
     }
 }
     

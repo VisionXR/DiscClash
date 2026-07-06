@@ -14,9 +14,11 @@ namespace com.VisionXR.Views
         public UIInputDataSO uiInputData;
         public MyPlayerSettings myplayerSettings;
         public AppDataSO appData;
-       
+        public UIDataSO uiData;
+
 
         [Header("Panels")]
+        public string vsCpuState;
         public GameObject HomePanel;
         public GameObject AssetSelectionPanel;
 
@@ -72,9 +74,7 @@ namespace com.VisionXR.Views
         public void BackButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            HomePanel.SetActive(true);
-           
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState(vsCpuState, false);
         }
 
 

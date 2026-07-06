@@ -12,7 +12,7 @@ namespace com.VisionXR.Views
     {
         [Header("Scriptable Objects")]
         public MyPlayerSettings myPlayerSettings;
-   
+        public UIDataSO uiData;
 
         [Header("Panels")]
         public GameObject ProfilePanel;
@@ -24,22 +24,9 @@ namespace com.VisionXR.Views
         public Image profileImage;
         public Slider musicSlider;
         public TMP_InputField playerNameIf;
-        
-
-        private void OnEnable()
-        {
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            profileImage.sprite = myPlayerSettings.MyProfileImage;
-            ProfilePanel.SetActive(true);
-            ResetImages();
-            playerNameIf.text = myPlayerSettings.MyName;
+        public string settingsState;
 
 
-        }
 
         public void OnEquipmentButtonClicked()
         {
@@ -74,8 +61,7 @@ namespace com.VisionXR.Views
         public void BackButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            MainPanel.SetActive(true);
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState(settingsState, false);
         }
 
         public void OnProfileImageClicked()
