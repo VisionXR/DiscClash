@@ -14,12 +14,8 @@ namespace com.VisionXR.Views
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
 
-        // local variables
-        [Header("Panel Objects")]
-        public GameObject vsCpuPanel;
-        public GameObject onlineMultiplayerPanel;
-        public GameObject playWithFriendsPanel;
 
+        [Header("Local Objects")]
         public Destination destination;
 
         private void OnEnable()
@@ -62,9 +58,11 @@ namespace com.VisionXR.Views
         public void NextBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+
             destination.gameMode = uiOutputData.gameMode;
             destination.gameType = uiOutputData.gameType;
             destination.challenge = uiOutputData.challenge;
+            
 
             uiInputData.ShowDestination(destination);
             gameObject.SetActive(false);
@@ -72,20 +70,7 @@ namespace com.VisionXR.Views
 
         public void BackBtnClicked()
         {
-            if (uiOutputData.gameType == GameType.VsCPU)
-            {
-                vsCpuPanel.SetActive(true);
-            }
-            else if (uiOutputData.gameType == GameType.OnlineMultiPlayer)
-            {
-                onlineMultiplayerPanel.SetActive(true);
-            }
-            else if (uiOutputData.gameType == GameType.PlayWithFriends)
-            {
-                playWithFriendsPanel.SetActive(true);
-            }
-
-            gameObject.SetActive(false);
+            
 
         }
     }

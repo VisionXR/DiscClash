@@ -88,22 +88,6 @@ namespace com.VisionXR.Views
                     }
                 }
 
-                if (uiOutPutData.gameMode == GameMode.PvsAI || uiOutPutData.gameMode == GameMode.P1vsP2)
-                {
-                    if(playersData.NoOfPlayers() == 2)
-                    {
-                        BetPanel2Players.Deductfee();
-                        Stop();
-                    }
-                }
-                else
-                {
-                    if (playersData.NoOfPlayers() == 4)
-                    {
-                        BetPanel4Players.Deductfee();
-                        Stop();
-                    }
-                }
 
                  yield return new WaitForSeconds(3);
             }

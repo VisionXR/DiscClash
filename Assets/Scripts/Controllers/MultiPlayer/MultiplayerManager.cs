@@ -387,12 +387,8 @@ namespace com.VisionXR.Controllers
 
                 CalculatePoints();
 
-                int winnings = uiOutputData.EntryFee * 2;
-
-                gameResult.coinsWon = winnings;
                 gameResult.isMainPlayer = true;
 
-                cloudData.GrantWinnings(winnings, null, null);
             }
             else
             {

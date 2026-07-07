@@ -22,11 +22,9 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
           
-            uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+
 
         }
 
@@ -34,47 +32,39 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
            
-            uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+
 
         }
 
         public void P1P2vsAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-          
-            uiOutputData.SetEntryFee(50);
+
             uiOutputData.SetGameMode(GameMode.P1P2vsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+
 
         }
 
         public void P1P2vsAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            
-            uiOutputData.SetEntryFee(50);
+
             uiOutputData.SetGameMode(GameMode.P1P2vsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+     
 
         }
 
         public void P1AIvsP2AI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-          
-            uiOutputData.SetEntryFee(50);
+
             uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+    
 
         }
 
@@ -82,11 +72,9 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
            
-            uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+                  
 
         }
 
@@ -94,11 +82,9 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
            
-            uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+
 
         }
 
@@ -106,11 +92,9 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
            
-            uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+
 
         }
 

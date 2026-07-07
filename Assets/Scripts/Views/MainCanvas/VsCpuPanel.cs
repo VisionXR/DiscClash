@@ -19,56 +19,74 @@ namespace com.VisionXR.Views
 
         [Header("Panels")]
         public string vsCpuState;
-        public GameObject HomePanel;
-        public GameObject AssetSelectionPanel;
+        public string assetsState;
 
 
         public void PvsAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
-            uiOutputData.SetEntryFee(50);
+
             uiOutputData.SetGameMode(GameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+           
 
         }
 
         public void PvsAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
-            uiOutputData.SetEntryFee(50);
             uiOutputData.SetGameMode(GameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+            
 
         }
 
         public void PAIvsAIAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
-            uiOutputData.SetEntryFee(75);
+    
             uiOutputData.SetGameMode(GameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+      
 
         }
 
         public void PAIvsAIAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            AssetSelectionPanel.SetActive(true);
-            uiOutputData.SetEntryFee(75);
+
             uiOutputData.SetGameMode(GameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            gameObject.SetActive(false);
+    
+            
 
+        }
+
+        public void EasyBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiOutputData.SetAIDifficulty(AIDifficulty.Easy);
+        }
+
+        public void MediumBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiOutputData.SetAIDifficulty(AIDifficulty.Medium);
+        }
+
+        public void HardBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
+        }
+
+        public void NextBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(assetsState, true);
         }
 
         public void BackButtonClicked()

@@ -40,66 +40,11 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-            Initialise();
-
-            OnEntryFeesDeductedSuccess += OnEntryFeesDeductionSuccess;
-            OnEntryFeesDeductedFailure += OnEntryFeesDeductionFailure;
-        }
-
-        private void OnDisable()
-        {
-       
-            entryFeeCoroutine = null;
-
-            OnEntryFeesDeductedSuccess -= OnEntryFeesDeductionSuccess;
-            OnEntryFeesDeductedFailure -= OnEntryFeesDeductionFailure;
-        }
-
-        private void Initialise()
-        {
-           
-
-            for (int i = 0; i < playerCoins.Count; i++)
-            {
-                playerCoins[i].text = uiOutputData.EntryFee.ToString();
-            }
-
-            // initialize total coins text to zero
-            totalCoinsText.text = "0";
-
             gameModeText.text = Enum.GetName(typeof(GameMode), uiOutputData.gameMode);
+            
+
         }
 
-        private void OnEntryFeesDeductionSuccess()
-        {
-            Debug.Log("Entry fees success");
-
-            if (entryFeeCoroutine == null)
-            {
-                AudioManager.instance.PlayCoinCollectionSound();
-                entryFeeCoroutine = StartCoroutine(AnimateEntryFeeDeduction(3f));
-            }    
-        }
-
-        private void OnEntryFeesDeductionFailure()
-        {
-            Debug.Log("Entry fees failure");
-
-            for (int i = 0; i < playerCoins.Count; i++)
-            {
-                playerCoins[i].text = uiOutputData.EntryFee.ToString();
-            }
-
-            totalCoinsText.text = "0";
-        }
-
-        public void Deductfee()
-        {
-           
-
-            // call cloud to deduct (CloudManager will invoke the success/failure Actions)
-            cloudData.DeductEntryFee(uiOutputData.EntryFee, OnEntryFeesDeductedSuccess, OnEntryFeesDeductedFailure);
-        }
 
         public void SetName(int id, string name)
         {
@@ -163,70 +108,6 @@ namespace com.VisionXR.Views
         }
 
 
-        private IEnumerator AnimateEntryFeeDeduction(float duration)
-        {
-            // Read initial values; fallback to uiOutputData.EntryFee if parsing fails
-            int playerCount = Mathf.Max(1, playerCoins.Count);
-            List<int> initialValues = new List<int>(playerCount);
-            int totalInitial = 0;
-
-            for (int i = 0; i < playerCount; i++)
-            {
-                int val;
-                if (!int.TryParse(playerCoins[i].text, out val))
-                {
-                    val = uiOutputData.EntryFee;
-                }
-                initialValues.Add(val);
-                totalInitial += val;
-            }
-
-            float elapsed = 0f;
-            // We'll update every frame for smoothness
-            while (elapsed < duration)
-            {
-                float t = Mathf.Clamp01(elapsed / duration);
-
-                int remainingTotal = 0;
-                for (int i = 0; i < playerCount; i++)
-                {
-                    // decrease from initial -> 0 using ease-out (optional): Mathf.SmoothStep
-                    float eased = Mathf.SmoothStep(initialValues[i], 0f, t);
-                    int remaining = Mathf.CeilToInt(eased); // ceil to avoid early zeros
-                    remaining = Mathf.Max(0, remaining);
-                    playerCoins[i].text = remaining.ToString();
-                    remainingTotal += remaining;
-                }
-
-                int collected = totalInitial - remainingTotal;
-                totalCoinsText.text = collected.ToString();
-
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            // Ensure final values (exact)
-            for (int i = 0; i < playerCount; i++)
-            {
-                playerCoins[i].text = "0";
-            }
-            totalCoinsText.text = totalInitial.ToString();
-
-
-            // set player coins to zero and total to combined value
-            int combined = uiOutputData.EntryFee * playerCoins.Count;
-            for (int i = 0; i < playerCoins.Count; i++)
-            {
-                playerCoins[i].text = "0";
-            }
-            totalCoinsText.text = combined.ToString();
-
-            yield return new WaitForSeconds(1f); // small delay before starting the game
-
-            ChooseSidePanel.SetActive(true);
-            // clear coroutine reference
-            entryFeeCoroutine = null;
-            gameObject.SetActive(false);
-        }
+        
     }
 }
