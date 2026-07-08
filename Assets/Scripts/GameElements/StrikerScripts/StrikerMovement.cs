@@ -87,8 +87,6 @@ namespace com.VisionXR.GameElements
             // 3. Apply position with collision check
             transform.position = FindStrikerNextPosition(localPos, nudgeDir);
 
-            transform.rotation = strikerRotation.transform.rotation;
-
             currentProgress = normalisedValue;
         }
 

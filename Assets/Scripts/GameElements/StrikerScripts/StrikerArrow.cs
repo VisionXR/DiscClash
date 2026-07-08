@@ -32,14 +32,14 @@ namespace com.VisionXR.GameElements
 
         public void TurnOnArrow()
         {
-            Debug.Log("TurnOnArrow called");
+         
             displayArrow.SetActive(true);
             arrowRenderer.material.SetFloat("_Threshold", 0);
         }
 
         public void TurnOffArrow()
         {
-            Debug.Log("TurnOffArrow called");
+           
             displayArrow.SetActive(false);
             arrowRenderer.material.SetFloat("_Threshold", 0);
         }

@@ -59,7 +59,7 @@ public class ScorePanel2Player : MonoBehaviour
         playerData.PlayerImageLoadedEvent -= ShowImages;
 
         
-        StopTurnTime();
+       
         ResetImages();
     }
 
@@ -85,11 +85,11 @@ public class ScorePanel2Player : MonoBehaviour
 
     private void PlayerStrikeStarted(int id, float arg2)
     {
-        StopTurnTime();
+        
     }
     private void ShowGameResult(GameResult result)
     {
-        StopTurnTime();
+        
         TurnChanged(result.winningPlayerId);    
       
     }
@@ -118,45 +118,7 @@ public class ScorePanel2Player : MonoBehaviour
 
         AudioManager.instance.StopClockSound();
 
-        StartTurnTime(id);
-
-    }
-
-    private void StartTurnTime(int id)
-    {
-        if (uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends)
-        {
-            if (turnTimeRoutine == null)
-            {
-                turnTimeRoutine = StartCoroutine(StartTurnTimeRoutine(id));
-            }
-        }
-    }
-
-    public void StopTurnTime()
-    {
-        if (turnTimeRoutine != null)
-        {
-            StopCoroutine(turnTimeRoutine);
-            turnTimeRoutine = null;
-        }
-    
-    }
-
-
-    // write a coroutine called startTurnTime where in 45 seconds it goes from 0 to 1
-    public IEnumerator StartTurnTimeRoutine(int id)
-    {
-        
-
-        for (int i = 0; i <= 45; i++)
-        {
-            yield return new WaitForSeconds(1);
-          
-        }
-
-        AudioManager.instance.StopClockSound();
-        turnTimeRoutine = null;
+     
 
     }
 
@@ -232,7 +194,7 @@ public class ScorePanel2Player : MonoBehaviour
 
     private void Reset()
     {
-        StopTurnTime();
+        
      
         leftPlayer.SetScore(0);
         rightPlayer.SetScore(0);

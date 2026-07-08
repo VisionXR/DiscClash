@@ -31,7 +31,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
         if (val > cutOffValue)
         {
             strikerRigidbody.AddForce(transform.forward * StrikeForce, ForceMode.VelocityChange);
-            Debug.Log("Striker Fired with force: " + StrikeForce);
+            
           
             if (WaitRoutine == null)
             {

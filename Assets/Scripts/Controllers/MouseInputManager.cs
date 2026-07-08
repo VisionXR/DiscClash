@@ -170,7 +170,7 @@ namespace com.VisionXR.Controllers
                 // 4. Clamp the output strictly between -1 and +1
                 movementDelta = Mathf.Clamp(movementDelta, -1f, 1f);
 
-                Debug.Log($" movementDelta={movementDelta}");
+              
 
                 //if (Mathf.Abs(movementDelta) > cutoffValue)
                 //{
