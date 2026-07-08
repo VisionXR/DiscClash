@@ -46,6 +46,57 @@ namespace com.VisionXR.Controllers
         public void CreatePlayer(PlayerProperties properties)
         {
             GameObject newPlayer = Instantiate(playerObject, transform.position, transform.rotation);
+            if (uiOutputData.gameMode == GameMode.PvsAI)
+            {
+                if(uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    if(properties.myId == 1)
+                    {
+                        properties.myCoin = PlayerCoin.White;
+                    }
+                    else
+                    {
+                        properties.myCoin = PlayerCoin.Black;
+                    }
+                }
+                else if(uiOutputData.challenge == Challenge.FreeStyle)
+                {
+                    if (properties.myId == 1)
+                    {
+                        properties.myCoin = PlayerCoin.All;
+                    }
+                    else
+                    {
+                        properties.myCoin = PlayerCoin.All;
+                    }
+                }
+            
+            }
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
+            {
+                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    if (properties.myTeam == Team.TeamA)
+                    {
+                        properties.myCoin = PlayerCoin.White;
+                    }
+                    else
+                    {
+                        properties.myCoin = PlayerCoin.Black;
+                    }
+                }
+                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                {
+                    if (properties.myTeam == Team.TeamA)
+                    {
+                        properties.myCoin = PlayerCoin.All;
+                    }
+                    else
+                    {
+                        properties.myCoin = PlayerCoin.All;
+                    }
+                }
+            }
             newPlayer.GetComponent<Player>().SetProperties(properties);
         }
 
@@ -60,7 +111,7 @@ namespace com.VisionXR.Controllers
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
 
-                    p1.myCoin = PlayerCoin.White;
+               
                     p1.myPlayerControl = PlayerControl.Local;
                     p1.myPlayerRole = PlayerRole.Human;
                     p1.myTeam = Team.TeamA;
@@ -72,7 +123,7 @@ namespace com.VisionXR.Controllers
                     p2.myName = "AI2";
                     p2.myStrikerID = 0;
 
-                    p2.myCoin = PlayerCoin.Black;
+              
                     p2.myPlayerControl = PlayerControl.Local;
                     p2.myPlayerRole = PlayerRole.AI;
                     p2.myTeam = Team.TeamB;
@@ -90,7 +141,7 @@ namespace com.VisionXR.Controllers
                     p1.myOculusID = playerSettings.MyId;
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
-                    p1.myCoin = PlayerCoin.White;
+                  
                     p1.myPlayerControl = PlayerControl.Local;
                     p1.myPlayerRole = PlayerRole.Human;
                     p1.myTeam = Team.TeamA;
@@ -101,7 +152,7 @@ namespace com.VisionXR.Controllers
                     p2.myOculusID = playerSettings.MyId;
                     p2.myName = "AI2";
                     p2.myStrikerID = 0;
-                    p2.myCoin = PlayerCoin.White;
+                
                     p2.myPlayerControl = PlayerControl.Local;
                     p2.myPlayerRole = PlayerRole.AI;
                     p2.myTeam = Team.TeamA;
@@ -113,7 +164,7 @@ namespace com.VisionXR.Controllers
                     p3.myName = "AI3";
                     p3.myStrikerID = 0;
 
-                    p3.myCoin = PlayerCoin.Black;
+                   
                     p3.myPlayerControl = PlayerControl.Local;
                     p3.myPlayerRole = PlayerRole.AI;
                     p3.myTeam = Team.TeamB;
@@ -124,7 +175,7 @@ namespace com.VisionXR.Controllers
                     p4.myOculusID = playerSettings.MyId;
                     p4.myName = "AI4";
                     p4.myStrikerID = 0;
-                    p4.myCoin = PlayerCoin.Black;
+                 
                     p4.myPlayerControl = PlayerControl.Local;
                     p4.myPlayerRole = PlayerRole.AI;
                     p4.myTeam = Team.TeamB;
