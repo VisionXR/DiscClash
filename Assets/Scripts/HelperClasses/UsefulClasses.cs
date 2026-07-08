@@ -150,11 +150,12 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class Destination
     {
-        public int EntryFee;
+        
         public ServerRegion region;
         public GameType gameType;
         public Challenge challenge;
         public GameMode gameMode;
+        public AIDifficulty difficulty;
         public string lobbyName;
         public string roomName;
         public bool isJoinable;

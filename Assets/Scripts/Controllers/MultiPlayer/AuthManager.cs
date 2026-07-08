@@ -15,7 +15,7 @@ namespace com.VisionXR.Controllers
         [Header("Scriptable Objects")]
         public MyPlayerSettings playerSettings;
         public CloudDataSO cloudData;
-
+        public DeepLinkManager deepLinkManager;
 
         private void OnEnable()
         {
@@ -34,8 +34,8 @@ namespace com.VisionXR.Controllers
         private void EditorLogin()
         {
             // Simplified Editor Mock
-            playerSettings.SetUserNameAndId("Guest_Player", "12345");
-        
+            playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
+            deepLinkManager.ProcessGameFlow();
 
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID
@@ -58,15 +58,14 @@ namespace com.VisionXR.Controllers
             playerSettings.SetUserNameAndId("Guest_Player", "12345");
             playerSettings.SetLogIn(false);
             playerSettings.SaveSettings();
+            deepLinkManager.ProcessGameFlow();
         }
 
         public void GoogleLogin()
         {
-                 Debug.Log("Trying to login!");
-                PlayGamesPlatform.Activate();
-                PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
-            
-
+            Debug.Log("Trying to login!");
+            PlayGamesPlatform.Activate();
+            PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
         }
 
         internal void ProcessAuthentication(SignInStatus status)
@@ -81,6 +80,8 @@ namespace com.VisionXR.Controllers
                 StartCoroutine(LoadProfileImage());
 
                 playerSettings.SetUserNameAndId(name, googleID);
+
+                deepLinkManager.ProcessGameFlow();
 
                 // 2. Trigger PlayFab Login
                 RequestTokenAndLoginToPlayFab();

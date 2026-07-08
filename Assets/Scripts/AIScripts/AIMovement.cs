@@ -299,7 +299,6 @@ public class AIMovement : MonoBehaviour
         if (Hand == null)
             yield break;
 
-        Debug.Log("Starting hand move to desired position: " + handdesiredPosition + " and rotation: " + handdesiredRotation.eulerAngles);
 
         // If parented, we still operate in world space to avoid messing local offsets
         Vector3 startPos = Hand.transform.position;

@@ -18,7 +18,8 @@ namespace com.VisionXR.GameElements
         public BoardDataSO boardData;
 
 
-        [Header("Local Variables")]       
+        [Header("Local Variables")]
+        public float currentProgress = 0.5f;
         public int strikerId = 1;
         public Rigidbody strikerRigidbody;
         public SplineContainer strikerSpline;
@@ -64,6 +65,8 @@ namespace com.VisionXR.GameElements
         {
             if (strikerSpline == null) return;
 
+            normalisedValue = currentProgress+ normalisedValue;
+
             normalisedValue = Mathf.Clamp(normalisedValue, 0.01f, 0.99f);
 
             // 1. Evaluate Position and Tangent (Direction) from Spline
@@ -85,29 +88,55 @@ namespace com.VisionXR.GameElements
             transform.position = FindStrikerNextPosition(localPos, nudgeDir);
 
             transform.rotation = strikerRotation.transform.rotation;
+
+            currentProgress = normalisedValue;
         }
 
         public void AimStriker(Vector3 direction)
         {
-           
-          
-            transform.rotation = strikerRotation.transform.rotation;
+                     
             transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.eulerAngles = VectorUtility.RoundPositionUpto3Decimals(transform.eulerAngles);
+        }
+        public void AimStriker(float deltaAngle)
+        {
+            // Apply the relative change around the Y-axis (Vector3.up)
+            transform.Rotate(Vector3.up, deltaAngle);
         }
 
+        //public Vector3 FindStrikerNextPosition(Vector3 evalPos, Vector3 dir)
+        //{
+        //    float radius = boardData.GetStrikerRadius();
+
+        //    // 1. Perform a single check at the proposed evaluation position
+        //    // (Slight buffer added to radius to prevent micro-clipping)
+        //    Collider[] cols = Physics.OverlapSphere(evalPos, radius + 0.01f);
+
+        //    foreach (Collider c in cols)
+        //    {
+        //        if (c == null) continue;
+
+        //        // 2. If it hits any coin, the position is blocked. Reject the move immediately.
+        //        if (c.CompareTag("White") || c.CompareTag("Red") || c.CompareTag("Black"))
+        //        {
+        //            // Returning the current transform position instead of 'evalPos' 
+        //            // forces the striker to stay right where it currently is.
+        //            return transform.position;
+        //        }
+        //    }
+
+        //    // 3. No coins detected, the position is completely clear.
+        //    return evalPos;
+        //}
 
         public Vector3 FindStrikerNextPosition(Vector3 evalPos, Vector3 dir)
         {
             Vector3 currentCheckPos = evalPos;
             float radius = boardData.GetStrikerRadius();
             int safetyCounter = 0;
-
             while (true)
             {
                 bool isBlocked = false;
                 Collider[] cols = Physics.OverlapSphere(currentCheckPos, radius + 0.01f);
-
                 foreach (Collider c in cols)
                 {
                     if (c == null) continue;
@@ -117,29 +146,30 @@ namespace com.VisionXR.GameElements
                         break;
                     }
                 }
-
                 if (!isBlocked) break;
 
                 // Move slightly along the spline direction to find a gap
-                currentCheckPos += dir * (radius / 2f);
 
+                currentCheckPos += dir * (radius / 2f);
                 if (++safetyCounter > 10)
                 {
                     return evalPos; // Return original if no spot found
+
                 }
+
             }
 
-
             return currentCheckPos;
-        }
 
+        }
         public void ResetStriker()
         {
             if (strikerSpline == null) return;
 
+            currentProgress = 0f;
             // Reset to the middle of the spline (t = 0.5)
-             MoveStriker(0.5f);
-
+            MoveStriker(0.5f);
+           
             strikerRigidbody.linearVelocity = Vector3.zero;
             strikerRigidbody.angularVelocity = Vector3.zero;
         }

@@ -53,8 +53,6 @@ namespace com.VisionXR.Controllers
             fetchAttempt = 0;
             awaitingFetch = true;
 
-            uiInputData.ShowLoadingPanel();
-
             // Kick off platform-specific login
             if (Application.isEditor)
                 cloudData.EditorLogin();

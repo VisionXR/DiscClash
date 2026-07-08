@@ -17,6 +17,8 @@ namespace com.VisionXR.Controllers
         public NetworkInputSO networkInput;
         public NetworkOutputSO networkOutput;
         public CloudDataSO cloudData;
+        public UIDataSO uiData;
+        public string loginState;
 
         // Action
         
@@ -112,15 +114,17 @@ namespace com.VisionXR.Controllers
             if (!playerSettings.IsLoggedIn)
             {
                 Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
-                uiInputData.ShowLogin();
+                uiData.uiManager.ChangeState(loginState,true);
                 yield break;
             }
+
+            Debug.Log("Disc Clash LoginFetchManager: User is logged in. Proceeding to fetch cloud data.");
 
             cloudData.StartFetch();
         }
 
 
-        private void ConnectToDestination(Destination destination, Action OnConnected, Action OnFailed)
+        public void ConnectToDestination(Destination destination, Action OnConnected, Action OnFailed)
         {
             destinationData.currentDestination = destination;
           
@@ -189,6 +193,11 @@ namespace com.VisionXR.Controllers
         public void RoomJoinFailed(string reason)
         {
             OnDestinationFailEvent?.Invoke();
+        }
+
+        public void ProcessGameFlow()
+        {         
+            uiData.uiManager.GoToState(StateName.HomeState);
         }
     }
 }

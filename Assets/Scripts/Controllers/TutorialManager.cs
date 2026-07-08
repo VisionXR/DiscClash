@@ -138,7 +138,7 @@ namespace com.VisionXR.Controllers
             }
             else
             {
-                inputData.ActivateInput();
+                inputData.EnableInput();
                 switch (currentStep.interactiveStepType)
                 {
                     case InteractiveStepType.Positioning:
@@ -180,7 +180,7 @@ namespace com.VisionXR.Controllers
            
             GlowStriker.SetActive(true);
             GlowStriker.transform.position = currentStep.strikerPosition;
-            inputData.ActivateInput();
+            inputData.EnableInput();
 
         }
 
@@ -195,7 +195,7 @@ namespace com.VisionXR.Controllers
             GlowStriker.transform.position = currentStep.aimingStrikerPosition;
             GlowStriker.transform.eulerAngles = currentStep.aimingStrikerRotation;
             GlowArrow.SetActive(true);
-            inputData.ActivateInput();
+            inputData.EnableInput();
            
         }
 
@@ -216,7 +216,7 @@ namespace com.VisionXR.Controllers
             BlackCoin.transform.position = currentStep.coinPosition;
             BlackCoin.transform.rotation = Quaternion.identity;
             isCoinPocked = false;
-            inputData.ActivateInput();
+            inputData.EnableInput();
            
         }
 
@@ -234,7 +234,7 @@ namespace com.VisionXR.Controllers
         public void OnPositionLocked()
         {
             tutorialData.SetCanIPosition(false);
-            inputData.DeactivateInput();
+            inputData.DisableInput();
             Striker.SetActive(false);
             GlowStriker.SetActive(false);
             // success
@@ -266,7 +266,7 @@ namespace com.VisionXR.Controllers
         {
             tutorialData.SetCanIPosition(false);
             tutorialData.SetCanIAim(false);
-            inputData.DeactivateInput();
+            inputData.DisableInput();
             Striker.SetActive(false);
             GlowStriker.SetActive(false);
             GlowArrow.SetActive(false);
@@ -297,18 +297,18 @@ namespace com.VisionXR.Controllers
 
         private void StrikeStarted(float force,Vector3 dir)
         {
-            inputData.DeactivateInput();
+            inputData.DisableInput();
         }
         public void StrikeFinished()
         {
             tutorialData.SetCanIPosition(true);
             tutorialData.SetCanIAim(true);
             tutorialData.SetCanIFire(true);
-            inputData.DeactivateInput();
+            inputData.DisableInput();
             // success
             if (isCoinPocked)
             {
-                inputData.DeactivateInput();
+                inputData.DisableInput();
                 tutorialCanvasUIManager.SuccessFailureText.text = currentStep.successText;
                 if (currentStep.successAudio != null)
                 {
@@ -400,7 +400,7 @@ namespace com.VisionXR.Controllers
             tutorialData.SetCanIFire(false);
 
             AudioManager.instance.backgroundMusicAS.mute = false;
-            inputData.DeactivateInput();
+            inputData.DisableInput();
 
             EndTutorial();
        //     uiOutputData.EndTutorial();
@@ -429,7 +429,7 @@ namespace com.VisionXR.Controllers
             tutorialData.SetCanIFire(false);
 
             AudioManager.instance.backgroundMusicAS.mute = false;
-            inputData.DeactivateInput();
+            inputData.DisableInput();
 
             EndTutorial();
        //     uiOutputData.EndTutorial();

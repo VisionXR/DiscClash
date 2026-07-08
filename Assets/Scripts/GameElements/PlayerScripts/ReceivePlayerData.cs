@@ -63,7 +63,7 @@ public class ReceivePlayerData : MonoBehaviour
 
     public void PlayerStrikeForceChanged(float val)
     {
-        player.strikerShoot.SetStrikerArrow(val);
+        player.strikerShooting.SetStrikerArrow(val);
     }
 
     public void PlayerStrikeEnded()

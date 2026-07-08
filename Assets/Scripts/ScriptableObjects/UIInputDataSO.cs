@@ -83,12 +83,6 @@ namespace com.VisionXR.ModelClasses
             PlayAgainEvent?.Invoke();
         }
 
-        public void ShowLogin()
-        {
-            ShowLoginEvent?.Invoke();
-        }   
-
-
         public void ShowDestination(Destination destination)
         {
             ShowDestinationPanelEvent?.Invoke(destination);

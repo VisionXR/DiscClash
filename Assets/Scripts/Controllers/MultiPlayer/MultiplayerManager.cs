@@ -164,7 +164,7 @@ namespace com.VisionXR.Controllers
         private void StrikeStarted(int id, float f)
         {
           
-            inputData.DeactivateInput();
+            inputData.DisableInput();
 
             if (isFirstTurn)
             {
@@ -404,7 +404,7 @@ namespace com.VisionXR.Controllers
 
         public void EndGame()
         {
-            inputData.DeactivateInput();
+            inputData.DisableInput();
             coinData.DestroyAllCoins();
             foreach(Player p in playersData.CurrentPlayers)
             {
@@ -477,7 +477,7 @@ namespace com.VisionXR.Controllers
 
         private void OnExitGame()   
         {           
-            inputData.DeactivateInput();
+            inputData.DisableInput();
             coinData.DestroyAllCoins();
             networkInputData.LeaveRoom();
             

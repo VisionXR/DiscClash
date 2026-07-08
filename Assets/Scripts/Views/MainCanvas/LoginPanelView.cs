@@ -2,36 +2,38 @@ using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 
-public class LoginPanelView : MonoBehaviour
+namespace com.VisionXR.Views
 {
-    [Header("Scriptable Objects")]
-    public UIInputDataSO uIInputData;
-    public CloudDataSO cloudData;
-    public MyPlayerSettings playerSettings;
 
-    public void LoginWithGoogleBtnClciked()
+    public class LoginPanelView : MonoBehaviour
     {
-        AudioManager.instance.PlayButtonClickSound();
-        playerSettings.SetLoginType(LoginType.Google);
-        uIInputData.ShowLoadingPanel();
+        [Header("Scriptable Objects")]
+        public CloudDataSO cloudData;
+        public MyPlayerSettings playerSettings;
+        public UIDataSO uIData;
 
-        
-        if (Application.isEditor)
+        public void LoginWithGoogleBtnClciked()
         {
-            cloudData.EditorLogin();
-        }
-        else
-        {
-            cloudData.LoginToGoogle();
-        }
-        gameObject.SetActive(false);
-    }
+            AudioManager.instance.PlayButtonClickSound();
+            playerSettings.SetLoginType(LoginType.Google);
 
-    public void GuestLoginBtnClicked()
-    {
-        AudioManager.instance.PlayButtonClickSound();
-        playerSettings.SetLoginType(LoginType.Guest);
-        cloudData.GuestLogin();
-        gameObject.SetActive(false);
+            if (Application.isEditor)
+            {
+                cloudData.EditorLogin();
+            }
+            else
+            {
+                cloudData.LoginToGoogle();
+            }
+
+        }
+
+        public void GuestLoginBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            playerSettings.SetLoginType(LoginType.Guest);
+            cloudData.GuestLogin();
+
+        }
     }
 }

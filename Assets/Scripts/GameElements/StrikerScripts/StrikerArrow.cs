@@ -1,6 +1,6 @@
 using com.VisionXR.ModelClasses;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 namespace com.VisionXR.GameElements
 {
@@ -18,18 +18,10 @@ namespace com.VisionXR.GameElements
         public Renderer arrowRenderer;
 
 
-        private void OnDisable()
-        {
-               
-            TurnOffArrow();
-        }
 
         public void ChangeColorOfArrow(float value)
         {
-            if (!displayArrow.activeInHierarchy)
-            {
-                displayArrow.SetActive(true);
-            }
+            
 
             if (arrowRenderer.material.HasProperty("_Threshold"))
             {
@@ -40,13 +32,14 @@ namespace com.VisionXR.GameElements
 
         public void TurnOnArrow()
         {
-
-           displayArrow.SetActive(true);
+            Debug.Log("TurnOnArrow called");
+            displayArrow.SetActive(true);
             arrowRenderer.material.SetFloat("_Threshold", 0);
         }
 
         public void TurnOffArrow()
         {
+            Debug.Log("TurnOffArrow called");
             displayArrow.SetActive(false);
             arrowRenderer.material.SetFloat("_Threshold", 0);
         }

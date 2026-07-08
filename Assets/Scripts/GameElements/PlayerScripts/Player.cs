@@ -22,7 +22,7 @@ namespace com.VisionXR.GameElements
         public GameObject myStriker;
         public Rigidbody strikerRigidBody;
         public StrikerMovement strikerMovement;
-        public StrikerShooting strikerShoot;
+        public StrikerShooting strikerShooting;
         public StrikerArrow strikerArrow;
         public StrikerProperties strikerProperties;
 
@@ -130,7 +130,7 @@ namespace com.VisionXR.GameElements
                 myStriker = striker;
                 striker.transform.parent = gameObject.transform;
                 strikerMovement = striker.GetComponent<StrikerMovement>();
-                strikerShoot = striker.GetComponent<StrikerShooting>();
+                strikerShooting = striker.GetComponent<StrikerShooting>();
                 strikerArrow = striker.GetComponent<StrikerArrow>();
                 strikerRigidBody = striker.GetComponent<Rigidbody>();
                 strikerProperties = striker.GetComponent<StrikerProperties>();
@@ -191,9 +191,9 @@ namespace com.VisionXR.GameElements
         {
             if(myStriker != null)
             {
-                strikerShoot.StrikeStartedEvent += StrikeStarted;
-                strikerShoot.StrikeFinishedEvent += StrikeFinished;
-                strikerShoot.StrikeForceChangedEvent += StrikeForceChanged;
+                strikerShooting.StrikeStartedEvent += StrikeStarted;
+                strikerShooting.StrikeFinishedEvent += StrikeFinished;
+                strikerShooting.StrikeForceChangedEvent += StrikeForceChanged;
             }
         }
 
@@ -201,9 +201,9 @@ namespace com.VisionXR.GameElements
         {
             if (myStriker != null)
             {
-                strikerShoot.StrikeStartedEvent -= StrikeStarted;
-                strikerShoot.StrikeFinishedEvent -= StrikeFinished;
-                strikerShoot.StrikeForceChangedEvent -= StrikeForceChanged;
+                strikerShooting.StrikeStartedEvent -= StrikeStarted;
+                strikerShooting.StrikeFinishedEvent -= StrikeFinished;
+                strikerShooting.StrikeForceChangedEvent -= StrikeForceChanged;
             }
         }
 

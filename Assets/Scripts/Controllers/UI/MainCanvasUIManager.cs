@@ -27,14 +27,14 @@ public class MainCanvasUIManager : MonoBehaviour
     {
         uiInputData.HomeEvent += ShowHomePanel;
         uiInputData.ExitGameEvent += ShowHomePanel;
-        uiInputData.ShowLoginEvent += ShowLoginPanel;
+       
     }
 
     private void OnDisable()
     {
         uiInputData.HomeEvent -= ShowHomePanel;
         uiInputData.ExitGameEvent -= ShowHomePanel;
-        uiInputData.ShowLoginEvent -= ShowLoginPanel;
+       
     }
 
     public void ShowHomePanel()

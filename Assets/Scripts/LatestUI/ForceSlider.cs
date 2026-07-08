@@ -34,7 +34,7 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
     {
         force = Mathf.Pow(force, powerFactor);
 
-   //     inputData.FireStrike(force);
+        inputData.FireStrike(force);
         // Trigger your game logic here!
         // Example: myPlayer.Launch(force);
     }
@@ -43,6 +43,6 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
     {
         force = Mathf.Pow(force, powerFactor);
 
-      //  inputData.StrikerForceChanged(force);
+        inputData.StrikerForceChanged(force);
     }
 }

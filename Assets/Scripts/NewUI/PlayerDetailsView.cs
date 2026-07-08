@@ -16,7 +16,7 @@ public class PlayerDetailsView : MonoBehaviour
     [Header("Image Objects")]
     public Image CoinImage;
     public Image PlayerImage;
-    public Image PlayerTimerImage;
+    
 
 
     private void OnDisable()
@@ -50,11 +50,7 @@ public class PlayerDetailsView : MonoBehaviour
        // RedImage.sprite = red;
     }
 
-    public void SetTurnImage(Color c)
-    {
-        PlayerTimerImage.color = c;
-        PlayerTimerImage.fillAmount = 1;
-    }
+
     public void SetPlayerImage(Sprite image)
     {
         if (image != null)
@@ -70,14 +66,5 @@ public class PlayerDetailsView : MonoBehaviour
     }
 
 
-    public void SetTimer(float a)
-    {
-        PlayerTimerImage.fillAmount = 1-a;
-    }
-
-    public void ResetTimer()
-    {
-        PlayerTimerImage.fillAmount = 1;
-    }
 
 }

@@ -118,8 +118,6 @@ public class ScorePanel2Player : MonoBehaviour
 
         AudioManager.instance.StopClockSound();
 
-        ResetIndicators();
-        SetTurnIndicator(id);
         StartTurnTime(id);
 
     }
@@ -142,32 +140,19 @@ public class ScorePanel2Player : MonoBehaviour
             StopCoroutine(turnTimeRoutine);
             turnTimeRoutine = null;
         }
-        leftPlayer.ResetTimer();
-        rightPlayer.ResetTimer();
+    
     }
 
 
     // write a coroutine called startTurnTime where in 45 seconds it goes from 0 to 1
     public IEnumerator StartTurnTimeRoutine(int id)
     {
-        leftPlayer.SetTimer(0);
-        rightPlayer.SetTimer(0);
+        
 
         for (int i = 0; i <= 45; i++)
         {
             yield return new WaitForSeconds(1);
-            if(id == 1)
-            {
-                leftPlayer.SetTimer(i / (45.0f));
-            }
-            else
-            {
-                rightPlayer.SetTimer(i / (45.0f));
-            }
-            if(i == 39)
-            {
-                AudioManager.instance.PlayClockSound();
-            }
+          
         }
 
         AudioManager.instance.StopClockSound();
@@ -175,18 +160,7 @@ public class ScorePanel2Player : MonoBehaviour
 
     }
 
-    private void SetTurnIndicator(int id)
-    {
-        if (id == 1)
-        {
-            leftPlayer.SetTurnImage(Color.green);
-        }
-        else
-        {
-            rightPlayer.SetTurnImage(Color.green);
-        }
 
-    }
 
     public void SetCoins()
     {
@@ -254,18 +228,12 @@ public class ScorePanel2Player : MonoBehaviour
 
     }
 
-    private void ResetIndicators()
-    {
-        leftPlayer.SetTurnImage(Color.white);
-        rightPlayer.SetTurnImage(Color.white);
-        leftPlayer.ResetTimer();
-        rightPlayer.ResetTimer();
-    }
+
 
     private void Reset()
     {
         StopTurnTime();
-        ResetIndicators();
+     
         leftPlayer.SetScore(0);
         rightPlayer.SetScore(0);
 

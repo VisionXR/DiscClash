@@ -1,128 +1,231 @@
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using System;
-using com.VisionXR.HelperClasses;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 
-public class MouseInputManager : MonoBehaviour
+
+
+namespace com.VisionXR.Controllers
 {
-    [Header("Scriptable Objects")]
-    public InputDataSO inputData;
-    public MyPlayerSettings myPlayerSettings;
-    public BoardDataSO boardData;
-
-    [Header("Exit Objects")]
-    public GameObject QuitPanel;
-
-
-    // Computed values (exposed for debug / consumers)
-    public Vector3 LastDragDirection { get; private set; }
-    public float LastDragDistance { get; private set; }
-
-    private void Awake()
+    public class MobileInputManager : MonoBehaviour
     {
-            // Disable VSync (vSync > 0 overrides Application.targetFrameRate)
-            QualitySettings.vSyncCount = 0;
+        [Header("Scriptable Objects")]
+        public InputDataSO inputData;
+        public MyPlayerSettings userData;
+        public StrikerDataSO strikerData;
+        public UIDataSO uiData;
 
-            // Request 60 FPS. On platforms that don't support it the OS may clamp the FPS.
-            Application.targetFrameRate = 60;
+        public GameDataSO gameData;
+
+
+        [Header("Swipe Settings")]
+        public float swipeminDistanceThreshold = 100f; // Minimum pixels to register a swipe
+        public float swipemaxDistanceThreshold = 400f; // Minimum pixels to register a swipe
+        public float swipeminTimeThreshold = 0.1f; // Minimum time for a swipe (seconds)
+        public float swipemaxTimeThreshold = 1; // Maximum time for a swipe (seconds)
+
+
+        //local variables
+        public LayerMask boardLayerMask;
+        private Vector2 swipeStartPosition;
+        private float swipeStartTime;
+        public float cutoffValue = 0.1f;
+        public float movementswipeSensitivity = 1;
+        public float aimswipeSensitivity = 1;
+        public bool isSwipeStarted = false;
+        public bool isAimStarted = false;
+
+
+
+        private void OnEnable()
+        {
+            // 3. You MUST enable EnhancedTouch once
+             EnhancedTouchSupport.Enable();
+        }
+        private void OnDisable()
+        {
+            EnhancedTouchSupport.Disable();
+        }
+        private void Start()
+        {
+            if (!Input.touchSupported && !Application.isEditor)
+            {
+                this.enabled = false;
+            }
+        }
+
+        private void LateUpdate()
+        {
+
+            // In the New Input System, the Android back button natively maps to the Escape Key
+            if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                AudioManager.instance.PlayButtonClickSound();
+                uiData.uiManager.GoToState(HelperClasses.StateName.QuitState);
+            }
+
+
+
+            if (!inputData.isInputEnabled) return;
+
+            HandleTouchInput();
+        }
+
+
+
+        private void HandleTouchInput()
+        {
+
+
+            var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
+
+            if (activeTouches.Count == 1)
+            {
+                var touch = activeTouches[0];
+                switch (touch.phase)
+                {
+                    case UnityEngine.InputSystem.TouchPhase.Began:
+                        HandleTouchBegan(touch.screenPosition);
+                        break;
+
+                    case UnityEngine.InputSystem.TouchPhase.Moved:
+                    case UnityEngine.InputSystem.TouchPhase.Stationary:
+                        HandleTouchUpdate(touch.screenPosition);
+                        break;
+
+                    case UnityEngine.InputSystem.TouchPhase.Ended:
+                    case UnityEngine.InputSystem.TouchPhase.Canceled:
+                        HandleTouchEnded(touch.screenPosition);
+                        break;
+                }
+            }
+
+            // Fallback for Editor testing with mouse
+            if (!Application.isEditor)
+                return;
+
+            var pointer = Pointer.current;
+            if (pointer != null)
+            {
+                Vector2 pointerPos = pointer.position.ReadValue();
+
+                if (pointer.press.wasPressedThisFrame)
+                {
+                    HandleTouchBegan(pointerPos);
+                }
+                else if (pointer.press.isPressed)
+                {
+                    HandleTouchUpdate(pointerPos);
+                }
+                else if (pointer.press.wasReleasedThisFrame)
+                {
+                    HandleTouchEnded(pointerPos);
+                }
+            }
+        }
+
+        private void HandleTouchBegan(Vector2 touch)
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                //  Debug.Log("Pointer on ui");
+                return;
+            }
+
+            swipeStartPosition = touch;
+            swipeStartTime = Time.time;
+
+
+            Ray ray = Camera.main.ScreenPointToRay(touch);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if ((boardLayerMask.value & (1 << hit.collider.gameObject.layer)) != 0)
+                {
+                    isSwipeStarted = true;
+                    return;
+                }
+            }
+
+
+            isAimStarted = true;
+
+        }
+
+        private void HandleTouchUpdate(Vector2 touch)
+        {
+            if (isSwipeStarted) // Board Raycast Hit -> Move Striker Left/Right
+            {
+                // 1. Calculate horizontal pixel delta from previous tracking point
+                float deltaX = touch.x - swipeStartPosition.x;
+
+                // 2. Normalize it against screen width
+                float normalizedDeltaX = deltaX / Screen.width;
+
+                // 3. Scale by your sensitivity (e.g., if a small swipe should map to full movement range)
+                float movementDelta = normalizedDeltaX * movementswipeSensitivity;
+
+                // 4. Clamp the output strictly between -1 and +1
+                movementDelta = Mathf.Clamp(movementDelta, -1f, 1f);
+
+                Debug.Log($" movementDelta={movementDelta}");
+
+                //if (Mathf.Abs(movementDelta) > cutoffValue)
+                //{
+                // Fire the Move Striker event instead of the old SwipePinch Continued
+                inputData.MoveStriker(movementDelta);
+
+                    // Reset tracking markers dynamically for frame-by-frame delta relative updates
+                    swipeStartPosition = touch;
+                    swipeStartTime = Time.time;
+               // }
+            }
+            else if (isAimStarted) // No Board Hit -> Rotate Striker Delta Angle
+            {
+                float deltaX = touch.x - swipeStartPosition.x;
+                float normalizedDeltaX = deltaX / Screen.width;
+                float angleDelta = normalizedDeltaX * aimswipeSensitivity;
+
+                //if (Mathf.Abs(angleDelta) > cutoffValue)
+                //{
+                    inputData.RotateStrikerAbsolute(angleDelta);
+                    swipeStartPosition = touch;
+                    swipeStartTime = Time.time;
+               // }
+            }
+        }
+
+        private void HandleTouchEnded(Vector2 touch)
+        {
+            if (isSwipeStarted)
+            {
+                // Final micro-movement evaluation on release
+                float deltaX = touch.x - swipeStartPosition.x;
+                float normalizedDeltaX = deltaX / Screen.width;
+                float movementDelta = Mathf.Clamp(normalizedDeltaX * movementswipeSensitivity, -1f, 1f);
+
+
+                inputData.MoveStriker(movementDelta);
+                
+
+                isSwipeStarted = false;
+            }
+            else if (isAimStarted)
+            {
+                float deltaX = touch.x - swipeStartPosition.x;
+                float normalizedDeltaX = deltaX / Screen.width;
+                float angleDelta = normalizedDeltaX * aimswipeSensitivity;
+
+                //if (Mathf.Abs(angleDelta) > cutoffValue)
+                //{
+                    inputData.RotateStrikerAbsolute(angleDelta);
+              //  }
+
+                isAimStarted = false;
+            }
+        }
+
     }
-
-
-    public void StrikerPositionChanged(float val)
-    {
-        if (!inputData.isInputActivated) return;
-
-        inputData.MoveStriker(val);
-    }
-
-    private void Update()
-    {
-
-
-        // Capture Android / mobile back button (KeyCode.Escape)
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-           QuitPanel.SetActive(true);
-        }
-
-        // handle touch
-        if (Input.touchCount > 0)
-        {
-            var touch = Input.touches[0];
-            HandlePointer(touch.position, touch.phase);
-            return;
-        }
-
-        // handle mouse (map mouse to touch phases)
-        if (Input.GetMouseButtonDown(0))
-        {
-            HandlePointer(Input.mousePosition, TouchPhase.Began);
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            HandlePointer(Input.mousePosition, TouchPhase.Moved);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            HandlePointer(Input.mousePosition, TouchPhase.Ended);
-        }
-    }
-
-    // New simplified pointer handler: only forwards touch events to InputDataSO (TouchStarted/Continued/Ended)
-    private void HandlePointer(Vector2 screenPos, TouchPhase phase)
-    {
-        // 1) ignore UI touches early (only for Began)
-        if (IsPointerOverUIObject(screenPos) && phase == TouchPhase.Began)
-            return;
-
-        // Determine horizontal zone: left 25%, middle 50%, right 25%
-        float xNorm = screenPos.x / Screen.width;
-        bool inLeftZone = xNorm < 0.25f;
-        bool inRightZone = xNorm > 0.75f;
-        TouchZone zone = inLeftZone ? TouchZone.LEFT : (inRightZone ? TouchZone.RIGHT : TouchZone.MIDDLE);
-
-        switch (phase)
-        {
-            case TouchPhase.Began:
-                inputData.TouchStarted(zone, screenPos);
-                break;
-
-            case TouchPhase.Moved:
-            case TouchPhase.Stationary:
-                inputData.TouchContinued(zone, screenPos);
-                break;
-
-            case TouchPhase.Ended:
-            case TouchPhase.Canceled:
-                inputData.TouchEnded(zone, screenPos);
-                break;
-        }
-    }
-
-    /// <summary>
-    /// Returns true when the provided screen position is over any UI element.
-    /// Uses the EventSystem raycast path (works for Graphics UI and World Space canvases).
-    /// </summary>
-    /// <param name="screenPosition">Screen position (Input.mousePosition or touch.position)</param>
-    /// <returns>True if the pointer is over any UI object</returns>
-    private bool IsPointerOverUIObject(Vector2 screenPosition)
-    {
-        if (EventSystem.current == null)
-            return false;
-
-        var eventData = new PointerEventData(EventSystem.current)
-        {
-            position = screenPosition
-        };
-
-        var results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
-
-        return results.Count > 0;
-    }
-
 }
-
-

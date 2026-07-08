@@ -57,7 +57,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
         if (isPlayerInGame)
         {
             uiInputData.OtherPlayerLeft();
-            inputData.DeactivateInput();
+            inputData.DisableInput();
             isPlayerInGame = false;
         }
         else

@@ -30,7 +30,7 @@ public class TrickShot : MonoBehaviour
 
 
         trickShotsData.SetCurrentLevelTime(levelTime);
-        inputData.ActivateInput();
+        inputData.EnableInput();
         _elapsedTime = 0f;
         _timerCo = StartCoroutine(StartTimer());
 
@@ -41,7 +41,7 @@ public class TrickShot : MonoBehaviour
         coinData.CoinFellInHoleEvent -= CoinFellInHole;
         strikerData.StrikerFellInHoleEvent -= StrikerFellIntoHole;
 
-        inputData.DeactivateInput();
+        inputData.DisableInput();
         if (_timerCo != null)
         {
             StopCoroutine(_timerCo);
@@ -112,7 +112,7 @@ public class TrickShot : MonoBehaviour
 
     private void CleanupAndDestroy()
     {
-        inputData.DeactivateInput();
+        inputData.DisableInput();
         if (_timerCo != null) { StopCoroutine(_timerCo); _timerCo = null; }
         Destroy(gameObject);
     }

@@ -53,13 +53,13 @@ namespace com.VisionXR.GameElements
                     {
 
                       
-                        inputData.ActivateInput();
+                        inputData.EnableInput();
                         playerInput.enabled = true;
                     }
                     else // Its AI
                     {
                         
-                        inputData.DeactivateInput();
+                        inputData.DisableInput();
                         aiPlayer.AIShouldPlay();
 
                     }
@@ -68,7 +68,7 @@ namespace com.VisionXR.GameElements
                 {
 
                     boardData.TurnOffHoles();
-                    inputData.DeactivateInput();
+                    inputData.DisableInput();
                 }
 
               

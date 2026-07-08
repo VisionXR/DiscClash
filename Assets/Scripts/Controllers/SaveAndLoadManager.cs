@@ -56,7 +56,7 @@ namespace com.VisionXR.Controller
                     playerSettings.SetStriker(data.StrikerId);
                     playerSettings.SetCoins(data.CoinsId);
                     playerSettings.SetServerRegion(data.region);
-                    playerSettings.SetLogIn(data.isLoggedIn);
+                 //   playerSettings.SetLogIn(data.isLoggedIn);
 
                 }
                 catch (Exception e)

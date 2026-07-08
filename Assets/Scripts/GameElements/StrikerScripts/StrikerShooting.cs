@@ -19,7 +19,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
     public Action<float,Vector3> StrikeStartedEvent;
     public Action<float> StrikeForceChangedEvent;
     public Action StrikeFinishedEvent;
-    public AnimationCurve StrikeCurve;
+
 
 
     // variables
@@ -31,24 +31,21 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
         if (val > cutOffValue)
         {
             strikerRigidbody.AddForce(transform.forward * StrikeForce, ForceMode.VelocityChange);
-            StrikeStartedEvent?.Invoke(StrikeForce, transform.forward);
-            strikerArrow.TurnOffArrow();
+            Debug.Log("Striker Fired with force: " + StrikeForce);
+          
             if (WaitRoutine == null)
             {
                 WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
             }
+            StrikeStartedEvent?.Invoke(StrikeForce, transform.forward);
         }
-        else
-        {
-            strikerArrow.TurnOffArrow();
-        }
+
 
     }
 
     public void SetStrikerForce(float normalizedValue)
     {
-        // Map the normalized value to the desired range
-        normalizedValue = StrikeCurve.Evaluate(normalizedValue);
+ 
         float range = strikerData.ForceUpperLimit - strikerData.ForceLowerLimit;
         StrikeForce = strikerData.ForceLowerLimit + (normalizedValue) * range;
         strikerArrow.ChangeColorOfArrow(normalizedValue);
@@ -65,11 +62,14 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
 
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         strikerRigidbody.AddForce(transform.forward * force, ForceMode.VelocityChange);
-        StrikeStartedEvent?.Invoke(force, transform.forward);
+      
+   
         if (WaitRoutine == null)
         {
             WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
         }
+
+        StrikeStartedEvent?.Invoke(force, transform.forward);
 
     }
     private IEnumerator WaituntilStrikeFinished()

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class StartGame : StateMachineBehaviour
 {
-   
+    public UIOutputDataSO uIOutputData;
     public UIDataSO uiData;
     public int mainCanvasId = 0;
-    public int poolCanvasId = 1;
-    public int SnookerCanvasId = 2;
+    public int scoreCanvas2Players = 1;
+    public int scoreCanvas4Players = 2;
     public StateName currentStateName;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -17,16 +17,16 @@ public class StartGame : StateMachineBehaviour
         {
             uiData.uiManager.HideCanvas(0);
 
-            //if(uiData.currentGameMode == GameMode.Pool)
-            //{
-            //    uiData.uiManager.ShowCanvas(poolCanvasId);
-            //    uiData.uiManager.poolCanvasView.TurnOn();
-            //}
-            //else if(uiData.currentGameMode == GameMode.Snooker)
-            //{
-            //    uiData.uiManager.ShowCanvas(SnookerCanvasId);
-            //    uiData.uiManager.snookerCanvasView.TurnOn();
-            //}
+            if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
+            {
+                uiData.uiManager.ShowCanvas(scoreCanvas2Players);
+              //  uiData.uiManager.poolCanvasView.TurnOn();
+            }
+            else 
+            {
+                uiData.uiManager.ShowCanvas(scoreCanvas4Players);
+              //  uiData.uiManager.snookerCanvasView.TurnOn();
+            }
 
             uiData.uiManager.SetCurrentStateName(currentStateName);
         }
@@ -42,16 +42,16 @@ public class StartGame : StateMachineBehaviour
         
         if (uiData.uiManager != null)
         {
-            //if (uiData.currentGameMode == GameMode.Pool)
-            //{
-            //    uiData.uiManager.HideCanvas(poolCanvasId);
-            //    uiData.uiManager.poolCanvasView.TurnOff();
-            //}
-            //else if (uiData.currentGameMode == GameMode.Snooker)
-            //{
-            //    uiData.uiManager.HideCanvas(SnookerCanvasId);
-            //    uiData.uiManager.snookerCanvasView.TurnOff();
-            //}
+            if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
+            {
+                uiData.uiManager.HideCanvas(scoreCanvas2Players);
+               // uiData.uiManager.poolCanvasView.TurnOff();
+            }
+            else
+            {
+                uiData.uiManager.HideCanvas(scoreCanvas4Players);
+              //  uiData.uiManager.snookerCanvasView.TurnOff();
+            }
 
             uiData.uiManager.SetPreviousStateName(currentStateName);
         }

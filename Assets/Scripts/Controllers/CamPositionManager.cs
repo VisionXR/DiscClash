@@ -52,56 +52,16 @@ namespace com.VisionXR.Controllers
         {
             camPositionData.SetCamPositionEvent += ChangeCamPosition;
             camPositionData.RecenterEvent += Recenter;
-            inputData.TouchStartedEvent += TouchStarted;
-            inputData.TouchContinuedEvent += TouchContinued;
-            inputData.TouchEndedEvent += TouchEnded;
+      
         }
 
         private void OnDisable()
         {
             camPositionData.SetCamPositionEvent -= ChangeCamPosition;
             camPositionData.RecenterEvent -= Recenter;
-            inputData.TouchStartedEvent -= TouchStarted;
-            inputData.TouchContinuedEvent -= TouchContinued;
-            inputData.TouchEndedEvent -= TouchEnded;
+    
         }
 
-        private void TouchStarted(TouchZone zone, Vector2 pos)
-        {
-            if (zone == TouchZone.MIDDLE) return;
-            swipeActive = true;
-            swipeStartScreen = pos;
-            _lastTouchScreen = pos;
-        }
-
-        private void TouchContinued(TouchZone zone, Vector2 pos)
-        {
-            if (!swipeActive || _currentPlayerId < 0 || boardData == null) return;
-
-            // Calculate movement since the last frame
-            float deltaX = pos.x - _lastTouchScreen.x;
-            float deltaY = pos.y - _lastTouchScreen.y;
-
-            // Total distance from start to respect the minimum threshold
-            float totalDist = Vector2.Distance(pos, swipeStartScreen);
-            if (totalDist < minSwipeDistancePixels) return;
-
-            // Update both X and Y offsets simultaneously
-            // (delta / fullRange) * 2 converts pixel delta to the [-1, 1] normalized space
-            float stepX = (deltaX / swipePixelsForFullRange) * 2f;
-            float stepY = (deltaY / swipePixelsForFullRange) * 2f;
-
-            _currentXOffsetT = Mathf.Clamp(_currentXOffsetT + stepX, -1f, 1f);
-            _currentYOffsetT = Mathf.Clamp(_currentYOffsetT + stepY, -1f, 1f);
-
-            ApplyPosition();
-            _lastTouchScreen = pos;
-        }
-
-        private void TouchEnded(TouchZone zone, Vector2 pos)
-        {
-            swipeActive = false;
-        }
 
         private void ChangeCamPosition(int id) => ResetToPlayer(id);
         private void Recenter(int id) => ResetToPlayer(id);
@@ -122,43 +82,6 @@ namespace com.VisionXR.Controllers
             _cameraVelocity = Vector3.zero;
         }
 
-        /// <summary>
-        /// Combines stored X and Y offsets to position the camera relative to the player.
-        /// </summary>
-        private void ApplyPosition()
-        {
-            var playerTransform = boardData.GetPlayerPosition(_currentPlayerId);
-            if (playerTransform == null) return;
-
-            // Map normalized T [-1, 1] to actual local units defined by limits
-            float horizontalValue = _currentXOffsetT > 0
-                ? _currentXOffsetT * rightLimit
-                : _currentXOffsetT * Mathf.Abs(leftLimit);
-
-            float verticalValue = _currentYOffsetT > 0
-                ? _currentYOffsetT * verticalUpperLimit
-                : _currentYOffsetT * Mathf.Abs(verticalLowerLimit);
-
-            // Calculate target: Base Position + (Right * X) + (Up * Y)
-            Vector3 targetPosition = playerTransform.position
-                                     + (playerTransform.right * horizontalValue)
-                                     + (playerTransform.up * verticalValue);
-
-            // Smoothly move the camera rig to the 2D offset position
-            if ((cameraRig.transform.position - targetPosition).sqrMagnitude <= snapEpsilon * snapEpsilon)
-            {
-                cameraRig.transform.position = targetPosition;
-                _cameraVelocity = Vector3.zero;
-            }
-            else
-            {
-                cameraRig.transform.position = Vector3.SmoothDamp(
-                    cameraRig.transform.position,
-                    targetPosition,
-                    ref _cameraVelocity,
-                    cameraSmoothTime
-                );
-            }
-        }
+      
     }
 }
