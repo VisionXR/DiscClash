@@ -13,13 +13,13 @@ public class ScorePanel2Player : MonoBehaviour
     public UIInputDataSO uiInputData;
     public GameDataSO gameData;
     public PlayersDataSO playerData;
-
+    public UIDataSO uiData;
 
     [Header(" player objects")]
     public PlayerDetailsView leftPlayer;
     public PlayerDetailsView rightPlayer;
-    
-
+    public GameResultPanelView gameResultPanelView;
+    public string gameResultState;
 
     private Coroutine turnTimeRoutine = null;
 
@@ -90,8 +90,11 @@ public class ScorePanel2Player : MonoBehaviour
     private void ShowGameResult(GameResult result)
     {
         
-        TurnChanged(result.winningPlayerId);    
-      
+        TurnChanged(result.winningPlayerId);
+        uiData.uiManager.ShowCanvas(0);
+        uiData.uiManager.ChangeState(gameResultState, true);
+        gameResultPanelView.ShowResult(result);
+        gameObject.SetActive(false);
     }
 
     public void ShowPlayerDetails(Player p)

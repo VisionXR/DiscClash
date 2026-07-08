@@ -32,7 +32,15 @@ namespace com.VisionXR.GameElements
       
         // ---------------- Helpers ----------------
 
-      
+        void OnEnable()
+        {
+            if (strikerRotation != null)
+            {
+                transform.rotation = strikerRotation.transform.rotation;
+            }
+        }
+
+
         public void SetStrikerID(int id)
         {
 

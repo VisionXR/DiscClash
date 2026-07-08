@@ -217,10 +217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b2002ff7de104439b0a3ccd5d41e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SPStartGame
+  uIOutputData: {fileID: 11400000, guid: ba5aee20911bd27449c479316531a494, type: 2}
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   currentStateName: 10
 --- !u!1102 &-8165203696636734491
 AnimatorState:
@@ -985,7 +986,7 @@ AnimatorStateMachine:
     m_Position: {x: 1070, y: 570, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1447030545275508226}
-    m_Position: {x: -100, y: 1110, z: 0}
+    m_Position: {x: -30, y: 900, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1271382863755174478}
     m_Position: {x: 510, y: 1270, z: 0}
@@ -997,7 +998,7 @@ AnimatorStateMachine:
     m_Position: {x: -610, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8165203696636734491}
-    m_Position: {x: -170, y: 1310, z: 0}
+    m_Position: {x: -210, y: 1130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5756930627530027861}
     m_Position: {x: -900, y: 1190, z: 0}
@@ -2048,7 +2049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
-  nextPanelId: 11
+  nextPanelId: 12
   currentStateName: 11
 --- !u!114 &832186286938236537
 MonoBehaviour:
@@ -2963,10 +2964,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92b2002ff7de104439b0a3ccd5d41e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StartGame
+  uIOutputData: {fileID: 11400000, guid: ba5aee20911bd27449c479316531a494, type: 2}
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   currentStateName: 20
 --- !u!1101 &5658592875098407585
 AnimatorStateTransition:

@@ -113,7 +113,7 @@ namespace com.VisionXR.Controllers
         }
 
 
-        private void ResetCanvases()
+        public void ResetCanvases()
         {     
             foreach(GameObject canvas in allCanvases)
             {

@@ -45,12 +45,12 @@ public class StartGame : StateMachineBehaviour
             if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
             {
                 uiData.uiManager.HideCanvas(scoreCanvas2Players);
-               // uiData.uiManager.poolCanvasView.TurnOff();
+           
             }
             else
             {
                 uiData.uiManager.HideCanvas(scoreCanvas4Players);
-              //  uiData.uiManager.snookerCanvasView.TurnOff();
+            
             }
 
             uiData.uiManager.SetPreviousStateName(currentStateName);

@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace com.VisionXR.Views
 
         [Header(" Scriptable Objects ")]
         public UIInputDataSO uiInputData;
+        public UIOutputDataSO uiOutputData;
         public UIDataSO uiData;
         public MyPlayerSettings playerSettings;
 
@@ -64,12 +66,14 @@ namespace com.VisionXR.Views
         public void VsCPUBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            uiOutputData.SetGameType(GameType.VsCPU);
             uiData.uiManager.ChangeState(vsCpuState, true);
         }
 
         public void VsFriendsBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            uiOutputData.SetGameType(GameType.PlayWithFriends);
             uiData.uiManager.ChangeState(vsFriendsState, true);
         }
 

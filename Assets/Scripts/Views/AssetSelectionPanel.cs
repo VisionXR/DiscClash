@@ -13,32 +13,14 @@ namespace com.VisionXR.Views
         public CoinDataSO coinData;
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
-
+        public UIDataSO uiData;
+        public DestinationDataSO destinationData;
 
         [Header("Local Objects")]
         public Destination destination;
+        public string singlePlayerState;
 
-        private void OnEnable()
-        {
-            CreateStriker();
-        }
-
-        private void OnDisable()
-        {
-            DestroyStriker();
-        }
-
-        private void CreateStriker()
-        {
-            strikerData.CreateStriker(1, playerSettings.MyStrikerId, null);
-            coinData.CreateAllCoins(uiOutputData.MyCoinsId);
-        }
-
-        private void DestroyStriker()
-        {
-            strikerData.DestroyStriker(1);
-            coinData.DestroyAllCoins();
-        }
+ 
 
         public void BoardBtnClicked()
         {
@@ -62,10 +44,15 @@ namespace com.VisionXR.Views
             destination.gameMode = uiOutputData.gameMode;
             destination.gameType = uiOutputData.gameType;
             destination.challenge = uiOutputData.challenge;
-            
+            destination.difficulty = uiOutputData.aIDifficulty;
 
-            uiInputData.ShowDestination(destination);
-            gameObject.SetActive(false);
+            if(destination.gameType == GameType.VsCPU)
+            {
+                uiData.uiManager.ChangeState(singlePlayerState, true);
+                destinationData.ConnectToDestination(destination,null,null);
+            }
+           
+         
         }
 
         public void BackBtnClicked()

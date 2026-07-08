@@ -1,6 +1,8 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -18,69 +20,112 @@ namespace com.VisionXR.Views
 
 
         [Header("Panels")]
+        public List<GameObject> GameModeSelectedImages;
+        public List<GameObject> DifficultySelectedImages;
+
         public string vsCpuState;
         public string assetsState;
+
+        private void OnEnable()
+        {
+            ResetGameModeImages();
+            ResetDifficultyImages();
+
+            if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                GameModeSelectedImages[0].SetActive(true);
+            }
+            else if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                GameModeSelectedImages[1].SetActive(true);
+            }
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                GameModeSelectedImages[2].SetActive(true);
+            }
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                GameModeSelectedImages[3].SetActive(true);
+            }
+
+            if(uiOutputData.aIDifficulty == AIDifficulty.Easy)
+            {
+                DifficultySelectedImages[0].SetActive(true);
+            }
+            else if (uiOutputData.aIDifficulty == AIDifficulty.Medium)
+            {
+                DifficultySelectedImages[1].SetActive(true);
+            }
+            else if (uiOutputData.aIDifficulty == AIDifficulty.Hard)
+            {
+                DifficultySelectedImages[2].SetActive(true);
+            }
+        }
 
 
         public void PvsAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-
+            ResetGameModeImages();
             uiOutputData.SetGameMode(GameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-           
+            GameModeSelectedImages[0].SetActive(true);
 
         }
 
         public void PvsAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            ResetGameModeImages();
             uiOutputData.SetGameMode(GameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-            
+            GameModeSelectedImages[1].SetActive(true);
 
         }
 
         public void PAIvsAIAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-    
+            ResetGameModeImages();
             uiOutputData.SetGameMode(GameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-            uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
-      
+            GameModeSelectedImages[2].SetActive(true);
+
 
         }
 
         public void PAIvsAIAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-
+            ResetGameModeImages();
             uiOutputData.SetGameMode(GameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-    
-            
-
+            GameModeSelectedImages[3].SetActive(true);
         }
 
         public void EasyBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            ResetDifficultyImages();
             uiOutputData.SetAIDifficulty(AIDifficulty.Easy);
+            DifficultySelectedImages[0].SetActive(true);
+
         }
 
         public void MediumBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            ResetDifficultyImages();
             uiOutputData.SetAIDifficulty(AIDifficulty.Medium);
+            DifficultySelectedImages[1].SetActive(true);
         }
 
         public void HardBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            ResetDifficultyImages();
             uiOutputData.SetAIDifficulty(AIDifficulty.Hard);
+            DifficultySelectedImages[2].SetActive(true);
         }
 
         public void NextBtnClicked()
@@ -95,7 +140,21 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState(vsCpuState, false);
         }
 
+        private void ResetGameModeImages()
+        {
+            foreach(GameObject img in GameModeSelectedImages)
+            {
+                img.SetActive(false);
+            }
+        }
 
+        private void ResetDifficultyImages()
+        {
+            foreach (GameObject img in DifficultySelectedImages)
+            {
+                img.SetActive(false);
+            }
+        }
 
     }
 }
