@@ -16,7 +16,7 @@ public class PlayerDetailsView : MonoBehaviour
     [Header("Image Objects")]
     public Image CoinImage;
     public Image PlayerImage;
-    
+    public Image PlayerTurnImage;
 
 
     private void OnDisable()
@@ -27,6 +27,11 @@ public class PlayerDetailsView : MonoBehaviour
         PlayerImage.sprite = null;
         CoinImage.sprite = null;
       
+    }
+
+    public void SetPlayerTurnIndicator(bool isPlayerTurn)
+    {
+        PlayerTurnImage.enabled = isPlayerTurn;
     }
 
 

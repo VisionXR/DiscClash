@@ -3,6 +3,8 @@ using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
 using System;
 using com.VisionXR.GameElements;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace com.VisionXR.Controllers
 {
@@ -17,6 +19,7 @@ namespace com.VisionXR.Controllers
 
         [Header("GameObjects")]
         public GameObject playerObject;
+
 
         [Header("Actions")]
         public Action<bool> PlayerWriteStatusEvent;

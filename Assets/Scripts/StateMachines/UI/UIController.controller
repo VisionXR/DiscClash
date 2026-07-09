@@ -44,8 +44,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   pauseState: 15
   currentStateName: 28
 --- !u!1101 &-8999451539791161964
@@ -1187,8 +1187,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   pauseState: 19
   currentStateName: 29
 --- !u!1102 &-2578223262346305599
@@ -1390,8 +1390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   pauseState: 14
   currentStateName: 6
 --- !u!1101 &-1765851718003397487
@@ -2227,9 +2227,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
-  pauseState: 12
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
+  pauseState: 20
   currentStateName: 13
 --- !u!1102 &1271382863755174478
 AnimatorState:
@@ -2748,8 +2748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   pauseState: 18
   currentStateName: 27
 --- !u!114 &4067677977724590670
@@ -3476,8 +3476,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SPPauseState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   mainCanvasId: 0
-  poolCanvasId: 1
-  SnookerCanvasId: 2
+  scoreCanvas2Players: 1
+  scoreCanvas4Players: 2
   pauseState: 12
   currentStateName: 22
 --- !u!1102 &8793168990139773988

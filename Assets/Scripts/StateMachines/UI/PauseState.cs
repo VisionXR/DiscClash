@@ -7,8 +7,8 @@ public class PauseState : StateMachineBehaviour
    
     public UIDataSO uiData;
     public int mainCanvasId = 0;
-    public int poolCanvasId = 1;
-    public int SnookerCanvasId = 2;
+    public int scoreCanvas2Players = 1;
+    public int scoreCanvas4Players = 2;
     public int pauseState = 20;
     public StateName currentStateName;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -16,8 +16,8 @@ public class PauseState : StateMachineBehaviour
      
         if (uiData.uiManager != null)
         {
-            uiData.uiManager.HideCanvas(poolCanvasId);
-            uiData.uiManager.HideCanvas(SnookerCanvasId);
+            uiData.uiManager.HideCanvas(scoreCanvas2Players);
+            uiData.uiManager.HideCanvas(scoreCanvas4Players);
             uiData.uiManager.ShowCanvas(mainCanvasId);
             uiData.uiManager.mainCanvasView.ShowMainPanel(pauseState);
             uiData.uiManager.SetCurrentStateName(currentStateName);

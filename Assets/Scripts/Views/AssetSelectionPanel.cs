@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -17,24 +18,46 @@ namespace com.VisionXR.Views
         public DestinationDataSO destinationData;
 
         [Header("Local Objects")]
+        public List<GameObject> coinSelectedImages;
+        public List<GameObject> boardSelectedImages;
+        public List<GameObject> strikerSelectedImages;
         public Destination destination;
         public string singlePlayerState;
 
- 
 
-        public void BoardBtnClicked()
+
+        private void OnEnable()
         {
-
+            ResetBoardImages();
+            ResetStrikerImages();
+            ResetCoinImages();
+            boardSelectedImages[uiOutputData.MyBoardId].SetActive(true);
+            strikerSelectedImages[uiOutputData.MyStrikerId].SetActive(true);
+            coinSelectedImages[uiOutputData.MyCoinsId].SetActive(true);
         }
 
-        public void StrikerBtnClicked()
+        public void BoardBtnClicked(int id)
         {
-
+            AudioManager.instance.PlayButtonClickSound();
+            ResetBoardImages();
+            boardSelectedImages[id].SetActive(true);
+            uiOutputData.SetMyBoardId(id);
         }
 
-        public void CoinsBtnClciked()
+        public void StrikerBtnClicked(int id)
         {
+            AudioManager.instance.PlayButtonClickSound();
+            ResetStrikerImages();
+            strikerSelectedImages[id].SetActive(true);
+            uiOutputData.SetMyStrikerId(id);
+        }
 
+        public void CoinsBtnClciked(int id)
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            ResetCoinImages();
+            coinSelectedImages[id].SetActive(true);
+            uiOutputData.SetMyCoinsId(id);
         }
 
         public void NextBtnClicked()
@@ -59,6 +82,31 @@ namespace com.VisionXR.Views
         {
             
 
+        }
+
+        private void ResetBoardImages()
+        {
+            foreach (var item in boardSelectedImages)
+            {
+                item.SetActive(false);
+            }
+
+        }
+
+        private void ResetStrikerImages()
+        {
+            foreach (var item in strikerSelectedImages)
+            {
+                item.SetActive(false);
+            }
+        }
+
+        private void ResetCoinImages()
+        {
+            foreach (var item in coinSelectedImages)
+            {
+                item.SetActive(false);
+            }
         }
     }
 }

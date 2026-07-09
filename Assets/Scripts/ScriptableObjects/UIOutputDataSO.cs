@@ -85,6 +85,7 @@ namespace com.VisionXR.ModelClasses
         public void SetMyBoardId(int boardId)
         {
             MyBoardId = boardId;
+            SetMyBoardEvent?.Invoke(boardId);
         }
 
         public void SetMyStrikerId(int strikerId)

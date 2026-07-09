@@ -5,6 +5,7 @@ using UnityEngine;
 using com.VisionXR.GameElements;
 using com.VisionXR.Views;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScorePanel2Player : MonoBehaviour
 {
@@ -20,8 +21,16 @@ public class ScorePanel2Player : MonoBehaviour
     public PlayerDetailsView rightPlayer;
     public GameResultPanelView gameResultPanelView;
     public string gameResultState;
+    public string pauseState;
 
-    private Coroutine turnTimeRoutine = null;
+
+    [Header(" UI Elements")]
+    public Image camViewImage;  
+    public Sprite FrontViewSprite;
+    public Sprite TopViewSprite;
+
+    // local variables
+     private Coroutine turnIndicatorCoroutine;
 
     private void OnEnable()
     {
@@ -118,13 +127,55 @@ public class ScorePanel2Player : MonoBehaviour
     }
     private void TurnChanged(int id)
     {
-
-        AudioManager.instance.StopClockSound();
-
-     
-
+        if(turnIndicatorCoroutine != null)
+        {
+            StopCoroutine(turnIndicatorCoroutine);
+            turnIndicatorCoroutine = null;
+        }
+        
+        turnIndicatorCoroutine = StartCoroutine(TurnIndicator(id));
     }
 
+
+    private IEnumerator TurnIndicator(int id)
+    {
+        while (true)
+        {
+            if (id == 1)
+            {
+                leftPlayer.SetPlayerTurnIndicator(true);
+                yield return new WaitForSeconds(0.5f);
+                leftPlayer.SetPlayerTurnIndicator(false);
+            }
+            else
+            {
+                rightPlayer.SetPlayerTurnIndicator(true);
+                yield return new WaitForSeconds(0.5f);
+                rightPlayer.SetPlayerTurnIndicator(false);
+            }
+
+
+        }
+    }
+
+    public void PauseButtonClicked()
+    {
+        AudioManager.instance.PlayButtonClickSound();
+        uiData.uiManager.ChangeState(pauseState, true);
+    }
+
+    public void CameraBtnClicked()
+    {
+        AudioManager.instance.PlayButtonClickSound();
+        if(camViewImage.sprite == FrontViewSprite)
+        {
+            camViewImage.sprite = TopViewSprite;
+        }
+        else
+        {
+            camViewImage.sprite = FrontViewSprite;
+        }
+    }
 
 
     public void SetCoins()
