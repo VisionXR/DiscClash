@@ -4,6 +4,8 @@
 #if (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN) && U_WINDOW_CAPTURE_RECORDER_ENABLE
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using uWindowCapture;
 
@@ -12,19 +14,50 @@ namespace Photon.Voice.Unity
     [AddComponentMenu("Photon Voice/uWindowCaptureHost")]
     public class uWindowCaptureHost : MonoBehaviour
     {
-        public float encoderFPS = 30;
-        float nextEncodingRealtime;
+        struct Client
+        {
+            internal int fps;
+            internal Action onCaptured;
+        }
+
+        Dictionary<object, Client> clients = new Dictionary<object, Client>();
+
+        float updateInt;
+        float nextRequestTime;
+        private bool waitingCapture = false;
 
         public bool PrevBufferMode { get; private set; } // detect buffer mode change and re-initialize
 
-        public bool waitingCapture = false;
-        public event Action OnCaptured;
+        public void Register(object id, int fps, Action onCaptured)
+        {
+            clients.Add(id, new Client() { fps = fps, onCaptured = onCaptured });
+            updateFPS();
+        }
+
+        public void Unregister(object id)
+        {
+            if (clients.TryGetValue(id, out Client c))
+            {
+                clients.Remove(id);
+                updateFPS();
+            }
+        }
+
+        void updateFPS()
+        {
+            int fps = clients.Values.Aggregate(2, (m, x) => Math.Max(m, x.fps)); // minimum 2 fps, the capture does not with 1 fps
+            updateInt = 1.0f / fps;
+        }
+
 
         void onCaptured()
         {
             if (!waitingCapture) return;
             waitingCapture = false;
-            OnCaptured?.Invoke();
+            foreach (var x in clients.Values)
+            {
+                x.onCaptured();
+            }
             // use window buffer if available
             PrevBufferMode = UseWindowBuffer && window.buffer != IntPtr.Zero;
         }
@@ -136,7 +169,7 @@ namespace Photon.Voice.Unity
 
         protected virtual void Update()
         {
-            if (OnCaptured == null)
+            if (clients.Count == 0)
             {
                 return;
             }
@@ -162,13 +195,13 @@ namespace Photon.Voice.Unity
                 Window.cursorDraw = drawCursor;
                 Window.captureMode = captureMode;
 
-                if (Time.realtimeSinceStartup < nextEncodingRealtime)
+                if (Time.realtimeSinceStartup < nextRequestTime)
                 {
                     return;
                 }
                 else
                 {
-                    nextEncodingRealtime = Time.realtimeSinceStartup + 1.0f / encoderFPS;
+                    nextRequestTime = Time.realtimeSinceStartup + updateInt;
                     waitingCapture = true;
 
                     var priority = capturePriority;

@@ -118,17 +118,14 @@ namespace Photon.Voice.Unity
         /// </remarks>
         public int PlayDelay
         {
-            get => this.playDelayConfig.Low;
+            get => this.playDelayConfig.Delay;
             set
             {
-                var l = value;
-                var h = value; // rely on automatic tolerance value
-                var m = 1000; // as in PlayDelayConfig.Default
-                if (this.playDelayConfig.Low != l || this.playDelayConfig.High != h || this.playDelayConfig.Max != m)
+                var x = this.playDelayConfig;
+                x.Delay = value;
+                if (!x.Equals(playDelayConfig))
                 {
-                    this.playDelayConfig.Low = l;
-                    this.playDelayConfig.High = h;
-                    this.playDelayConfig.Max = m;
+                    this.playDelayConfig = x;
                     this.RestartPlayback();
                 }
             }
@@ -178,9 +175,7 @@ namespace Photon.Voice.Unity
     #if UNITY_2021_2_OR_NEWER // requires ES6
             webOutAudioSource = this.GetComponent<AudioSource>();
             double initSpatialBlend = webOutAudioSource != null ? webOutAudioSource.spatialBlend : 0;
-            double refDistance = webOutAudioSource != null ? webOutAudioSource.minDistance : 0;
-            double maxDistance = webOutAudioSource != null ? webOutAudioSource.maxDistance : 0;
-            webOut = new WebAudioAudioOut(this.playDelayConfig, initSpatialBlend, refDistance, maxDistance, this.Logger, string.Empty, true);
+            webOut = new WebAudioAudioOut(this.playDelayConfig, initSpatialBlend, this.Logger, string.Empty, true);
             if (initSpatialBlend > 0)
             {
                 var al = FindObjectOfType<AudioListener>();
@@ -311,6 +306,8 @@ namespace Photon.Voice.Unity
             if (webOutAudioSource != null)
             {
                 webOut.SetVolume(webOutAudioSource.volume);
+                webOut.SetRefDistance(webOutAudioSource.minDistance);
+                webOut.SetMaxDistance(webOutAudioSource.maxDistance);
 
                 // spatialBlend is needed only in 3D mode
                 if (webOutListenerTransform != null)

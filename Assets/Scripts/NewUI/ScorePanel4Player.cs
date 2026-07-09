@@ -1,10 +1,10 @@
 using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
-using System;
 using UnityEngine;
 using com.VisionXR.GameElements;
 using com.VisionXR.Views;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ScorePanel4Player : MonoBehaviour
 {
@@ -13,59 +13,74 @@ public class ScorePanel4Player : MonoBehaviour
     public UIInputDataSO uiInputData;
     public GameDataSO gameData;
     public PlayersDataSO playerData;
-
+    public UIDataSO uiData;
+    public CamPositionSO camPositionData;
 
     [Header(" player objects")]
-    public TeamDetailsView teamA;
-    public TeamDetailsView teamB;
+    public PlayerDetailsView leftPlayer1;
+    public PlayerDetailsView leftPlayer2;
+    public PlayerDetailsView rightPlayer1;
+    public PlayerDetailsView rightPlayer2;
+    public GameResultPanelView gameResultPanelView;
+    public string gameResultState;
+    public string pauseState;
 
 
-    private Coroutine turnTimeRoutine = null;
+    [Header(" UI Elements")]
+    public Image camViewImage;
+    public Sprite FrontViewSprite;
+    public Sprite TopViewSprite;
 
+    // local variables
+    public float blinkTime = 0.2f;
+    private Coroutine turnIndicatorCoroutine;
 
     private void OnEnable()
     {
-          
-        gameData.TurnChangedEvent += TurnChanged;
-        uiOutputData.CoinsSetEvent += SetCoins;
+        ShowImages();
+        ShowScore();
 
+        gameData.TurnChangedEvent += TurnChanged;
 
         uiInputData.ShowGameResultEvent += ShowGameResult;
+
         uiInputData.PlayAgainEvent += Reset;
+
+
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
+
 
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent += ShowImages;
 
 
-        Reset();
+
     }
 
     private void OnDisable()
     {
-        
+
         gameData.TurnChangedEvent -= TurnChanged;
-        uiOutputData.CoinsSetEvent -= SetCoins;
 
         uiInputData.ShowGameResultEvent -= ShowGameResult;
+
         uiInputData.PlayAgainEvent -= Reset;
+
+
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;
 
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
-
         playerData.PlayerImageLoadedEvent -= ShowImages;
 
 
-        StopTurnTime();
-        ResetImages();
     }
 
-    private void ResetImages()
+    public void ShowScore()
     {
-        teamA.SetPlayerImage(1,null);
-        teamA.SetPlayerImage(2, null);
-        teamB.SetPlayerImage(3, null);
-        teamB.SetPlayerImage(4, null);
+        leftPlayer1.SetScore(gameData.TeamAScore);
+        leftPlayer2.SetScore(gameData.TeamAScore);
+        rightPlayer1.SetScore(gameData.TeamBScore);
+        rightPlayer2.SetScore(gameData.TeamBScore);
     }
 
     public void ShowImages()
@@ -75,223 +90,262 @@ public class ScorePanel4Player : MonoBehaviour
 
         if (p1 != null)
         {
-            teamA.SetPlayerImage(p1.myId, p1.GetMyImage());
-            teamA.SetPlayerName(p1.myId, p1.myName);
+            leftPlayer1.SetPlayerImage(p1.GetMyImage());
+            leftPlayer1.SetPlayerName(p1.myName);
+            SetCoins(p1.myId);
         }
 
         if (p2 != null)
         {
-            teamA.SetPlayerImage(p2.myId, p2.GetMyImage());
-            teamA.SetPlayerName(p2.myId, p2.myName);
+            leftPlayer2.SetPlayerImage(p2.GetMyImage());
+            leftPlayer2.SetPlayerName(p2.myName);
+            SetCoins(p2.myId);
         }
-
 
         Player p3 = playerData.GetPlayer(3);
         Player p4 = playerData.GetPlayer(4);
 
         if (p3 != null)
         {
-            teamB.SetPlayerImage(p3.myId, p3.GetMyImage());
-            teamB.SetPlayerName(p3.myId, p3.myName);
+            rightPlayer1.SetPlayerImage(p3.GetMyImage());
+            rightPlayer1.SetPlayerName(p3.myName);
+            SetCoins(p3.myId);
         }
 
-        if (p4!= null)          
+        if (p4 != null)
         {
-            teamB.SetPlayerImage(p4.myId, p4.GetMyImage());
-            teamB.SetPlayerName(p4.myId, p4.myName);
+            rightPlayer2.SetPlayerImage(p4.GetMyImage());
+            rightPlayer2.SetPlayerName(p4.myName);
+            SetCoins(p4.myId);
         }
-       
-
     }
 
     private void PlayerStrikeStarted(int id, float arg2)
     {
-        StopTurnTime();
-    }
-    private void Reset()
-    {
-        StopTurnTime();
-        ResetIndicators();
-        teamA.SetScore(0);
-        teamB.SetScore(0);
 
     }
-
-
     private void ShowGameResult(GameResult result)
     {
-        StopTurnTime();
+
         TurnChanged(result.winningPlayerId);
-      
+        uiData.uiManager.ShowCanvas(0);
+        uiData.uiManager.ChangeState(gameResultState, true);
+        gameResultPanelView.ShowResult(result);
+        gameObject.SetActive(false);
     }
 
     public void ShowPlayerDetails(Player p)
     {
-        if (p.myId == 1  || p.myId == 2)
+        if (p.myId == 1)
         {
-          
-            teamA.SetPlayerName(p.myId,p.myName);
-            teamA.SetPlayerImage(p.myId,p.GetMyImage());
+            leftPlayer1.SetPlayerName(p.myName);
+            leftPlayer1.SetPlayerImage(p.GetMyImage());
+        }
+        else if (p.myId == 2)
+        {
+            leftPlayer2.SetPlayerName(p.myName);
+            leftPlayer2.SetPlayerImage(p.GetMyImage());
+        }
+        else if (p.myId == 3)
+        {
+            rightPlayer1.SetPlayerName(p.myName);
+            rightPlayer1.SetPlayerImage(p.GetMyImage());
 
         }
-        else {
+        else if (p.myId == 4)
+        {
+            rightPlayer2.SetPlayerName(p.myName);
+            rightPlayer2.SetPlayerImage(p.GetMyImage());
 
-        
-            teamB.SetPlayerName(p.myId,p.myName);
-            teamB.SetPlayerImage(p.myId,p.GetMyImage());
-          
         }
 
-        SetCoins();
+        SetCoins(p.myId);
+        Reset();
 
     }
     private void TurnChanged(int id)
     {
-        AudioManager.instance.StopClockSound();
+        if (turnIndicatorCoroutine != null)
+        {
+            StopCoroutine(turnIndicatorCoroutine);
+            turnIndicatorCoroutine = null;
+        }
 
-
+        turnIndicatorCoroutine = StartCoroutine(TurnIndicator(id));
     }
 
 
-    // write a coroutine called startTurnTime where in 45 seconds it goes from 0 to 1
-    public IEnumerator StartTurnTime(int id)
+    private IEnumerator TurnIndicator(int id)
     {
-        teamA.SetTimer(1, 0);
-        teamA.SetTimer(2, 0);
-        teamB.SetTimer(3, 0);
-        teamB.SetTimer(4, 0);
-
-        for (int i = 0; i <= 45; i++)
+        while (true)
         {
-            yield return new WaitForSeconds(1);
-            if (id == 1 || id==2)
+            if (id == 1)
             {
-                teamA.SetTimer(id,i / (45.0f));
+                leftPlayer1.SetPlayerTurnIndicator(true);
+                yield return new WaitForSeconds(blinkTime);
+                leftPlayer1.SetPlayerTurnIndicator(false);
+                yield return new WaitForSeconds(blinkTime);
             }
-            else
+            else if (id == 2)
             {
-                teamB.SetTimer(id, i / (45.0f));
+                leftPlayer2.SetPlayerTurnIndicator(true);
+                yield return new WaitForSeconds(blinkTime);
+                leftPlayer2.SetPlayerTurnIndicator(false);
+                yield return new WaitForSeconds(blinkTime);
             }
-
-            if(i == 39)
+            else if (id == 3)
             {
-                AudioManager.instance.PlayClockSound();
+                rightPlayer1.SetPlayerTurnIndicator(true);
+                yield return new WaitForSeconds(blinkTime);
+                rightPlayer1.SetPlayerTurnIndicator(false);
+                yield return new WaitForSeconds(blinkTime);
             }
+            else if (id == 4)
+            {
+                rightPlayer2.SetPlayerTurnIndicator(true);
+                yield return new WaitForSeconds(blinkTime);
+                rightPlayer2.SetPlayerTurnIndicator(false);
+                yield return new WaitForSeconds(blinkTime);
+            }
+
         }
-
-        AudioManager.instance.StopClockSound();
-        turnTimeRoutine = null;
-
     }
 
-    public void StopTurnTime()
+    public void PauseButtonClicked()
     {
-        if (turnTimeRoutine != null)
+        AudioManager.instance.PlayButtonClickSound();
+        uiData.uiManager.ChangeState(pauseState, true);
+    }
+
+    public void CameraBtnClicked()
+    {
+        AudioManager.instance.PlayButtonClickSound();
+        Player p = playerData.GetMainPlayer();
+        if (camViewImage.sprite == FrontViewSprite)
         {
-            StopCoroutine(turnTimeRoutine);
-            turnTimeRoutine = null;
-        }
-        ResetIndicators();
-    }
-
-    private void ResetIndicators()
-    {
-        teamA.SetTurnImage(1, Color.white);
-        teamA.SetTurnImage(2, Color.white);
-        teamB.SetTurnImage(3, Color.white);
-        teamB.SetTurnImage(4, Color.white);
-
-        teamA.ResetTimer(1);
-        teamA.ResetTimer(2);
-        teamB.ResetTimer(3);
-        teamB.ResetTimer(4);
-    }
-
-    private void SetTurnIndicator(int id)
-    {
-        if(id ==1 || id ==2 )
-        {
-            teamA.SetTurnImage(id, Color.green);
-        }
-        else {
-            teamB.SetTurnImage(id, Color.green);    
-        }
-
-    }
-
-    public void SetButton(int id)
-    {
-        if (id == 1 || id == 2)
-        {
-            teamA.SetButton(id);
+            camViewImage.sprite = TopViewSprite;
+            camPositionData.SetCamPositionTopView(p.myId);
         }
         else
         {
-            teamB.SetButton(id);
+            camViewImage.sprite = FrontViewSprite;
+            camPositionData.SetCamPositionFrontView(p.myId);
         }
     }
 
-
-    public void SetCoins()
-    {
-        SetCoins(1);
-        SetCoins(2);
-        SetCoins(3);
-        SetCoins(4);
-    }
 
     public void SetCoins(int id)
     {
         Player p = playerData.GetPlayer(id);
         if (p == null)
         {
+            Debug.Log("No player found with id: " + id);
             return;
         }
 
-        if (p.myId == 1 || p.myId == 2)
+        if (id == 1)
         {
             if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
-                    teamA.SetCoinImage(uiOutputData.WhiteCoin);
-                    teamA.SetRedImage(uiOutputData.RedCoin);
+                    leftPlayer1.SetCoinImage(uiOutputData.WhiteCoin);
+                    leftPlayer1.SetRedImage(uiOutputData.RedCoin);
                 }
                 else
                 {
-                    teamA.SetCoinImage(uiOutputData.BlackCoin);
-                    teamA.SetRedImage(uiOutputData.RedCoin);
-                }
-            }
-            else if (   uiOutputData.challenge == Challenge.FreeStyle)
-            {
-                teamA.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
-                teamA.SetRedImage(uiOutputData.RedCoin);
-            }
-        }
-        else
-        {
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
-            {
-                if (p.myCoin == PlayerCoin.White)
-                {
-                    teamB.SetCoinImage(uiOutputData.WhiteCoin);
-                    teamB.SetRedImage(uiOutputData.RedCoin);
-                }
-                else
-                {
-                    teamB.SetCoinImage(uiOutputData.BlackCoin);
-                    teamB.SetRedImage(uiOutputData.RedCoin);
+                    leftPlayer1.SetCoinImage(uiOutputData.BlackCoin);
+                    leftPlayer1.SetRedImage(uiOutputData.RedCoin);
                 }
             }
             else if (uiOutputData.challenge == Challenge.FreeStyle)
             {
-                teamB.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
-                teamB.SetRedImage(uiOutputData.RedCoin);
+                leftPlayer1.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
+                leftPlayer1.SetRedImage(uiOutputData.RedCoin);
             }
         }
+        else if (id == 2)
+        {
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                if (p.myCoin == PlayerCoin.White)
+                {
+                    leftPlayer2.SetCoinImage(uiOutputData.WhiteCoin);
+                    leftPlayer2.SetRedImage(uiOutputData.RedCoin);
+                }
+                else
+                {
+                    leftPlayer2.SetCoinImage(uiOutputData.BlackCoin);
+                    leftPlayer2.SetRedImage(uiOutputData.RedCoin);
+                }
+            }
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                leftPlayer2.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
+                leftPlayer2.SetRedImage(uiOutputData.RedCoin);
+            }
+        }
+        else if (id == 3)
+        {
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                if (p.myCoin == PlayerCoin.White)
+                {
+                    rightPlayer1.SetCoinImage(uiOutputData.WhiteCoin);
+                    rightPlayer1.SetRedImage(uiOutputData.RedCoin);
+                }
+                else
+                {
+                    rightPlayer1.SetCoinImage(uiOutputData.BlackCoin);
+                    rightPlayer1.SetRedImage(uiOutputData.RedCoin);
+                }
+            }
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                rightPlayer1.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
+                rightPlayer1.SetRedImage(uiOutputData.RedCoin);
+            }
+        }
+        else if (id == 4)
+        {
+            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                if (p.myCoin == PlayerCoin.White)
+                {
+                    rightPlayer2.SetCoinImage(uiOutputData.WhiteCoin);
+                    rightPlayer2.SetRedImage(uiOutputData.RedCoin);
+                }
+                else
+                {
+                    rightPlayer2.SetCoinImage(uiOutputData.BlackCoin);
+                    rightPlayer2.SetRedImage(uiOutputData.RedCoin);
+                }
+            }
+            else if (uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                rightPlayer2.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
+                rightPlayer2.SetRedImage(uiOutputData.RedCoin);
+            }
+        }
+
+    }
+
+    private void ResetImages()
+    {
+        leftPlayer1.SetPlayerImage(null);
+        leftPlayer2.SetPlayerImage(null);
+        rightPlayer1.SetPlayerImage(null);
+        rightPlayer2.SetPlayerImage(null);
+    }
+    private void Reset()
+    {
+        Debug.Log("Resetting scores and images");
+
+        leftPlayer1.SetScore(0);
+        leftPlayer2.SetScore(0);
+        rightPlayer1.SetScore(0);
+        rightPlayer2.SetScore(0);
     }
 }
 
 
-                                                                

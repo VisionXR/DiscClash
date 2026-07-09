@@ -1,4 +1,3 @@
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
 using UnityEngine;
@@ -82,8 +81,6 @@ namespace com.VisionXR.GameElements
         {
             canIRotate = false;
         }
-
-     
 
     }
 }

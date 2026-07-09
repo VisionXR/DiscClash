@@ -179,14 +179,16 @@ namespace com.VisionXR.Controllers
             {
               
                 gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P3Whites + gameData.P4Whites + gameData.P1Red * 3 + gameData.P2Red * 3);
-                ScorePanel4Players.teamA.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.leftPlayer1.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.leftPlayer2.SetScore(gameData.TeamAScore);
             }
 
             if (p3 != null && p4 != null)
             {
              
                 gameData.TeamBScore = (gameData.P1Blacks + gameData.P2Blacks + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
-                ScorePanel4Players.teamB.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.rightPlayer1.SetScore(gameData.TeamBScore);
+                ScorePanel4Players.rightPlayer2.SetScore(gameData.TeamBScore);
             }
 
         }
@@ -209,14 +211,17 @@ namespace com.VisionXR.Controllers
             {
              
                 gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3 + gameData.P2Red * 3);
-                ScorePanel4Players.teamA.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.leftPlayer1.SetScore(gameData.TeamAScore);
+            
+                ScorePanel4Players.leftPlayer2.SetScore(gameData.TeamAScore);
             }
 
             if (p3 != null && p4 != null)
             {
               
                 gameData.TeamBScore = (gameData.P3Whites + gameData.P4Whites + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
-                ScorePanel4Players.teamB.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.rightPlayer1.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.rightPlayer2.SetScore(gameData.TeamAScore);
             }
 
         }

@@ -13,6 +13,7 @@
     "NetworkIdIsObjectName": false,
     "HideNetworkObjectInactivityGuard": false,
     "AllowClientServerModesInWebGL": false,
+    "ClientsRecordFrameAndPacketTimingTraces": false,
     "Simulation": {
         "InputDataWordCount": 0,
         "ReplicationFeatures": 1,
@@ -24,10 +25,13 @@
             "ServerIndex": 0,
             "ClientSendIndex": 1,
             "ServerSendIndex": 1
-        }
+        },
+        "MaxObjectDestroysSentPerPacket": 32,
+        "EnableExperimentalPacketLossRecovery": false,
+        "EnableAdaptivePacketFragmentation": false
     },
     "Network": {
-        "ConnectionTimeout": 10.0,
+        "ConnectionTimeout": 45.0,
         "ConnectionShutdownTime": 3.0,
         "ReliableDataTransferModes": 3
     },

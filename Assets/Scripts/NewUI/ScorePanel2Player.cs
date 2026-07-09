@@ -30,11 +30,14 @@ public class ScorePanel2Player : MonoBehaviour
     public Sprite TopViewSprite;
 
     // local variables
-     private Coroutine turnIndicatorCoroutine;
+    public float blinkTime = 0.2f;
+    private Coroutine turnIndicatorCoroutine;
 
     private void OnEnable()
     {
-              
+        ShowImages();
+        ShowScore();
+
         gameData.TurnChangedEvent += TurnChanged;
 
         uiInputData.ShowGameResultEvent += ShowGameResult;
@@ -46,10 +49,7 @@ public class ScorePanel2Player : MonoBehaviour
 
 
         playerData.PlayerStrikeStartedEvent += PlayerStrikeStarted;
-        playerData.PlayerImageLoadedEvent += ShowImages;
-
-
-      
+        playerData.PlayerImageLoadedEvent += ShowImages;   
     }
 
     private void OnDisable()
@@ -66,12 +66,13 @@ public class ScorePanel2Player : MonoBehaviour
 
         playerData.PlayerStrikeStartedEvent -= PlayerStrikeStarted;
         playerData.PlayerImageLoadedEvent -= ShowImages;
-
-        
-
     }
 
-  
+    public void ShowScore()
+    {
+        leftPlayer.SetScore(gameData.P1Score);
+        rightPlayer.SetScore(gameData.P2Score);
+    }
 
     public void ShowImages()
     {
@@ -82,12 +83,14 @@ public class ScorePanel2Player : MonoBehaviour
         {
             leftPlayer.SetPlayerImage(p1.GetMyImage());
             leftPlayer.SetPlayerName(p1.myName);
+            SetCoins(1);
         }
 
         if (p2 != null)
         {
             rightPlayer.SetPlayerImage(p2.GetMyImage());
             rightPlayer.SetPlayerName(p2.myName);
+            SetCoins(2);
         }
     }
 
@@ -143,14 +146,16 @@ public class ScorePanel2Player : MonoBehaviour
             if (id == 1)
             {
                 leftPlayer.SetPlayerTurnIndicator(true);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(blinkTime);
                 leftPlayer.SetPlayerTurnIndicator(false);
+                yield return new WaitForSeconds(blinkTime);
             }
             else
             {
                 rightPlayer.SetPlayerTurnIndicator(true);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(blinkTime);
                 rightPlayer.SetPlayerTurnIndicator(false);
+                yield return new WaitForSeconds(blinkTime);
             }
 
 

@@ -1,7 +1,6 @@
 
 using com.VisionXR.ModelClasses;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -145,18 +144,35 @@ namespace com.VisionXR.GameElements
         /// <summary>
         /// Safely sets the striker's position for an AI shot, ensuring the spline progression variable is synchronized.
         /// </summary>
+        /// <summary>
+        /// Safely sets the striker's position for an AI shot, avoiding coins by moving inward towards the center or outward based on progress.
+        /// </summary>
         public Vector3 TeleportStrikerToSplineProgress(float progressValue)
         {
-         
+            if (strikerSpline == null) return transform.position;
 
-            currentProgress = Mathf.Clamp(progressValue, 0.01f, 0.99f);
+            // 1. Clamp the baseline requested target progress
+            float proposedProgress = Mathf.Clamp(progressValue, 0.01f, 0.99f);
 
-            Unity.Mathematics.float3 localPos;
-            Unity.Mathematics.float3 localTangent;
-            Unity.Mathematics.float3 localUp;
-            strikerSpline.Evaluate(currentProgress, out localPos, out localTangent, out localUp);
+            // 2. Determine step direction if a coin is hit:
+            // If the target is on the right half (> 0.5), nudge it left/downwards (-1).
+            // If the target is on the left half (<= 0.5), nudge it right/upwards (+1).
+            float stepDirection = (proposedProgress > 0.5f) ? -1f : 1f;
 
-            return localPos;
+            // 3. Reuse your reliable overlapping logic to find a valid progress marker along the curve
+            float finalSafeProgress = FindStrikerNextPositionOnSpline(proposedProgress, stepDirection);
+
+            // 4. Sample the final coordinates from the curve using our safe progress index
+            float3 safeLocalPos;
+            float3 localTangent;
+            float3 localUp;
+            strikerSpline.Evaluate(finalSafeProgress, out safeLocalPos, out localTangent, out localUp);
+
+            // 5. Explicitly synchronize the internal tracking variable so future player inputs are seamless
+            currentProgress = finalSafeProgress;
+
+            // 6. Return the finalized 3D coordinate vector to your calling script/AI coroutine
+            return (Vector3)safeLocalPos;
         }
         public void AimStriker(Vector3 direction)
         {
@@ -181,6 +197,11 @@ namespace com.VisionXR.GameElements
            
             strikerRigidbody.linearVelocity = Vector3.zero;
             strikerRigidbody.angularVelocity = Vector3.zero;
+
+            if (strikerRotation != null)
+            {
+                transform.rotation = strikerRotation.transform.rotation;
+            }
         }
 
     }

@@ -7,7 +7,7 @@ mergeInto(LibraryManager.library, {
         }
     },
     
-    PhotonVoice_WebAudioAudioOut_Start: function(handle, sampleRate, channels, bufferSamples, spatialBlend, refDistance, maxDistance) {
+    PhotonVoice_WebAudioAudioOut_Start: function(handle, sampleRate, channels, bufferSamples, spatialBlend) {
         if (!Module.PhotonVoice_WebAudioAudioOut_Global) {
             Module.PhotonVoice_WebAudioAudioOut_Global = {};
             Module.PhotonVoice_WebAudioAudioOut_Global.Sources = new Map();
@@ -132,8 +132,6 @@ mergeInto(LibraryManager.library, {
             if (spatialBlend > 0) {
                 pannerNode = new PannerNode(audioContext);
                 pannerNode.distanceModel = "linear";
-                pannerNode.refDistance = refDistance;
-                pannerNode.maxDistance = maxDistance;
                 
                 if (spatialBlend < 1) {
                     spatialBlendNode1 = audioContext.createGain();
@@ -243,7 +241,27 @@ mergeInto(LibraryManager.library, {
             return 1;
         }
     },
-    
+
+    PhotonVoice_WebAudioAudioOut_SetRefDistance: function(handle, x) {
+        const ctx = Module.PhotonVoice_WebAudioAudioOut_Global.Sources.get(handle);
+        if (ctx && ctx.pannerNode) {
+            ctx.pannerNode.refDistance = x;
+            return 0;
+        } else {
+            return 1;
+        }
+    },
+
+    PhotonVoice_WebAudioAudioOut_SetMaxDistance: function(handle, x) {
+        const ctx = Module.PhotonVoice_WebAudioAudioOut_Global.Sources.get(handle);
+        if (ctx && ctx.pannerNode) {
+            ctx.pannerNode.maxDistance = x;
+            return 0;
+        } else {
+            return 1;
+        }
+    },
+
     PhotonVoice_WebAudioAudioOut_SetListenerPosition: function(handle, x, y, z) {
         const ctx = Module.PhotonVoice_WebAudioAudioOut_Global.Sources.get(handle);
         if (ctx) {
@@ -253,7 +271,7 @@ mergeInto(LibraryManager.library, {
             return 1;
         }
     },
-    
+
     PhotonVoice_WebAudioAudioOut_SetListenerOrientation: function(handle, fx, fy, fz, ux, uy, uz) {
         const ctx = Module.PhotonVoice_WebAudioAudioOut_Global.Sources.get(handle);
         if (ctx) {
@@ -263,7 +281,7 @@ mergeInto(LibraryManager.library, {
             return 1;
         }
     },
-    
+
     PhotonVoice_WebAudioAudioOut_SetPosition: function(handle, x, y, z) {
         const ctx = Module.PhotonVoice_WebAudioAudioOut_Global.Sources.get(handle);
         if (ctx && ctx.pannerNode) {
@@ -273,7 +291,7 @@ mergeInto(LibraryManager.library, {
             return 1;
         }
     },
-    
+
     PhotonVoice_WebAudioAudioOut_Stop: function(handle) {
         const ctx = Module.PhotonVoice_WebAudioAudioOut_Global.Sources.get(handle);
         if (ctx) {

@@ -31,6 +31,7 @@ public class PlayerDetailsView : MonoBehaviour
 
     public void SetPlayerTurnIndicator(bool isPlayerTurn)
     {
+       
         PlayerTurnImage.enabled = isPlayerTurn;
     }
 

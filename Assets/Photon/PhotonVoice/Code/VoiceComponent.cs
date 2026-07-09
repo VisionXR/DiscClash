@@ -64,7 +64,7 @@ namespace Photon.Voice.Unity
                 objName = n;
             }
 
-            public LogLevel Level { get; set; }
+            public LogLevel Level => voiceLogger ? voiceLogger.LogLevel : voiceLoggerLastLevel;
             public void Log(LogLevel level, string fmt, params object[] args)
             {
                 if (voiceLogger != null)
