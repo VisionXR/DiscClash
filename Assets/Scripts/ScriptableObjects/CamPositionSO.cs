@@ -8,15 +8,21 @@ namespace com.VisionXR.ModelClasses
     {
         
         //actions
-        public Action<int> SetCamPositionEvent;
+        public Action<int> SetCamPositionFrontViewEvent;
+        public Action<int> SetCamPositionTopViewEvent;
         public Action<int,SwipeDirection> RotateCamEvent;
         public Action<int> RecenterEvent;
 
         // methods
 
-        public void SetCamPosition(int id)
+        public void SetCamPositionFrontView(int id)
         {
-            SetCamPositionEvent?.Invoke(id);
+            SetCamPositionFrontViewEvent?.Invoke(id);
+        }
+
+        public void SetCamPositionTopView(int id)
+        {
+            SetCamPositionTopViewEvent?.Invoke(id);
         }
 
         public void Recenter(int id)

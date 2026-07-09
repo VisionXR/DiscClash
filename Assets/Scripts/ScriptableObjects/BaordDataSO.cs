@@ -14,7 +14,8 @@ namespace com.VisionXR.ModelClasses
         public List<GameObject> StrikerRotations;
         public List<SplineContainer> strikerStrips;
         public List<Transform> FinePositions;
-        public List<Transform> PlayerPositions;
+        public List<Transform> PlayerPositionsFrontView;
+        public List<Transform> PlayerPositionsTopView;
         public List<Transform> AvatarPositions;
 
         public GameObject Ground;
@@ -33,7 +34,8 @@ namespace com.VisionXR.ModelClasses
             Holes.Clear();
             HolesTriggers.Clear();
             FinePositions.Clear();
-            PlayerPositions.Clear();
+            PlayerPositionsFrontView.Clear();
+            PlayerPositionsTopView.Clear();
             AvatarPositions.Clear();
             strikerStrips.Clear();
             StrikerRotations.Clear();
@@ -65,8 +67,9 @@ namespace com.VisionXR.ModelClasses
                 return null;
             }
         }
-        public Transform GetPlayerPosition(int playerId) => PlayerPositions[playerId - 1].transform;
-    
+        public Transform GetPlayerPositionFrontView(int playerId) => PlayerPositionsFrontView[playerId - 1].transform;
+        public Transform GetPlayerPositionTopView(int playerId) => PlayerPositionsTopView[playerId - 1].transform;
+
         public float GetStrikerRadius() => StrikerRadius;
         public float GetCoinRadius() => CoinRadius;
 
@@ -111,9 +114,14 @@ namespace com.VisionXR.ModelClasses
             StrikerRotations = strikerRotations;
         }
 
-        public void SetPlayerPositions(List<Transform> playerPositions)
+        public void SetPlayerPositionsFrontView(List<Transform> playerPositions)
         {
-            PlayerPositions = playerPositions;
+            PlayerPositionsFrontView = playerPositions;
+        }
+
+        public void SetPlayerPositionsTopView(List<Transform> playerPositions)
+        {
+            PlayerPositionsTopView = playerPositions;
         }
 
         public void SetStrikerRadius(float strikerRadius)

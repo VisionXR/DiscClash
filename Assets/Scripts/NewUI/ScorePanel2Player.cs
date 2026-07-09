@@ -1,6 +1,5 @@
 using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
-using System;
 using UnityEngine;
 using com.VisionXR.GameElements;
 using com.VisionXR.Views;
@@ -15,6 +14,7 @@ public class ScorePanel2Player : MonoBehaviour
     public GameDataSO gameData;
     public PlayersDataSO playerData;
     public UIDataSO uiData;
+    public CamPositionSO camPositionData;
 
     [Header(" player objects")]
     public PlayerDetailsView leftPlayer;
@@ -40,7 +40,7 @@ public class ScorePanel2Player : MonoBehaviour
         uiInputData.ShowGameResultEvent += ShowGameResult;
 
         uiInputData.PlayAgainEvent += Reset;
-        uiOutputData.CoinsSetEvent += SetCoins;
+       
 
         uiInputData.ShowPlayerDetailsEvent += ShowPlayerDetails;
 
@@ -49,7 +49,7 @@ public class ScorePanel2Player : MonoBehaviour
         playerData.PlayerImageLoadedEvent += ShowImages;
 
 
-        Reset();
+      
     }
 
     private void OnDisable()
@@ -60,7 +60,7 @@ public class ScorePanel2Player : MonoBehaviour
         uiInputData.ShowGameResultEvent -= ShowGameResult;
 
         uiInputData.PlayAgainEvent -= Reset;
-        uiOutputData.CoinsSetEvent -= SetCoins;
+       
 
         uiInputData.ShowPlayerDetailsEvent -= ShowPlayerDetails;    
 
@@ -68,8 +68,7 @@ public class ScorePanel2Player : MonoBehaviour
         playerData.PlayerImageLoadedEvent -= ShowImages;
 
         
-       
-        ResetImages();
+
     }
 
   
@@ -121,8 +120,8 @@ public class ScorePanel2Player : MonoBehaviour
                  
         }
 
-        SetCoins();
-
+        SetCoins(p.myId);
+        Reset();
 
     }
     private void TurnChanged(int id)
@@ -167,32 +166,30 @@ public class ScorePanel2Player : MonoBehaviour
     public void CameraBtnClicked()
     {
         AudioManager.instance.PlayButtonClickSound();
+        Player p = playerData.GetMainPlayer();
         if(camViewImage.sprite == FrontViewSprite)
         {
             camViewImage.sprite = TopViewSprite;
+            camPositionData.SetCamPositionTopView(p.myId);
         }
         else
         {
             camViewImage.sprite = FrontViewSprite;
+            camPositionData.SetCamPositionFrontView(p.myId);
         }
     }
 
-
-    public void SetCoins()
-    {
-        SetCoins(1);
-        SetCoins(2);
-    }
 
     public void SetCoins(int id)
     {
-        Player p = playerData.GetPlayer(id);
-        if(p == null)
+       Player p = playerData.GetPlayer(id);
+        if (p == null)
         {
+            Debug.Log("No player found with id: " + id);
             return;
         }
 
-        if(id == 1)
+        if (id == 1)
         {
             if (uiOutputData.challenge == Challenge.BlackAndWhite)
             {
@@ -241,18 +238,11 @@ public class ScorePanel2Player : MonoBehaviour
     {
         leftPlayer.SetPlayerImage(null);
         rightPlayer.SetPlayerImage(null);
-
     }
-
-
-
     private void Reset()
-    {
-        
-     
+    {    
         leftPlayer.SetScore(0);
         rightPlayer.SetScore(0);
-
     }
 }
 

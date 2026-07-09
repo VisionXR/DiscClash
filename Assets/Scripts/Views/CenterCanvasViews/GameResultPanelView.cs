@@ -88,6 +88,7 @@ namespace com.VisionXR.Views
         public void OnPlayAgainButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState("GameCompleted", false);
             uiInputData.PlayAgain();
           
         }

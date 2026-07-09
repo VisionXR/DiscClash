@@ -164,26 +164,25 @@ namespace com.VisionXR.GameElements
 
         public void ChangeRemotePlayerAvatar(int id)
         {
-            transform.position = boardData.GetPlayerPosition(id).position+ new Vector3(0,Offset,0);
-            transform.rotation = boardData.GetPlayerPosition(id).rotation;
+            transform.position = boardData.GetPlayerPositionFrontView(id).position+ new Vector3(0,Offset,0);
+            transform.rotation = boardData.GetPlayerPositionFrontView(id).rotation;
                         
         }
 
         public void ChangeRemoteAIAvatar(int id)
         {
-            transform.position = boardData.GetPlayerPosition(id).position;
-            transform.rotation = boardData.GetPlayerPosition(id).rotation;
+            transform.position = boardData.GetPlayerPositionFrontView(id).position;
+            transform.rotation = boardData.GetPlayerPositionFrontView(id).rotation;
 
         }
 
         public void ChangePlayerView(int id)
         {
 
-            transform.position = boardData.GetPlayerPosition(id).position;
-            transform.rotation = boardData.GetPlayerPosition(id).rotation;
+            transform.position = boardData.GetPlayerPositionFrontView(id).position;
+            transform.rotation = boardData.GetPlayerPositionFrontView(id).rotation;
 
-       
-            camPositionData.SetCamPosition(id);
+            camPositionData.SetCamPositionFrontView(id);
 
         }
 

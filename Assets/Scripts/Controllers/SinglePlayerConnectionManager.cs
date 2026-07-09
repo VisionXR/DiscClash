@@ -14,10 +14,21 @@ public class SinglePlayerConnectionManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void OnEnable()       
     {
-        StartCoroutine(ShowPlayers());
+        Show();
+        uiInputData.PlayAgainEvent += Show;
     }
 
-    private IEnumerator ShowPlayers()
+    public void OnDisable()
+    {
+        uiInputData.PlayAgainEvent -= Show;
+    }
+
+    private void Show()
+    {
+        StartCoroutine(ShowPlayersRoutine());
+    }
+
+    private IEnumerator ShowPlayersRoutine()
     {
         yield return new WaitForSeconds(1);
         foreach (Player p in playersData.CurrentPlayers)

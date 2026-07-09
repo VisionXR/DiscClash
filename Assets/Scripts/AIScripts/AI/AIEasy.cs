@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.Splines;
 namespace com.VisionXR.GameElements
 {
@@ -147,26 +146,25 @@ namespace com.VisionXR.GameElements
         }
 
         private IEnumerator HitCoin()
+
         {
-          
+
             while (isPaused)
             {
+
                 yield return new WaitForEndOfFrame();
+
             }
-
-
             int coinIndex = GetIndexOfNextCoin();
-
-
             CoinInfo currentSelectedCoin = hitCoinList[coinIndex];
-
             // Add the selected coin to last hit history
-            UpdateLastHitCoins(currentSelectedCoin);
 
+            UpdateLastHitCoins(currentSelectedCoin);
 
             // Set force and striker position
 
-            Striker.transform.position = strikerMovement.FindStrikerNextPosition(currentSelectedCoin.strikerInfo.strikerPos, currentSelectedCoin.strikerInfo.tangentDir);
+            Striker.transform.position = strikerMovement.TeleportStrikerToSplineProgress(currentSelectedCoin.strikerInfo.normalValue);
+
             Striker.transform.rotation = boardData.GetStrikerRotations(MyId).transform.rotation;
 
             yield return new WaitForSeconds(0.5f);
@@ -176,28 +174,27 @@ namespace com.VisionXR.GameElements
             StartCoroutine(RotateStrikerTowards(worldDir, 0.5f));
             yield return new WaitForSeconds(0.5f);
 
-
             // Strike if angle is within range
+
             if (currentSelectedCoin.angle < CutOffAngle)
             {
-
                 debugLine.positionCount = 3;
+
                 debugLine.SetPosition(0, Striker.transform.position);
+
                 debugLine.SetPosition(1, currentSelectedCoin.FinalPos);
+
                 debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
-
                 // Non-linear weighting for angle contribution
+
                 float a = Mathf.Clamp01(currentSelectedCoin.angle / CutOffAngle);
+
                 // Choose one curve:
+
                 float w = a * a;
-
                 force = currentSelectedCoin.distance + w * forceAdder + 0.5f;
-
                 dir = (currentSelectedCoin.FinalPos - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
-
-              
-
             }
             else
             {
@@ -205,15 +202,12 @@ namespace com.VisionXR.GameElements
                 debugLine.SetPosition(0, Striker.transform.position);
                 debugLine.SetPosition(1, currentSelectedCoin.Coin.transform.position);
                 debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
-
-
                 force = currentSelectedCoin.distance + forceAdder + 0.5f;
                 dir = (currentSelectedCoin.Coin.transform.position - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
-               
             }
-
         }
+
 
         private IEnumerator Strike(Vector3 direction, float strikeForce, CoinInfo coinInfo)
         {

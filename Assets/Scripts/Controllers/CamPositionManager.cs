@@ -35,51 +35,46 @@ namespace com.VisionXR.Controllers
         public float cameraSmoothTime = 0.06f;
         public float snapEpsilon = 0.001f;
 
-        // Internal State
-        private int _currentPlayerId = -1;
-        private bool swipeActive;
-        private Vector2 swipeStartScreen;
-        private Vector2 _lastTouchScreen;
 
-        // Track normalized positions independently [-1 to 1]
-        // 0 = Center, -1 = Lower/Left Limit, 1 = Upper/Right Limit
-        private float _currentXOffsetT = 0f;
-        private float _currentYOffsetT = 0f;
-
-        private Vector3 _cameraVelocity = Vector3.zero;
 
         private void OnEnable()
         {
-            camPositionData.SetCamPositionEvent += ChangeCamPosition;
+            camPositionData.SetCamPositionFrontViewEvent += SetCamPositionFrontView;
+            camPositionData.SetCamPositionTopViewEvent += ResetToTopView;
             camPositionData.RecenterEvent += Recenter;
       
         }
 
         private void OnDisable()
         {
-            camPositionData.SetCamPositionEvent -= ChangeCamPosition;
+            camPositionData.SetCamPositionFrontViewEvent -= SetCamPositionFrontView;
+            camPositionData.SetCamPositionTopViewEvent -= ResetToTopView;
             camPositionData.RecenterEvent -= Recenter;
     
         }
 
-
-        private void ChangeCamPosition(int id) => ResetToPlayer(id);
+        private void SetCamPositionFrontView(int id) => ResetToPlayer(id);
         private void Recenter(int id) => ResetToPlayer(id);
 
         private void ResetToPlayer(int id)
         {
-            var playerPos = boardData.GetPlayerPosition(id);
+            var playerPos = boardData.GetPlayerPositionFrontView(id);
             if (playerPos == null) return;
 
-            _currentPlayerId = id;
-            _currentXOffsetT = 0f;
-            _currentYOffsetT = 0f;
 
             cameraRig.transform.position = playerPos.position;
             cameraRig.transform.rotation = playerPos.rotation;
 
-            swipeActive = false;
-            _cameraVelocity = Vector3.zero;
+        }
+
+        private void ResetToTopView(int id)
+        {
+            var playerPos = boardData.GetPlayerPositionTopView(id);
+            if (playerPos == null) return;
+
+
+            cameraRig.transform.position = playerPos.position;
+            cameraRig.transform.rotation = playerPos.rotation;
         }
 
       

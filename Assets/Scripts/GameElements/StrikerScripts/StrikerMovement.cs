@@ -54,7 +54,7 @@ namespace com.VisionXR.GameElements
         {
             yield return new WaitForSeconds(0.1f);
             
-            fixedCenterPoint = boardData.GetPlayerPosition(strikerId).position;
+            fixedCenterPoint = boardData.GetPlayerPositionFrontView(strikerId).position;
             strikerSpline = boardData.GetStrikerStrip(strikerId);
             strikerRotation = boardData.GetStrikerRotations(strikerId);
             ResetStriker();
@@ -73,31 +73,91 @@ namespace com.VisionXR.GameElements
         {
             if (strikerSpline == null) return;
 
-            normalisedValue = currentProgress+ normalisedValue;
+            // 1. Calculate the proposed progression on the spline
+            float proposedProgress = currentProgress + normalisedValue;
+            proposedProgress = Mathf.Clamp(proposedProgress, 0.01f, 0.99f);
 
-            normalisedValue = Mathf.Clamp(normalisedValue, 0.01f, 0.99f);
+            // 2. Determine step direction on the spline based on input delta sign
+            // If normalisedValue > 0, we are moving forward along the spline track (+t).
+            // If normalisedValue < 0, we are moving backward along the spline track (-t).
+            float stepDirection = Mathf.Sign(normalisedValue);
 
-            // 1. Evaluate Position and Tangent (Direction) from Spline
-            // float3 is used by the Spline package; we convert to Vector3
-            float3 localPos;
+            // 3. Find a clear position by progressing down the spline path
+            float finalProgress = FindStrikerNextPositionOnSpline(proposedProgress, stepDirection);
+
+            // 4. Sample the absolute final safe position from the spline
+            float3 finalLocalPos;
             float3 localTangent;
             float3 localUp;
+            strikerSpline.Evaluate(finalProgress, out finalLocalPos, out localTangent, out localUp);
 
-            strikerSpline.Evaluate(normalisedValue, out localPos, out localTangent, out localUp);
-
-            // 2. Determine Nudge Direction
-            // We use the tangent (the line of the spline) to nudge the striker left or right along the track
-            // if it hits a coin.
-            Vector3 nudgeDir = (normalisedValue > 0.5f) ? -localTangent : localTangent;
-
-            nudgeDir = nudgeDir.normalized;
-
-            // 3. Apply position with collision check
-            transform.position = FindStrikerNextPosition(localPos, nudgeDir);
-
-            currentProgress = normalisedValue;
+            // 5. Apply the safe location and cache the successful progress marker
+            transform.position = finalLocalPos;
+            currentProgress = finalProgress;
         }
 
+        public float FindStrikerNextPositionOnSpline(float startProgress, float stepDirection)
+        {
+            float currentProgressCheck = startProgress;
+            float radius = boardData.GetStrikerRadius();
+
+            // Adjust step resolution: How much spline 't' progress roughly equals half a radius?
+            // Since spline lengths vary, a fine step size works best (e.g., 1% or 2% steps)
+            float splineStepSize = 0.015f * stepDirection;
+            int safetyCounter = 0;
+
+            while (true)
+            {
+                // Sample the actual position at this specific curve coordinate
+                float3 evalLocalPos;
+                float3 tangent;
+                float3 up;
+                strikerSpline.Evaluate(currentProgressCheck, out evalLocalPos, out tangent, out up);
+
+                bool isBlocked = false;
+                Collider[] cols = Physics.OverlapSphere(evalLocalPos, radius + 0.01f);
+
+                foreach (Collider c in cols)
+                {
+                    if (c == null) continue;
+                    if (c.CompareTag("White") || c.CompareTag("Red") || c.CompareTag("Black"))
+                    {
+                        isBlocked = true;
+                        break;
+                    }
+                }
+
+                // If the spot along the curve is empty, this progress point is safe!
+                if (!isBlocked) return currentProgressCheck;
+
+                // Move further down or backward along the track following the exact curve geometry
+                currentProgressCheck += splineStepSize;
+
+                // Keep the search bound within the track limits
+                if (currentProgressCheck < 0.01f || currentProgressCheck > 0.99f || ++safetyCounter > 10)
+                {
+                    // If no clear space is found nearby, freeze progress by returning the current location
+                    return currentProgress;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Safely sets the striker's position for an AI shot, ensuring the spline progression variable is synchronized.
+        /// </summary>
+        public Vector3 TeleportStrikerToSplineProgress(float progressValue)
+        {
+         
+
+            currentProgress = Mathf.Clamp(progressValue, 0.01f, 0.99f);
+
+            Unity.Mathematics.float3 localPos;
+            Unity.Mathematics.float3 localTangent;
+            Unity.Mathematics.float3 localUp;
+            strikerSpline.Evaluate(currentProgress, out localPos, out localTangent, out localUp);
+
+            return localPos;
+        }
         public void AimStriker(Vector3 direction)
         {
                      
@@ -109,65 +169,8 @@ namespace com.VisionXR.GameElements
             transform.Rotate(Vector3.up, deltaAngle);
         }
 
-        //public Vector3 FindStrikerNextPosition(Vector3 evalPos, Vector3 dir)
-        //{
-        //    float radius = boardData.GetStrikerRadius();
 
-        //    // 1. Perform a single check at the proposed evaluation position
-        //    // (Slight buffer added to radius to prevent micro-clipping)
-        //    Collider[] cols = Physics.OverlapSphere(evalPos, radius + 0.01f);
 
-        //    foreach (Collider c in cols)
-        //    {
-        //        if (c == null) continue;
-
-        //        // 2. If it hits any coin, the position is blocked. Reject the move immediately.
-        //        if (c.CompareTag("White") || c.CompareTag("Red") || c.CompareTag("Black"))
-        //        {
-        //            // Returning the current transform position instead of 'evalPos' 
-        //            // forces the striker to stay right where it currently is.
-        //            return transform.position;
-        //        }
-        //    }
-
-        //    // 3. No coins detected, the position is completely clear.
-        //    return evalPos;
-        //}
-
-        public Vector3 FindStrikerNextPosition(Vector3 evalPos, Vector3 dir)
-        {
-            Vector3 currentCheckPos = evalPos;
-            float radius = boardData.GetStrikerRadius();
-            int safetyCounter = 0;
-            while (true)
-            {
-                bool isBlocked = false;
-                Collider[] cols = Physics.OverlapSphere(currentCheckPos, radius + 0.01f);
-                foreach (Collider c in cols)
-                {
-                    if (c == null) continue;
-                    if (c.CompareTag("White") || c.CompareTag("Red") || c.CompareTag("Black"))
-                    {
-                        isBlocked = true;
-                        break;
-                    }
-                }
-                if (!isBlocked) break;
-
-                // Move slightly along the spline direction to find a gap
-
-                currentCheckPos += dir * (radius / 2f);
-                if (++safetyCounter > 10)
-                {
-                    return evalPos; // Return original if no spot found
-
-                }
-
-            }
-
-            return currentCheckPos;
-
-        }
         public void ResetStriker()
         {
             if (strikerSpline == null) return;

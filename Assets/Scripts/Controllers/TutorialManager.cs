@@ -87,7 +87,7 @@ namespace com.VisionXR.Controllers
             coinData.CoinpocketedUntoHoleEvent += OnCoinFellIntoHole;
            
 
-            camPositionData.SetCamPosition(1);
+            camPositionData.SetCamPositionFrontView(1);
             tutorialData.ResetVariables();
 
             tutorialInput.RegisterEvents();

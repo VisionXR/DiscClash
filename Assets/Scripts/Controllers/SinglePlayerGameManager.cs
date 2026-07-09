@@ -39,7 +39,7 @@ namespace com.VisionXR.Controllers
             uiInputData.StartGameEvent += StartGame;
             uiInputData.HomeEvent += ExitGame;
             uiInputData.ExitGameEvent += ExitGame;
-        
+            uiInputData.PlayAgainEvent += StartGame;
 
             playersData.PlayerStrikeStartedEvent += StrikeStarted;
             playersData.PlayerStrikeFinishedEvent += StrikeFinished;
@@ -54,7 +54,8 @@ namespace com.VisionXR.Controllers
             uiInputData.StartGameEvent -= StartGame;
             uiInputData.HomeEvent -= ExitGame;
             uiInputData.ExitGameEvent -= ExitGame;
-         
+
+            uiInputData.PlayAgainEvent -= StartGame;
 
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
             playersData.PlayerStrikeFinishedEvent -= StrikeFinished;

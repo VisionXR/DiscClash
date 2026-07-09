@@ -61,7 +61,7 @@ namespace com.VisionXR.GameElements
         public void SetStrikerId(int id)
         {
             strikerId = id;
-            fixedCenterPoint = boardData.GetPlayerPosition(strikerId).position;
+            fixedCenterPoint = boardData.GetPlayerPositionFrontView(strikerId).position;
             GetPositions(id);
             ResetStriker();
 

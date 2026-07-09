@@ -14,7 +14,8 @@ public class BoardProperties : MonoBehaviour
     [SerializeField] private List<GameObject> StrikerRotations;
     [SerializeField] private List<SplineContainer> strikerStrips;
     [SerializeField] private List<Transform> FinePositions;
-    [SerializeField] private List<Transform> PlayerPositions;
+    [SerializeField] private List<Transform> PlayerPositionsFrontView;
+    [SerializeField] private List<Transform> PlayerPositionsTopView;
     [SerializeField] private List<Transform> AvatarPositions;
     [SerializeField] private GameObject Ground;
     [SerializeField] private Transform AllCoins;
@@ -38,7 +39,9 @@ public class BoardProperties : MonoBehaviour
 
             boardData.SetFinePositions(FinePositions);
 
-            boardData.SetPlayerPositions(PlayerPositions);
+            boardData.SetPlayerPositionsFrontView(PlayerPositionsFrontView);
+
+            boardData.SetPlayerPositionsTopView(PlayerPositionsTopView);
 
             boardData.SetAvatarPositions(AvatarPositions);
 
