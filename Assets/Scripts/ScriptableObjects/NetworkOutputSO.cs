@@ -13,10 +13,12 @@ namespace com.VisionXR.ModelClasses
         public bool isHost;
         public string RoomName;
         public string CommonLobby = "DiscClashLobby";
-        public NetworkRunner _runner;
+        public NetworkRunner runner;
 
 
-  
+        // local
+        private bool isHostReady = false;
+        private bool isClientReady = false;
 
         // Methods      
 
@@ -33,6 +35,16 @@ namespace com.VisionXR.ModelClasses
         public bool IsHost()
         {
             return isHost;
+        }
+
+        public bool IsHostReady()
+        {
+            return isHostReady;
+        }
+
+        public bool IsClientReady()
+        {
+            return isClientReady;
         }
 
     }

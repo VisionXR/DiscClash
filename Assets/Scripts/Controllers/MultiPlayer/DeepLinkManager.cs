@@ -165,8 +165,8 @@ namespace com.VisionXR.Controllers
 
         private void RoomCreateSuccess()
         {
-            destinationData.currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
-            destinationData.currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
+            destinationData.currentDestination.lobbyName = networkOutput.runner.SessionInfo.Region;
+            destinationData.currentDestination.roomName = networkOutput.runner.SessionInfo.Name;
             destinationData.currentDestination.region = playerSettings.serverRegion;
 
             uiInputData.StartMultiPlayerGame();
@@ -182,8 +182,8 @@ namespace com.VisionXR.Controllers
         public void RoomJoinSuccess()
         {
             destinationData.currentDestination.region = playerSettings.serverRegion;
-            destinationData.currentDestination.lobbyName = networkOutput._runner.SessionInfo.Region;
-            destinationData.currentDestination.roomName = networkOutput._runner.SessionInfo.Name;
+            destinationData.currentDestination.lobbyName = networkOutput.runner.SessionInfo.Region;
+            destinationData.currentDestination.roomName = networkOutput.runner.SessionInfo.Name;
 
             uiInputData.StartMultiPlayerGame();
             destinationData.currentDestination.isJoinable = false;

@@ -72,7 +72,7 @@ public class CenterCanvasUIManager : MonoBehaviour
     public void ShowDestinationChangePanel(Destination destination)
     {
         DestinationChangePanel.SetActive(true);
-        DestinationChangePanel.GetComponent<ChangeDestination>().ConnectToDestination(destination);
+        DestinationChangePanel.GetComponent<DestinationPanelView>().ConnectToDestination(destination);
     }
 
     public void ShowLoadingPanel()

@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,11 +19,13 @@ namespace com.VisionXR.Views
         public DestinationDataSO destinationData;
 
         [Header("Local Objects")]
+        public DestinationPanelView destinationPanelView;
         public List<GameObject> coinSelectedImages;
         public List<GameObject> boardSelectedImages;
         public List<GameObject> strikerSelectedImages;
         public Destination destination;
         public string singlePlayerState;
+        public string createRoomState;
 
 
 
@@ -69,13 +72,22 @@ namespace com.VisionXR.Views
             destination.challenge = uiOutputData.challenge;
             destination.difficulty = uiOutputData.aIDifficulty;
 
-            if(destination.gameType == GameType.VsCPU)
+            if (destination.gameType == GameType.VsCPU)
             {
                 uiData.uiManager.ChangeState(singlePlayerState, true);
-                destinationData.ConnectToDestination(destination,null,null);
+                destinationData.ConnectToDestination(destination, null, null);
             }
-           
-         
+            else if (destination.gameType == GameType.PlayWithFriends || destination.gameType == GameType.OnlineMultiPlayer)
+            {
+                uiData.uiManager.ChangeState(createRoomState, true);
+                StartCoroutine(Connect(destination));
+            }
+        }
+
+        private IEnumerator Connect(Destination d)
+        {
+            yield return new WaitForSeconds(uiData.disableTime);
+            destinationPanelView.ConnectToDestination(destination);
         }
 
         public void BackBtnClicked()

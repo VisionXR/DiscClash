@@ -40,7 +40,7 @@ namespace com.VisionXR.GameElements
         public int myAvatarID = 1;
         public int myStrikerID = 1;
         public string myOculusID;  
-        private Sprite myImage;
+        public Sprite myImage;
         public string myName;
         public string imageURL;
         public PlayerControl myPlayerControl;

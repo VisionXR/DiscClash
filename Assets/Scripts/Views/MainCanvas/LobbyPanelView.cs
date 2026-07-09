@@ -1,97 +1,345 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.Networking;
+using UnityEngine.UI;
+using Player = com.VisionXR.GameElements.Player;
 
 namespace com.VisionXR.Views
 {
     public class LobbyPanelView : MonoBehaviour
     {
-        [Header(" Scriptable Objects")]
-        public UIOutputDataSO uiOutPutData;
-        public DestinationDataSO destinationData;
-        public PlayersDataSO playersData;
-        public CloudDataSO cloudData;
+        [Header("Scriptable Objects")]
+        public PlayersDataSO playerData;
+        public NetworkOutputSO networkOutPutData;
+        public NetworkInputSO networkInputData;
+        public UIDataSO uiData;
+        public GameDataSO gameData;
+        public MyPlayerSettings userData;
 
+        [Header("Player Objects")]
+        public Image player1Image;
+        public Image player2Image;
 
-        [Header(" Panels ")]
-        public WaitingPanel BetPanel2Players;
-        public WaitingPanel BetPanel4Players;
-        public ChooseSidePanel ChooseSidePanel;
+        public TMP_Text player1Name;
+        public TMP_Text player2Name;
+
+        [Header("Local Objects")]
+        public TMP_Text timeText;
+        public TMP_Text roomNameText;
+
+        public GameObject hostStartObject;
+        public GameObject clientStartObject;
+
+        public GameObject clientWaitingObject;
+        public GameObject hostWaitingOBject;
+
+        public TMP_Text clientNotReadyText;
+        public TMP_Text hostNotReadyText;
 
         // local variables
-        private Coroutine playerRoutine;
+        private Coroutine timeRoutine;
+        private float elapsedTime = 0f; // Variable to store the elapsed time
+        public bool isHostJoined = false;
+        public bool isClientJoined = false;
+        public string roomId;
+        public string regionCode;
+
+
 
         private void OnEnable()
         {
-            BetPanel2Players.gameObject.SetActive(false);
-            BetPanel4Players.gameObject.SetActive(false);
-            ChooseSidePanel.gameObject.SetActive(false);
-
-            Show();
-
-            if(playerRoutine == null)
+            ResetTexts();
+            ResetTime();
+            // Start the coroutine when the GameObject becomes enabled
+            // Ensure only one instance of the coroutine is running
+            if (timeRoutine == null)
             {
-                playerRoutine = StartCoroutine(WaitAndSetPlayers());
+                timeRoutine = StartCoroutine(ShowTime());
             }
+
+            //networkOutPutData.HostReadyEvent += ResetTime;
+            //networkOutPutData.ClientReadyEvent += ResetTime;
+
+            roomId = networkOutPutData.runner.SessionInfo.Name;
+
+            ServerRegion serverRegion = ServerRegion.any;
+
+            if (Enum.TryParse<ServerRegion>(networkOutPutData.runner.SessionInfo.Region, ignoreCase: true, out serverRegion))
+            {
+                Debug.Log($"Successfully connected to region: {serverRegion}");
+            }
+
+            // Convert the enum int value to a padded 2-digit string
+            regionCode = ((int)serverRegion).ToString("D2");
+            roomNameText.text = "Room ID : " + regionCode + roomId;
+
         }
 
         private void OnDisable()
         {
-            Stop();
+            // Stop the coroutine when the GameObject becomes disabled
+            // This prevents errors if the GameObject is destroyed or deactivated
+            if (timeRoutine != null)
+            {
+                StopCoroutine(timeRoutine);
+                timeRoutine = null;
+            }
+
+            //networkOutPutData.HostReadyEvent -= ResetTime;
+            //networkOutPutData.ClientReadyEvent -= ResetTime;
+
+
+            //networkOutPutData.SetHostReady(false);
+            //networkOutPutData.SetClientReady(false);
+            isHostJoined = false;
+            isClientJoined = false;
+
+            ResetTexts();
+            ResetTime();
         }
 
-        private void Stop()
+        private IEnumerator ShowTime()
         {
-            if (playerRoutine != null)
+            while (true)
             {
-                StopCoroutine(playerRoutine);
-                playerRoutine = null;
-            }
-        }
+                // Increment the elapsed time by the time passed since the last frame
+                elapsedTime += Time.deltaTime;
+
+                // Calculate minutes and seconds
+                int minutes = Mathf.FloorToInt(elapsedTime / 60);
+                int seconds = Mathf.FloorToInt(elapsedTime % 60);
+
+                // Format the time as "MM:SS" with leading zeros if necessary
+                // "D2" ensures two digits, padding with a leading zero if the number is less than 10
+                timeText.text = string.Format("{0:D2}:{1:D2}", minutes, seconds);
 
 
-        private void Show()
-        {
-            if(uiOutPutData.gameMode == GameMode.PvsAI || uiOutPutData.gameMode == GameMode.P1vsP2)
-            {
-                BetPanel2Players.gameObject.SetActive(true);
-            }
-            else
-            {
-                BetPanel4Players.gameObject.SetActive(true);
-            }
-        }
 
-        private IEnumerator WaitAndSetPlayers()
-        {
-            while(true)
-            {
-              
-                foreach(Player p in playersData.CurrentPlayers)
+                Player mp = playerData.GetPlayer(1);
+                if (mp != null && !isHostJoined)
                 {
-                    if (uiOutPutData.gameMode == GameMode.PvsAI || uiOutPutData.gameMode == GameMode.P1vsP2)
-                    {
-                        BetPanel2Players.SetImage(p.myId, p.GetMyImage());
-                        BetPanel2Players.SetName(p.myId, p.myName);
-                        
-                    }
-                    else
-                    {                     
 
-                        BetPanel4Players.SetImage(p.myId, p.GetMyImage());
-                        BetPanel4Players.SetName(p.myId, p.myName);
-                        
+                    player1Image.sprite = mp.myImage;
+                    player1Name.text = mp.myName;
+                    isHostJoined = true;
+                    ResetTime();
+                }
+                else if (mp != null)
+                {
+                    player1Image.sprite = mp.myImage;
+                    player1Name.text = mp.myName;
+                }
+                else if (mp == null)
+                {
 
-                    }
+                    player1Name.text = "";
+                    player2Name.text = "";
+                    isHostJoined = false;
                 }
 
+                Player op = playerData.GetPlayer(2);
+                if (op != null && !isClientJoined)
+                {
 
-                 yield return new WaitForSeconds(3);
+                    player2Image.sprite = op.myImage;
+                    player2Name.text = op.myName;
+
+                    isClientJoined = true;
+                    ResetTime();
+                }
+                else if (op != null)
+                {
+                    player2Image.sprite = op.myImage;
+                    player2Name.text = op.myName;
+
+                }
+                else if (op == null)
+                {
+                    player2Image.sprite = null;
+                    player2Name.text = "";
+
+                    isClientJoined = false;
+                }
+
+                if (isHostJoined && isClientJoined)
+                {
+                    if (networkOutPutData.IsHostReady() && networkOutPutData.IsClientReady())
+                    {
+                        if (networkOutPutData.isHost)
+                        {
+
+                            ShowHostStartButton();
+                        }
+                        else
+                        {
+
+                            ShowClientStartButton();
+                        }
+                    }
+                    else if (networkOutPutData.IsHostReady() && !networkOutPutData.IsClientReady())
+                    {
+                        clientNotReadyText.gameObject.SetActive(true);
+                    }
+                    else if (!networkOutPutData.IsHostReady() && networkOutPutData.IsClientReady())
+                    {
+                        hostNotReadyText.gameObject.SetActive(true);
+                    }
+                }
+                else if (isHostJoined && !isClientJoined)
+                {
+
+                    if (!clientWaitingObject.activeInHierarchy)
+                    {
+                        hostStartObject.SetActive(false);
+                        clientStartObject.SetActive(false);
+                        clientWaitingObject.SetActive(true);
+                        hostWaitingOBject.SetActive(false);
+                    }
+
+                }
+                else if (!isHostJoined && isClientJoined)
+                {
+
+                    if (!hostWaitingOBject.activeInHierarchy)
+                    {
+                        hostStartObject.SetActive(false);
+                        clientStartObject.SetActive(false);
+                        hostWaitingOBject.SetActive(true);
+                    }
+                }
+                //else if (!isHostJoined && !isClientJoined)
+                //{
+
+                //    if (!hostWaitingOBject.activeInHierarchy)
+                //    {
+                //        hostStartObject.SetActive(false);
+                //        clientStartObject.SetActive(false);
+                //        hostWaitingOBject.SetActive(true);
+                //        clientWaitingObject.SetActive(false);
+                //    }
+                //}
+
+                // Wait for the next frame before continuing the loop
+                yield return new WaitForEndOfFrame();
             }
+
+
         }
 
+        // Optional: Method to reset the timer
+        public void ResetTime()
+        {
+
+            hostStartObject.SetActive(false);
+            clientStartObject.SetActive(false);
+
+            hostWaitingOBject.SetActive(false);
+            clientWaitingObject.gameObject.SetActive(false);
+
+
+            hostNotReadyText.gameObject.SetActive(false);
+            clientNotReadyText.gameObject.SetActive(false);
+        }
+
+        private void ResetTexts()
+        {
+            elapsedTime = 0f;
+            timeText.text = "00:00"; // Reset display immediately        
+            player1Image.sprite = null;
+            player1Name.text = "";
+            player2Image.sprite = null;
+            player2Name.text = "";
+        }
+
+        //public void LaunchInvitePanel()
+        //{
+
+            
+
+        //    string wixBaseUrl = "https://visionxr.co.in/carrompool360/join";
+
+
+        //    // Escape Room ID to keep URL formatting valid
+        //    string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
+
+        //    // Generates something like: 202606011805 (Year, Month, Day, Hour, Minute)
+        //    string shortTime = DateTime.UtcNow.ToString("yyyyMMddHHmm");
+
+        //    string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&g={(int)userData.myCoins}&t={shortTime}";
+
+        //    // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
+        //    // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
+        //    string inviteMessage = shareUrl;
+
+        //    //     Debug.Log("Url is " + shareUrl);
+
+        //    new NativeShare()
+        //        .SetSubject("Carrom Pool 360 : Multiplayer Challenge")
+        //        .SetText(inviteMessage)
+        //        .Share();
+        //}
+
+
+        public void ShowHostStartButton()
+        {
+
+            ResetTime();
+            hostStartObject.SetActive(true);
+        }
+
+        public void ShowClientStartButton()
+        {
+            ResetTime();
+            clientStartObject.SetActive(true);
+        }
+
+        public void StartGameBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
+
+            //  Debug.Log(" Last id is " + gameData.GetFirstTurnId());
+
+            //if (gameData.GetFirstTurnId() == -1 || gameData.GetFirstTurnId() == 2)
+            //{
+            //    sendPlayerData.RPC_StartGame(1, (int)userData.myCoins);
+            //}
+            //else
+            //{
+            //    sendPlayerData.RPC_StartGame(2, (int)userData.myCoins);
+            //}
+
+        }
+
+        public void ExitBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
+
+           // gameData.ExitGame();
+        }
+
+        public void BackBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState("Pause", true);
+        }
     }
+}
+
+[System.Serializable]
+public class LinkRequest
+{
+    public string roomId;
+    public GameMode gameMode;
+    public string region;
+    public string startTime;
 }

@@ -198,7 +198,7 @@ namespace com.VisionXR.Controllers
             {
                 runner.Shutdown();
                 runner = null;
-                networkOutputData._runner = null;
+                networkOutputData.runner = null;
             }
         }
 
@@ -211,13 +211,13 @@ namespace com.VisionXR.Controllers
             {
                 Destroy(runner.gameObject);
                 runner = null;
-                networkOutputData._runner = null;
+                networkOutputData.runner = null;
             }
 
              GameObject tmpObject = Instantiate(NetworkRunnerObject, transform);
              runner = tmpObject.GetComponent<NetworkRunner>();
              runner.ProvideInput = true;
-             networkOutputData._runner = runner;
+             networkOutputData.runner = runner;
             
         }
 

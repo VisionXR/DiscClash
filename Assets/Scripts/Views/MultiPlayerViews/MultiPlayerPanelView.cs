@@ -76,7 +76,7 @@ namespace com.VisionXR.Views
                 StopCoroutine(roomStatusRoutine);
                 roomStatusRoutine = null;
             }
-            roomName.text = "Room ID : " + networkOutputData._runner.SessionInfo.Name;
+            roomName.text = "Room ID : " + networkOutputData.runner.SessionInfo.Name;
         }
 
         private void RoomFailed(string reason)

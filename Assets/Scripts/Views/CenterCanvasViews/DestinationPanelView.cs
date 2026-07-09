@@ -7,21 +7,19 @@ using UnityEngine;
 
 namespace com.VisionXR.Views
 {
-    public class ChangeDestination : MonoBehaviour
+    public class DestinationPanelView : MonoBehaviour
     {
         [Header(" Scriptable Objects")]
         public DestinationDataSO destinationData;
         public UIInputDataSO uiInputData;
+        public UIDataSO uiData;
 
         [Header("UI Elements")]
         public TMP_Text statusText;
         public GameObject RetryButton;
         public GameObject HomeButton;
 
-        [Header("Panel Objects")]
-        public GameObject LobbyAndBetPanel;
-
-      
+        public string joinLobbyState;
 
         // Events
         public Action DestinationSuccessEvent;
@@ -30,7 +28,7 @@ namespace com.VisionXR.Views
 
         // local variables
         private Coroutine connectingCoroutine;
-        private Destination currentDestination;
+        public Destination currentDestination;
 
 
         private void OnEnable()
@@ -93,17 +91,11 @@ namespace com.VisionXR.Views
                 connectingCoroutine = null;
             }
             // Additional logic for successful destination change can be added here.
-
-            if (currentDestination.gameType == GameType.VsCPU)
+           if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
             {
-                LobbyAndBetPanel.SetActive(true);
-            }
-            else if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
-            {
-                LobbyAndBetPanel.SetActive(true);
+                uiData.uiManager.ChangeState(joinLobbyState, true);
             }
 
-            gameObject.SetActive(false);
         }
 
         private void OnDestinationFail()

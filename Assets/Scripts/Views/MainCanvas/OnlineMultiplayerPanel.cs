@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -16,88 +17,118 @@ namespace com.VisionXR.Views
         public AppDataSO appData;
         public UIDataSO uiData;
 
+        [Header("Panels")]
+        public List<GameObject> GameModeSelectedImages;
+        public List<GameObject> RoomSelectedImages;
+
+        public string assetsState;
+        public string joinRoomState;
         public string vsFriendsState;
 
-        public void P1vsP2_BW_BtnClicked()
+        private void OnEnable()
+        {
+            ResetGameModeImages();
+            ResetRoomImages();
+
+            if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                GameModeSelectedImages[0].SetActive(true);
+            }
+            else if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                GameModeSelectedImages[1].SetActive(true);
+            }
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                GameModeSelectedImages[2].SetActive(true);
+            }
+            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                GameModeSelectedImages[3].SetActive(true);
+            }
+
+            if (uiOutputData.roomJoinType == RoomJoinType.Create)
+            {
+                RoomSelectedImages[0].SetActive(true);
+            }
+            else if (uiOutputData.roomJoinType == RoomJoinType.Join)
+            {
+                RoomSelectedImages[1].SetActive(true);
+            }
+
+        }
+
+
+        public void PvsAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-          
-            uiOutputData.SetGameMode(GameMode.P1vsP2);
+            ResetGameModeImages();
+            uiOutputData.SetGameMode(GameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-
+            GameModeSelectedImages[0].SetActive(true);
 
         }
 
-        public void P1vsP2_FS_BtnClicked()
+        public void PvsAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-           
-            uiOutputData.SetGameMode(GameMode.P1vsP2);
+            ResetGameModeImages();
+            uiOutputData.SetGameMode(GameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-
+            GameModeSelectedImages[1].SetActive(true);
 
         }
 
-        public void P1P2vsAI_BW_BtnClicked()
+        public void PAIvsAIAI_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-
-            uiOutputData.SetGameMode(GameMode.P1P2vsAI);
+            ResetGameModeImages();
+            uiOutputData.SetGameMode(GameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            GameModeSelectedImages[2].SetActive(true);
 
 
         }
 
-        public void P1P2vsAI_FS_BtnClicked()
+        public void PAIvsAIAI_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-
-            uiOutputData.SetGameMode(GameMode.P1P2vsAI);
+            ResetGameModeImages();
+            uiOutputData.SetGameMode(GameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
-     
-
+            GameModeSelectedImages[3].SetActive(true);
         }
 
-        public void P1AIvsP2AI_BW_BtnClicked()
+        public void CreateRoomBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-
-            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-    
-
+            ResetRoomImages();
+            uiOutputData.SetRoomJoinType(RoomJoinType.Create);
+            RoomSelectedImages[0].SetActive(true);
         }
 
-        public void P1AIvsP2AI_FS_BtnClicked()
+        public void JoinRoomBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-           
-            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
-                  
-
+            ResetRoomImages();
+            uiOutputData.SetRoomJoinType(RoomJoinType.Join);
+            RoomSelectedImages[1].SetActive(true);
         }
 
-        public void P1P2vsP3P4_BW_BtnClicked()
+
+
+        public void NextBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-           
-            uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-
-
+            if (uiOutputData.roomJoinType == RoomJoinType.Create)
+            {
+                uiData.uiManager.ChangeState(assetsState, true);
+            }
+            else
+            {
+                uiData.uiManager.ChangeState(joinRoomState, true);
+            }
         }
-
-        public void P1P2vsP3P4_FS_BtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-           
-            uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
-
-
-        }
-
 
         public void BackButtonClicked()
         {
@@ -105,7 +136,25 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState(vsFriendsState, false);
         }
 
+        private void ResetGameModeImages()
+        {
+            foreach (GameObject img in GameModeSelectedImages)
+            {
+                img.SetActive(false);
+            }
+        }
 
+        private void ResetRoomImages()
+        {
+            foreach (GameObject img in RoomSelectedImages)
+            {
+                img.SetActive(false);
+            }
+        }
 
     }
+
+
+
 }
+

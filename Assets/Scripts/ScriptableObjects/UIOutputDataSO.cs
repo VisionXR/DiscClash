@@ -18,7 +18,7 @@ namespace com.VisionXR.ModelClasses
         public RoomType roomType;
         public ServerRegion region;
         public int NoOfPlayers = 2;
-
+        public RoomJoinType roomJoinType;
 
         public int MyBoardId;
         public int MyCoinsId;
@@ -38,6 +38,11 @@ namespace com.VisionXR.ModelClasses
 
 
         // Methods
+
+        public void SetRoomJoinType(RoomJoinType roomJoinType)
+        {
+            this.roomJoinType = roomJoinType;
+        }
         public void SetPlayerCount(int total)
         {
             NoOfPlayers = total;
