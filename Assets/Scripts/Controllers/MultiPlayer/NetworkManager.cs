@@ -148,6 +148,8 @@ namespace com.VisionXR.Controllers
         /// </summary>
         public async Task JoinGame(string roomName, Action RoomSuccessEvent, Action<string> RoomFailedEvent)
         {
+            Debug.Log("Joining session " + roomName);
+
             InitializeNetworkRunner();
 
 
@@ -160,7 +162,7 @@ namespace com.VisionXR.Controllers
 
             if (result.Ok)
             {
-              
+               Debug.Log("[Network] Joined room successfully.");
                 ReadRoomSessionProperties();
                 RoomSuccessEvent?.Invoke();
             }

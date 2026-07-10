@@ -1,5 +1,6 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace com.VisionXR.Views
 
         public DestinationDataSO destinationData;
         public UIDataSO uiData;
+        public UIOutputDataSO uiOutPutData;
 
         [Header("game Objects")]
         public Destination multiPlayerDestination;
@@ -56,12 +58,17 @@ namespace com.VisionXR.Views
 
             multiPlayerDestination.roomName = actualRoomName;
             multiPlayerDestination.region = targetRegion;
-            multiPlayerDestination.gameMode = uiData.currentGameMode;
+            multiPlayerDestination.gameMode = uiOutPutData.gameMode;
 
-            uiData.uiManager.ChangeState(destinationState, true);
-            destinationPanelView.ConnectToDestination(multiPlayerDestination);
-           
+            uiData.uiManager.ChangeState(destinationState, true);        
+            StartCoroutine(Join(multiPlayerDestination));
 
+        }
+
+        private IEnumerator Join(Destination destination)
+        {
+            yield return new WaitForSeconds(uiData.disableTime);
+            destinationPanelView.ConnectToDestination(destination);
         }
 
         public void BackBtnClicked()

@@ -148,6 +148,7 @@ namespace com.VisionXR.Controllers
                 }
                 else
                 {
+                    Debug.Log("Joining room in destination");
                     networkInput.JoinRoom(destination.GetRegion(), destinationData.currentDestination.roomName, RoomJoinSuccessEvent, RoomJoinFailedEvent);
                 }
             }

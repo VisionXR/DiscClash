@@ -1,9 +1,6 @@
 using System;
 using UnityEngine;
-using com.VisionXR.HelperClasses;
-using System.Collections.Generic;
 using com.VisionXR.Controllers;
-using com.VisionXR.Views;
 
 namespace com.VisionXR.ModelClasses
 {
@@ -16,11 +13,7 @@ namespace com.VisionXR.ModelClasses
 
 
         [Header("OutPut")]
-        public GameType currentGameType;
-        public GameMode currentGameMode;
-        public AIDifficulty currentAIDifficulty;
 
-        public LoginType currentLoginType;
         public float disableTime = 0.5f;
         public Color selectionColor;
         public Color defaultColor;
@@ -86,35 +79,6 @@ namespace com.VisionXR.ModelClasses
         public void TriggerHomeEvent()
         {
             HomeEvent?.Invoke();
-        }
-
-        public void SetGameType(GameType gameType)
-        {
-            currentGameType = gameType;
-        }
-
-        public void SetGameMode(GameMode gameMode)
-        {
-            currentGameMode = gameMode;
-        }
-
-
-
-        public void SetLoginType(LoginType loginType)
-        {
-            currentLoginType = loginType;
-        }
-
-        public void SetAIDifficulty(AIDifficulty aiDifficulty)
-        {
-            currentAIDifficulty = aiDifficulty;
-        }
-
-
-
-        public void ExitButtonClicked()
-        {
-            ExitBtnClickedEvent?.Invoke();
         }
 
 
