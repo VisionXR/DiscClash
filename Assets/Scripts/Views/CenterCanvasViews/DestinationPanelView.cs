@@ -16,9 +16,13 @@ namespace com.VisionXR.Views
 
         [Header("UI Elements")]
         public TMP_Text statusText;
+        public GameObject rotationImage;
         public GameObject RetryButton;
         public GameObject HomeButton;
 
+        [Header("local Settings")]
+        public Destination currentDestination;
+        public float rotationSpeed = 90f; // Degrees per second
         public string joinLobbyState;
 
         // Events
@@ -27,8 +31,9 @@ namespace com.VisionXR.Views
 
 
         // local variables
-        private Coroutine connectingCoroutine;
-        public Destination currentDestination;
+        private Coroutine connectionRoutine = null;
+        private Coroutine rotationRoutine = null;
+       
 
 
         private void OnEnable()
@@ -55,11 +60,13 @@ namespace com.VisionXR.Views
         {
             Initialise();
             currentDestination = d;
-            if (connectingCoroutine != null)
+            if (connectionRoutine != null)
             {
-                StopCoroutine(connectingCoroutine);
+                StopCoroutine(connectionRoutine);
+                StopCoroutine(rotationRoutine);
             }
-            connectingCoroutine = StartCoroutine(ConnectingToDestination());
+            connectionRoutine = StartCoroutine(ConnectingToDestination());
+            rotationRoutine = StartCoroutine(RotateImage());
             destinationData.ConnectToDestination(currentDestination, DestinationSuccessEvent, DestinationFailEvent);
            
         }
@@ -73,10 +80,11 @@ namespace com.VisionXR.Views
         public void HomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            if (connectingCoroutine != null)
+            if (connectionRoutine != null)
             {
-                StopCoroutine(connectingCoroutine);
-                connectingCoroutine = null;
+                StopCoroutine(connectionRoutine);
+                StopCoroutine(rotationRoutine);
+                connectionRoutine = null;
             }
             uiInputData.GoToHome();
         }
@@ -85,10 +93,11 @@ namespace com.VisionXR.Views
         {
             Debug.Log("Destination change successful.");
 
-            if (connectingCoroutine != null)
+            if (connectionRoutine != null)
             {
-                StopCoroutine(connectingCoroutine);
-                connectingCoroutine = null;
+                StopCoroutine(connectionRoutine);
+                StopCoroutine(rotationRoutine);
+                connectionRoutine = null;
             }
             // Additional logic for successful destination change can be added here.
            if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
@@ -102,10 +111,11 @@ namespace com.VisionXR.Views
         {
            
 
-            if (connectingCoroutine != null)
+            if (connectionRoutine != null)
             {
-                StopCoroutine(connectingCoroutine);
-                connectingCoroutine = null;
+                StopCoroutine(connectionRoutine);
+                StopCoroutine(rotationRoutine);
+                connectionRoutine = null;
             }
 
             statusText.text = "Failed to connect to destination. Please try again.";
@@ -133,6 +143,14 @@ namespace com.VisionXR.Views
                 statusText.text = "Connecting.....";
                 yield return new WaitForSeconds(0.5f);
                 statusText.text = "Connecting......";
+            }
+        }
+        private IEnumerator RotateImage()
+        {
+            while (true)
+            {
+                rotationImage.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+                yield return null;
             }
         }
     }

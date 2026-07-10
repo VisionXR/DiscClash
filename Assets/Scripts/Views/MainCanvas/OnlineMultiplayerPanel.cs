@@ -63,7 +63,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetGameMode(GameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             GameModeSelectedImages[0].SetActive(true);
 
@@ -73,7 +73,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetGameMode(GameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[1].SetActive(true);
 
@@ -83,7 +83,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             GameModeSelectedImages[2].SetActive(true);
 
@@ -94,7 +94,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[3].SetActive(true);
         }

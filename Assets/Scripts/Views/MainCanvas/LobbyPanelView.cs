@@ -316,17 +316,6 @@ namespace com.VisionXR.Views
 
         }
 
-        public void ExitBtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            uiData.uiManager.ChangeState("SinglePlayer", false);
-            uiData.uiManager.ChangeState("MultiPlayer", false);
-            uiData.uiManager.ChangeState("Home", true);
-            uiData.uiManager.ResetAllBools();
-
-           // gameData.ExitGame();
-        }
-
         public void BackBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();

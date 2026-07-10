@@ -7,6 +7,11 @@ namespace com.VisionXR.Views
     {
         [Header(" Scriptable Objects")]
         public UIInputDataSO uiInputData;
+        public UIDataSO uiData;
+
+        [Header(" States ")]
+        public string exitLobbyState;
+  
 
         private void OnEnable()
         {
@@ -16,17 +21,21 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             uiInputData.ExitGame();
-         
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
+
+       
         }
 
         public void OnNoButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState(exitLobbyState, false);
         }
 
-        public void QuitAoo()
+        public void QuitApp()
         {
             AudioManager.instance.PlayButtonClickSound();
             Application.Quit();

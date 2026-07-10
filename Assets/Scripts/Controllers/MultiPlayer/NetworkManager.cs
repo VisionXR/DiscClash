@@ -127,16 +127,17 @@ namespace com.VisionXR.Controllers
                     AuthValues = new AuthenticationValues(playerSettings.MyId.ToString()),
                     CustomLobbyName = networkOutputData.CommonLobby,
                     PlayerCount = uiOutputData.NoOfPlayers,
-                    SessionName = roomName
+                    SessionName = UnityEngine.Random.Range(10000,99999).ToString() // Generate a random session name
                 });
 
                 if (result.Ok)
                 {
+                    Debug.Log("[Network] Room created successfully.");
                     RoomSuccessEvent?.Invoke();
                 }
                 else
                 {
-
+                     Debug.LogError("[Network] Failed to create room.");
                     RoomFailedEvent?.Invoke("Could not create room ");
                 }
             

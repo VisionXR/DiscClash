@@ -32,11 +32,11 @@
     },
     "Network": {
         "ConnectionTimeout": 45.0,
-        "ConnectionShutdownTime": 3.0,
+        "ConnectionShutdownTime": 1.0,
         "ReliableDataTransferModes": 3
     },
     "HostMigration": {
-        "EnableAutoUpdate": true,
+        "EnableAutoUpdate": false,
         "UpdateDelay": 10
     },
     "EncryptionConfig": {
@@ -68,8 +68,7 @@
         "Assembly-CSharp-firstpass",
         "Fusion.Addons.Physics",
         "Fusion.Addons.FSM",
-        "PhotonVoice.Fusion",
-        "Meta.XR.MultiplayerBlocks.Fusion"
+        "PhotonVoice.Fusion"
     ],
     "UseSerializableDictionary": true,
     "NullChecksForNetworkedProperties": true,
