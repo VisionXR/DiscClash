@@ -196,9 +196,9 @@ namespace com.VisionXR.HelperClasses
         #region RPCS
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
-        public void RPC_StartGame(int id)
+        public void RPC_StartGame(int turnId,int coinsId)
         {
-            networkInputData.StartGame(id);
+            networkInputData.StartGame(turnId,coinsId);
         }
 
 

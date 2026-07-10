@@ -10,7 +10,7 @@ namespace com.VisionXR.ModelClasses
     public class NetworkInputSO : ScriptableObject
     {
         // In Game Events
-        public Action<int> StartGameEvent;
+        public Action<int,int> StartGameEvent;
         public Action<PlayerCoin> PutFineEvent;
         public Action<string> DestroyCoinsFellInThisTurnEvent;
         public Action<CurrentGameData> CurrentGameDataReceivedEvent;
@@ -52,9 +52,9 @@ namespace com.VisionXR.ModelClasses
 
 
 
-        public void StartGame(int id)
+        public void StartGame(int turnId,int coinsId)
         {
-            StartGameEvent?.Invoke(id);
+            StartGameEvent?.Invoke(turnId,coinsId);
         }
 
         public void DestroyCoinsFellInThisTurn(string coins)

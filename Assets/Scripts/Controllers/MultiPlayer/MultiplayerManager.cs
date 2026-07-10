@@ -132,8 +132,10 @@ namespace com.VisionXR.Controllers
         }
 
 
-        public void StartGame(int id)
+        public void StartGame(int turnId,int coinsId)
         {
+            uiOutputData.SetMyCoinsId(coinsId);
+
             gameData.ResetData();
             coinData.ResetData();
             coinData.ResetCount();
@@ -148,10 +150,10 @@ namespace com.VisionXR.Controllers
             if (networkOutputData.IsHost())
             {
                 GameResult result = new GameResult();
-                result.currentTurnId = id;
+                result.currentTurnId = turnId;
                 dataManager.SendGameResult(result);
 
-                if (id == 1)
+                if (turnId == 1)
                 {
                     Player p = playersData.GetMainPlayer();
                     p.GetComponent<PlayerInput>().StartRotation();

@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using Player = com.VisionXR.GameElements.Player;
 
@@ -301,19 +300,9 @@ namespace com.VisionXR.Views
         public void StartGameBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            SendPlayerData sendPlayerData = playerData.GetMainPlayer().GetComponent<SendPlayerData>();
+            PlayerNetworkData playerNetworkData = playerData.GetMainPlayer().GetComponent<PlayerNetworkData>();
 
-            //  Debug.Log(" Last id is " + gameData.GetFirstTurnId());
-
-            //if (gameData.GetFirstTurnId() == -1 || gameData.GetFirstTurnId() == 2)
-            //{
-            //    sendPlayerData.RPC_StartGame(1, (int)userData.myCoins);
-            //}
-            //else
-            //{
-            //    sendPlayerData.RPC_StartGame(2, (int)userData.myCoins);
-            //}
-
+            playerNetworkData.RPC_StartGame(2, (int)userData.MyCoinsId);
         }
 
         public void BackBtnClicked()

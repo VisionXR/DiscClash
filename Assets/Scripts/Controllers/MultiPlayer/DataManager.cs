@@ -20,12 +20,12 @@ namespace com.VisionXR.Controllers
 
 
 
-        public void StartGame(int id)
+        public void StartGame(int turnId,int coinsId)
         {
             SetMainPlayer();
             if (networkOutputData.IsHost())
             {
-                mainPlayerNetworkData.RPC_StartGame(id);
+                mainPlayerNetworkData.RPC_StartGame(turnId,coinsId);
 
             }
         }
