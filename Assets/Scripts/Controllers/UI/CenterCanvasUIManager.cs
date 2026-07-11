@@ -27,42 +27,6 @@ public class CenterCanvasUIManager : MonoBehaviour
 
     // Actions;
 
-
-
-    private void OnEnable()
-    {
-
-        uiInputData.ShowGameResultEvent += ShowGameResult;
-        uiInputData.OtherPlayerLeftGameEvent += ShowOtherPlayerDisconnection;
-
-        uiInputData.HomeEvent += ResetPanels;
-        uiInputData.ExitGameEvent += ResetPanels;
-
-        uiInputData.ShowDestinationPanelEvent += ShowDestinationChangePanel;
-        uiInputData.ShowLoadingPanelEvent += ShowLoadingPanel;
-    }
-
-
-    private void OnDisable()
-    {
-
-        uiInputData.ShowGameResultEvent -= ShowGameResult;
-        uiInputData.OtherPlayerLeftGameEvent -= ShowOtherPlayerDisconnection;
-
-        uiInputData.HomeEvent -= ResetPanels;
-        uiInputData.ExitGameEvent -= ResetPanels;
-
-        uiInputData.ShowDestinationPanelEvent -= ShowDestinationChangePanel;
-        uiInputData.ShowLoadingPanelEvent -= ShowLoadingPanel;
-    }
-
-
-    public void ShowGameResult( GameResult result)
-    {
-        GameResultPanel.SetActive(true);
-        GameResultPanel.GetComponent<GameResultPanelView>().ShowResult(result);
-    }
-
     public void ShowOtherPlayerDisconnection()
     {
        

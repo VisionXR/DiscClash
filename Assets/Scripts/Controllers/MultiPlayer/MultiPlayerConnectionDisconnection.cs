@@ -1,8 +1,6 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.GameElements;
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using com.VisionXR.Views;
 using System.Collections;
 using UnityEngine;
 
@@ -13,10 +11,17 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     public UIInputDataSO uiInputData;
     public InputDataSO inputData;
     public UIOutputDataSO uiOutputData;
+    public NetworkOutputSO networkOutputData;
+    public UIDataSO uiData;
 
     [Header(" States ")]
     public DataManager dataManager;
     public bool isPlayerInGame;
+
+    [Header("Next And Previous Panels")]
+    public string opponentPlayerLeftState;
+    public string mainPlayerLeftState;
+
 
 
 
@@ -25,6 +30,9 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
         
         playersData.PlayerJoinedEvent += PlayerJoined;
         playersData.PlayerLeftEvent += PlayerLeft;
+
+        networkOutputData.SetHostReady(true);
+        networkOutputData.SetClientReady(true);
 
     }
 
@@ -45,7 +53,8 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     {
         if (isPlayerInGame)
         {
-            uiInputData.OtherPlayerLeft();
+            uiData.uiManager.ChangeState(opponentPlayerLeftState, true);
+            Debug.Log(" Opponenet Player left after game starts");
             inputData.DisableInput();
             isPlayerInGame = false;
         }

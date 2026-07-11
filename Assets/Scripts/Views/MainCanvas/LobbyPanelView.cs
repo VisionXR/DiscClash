@@ -14,6 +14,7 @@ namespace com.VisionXR.Views
     {
         [Header("Scriptable Objects")]
         public PlayersDataSO playerData;
+        public UIOutputDataSO uioutputData;
         public NetworkOutputSO networkOutPutData;
         public NetworkInputSO networkInputData;
         public UIDataSO uiData;
@@ -93,8 +94,8 @@ namespace com.VisionXR.Views
             //networkOutPutData.ClientReadyEvent -= ResetTime;
 
 
-            //networkOutPutData.SetHostReady(false);
-            //networkOutPutData.SetClientReady(false);
+            networkOutPutData.SetHostReady(false);
+            networkOutPutData.SetClientReady(false);
             isHostJoined = false;
             isClientJoined = false;
 
@@ -302,7 +303,7 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             PlayerNetworkData playerNetworkData = playerData.GetMainPlayer().GetComponent<PlayerNetworkData>();
 
-            playerNetworkData.RPC_StartGame(2, (int)userData.MyCoinsId);
+            playerNetworkData.RPC_StartGame(2, (int)uioutputData.MyCoinsId);
         }
 
         public void BackBtnClicked()

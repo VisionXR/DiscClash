@@ -71,5 +71,26 @@ namespace com.VisionXR.Controllers
                 mainPlayerNetworkData = mainPlayer.gameObject.GetComponent<PlayerNetworkData>();
             }
         }
+
+        public void PlayAgain()
+        {
+
+
+            if (networkOutputData.IsHost())
+            {
+                Player p = playerData.GetMainPlayer();
+                PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
+                networkData.RPC_HostReady();
+
+            }
+            else
+            {
+                Player p = playerData.GetMainPlayer();
+                PlayerNetworkData networkData = p.GetComponent<PlayerNetworkData>();
+                networkData.RPC_ClientReady();
+
+            }
+        }
+
     }
 }

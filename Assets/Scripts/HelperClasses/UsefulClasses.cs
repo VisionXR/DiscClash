@@ -105,13 +105,6 @@ namespace com.VisionXR.HelperClasses
       
     }
 
-    [Serializable]
-    public class StartGame
-    {
-        public string time;
-        public int id;
-    }
-
 
     [Serializable]
     public class GameResult

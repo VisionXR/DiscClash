@@ -13,7 +13,7 @@ namespace com.VisionXR.HelperClasses
     {
         [Header("Scriptable Objects")]
         public NetworkInputSO networkInputData;
-        
+        public NetworkOutputSO networkOutputData;
       
         [Header("local Objects")]
         public Player player;
@@ -201,6 +201,18 @@ namespace com.VisionXR.HelperClasses
             networkInputData.StartGame(turnId,coinsId);
         }
 
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
+        public void RPC_HostReady()
+        {
+            networkOutputData.SetHostReady(true);
+        }
+
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
+        public void RPC_ClientReady()
+        {
+            networkOutputData.SetClientReady(true);
+        }
+
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
         public void RPC_PutFine(PlayerCoin coin)
@@ -274,12 +286,7 @@ namespace com.VisionXR.HelperClasses
 
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.Proxies, Channel = RpcChannel.Reliable)]
-        public void RPC_SendAvatarData(NetworkAvatarData data)
-        {
-           
 
-        }
 
         #endregion
 

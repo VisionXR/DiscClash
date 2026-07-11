@@ -22,7 +22,7 @@ namespace com.VisionXR.Controllers
         public UIInputDataSO uiInputData;
         public InputDataSO inputData;
         public CloudDataSO cloudData;
-
+        public UIDataSO uiData;
 
 
         [Header("Scripts")]
@@ -52,6 +52,7 @@ namespace com.VisionXR.Controllers
             fineLogic.PutFineEvent += PutFine;
 
             networkInputData.StartGameEvent += StartGame;
+            uiInputData.PlayAgainEvent += PlayAgain;
 
             networkInputData.CurrentGameDataReceivedEvent += GameDataReceived;
             networkInputData.DestroyCoinsFellInThisTurnEvent += DestroyCoinsFellInThisTurn;
@@ -79,6 +80,7 @@ namespace com.VisionXR.Controllers
             fineLogic.PutFineEvent -= PutFine;
 
             networkInputData.StartGameEvent -= StartGame;
+            uiInputData.PlayAgainEvent -= PlayAgain;
 
             networkInputData.CurrentGameDataReceivedEvent -= GameDataReceived;
             networkInputData.GameResultReceivedEvent -= GameResultReceived;
@@ -88,6 +90,11 @@ namespace com.VisionXR.Controllers
 
             gameData.TurnChangedEvent -= TurnChanged;
             strikerData.ChangeStrikerEvent -= ChangeStriker;
+        }
+
+        public void PlayAgain()
+        {
+            dataManager.PlayAgain();
         }
 
         private void ChangeStriker(int playerId, int strikerId)
@@ -134,6 +141,7 @@ namespace com.VisionXR.Controllers
 
         public void StartGame(int turnId,int coinsId)
         {
+            uiData.uiManager.ChangeState("MultiPlayerStartGame", true);
             uiOutputData.SetMyCoinsId(coinsId);
 
             gameData.ResetData();
@@ -221,6 +229,7 @@ namespace com.VisionXR.Controllers
         private void GameDataReceived(CurrentGameData data)
         {
             gameData.SetCurrentGameData(data);
+            scoreManager.UpdateScore();
         }
 
         private void GameResultReceived(GameResult result)
