@@ -18,6 +18,8 @@ namespace com.VisionXR.Controllers
 
         [Header("All Canvas Views")]
         public MainCanvasView mainCanvasView;
+        public ScorePanel2Player scorePanel2Player;
+        public ScorePanel4Player scorePanel4Player;
 
         [Header("Canvas Objects")]
         public List<GameObject> allCanvases;

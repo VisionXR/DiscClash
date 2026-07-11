@@ -25,6 +25,10 @@ namespace com.VisionXR.ModelClasses
         public Action ShowLoginEvent;
         public Action<GameResult> ShowGameResultEvent;
 
+
+        public Action PauseGameEvent;
+        public Action ResumeGameEvent;
+
         //General Events
       
 
@@ -45,6 +49,16 @@ namespace com.VisionXR.ModelClasses
 
 
         // Methods
+
+        public void PauseGame()
+        {
+            PauseGameEvent?.Invoke();
+        }
+
+        public void ResumeGame()
+        {
+            ResumeGameEvent?.Invoke();
+        }
 
         public void StartSinglePlayerGame()
         {

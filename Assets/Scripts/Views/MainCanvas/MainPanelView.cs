@@ -34,19 +34,6 @@ namespace com.VisionXR.Views
         public TMP_Text playerCoins;
 
 
-        private void OnEnable()
-        {
-          
-        }
-
-        public void PracticeOfflineBtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            SinglePlayerPanel.SetActive(true);
-            uiOutputData.SetGameType(GameType.PracticeOffline);
-            
-            HomePanel.SetActive(false);
-        }
 
         public void VsCPUBtnClicked()
         {

@@ -21,6 +21,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
+        public GameObject InputCanvas;
         public ScoreManager scoreManager;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
@@ -46,6 +47,9 @@ namespace com.VisionXR.Controllers
 
             fineLogic.PutFineEvent += PutFine;
 
+            uiInputData.PauseGameEvent += PauseGame;
+            uiInputData.ResumeGameEvent += ResumeGame;
+
             playersData.CreateSinglePlayers();
         }
 
@@ -60,8 +64,27 @@ namespace com.VisionXR.Controllers
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
             playersData.PlayerStrikeFinishedEvent -= StrikeFinished;
 
-            fineLogic.PutFineEvent -= PutFine;         
+            fineLogic.PutFineEvent -= PutFine;
 
+            uiInputData.PauseGameEvent -= PauseGame;
+            uiInputData.ResumeGameEvent -= ResumeGame;
+
+        }
+
+        private void ResumeGame()
+        {
+            if(inputData.isInputEnabled)
+            {
+                InputCanvas.SetActive(true);
+            }
+        }
+
+        private void PauseGame()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.SetActive(false);
+            }
         }
 
         public void StartGame()
@@ -374,7 +397,7 @@ namespace com.VisionXR.Controllers
         public void EndGame()
         {
             coinData.DestroyAllCoins();
-
+            InputCanvas.SetActive(false);
             inputData.DisableInput();
 
             foreach (Player p in playersData.CurrentPlayers)
@@ -384,6 +407,7 @@ namespace com.VisionXR.Controllers
         }
         private void ExitGame()
         {
+            InputCanvas.SetActive(false);
             inputData.DisableInput();
             coinData.DestroyAllCoins();
             playersData.DestroyAllPlayers();

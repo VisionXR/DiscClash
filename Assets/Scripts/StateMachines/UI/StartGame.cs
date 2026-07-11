@@ -20,12 +20,12 @@ public class StartGame : StateMachineBehaviour
             if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
             {
                 uiData.uiManager.ShowCanvas(scoreCanvas2Players);
-              //  uiData.uiManager.poolCanvasView.TurnOn();
+                uiData.uiManager.scorePanel2Player.TurnOn();
             }
             else 
             {
                 uiData.uiManager.ShowCanvas(scoreCanvas4Players);
-              //  uiData.uiManager.snookerCanvasView.TurnOn();
+                uiData.uiManager.scorePanel4Player.TurnOn();
             }
 
             uiData.uiManager.SetCurrentStateName(currentStateName);
@@ -45,13 +45,15 @@ public class StartGame : StateMachineBehaviour
             if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
             {
                 uiData.uiManager.HideCanvas(scoreCanvas2Players);
-           
+                uiData.uiManager.scorePanel2Player.TurnOff();
             }
             else
             {
                 uiData.uiManager.HideCanvas(scoreCanvas4Players);
-            
+                uiData.uiManager.scorePanel4Player.TurnOff();
             }
+
+            
 
             uiData.uiManager.SetPreviousStateName(currentStateName);
         }

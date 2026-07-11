@@ -26,6 +26,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
+        public GameObject InputCanvas;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
         public FineLogic fineLogic;
@@ -63,6 +64,9 @@ namespace com.VisionXR.Controllers
 
             strikerData.ChangeStrikerEvent += ChangeStriker;
 
+            uiInputData.PauseGameEvent += PauseGame;
+            uiInputData.ResumeGameEvent += ResumeGame;
+
         }
 
 
@@ -90,8 +94,26 @@ namespace com.VisionXR.Controllers
 
             gameData.TurnChangedEvent -= TurnChanged;
             strikerData.ChangeStrikerEvent -= ChangeStriker;
+
+            uiInputData.PauseGameEvent -= PauseGame;
+            uiInputData.ResumeGameEvent -= ResumeGame;
         }
 
+        private void ResumeGame()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.SetActive(true);
+            }
+        }
+
+        private void PauseGame()
+        {
+            if (inputData.isInputEnabled)
+            {
+                InputCanvas.SetActive(false);
+            }
+        }
         public void PlayAgain()
         {
             dataManager.PlayAgain();

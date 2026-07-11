@@ -1,9 +1,10 @@
-using com.VisionXR.ModelClasses;
-using com.VisionXR.HelperClasses;
-using UnityEngine;
 using com.VisionXR.GameElements;
+using com.VisionXR.HelperClasses;
+using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ScorePanel2Player : MonoBehaviour
@@ -29,9 +30,29 @@ public class ScorePanel2Player : MonoBehaviour
     public Sprite FrontViewSprite;
     public Sprite TopViewSprite;
 
+    [Header("Off Panels")]
+    public List<PanelOnOff> panelsToOff;
+
     // local variables
     public float blinkTime = 0.2f;
     private Coroutine turnIndicatorCoroutine;
+
+
+    public void TurnOn()
+    {
+        foreach (var item in panelsToOff)
+        {
+            item.TurnOnPanel();
+        }
+    }
+
+    public void TurnOff()
+    {
+        foreach (var item in panelsToOff)
+        {
+            item.TurnOffPanel();
+        }
+    }
 
     private void OnEnable()
     {
@@ -166,6 +187,7 @@ public class ScorePanel2Player : MonoBehaviour
     {
         AudioManager.instance.PlayButtonClickSound();
         uiData.uiManager.ChangeState(pauseState, true);
+        uiInputData.PauseGame();
     }
 
     public void CameraBtnClicked()

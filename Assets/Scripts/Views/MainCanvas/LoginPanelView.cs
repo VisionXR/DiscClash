@@ -26,6 +26,7 @@ namespace com.VisionXR.Views
                 cloudData.LoginToGoogle();
             }
 
+            PlayerPrefs.SetInt("Login", 1);
         }
 
         public void GuestLoginBtnClicked()

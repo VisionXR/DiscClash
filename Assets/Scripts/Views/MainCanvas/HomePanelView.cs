@@ -1,5 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -13,6 +15,8 @@ namespace com.VisionXR.Views
         public UIDataSO uiData;
         public MyPlayerSettings playerSettings;
 
+        [Header(" Selection Objects ")]
+        public List<GameObject> gameModeSelectionImages;
 
         [Header(" State variables ")]
         public string vsCpuState;
@@ -25,6 +29,23 @@ namespace com.VisionXR.Views
         public string purchaseState;
         public string achievementsState;
 
+        private void OnEnable()
+        {
+            ResetImages();
+            if(uiOutputData.gameType == GameType.VsCPU)
+            {
+                gameModeSelectionImages[0].SetActive(true);
+            }
+            else if (uiOutputData.gameType == GameType.PlayWithFriends || uiOutputData.gameType == GameType.OnlineMultiPlayer)
+            {
+                gameModeSelectionImages[1].SetActive(true);
+            }
+            else if (uiOutputData.gameType == GameType.Tutorial)
+            {
+                gameModeSelectionImages[2].SetActive(true);
+            }
+
+        }
 
         public void SettingsButtonClicked()
         {
@@ -67,22 +88,52 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             uiOutputData.SetGameType(GameType.VsCPU);
-            uiData.uiManager.ChangeState(vsCpuState, true);
+            ResetImages();
+            gameModeSelectionImages[0].SetActive(true);
+            
         }
 
         public void VsFriendsBtnClicked()
         {
-            AudioManager.instance.PlayButtonClickSound();
+            AudioManager.instance.PlayButtonClickSound();          
             uiOutputData.SetGameType(GameType.PlayWithFriends);
-            uiData.uiManager.ChangeState(vsFriendsState, true);
+            ResetImages();
+            gameModeSelectionImages[1].SetActive(true);
         }
 
         public void TutorialBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiData.uiManager.ChangeState(tutorialState, true);
+            uiOutputData.SetGameType(GameType.Tutorial);
+            ResetImages();
+            gameModeSelectionImages[2].SetActive(true);
         }
 
+        public void NextBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            if(uiOutputData.gameType == GameType.VsCPU)
+            {
+                uiData.uiManager.ChangeState(vsCpuState, true);
+            }
+            else if (uiOutputData.gameType == GameType.PlayWithFriends)
+            {
+                uiData.uiManager.ChangeState(vsFriendsState, true);
+            }
+            else if (uiOutputData.gameType == GameType.Tutorial)
+            {
+                uiData.uiManager.ChangeState(tutorialState, true);
+            }
+        }
+
+
+        private void ResetImages()
+        {
+            foreach(GameObject go in gameModeSelectionImages)
+            {
+                go.SetActive(false);
+            }
+        }
 
     }
 }

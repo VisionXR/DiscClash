@@ -26,7 +26,6 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
 
-            InputCanvas.SetActive(false);
             uIInputData.ExitGame();
           
 
@@ -38,6 +37,7 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
 
             uiData.uiManager.ChangeState(currentState, false);
+            uIInputData.ResumeGame();
          
         }
 

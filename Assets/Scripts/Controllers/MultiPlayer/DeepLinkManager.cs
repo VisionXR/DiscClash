@@ -18,7 +18,10 @@ namespace com.VisionXR.Controllers
         public NetworkOutputSO networkOutput;
         public CloudDataSO cloudData;
         public UIDataSO uiData;
+
+        [Header("States")]
         public string loginState;
+        public string homeState;
 
         // Action
         
@@ -110,8 +113,23 @@ namespace com.VisionXR.Controllers
 
             playerSettings.LoadSettings();
 
+            
 
-            if (!playerSettings.IsLoggedIn)
+            if (PlayerPrefs.HasKey("Login"))
+            {
+                bool isLoggedIn = PlayerPrefs.GetInt("Login") == 1;
+                if (!isLoggedIn)
+                {
+                    Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
+                    uiData.uiManager.ChangeState(loginState,true);
+                    yield break;
+                }
+                else
+                {
+                    uiData.uiManager.ChangeState(homeState, true);
+                }
+            }
+            else
             {
                 Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
                 uiData.uiManager.ChangeState(loginState,true);
@@ -157,11 +175,7 @@ namespace com.VisionXR.Controllers
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.StartTutorial();
             }
-            else if (destination.gameType == GameType.Home)
-            {
-                OnDestinationSuccesEvent?.Invoke();
-                uiInputData.GoToHome();
-            }
+
         }
 
         private void RoomCreateSuccess()

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 760662254974022178}
   - component: {fileID: 1436632896028036055}
   - component: {fileID: 2832467409592422745}
+  - component: {fileID: 1999228923219931246}
   m_Layer: 0
   m_Name: RecorderAndSpeaker
   m_TagString: Untagged
@@ -56,11 +57,11 @@ MonoBehaviour:
   reliableMode: 0
   encrypt: 0
   transmitEnabled: 1
-  samplingRate: 24000
+  samplingRate: 16000
   frameDuration: 20000
-  bitrate: 30000
+  bitrate: 20000
   sourceType: 0
-  microphoneType: 0
+  microphoneType: 1
   audioClip: {fileID: 0}
   loopAudioClip: 1
   recordingEnabled: 0
@@ -72,7 +73,7 @@ MonoBehaviour:
   androidMicrophoneSettings:
     EnableAEC: 1
     EnableAGC: 1
-    EnableNS: 1
+    EnableNS: 0
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
@@ -192,6 +193,27 @@ MonoBehaviour:
     Max: 1000
     SpeedUpPerc: 5
   restartOnDeviceChange: 1
+--- !u!114 &1999228923219931246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddec46cf6a4c4addbf21b6be8442124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.WebRtcAudioDsp
+  aec: 1
+  aecHighPass: 1
+  agc: 1
+  agcCompressionGain: 6
+  agcTargetLevel: 3
+  vad: 1
+  highPass: 1
+  noiseSuppression: 1
+  reverseStreamDelayMs: 180
 --- !u!1 &9017803295949359465
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +235,7 @@ GameObject:
   - component: {fileID: -4071845676107030528}
   - component: {fileID: 1188601372554374699}
   - component: {fileID: 8169565786121229183}
+  - component: {fileID: 4128114898855889921}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -434,6 +457,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -4098720205520104998}
   - {fileID: -8746651747787295651}
+  - {fileID: 4128114898855889921}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &-8746651747787295651
 MonoBehaviour:
@@ -520,3 +544,17 @@ MonoBehaviour:
   currentPlayer: {fileID: 3804511622267319064}
   speaker: {fileID: 1436632896028036055}
   recorder: {fileID: 760662254974022178}
+--- !u!114 &4128114898855889921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017803295949359465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea8ab106ca6fcb40bdc8820ad5ad267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoicePermissionHandler
+  photonRecorder: {fileID: 760662254974022178}
+  speaker: {fileID: 1436632896028036055}
