@@ -136,7 +136,7 @@ namespace com.VisionXR.Views
                 }
                 else if (mp == null)
                 {
-
+                    
                     player1Name.text = "";
                     player2Name.text = "";
                     isHostJoined = false;

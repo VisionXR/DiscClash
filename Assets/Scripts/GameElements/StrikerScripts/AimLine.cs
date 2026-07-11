@@ -10,7 +10,7 @@ public class AimLine : MonoBehaviour
 
     // local variables
     private RaycastHit hit;
-    private float CutOffLength = 1f;
+    public float CutOffLength = 1f;
 
     // Added variable for line thickness
     public  float LineThickness = 0.08f;

@@ -28,6 +28,7 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+            uiData.uiManager.ChangeState("Home", false);
             ResetGameModeImages();
             ResetDifficultyImages();
 

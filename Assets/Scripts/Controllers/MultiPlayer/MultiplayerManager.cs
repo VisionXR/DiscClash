@@ -165,6 +165,7 @@ namespace com.VisionXR.Controllers
         public void StartGame(int turnId,int coinsId)
         {
             uiData.uiManager.ChangeState("MultiPlayerStartGame", true);
+          
             uiOutputData.SetMyCoinsId(coinsId);
 
             gameData.ResetData();
@@ -408,6 +409,7 @@ namespace com.VisionXR.Controllers
         private void HandleVictory(GameResult gameResult)
         {
             // Update LeaderBoard
+            uiData.uiManager.ChangeState("MultiPlayerStartGame", false);
             uiInputData.GameCompleted(gameResult);
 
             Player mainPlayer = playersData.GetMainPlayer();

@@ -30,6 +30,8 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             ResetRoomImages();
 
+            uiData.uiManager.ChangeState("Home", false);
+
             if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 GameModeSelectedImages[0].SetActive(true);

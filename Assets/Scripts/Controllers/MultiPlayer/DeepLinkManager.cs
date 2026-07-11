@@ -113,32 +113,33 @@ namespace com.VisionXR.Controllers
 
             playerSettings.LoadSettings();
 
-            
+            uiData.uiManager.ChangeState(loginState, true);
 
-            if (PlayerPrefs.HasKey("Login"))
-            {
-                bool isLoggedIn = PlayerPrefs.GetInt("Login") == 1;
-                if (!isLoggedIn)
-                {
-                    Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
-                    uiData.uiManager.ChangeState(loginState,true);
-                    yield break;
-                }
-                else
-                {
-                    uiData.uiManager.ChangeState(homeState, true);
-                }
-            }
-            else
-            {
-                Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
-                uiData.uiManager.ChangeState(loginState,true);
-                yield break;
-            }
 
-            Debug.Log("Disc Clash LoginFetchManager: User is logged in. Proceeding to fetch cloud data.");
+            //if (PlayerPrefs.HasKey("Login"))
+            //{
+            //    bool isLoggedIn = PlayerPrefs.GetInt("Login") == 1;
+            //    if (!isLoggedIn)
+            //    {
+            //        Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
+            //        uiData.uiManager.ChangeState(loginState,true);
+            //        yield break;
+            //    }
+            //    else
+            //    {
+            //        uiData.uiManager.ChangeState(homeState, true);
+            //    }
+            //}
+            //else
+            //{
+            //    Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
+            //    uiData.uiManager.ChangeState(loginState,true);
+            //    yield break;
+            //}
 
-            cloudData.StartFetch();
+            //Debug.Log("Disc Clash LoginFetchManager: User is logged in. Proceeding to fetch cloud data.");
+
+            //cloudData.StartFetch();
         }
 
 

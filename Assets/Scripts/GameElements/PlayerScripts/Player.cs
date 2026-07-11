@@ -85,6 +85,10 @@ namespace com.VisionXR.GameElements
 
             gameObject.name = "Player " + myId;
 
+            if(imageURL != null && imageURL != "")
+            {
+                StartCoroutine(LoadAvatarImage(imageURL));
+            }
           
             playersData.AddPlayer(this);
             StartCoroutine(ConstructPlayer());
@@ -246,28 +250,9 @@ namespace com.VisionXR.GameElements
          
         }
 
-
-        // Fetch Remote player Image
-        public IEnumerator FetchAvatarImageURL(string imageUrl)
-        {
-            using (UnityWebRequest www = UnityWebRequest.Get(imageUrl))
-            {
-                yield return www.SendWebRequest();
-
-                if (www.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError("Failed to fetch avatar image URL: " + www.error);
-                    yield break;
-                }
-
-                string avatarImageUrl = www.url;
-                // Use the avatar image URL as needed (e.g., load the image using UnityWebRequest)
-                StartCoroutine(LoadAvatarImage(avatarImageUrl));
-            }
-        }
-
         private IEnumerator LoadAvatarImage(string url)
         {
+
             using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
             {
                 yield return uwr.SendWebRequest();
@@ -281,9 +266,12 @@ namespace com.VisionXR.GameElements
                 Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
                 Sprite s = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 
-                SetMyImage(s);
+                myImage = s;
+                
             }
         }
+
+
     }
 
 }

@@ -45,7 +45,7 @@ namespace com.VisionXR.Views
                 gameModeSelectionImages[2].SetActive(true);
             }
 
-            uiData.uiManager.ChangeState("Home", false);
+            
         }
 
         public void SettingsButtonClicked()

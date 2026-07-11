@@ -8,6 +8,7 @@ public class VoicePermissionHandler : NetworkBehaviour
     public Recorder photonRecorder;
     public AudioSource speaker;
 
+
     void Start()
     {
         if (HasStateAuthority)
@@ -57,13 +58,13 @@ public class VoicePermissionHandler : NetworkBehaviour
         {
             photonRecorder.RecordingEnabled = true;
 
-            photonRecorder.SetAndroidNativeMicrophoneSettings(true, true, false);
+            photonRecorder.SetAndroidNativeMicrophoneSettings(false, true, false);
             speaker.mute = true;
             speaker.enabled = false;
 
             photonRecorder.RestartRecording();
-           
 
+           
         }
     }
 }

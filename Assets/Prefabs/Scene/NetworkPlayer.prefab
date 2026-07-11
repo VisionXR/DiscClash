@@ -63,7 +63,7 @@ MonoBehaviour:
   sourceType: 0
   microphoneType: 1
   audioClip: {fileID: 0}
-  loopAudioClip: 1
+  loopAudioClip: 0
   recordingEnabled: 0
   audioSessionParameters:
     Category: 4
@@ -71,7 +71,7 @@ MonoBehaviour:
     CategoryOptions: 0800000004000000
   editorAudioSessionPreset: 1
   androidMicrophoneSettings:
-    EnableAEC: 1
+    EnableAEC: 0
     EnableAGC: 1
     EnableNS: 0
   stopRecordingWhenPaused: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   agc: 1
   agcCompressionGain: 6
   agcTargetLevel: 3
-  vad: 1
+  vad: 0
   highPass: 1
   noiseSuppression: 1
   reverseStreamDelayMs: 180
@@ -290,7 +290,7 @@ MonoBehaviour:
   myAvatarID: 0
   myStrikerID: 0
   myOculusID: 0
-  myImage: {fileID: 0}
+  myImage: {fileID: 21300000, guid: 15efdeb8860419c459b2a5e39fe4b3ca, type: 3}
   myName: 
   imageURL: 
   myPlayerControl: 0

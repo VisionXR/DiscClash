@@ -58,7 +58,7 @@ MonoBehaviour:
   myStriker: {fileID: 0}
   strikerRigidBody: {fileID: 0}
   strikerMovement: {fileID: 0}
-  strikerShoot: {fileID: 0}
+  strikerShooting: {fileID: 0}
   strikerArrow: {fileID: 0}
   strikerProperties: {fileID: 0}
   aiPlayer: {fileID: 8655069913760380767}
@@ -68,6 +68,7 @@ MonoBehaviour:
   myAvatarID: 0
   myStrikerID: 0
   myOculusID: 0
+  myImage: {fileID: 21300000, guid: 15efdeb8860419c459b2a5e39fe4b3ca, type: 3}
   myName: 
   imageURL: 
   myPlayerControl: 0
@@ -130,9 +131,6 @@ MonoBehaviour:
   appData: {fileID: 11400000, guid: 9853dc98579ffe4489d500889a75d1f1, type: 2}
   player: {fileID: 3804511622267319064}
   canIRotate: 0
-  maxRayDistance: 10
-  dragSensitivity: 5
-  coinRotateSensitivity: 0.2
 --- !u!114 &8778300311534466445
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             cloudData.LoginToGoogleEvent += GoogleLogin;
             cloudData.GuestLoginEvent += GuestLogin;
             cloudData.EditorLoginEvent += EditorLogin;
@@ -26,6 +27,7 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
+            Screen.sleepTimeout = SleepTimeout.SystemSetting;
             cloudData.LoginToGoogleEvent -= GoogleLogin;
             cloudData.GuestLoginEvent -= GuestLogin;
             cloudData.EditorLoginEvent -= EditorLogin;
@@ -77,10 +79,11 @@ namespace com.VisionXR.Controllers
                 // 1. First, set local UI data (Name and Image)
                 string name = Social.localUser.userName;
                 string googleID = Social.localUser.id;
+                string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
                 StartCoroutine(LoadProfileImage());
 
                 playerSettings.SetUserNameAndId(name, googleID);
-
+                playerSettings.SetUserProfileImageUrl(imageUrl);
                 deepLinkManager.ProcessGameFlow();
 
                 // 2. Trigger PlayFab Login

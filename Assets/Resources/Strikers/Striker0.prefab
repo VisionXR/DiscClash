@@ -444,30 +444,6 @@ MonoBehaviour:
   strikerRigidbody: {fileID: 6280634625301834858}
   period: 10
   cutOffValue: 0.15
-  StrikeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &1782025250906292191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,7 +511,7 @@ MonoBehaviour:
   minPower: 2
   maxPower: 3.5
   aimColor: {r: 0.20784315, g: 0.26666668, b: 0.5803922, a: 1}
-  aim: 1
+  aim: 3
   time: 1.25
   power: 2.5
 --- !u!23 &7870721439449366768
@@ -1266,6 +1242,10 @@ PrefabInstance:
     - target: {fileID: 8648115510636922123, guid: f826060e112f2bb49812d95377c24334, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648115510636922123, guid: f826060e112f2bb49812d95377c24334, type: 3}
+      propertyPath: CutOffLength
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8648115510636922123, guid: f826060e112f2bb49812d95377c24334, type: 3}
       propertyPath: LineThickness
