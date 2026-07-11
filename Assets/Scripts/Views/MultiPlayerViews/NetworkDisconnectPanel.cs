@@ -9,9 +9,10 @@ namespace com.VisionXR.Views
     {
         [Header(" Scriptable Objects")]
         public UIInputDataSO uiInputData;
+        public UIDataSO uiData;
 
         [Header(" UI Elements")]
-        public TMP_Text reason;
+        public string  homeState;
       
        
         private void OnEnable()
@@ -22,12 +23,9 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             uiInputData.GoToHome();
-            gameObject.SetActive(false);
+            uiData.uiManager.ChangeState(homeState, true);
         }
-        public void SetReason(string msg)
-        {
-            reason.text = msg;
-        }
+
 
     }
 }

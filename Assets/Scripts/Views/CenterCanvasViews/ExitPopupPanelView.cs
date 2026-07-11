@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
 
@@ -9,30 +10,11 @@ namespace com.VisionXR.Views
         public UIInputDataSO uiInputData;
         public UIDataSO uiData;
 
-        [Header(" States ")]
-        public string exitLobbyState;
-  
 
-        private void OnEnable()
-        {
-            AudioManager.instance.PlayPopUpSound();
-        }
-        public void OnYesButtonClicked()
+        public void ResumeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiInputData.ExitGame();
-            uiData.uiManager.ChangeState("SinglePlayer", false);
-            uiData.uiManager.ChangeState("MultiPlayer", false);
-            uiData.uiManager.ChangeState("Home", true);
-            uiData.uiManager.ResetAllBools();
-
-       
-        }
-
-        public void OnNoButtonClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            uiData.uiManager.ChangeState(exitLobbyState, false);
+            uiData.uiManager.GoToState(uiData.uiManager.previousStateName);
         }
 
         public void QuitApp()

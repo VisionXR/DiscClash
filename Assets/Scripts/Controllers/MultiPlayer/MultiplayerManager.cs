@@ -43,7 +43,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-
+            gameData.currentTurnId = 1;
 
             uiInputData.ExitGameEvent += OnExitGame;
             uiInputData.HomeEvent += OnExitGame;
@@ -185,13 +185,13 @@ namespace com.VisionXR.Controllers
                 result.currentTurnId = turnId;
                 dataManager.SendGameResult(result);
 
-                if (turnId == 1)
-                {
-                    Player p = playersData.GetMainPlayer();
-                    p.GetComponent<PlayerInput>().StartRotation();
-                    coinData.ShowRotationCanvasEvent?.Invoke();
-                    isFirstTurn = true;
-                }
+                //if (turnId == 1)
+                //{
+                //    Player p = playersData.GetMainPlayer();
+                //    p.GetComponent<PlayerInput>().StartRotation();
+                //    coinData.ShowRotationCanvasEvent?.Invoke();
+                //    isFirstTurn = true;
+                //}
             }
         }
     
