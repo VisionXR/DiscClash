@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System;
 using UnityEngine;
 
@@ -17,8 +18,8 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Input Panels")]
-        public GameObject inputPanel2Players;
-        public GameObject inputPanel4Players;
+        public InputCanvasView inputCanvasView;
+
 
 
         [Header("Score Panels")]
@@ -56,8 +57,7 @@ namespace com.VisionXR.Controllers
         }
         private void StrikeStarted(int arg1, float arg2)
         {
-            inputPanel2Players.SetActive(false);
-            inputPanel4Players.SetActive(false);
+            inputCanvasView.TurnOff();
         }
 
         private void TurnChanged(int id)
@@ -65,8 +65,8 @@ namespace com.VisionXR.Controllers
             Player p = playersData.GetPlayer(id);
             if (p.myPlayerRole == PlayerRole.Human && p.myPlayerControl == PlayerControl.Local)
             {
-                inputPanel2Players.SetActive(true);
-                inputPanel4Players.SetActive(true);
+               inputCanvasView.gameObject.SetActive(true);
+                inputCanvasView.TurnOn();
             }
         }
 

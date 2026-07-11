@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
-        public GameObject InputCanvas;
+        public InputCanvasView inputCanvasView;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
         public FineLogic fineLogic;
@@ -98,12 +99,12 @@ namespace com.VisionXR.Controllers
             uiInputData.PauseGameEvent -= PauseGame;
             uiInputData.ResumeGameEvent -= ResumeGame;
         }
-
         private void ResumeGame()
         {
             if (inputData.isInputEnabled)
             {
-                InputCanvas.SetActive(true);
+                inputCanvasView.gameObject.SetActive(true);
+                inputCanvasView.TurnOn();
             }
         }
 
@@ -111,7 +112,7 @@ namespace com.VisionXR.Controllers
         {
             if (inputData.isInputEnabled)
             {
-                InputCanvas.SetActive(false);
+                inputCanvasView.TurnOff();
             }
         }
         public void PlayAgain()
@@ -437,6 +438,7 @@ namespace com.VisionXR.Controllers
 
         public void EndGame()
         {
+            inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
             coinData.DestroyAllCoins();
             foreach(Player p in playersData.CurrentPlayers)
@@ -509,7 +511,8 @@ namespace com.VisionXR.Controllers
 
 
         private void OnExitGame()   
-        {           
+        {
+            inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
             coinData.DestroyAllCoins();
             networkInputData.LeaveRoom();

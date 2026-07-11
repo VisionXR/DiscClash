@@ -185,6 +185,7 @@ public class ScorePanel2Player : MonoBehaviour
 
     public void PauseButtonClicked()
     {
+        Debug.Log("Pause button clicked");
         AudioManager.instance.PlayButtonClickSound();
         uiData.uiManager.ChangeState(pauseState, true);
         uiInputData.PauseGame();

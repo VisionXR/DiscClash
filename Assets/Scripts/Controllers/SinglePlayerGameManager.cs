@@ -1,6 +1,7 @@
 using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
-        public GameObject InputCanvas;
+        public InputCanvasView inputCanvasView;
         public ScoreManager scoreManager;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
@@ -75,7 +76,8 @@ namespace com.VisionXR.Controllers
         {
             if(inputData.isInputEnabled)
             {
-                InputCanvas.SetActive(true);
+                inputCanvasView.gameObject.SetActive(true);
+                inputCanvasView.TurnOn();
             }
         }
 
@@ -83,7 +85,7 @@ namespace com.VisionXR.Controllers
         {
             if (inputData.isInputEnabled)
             {
-                InputCanvas.SetActive(false);
+                inputCanvasView.TurnOff();
             }
         }
 
@@ -397,7 +399,7 @@ namespace com.VisionXR.Controllers
         public void EndGame()
         {
             coinData.DestroyAllCoins();
-            InputCanvas.SetActive(false);
+            inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
 
             foreach (Player p in playersData.CurrentPlayers)
@@ -407,7 +409,7 @@ namespace com.VisionXR.Controllers
         }
         private void ExitGame()
         {
-            InputCanvas.SetActive(false);
+            inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
             coinData.DestroyAllCoins();
             playersData.DestroyAllPlayers();
