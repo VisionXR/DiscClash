@@ -64,14 +64,14 @@ namespace com.VisionXR.Views
 
 
             // Game mode selection
-            if (uiOutputData.gameMode == GameMode.PvsAI)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
                 vs1AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 vs1AISelectedImage.color = Color.white;
 
                
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
             {
                 vs3AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 vs3AISelectedImage.color = Color.white;
@@ -99,7 +99,7 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             vs1AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             vs1AISelectedImage.color = Color.white;
-            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
          
         }
 
@@ -109,7 +109,7 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             vs3AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             vs3AISelectedImage.color = Color.white;
-            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PAIvsAI);
       
         }
 
@@ -164,7 +164,7 @@ namespace com.VisionXR.Views
 
             currentDestination = new Destination();
             currentDestination.gameType = GameType.VsCPU;
-            currentDestination.gameMode = uiOutputData.gameMode;
+            currentDestination.singlePlayerGameMode = uiOutputData.singlePlayerGameMode;
             currentDestination.challenge = uiOutputData.challenge;
             currentDestination.isJoinable = false;
             currentDestination.roomName = "NA";

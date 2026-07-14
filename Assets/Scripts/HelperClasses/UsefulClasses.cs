@@ -147,7 +147,8 @@ namespace com.VisionXR.HelperClasses
         public ServerRegion region;
         public GameType gameType;
         public Challenge challenge;
-        public GameMode gameMode;
+        public SinglePlayerGameMode singlePlayerGameMode;
+        public MultiPlayerGameMode multiPlayerGameMode;
         public AIDifficulty difficulty;
         public string lobbyName;
         public string roomName;

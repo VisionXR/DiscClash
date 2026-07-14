@@ -49,7 +49,7 @@ namespace com.VisionXR.Controllers
         public void CreatePlayer(PlayerProperties properties)
         {
             GameObject newPlayer = Instantiate(playerObject, transform.position, transform.rotation);
-            if (uiOutputData.gameMode == GameMode.PvsAI)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
                 if(uiOutputData.challenge == Challenge.BlackAndWhite)
                 {
@@ -75,7 +75,7 @@ namespace com.VisionXR.Controllers
                 }
             
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
             {
                 if (uiOutputData.challenge == Challenge.BlackAndWhite)
                 {
@@ -105,7 +105,7 @@ namespace com.VisionXR.Controllers
 
         public void CreatePlayersForSinglePlayer()
         {
-            if(uiOutputData.gameMode == GameMode.PvsAI)        
+            if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)        
             {
 
                     PlayerProperties p1 = new PlayerProperties();
@@ -136,7 +136,7 @@ namespace com.VisionXR.Controllers
                     CreatePlayer(p2);
 
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
             {
 
                     PlayerProperties p1 = new PlayerProperties();

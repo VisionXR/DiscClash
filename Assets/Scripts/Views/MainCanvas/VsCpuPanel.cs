@@ -32,19 +32,19 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             ResetDifficultyImages();
 
-            if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 GameModeSelectedImages[0].SetActive(true);
             }
-            else if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI && uiOutputData.challenge == Challenge.FreeStyle)
             {
                 GameModeSelectedImages[1].SetActive(true);
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 GameModeSelectedImages[2].SetActive(true);
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI && uiOutputData.challenge == Challenge.FreeStyle)
             {
                 GameModeSelectedImages[3].SetActive(true);
             }
@@ -68,7 +68,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             GameModeSelectedImages[0].SetActive(true);
 
@@ -78,7 +78,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PvsAI);
+            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[1].SetActive(true);
 
@@ -88,7 +88,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             GameModeSelectedImages[2].SetActive(true);
 
@@ -99,7 +99,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.PAIvsAI);
+            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PAIvsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[3].SetActive(true);
         }

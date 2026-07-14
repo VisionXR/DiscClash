@@ -11,7 +11,8 @@ namespace com.VisionXR.ModelClasses
     {
         // variables
         public GameType gameType;
-        public GameMode gameMode;
+        public SinglePlayerGameMode singlePlayerGameMode;
+        public MultiPlayerGameMode multiPlayerGameMode;
         public Challenge challenge;
         public AIDifficulty aIDifficulty;
         public PlayerCoin playerCoin;
@@ -59,9 +60,14 @@ namespace com.VisionXR.ModelClasses
             this.challenge = challenge;
         }
 
-        public void SetGameMode(GameMode gameMode)
+        public void SetSinglePlayerGameMode(SinglePlayerGameMode gameMode)
         {
-            this.gameMode = gameMode;
+            this.singlePlayerGameMode = gameMode;
+        }
+
+        public void SetMultiPlayerGameMode(MultiPlayerGameMode gameMode)
+        {
+            this.multiPlayerGameMode = gameMode;
         }
 
         public void SetRoomType(RoomType roomType)

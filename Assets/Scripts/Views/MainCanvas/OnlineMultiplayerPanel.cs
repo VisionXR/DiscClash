@@ -32,19 +32,19 @@ namespace com.VisionXR.Views
 
             uiData.uiManager.ChangeState("Home", false);
 
-            if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2 && uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 GameModeSelectedImages[0].SetActive(true);
             }
-            else if (uiOutputData.gameMode == GameMode.PvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2 && uiOutputData.challenge == Challenge.FreeStyle)
             {
                 GameModeSelectedImages[1].SetActive(true);
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI && uiOutputData.challenge == Challenge.BlackAndWhite)
             {
                 GameModeSelectedImages[2].SetActive(true);
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI && uiOutputData.challenge == Challenge.FreeStyle)
             {
                 GameModeSelectedImages[3].SetActive(true);
             }
@@ -61,21 +61,21 @@ namespace com.VisionXR.Views
         }
 
 
-        public void PvsAI_BW_BtnClicked()
+        public void P1VsP2_BW_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.P1vsP2);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             GameModeSelectedImages[0].SetActive(true);
 
         }
 
-        public void PvsAI_FS_BtnClicked()
+        public void P1VsP2_FS_BtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.P1vsP2);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[1].SetActive(true);
 
@@ -85,7 +85,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
             GameModeSelectedImages[2].SetActive(true);
 
@@ -96,7 +96,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
-            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[3].SetActive(true);
         }

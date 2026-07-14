@@ -318,7 +318,7 @@ namespace com.VisionXR.Views
 public class LinkRequest
 {
     public string roomId;
-    public GameMode gameMode;
+    public MultiPlayerGameMode multiPlayerGameMode;
     public string region;
     public string startTime;
 }

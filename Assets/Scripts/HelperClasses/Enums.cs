@@ -19,7 +19,8 @@ namespace com.VisionXR.HelperClasses
     public enum Team { TeamA, TeamB }
     public enum GameType { VsCPU , OnlineMultiPlayer, PlayWithFriends,Tutorial}
     public enum Challenge { BlackAndWhite, FreeStyle, Tournament, TrickShots }
-    public enum GameMode { PvsAI, PAIvsAI,P1vsP2, P1AIvsP2AI, P1P2vsAI, P1P2vsP3P4 }
+    public enum SinglePlayerGameMode { PvsAI, PAIvsAI }
+    public enum MultiPlayerGameMode { P1vsP2, P1AIvsP2AI, P1P2vsAI, P1P2vsP3P4 }
     public enum AIDifficulty { Easy, Medium, Hard }
     public enum GameState { Idle,Starting,Running }
     public enum RoomType { Public,Private}

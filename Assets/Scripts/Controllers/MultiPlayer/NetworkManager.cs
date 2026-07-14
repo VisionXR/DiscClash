@@ -108,12 +108,11 @@ namespace com.VisionXR.Controllers
             
                 var customRoomProps = new Dictionary<string, SessionProperty>
                 {
-                    { "gamemode", (int)uiOutputData.gameMode },
+                    { "gamemode", (int)uiOutputData.multiPlayerGameMode },
                     { "challenge", (int)uiOutputData.challenge },
                     { "board", uiOutputData.MyBoardId },
-                    { "difficulty", (int)uiOutputData.aIDifficulty },
-                    { "myCoinsId", uiOutputData.MyCoinsId }
-       
+                    { "difficulty", (int)uiOutputData.aIDifficulty }
+     
                 };
 
                 Fusion.GameMode gameMode = Fusion.GameMode.Shared;
@@ -232,19 +231,17 @@ namespace com.VisionXR.Controllers
                 var props = runner.SessionInfo.Properties;
 
                 if (props.TryGetValue("gamemode", out var gameModeProp))
-                    uiOutputData.SetGameMode((HelperClasses.GameMode)(int)gameModeProp);
+                    uiOutputData.SetMultiPlayerGameMode((HelperClasses.MultiPlayerGameMode)(int)gameModeProp);
 
                 if (props.TryGetValue("challenge", out var gameProp))
                     uiOutputData.SetChallenge((Challenge)(int)gameProp);
 
                 if (props.TryGetValue("board", out var boardProp))
-                   // uiOutputData.SetMyBoard((int)boardProp);
+                    playerSettings.SetBoard((int)boardProp);
 
                 if (props.TryGetValue("difficulty", out var difficultyProp))
                     uiOutputData.SetAIDifficulty((AIDifficulty)(int)difficultyProp);
 
-                if (props.TryGetValue("myCoinsId", out var coinProp))
-                   // uiOutputData.SetMyCoinsId((int)coinProp);
 
                 Debug.Log("[Network] Session properties received and assigned.");
             }

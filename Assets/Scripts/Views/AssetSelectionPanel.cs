@@ -67,7 +67,8 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
 
-            destination.gameMode = uiOutputData.gameMode;
+            destination.singlePlayerGameMode = uiOutputData.singlePlayerGameMode;
+            destination.multiPlayerGameMode = uiOutputData.multiPlayerGameMode;
             destination.gameType = uiOutputData.gameType;
             destination.challenge = uiOutputData.challenge;
             destination.difficulty = uiOutputData.aIDifficulty;

@@ -383,7 +383,7 @@ namespace com.VisionXR.Controllers
         {
             int id = gameData.currentTurnId;
           
-            if (uiOutputData.gameMode == GameMode.P1vsP2) // Two-player mode
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2) // Two-player mode
             {
                 if(id == 1)
                 {
@@ -455,7 +455,7 @@ namespace com.VisionXR.Controllers
         {
             Player mainPlayer = playersData.GetMainPlayer();
             int leaderboardPoints = 0;
-            if (uiOutputData.gameMode == GameMode.PvsAI)
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
 
                 if (mainPlayer.myId == 1)

@@ -50,22 +50,22 @@ namespace com.VisionXR.Views
         {
 
             // Game mode selection
-            if (uiOutputData.gameMode == GameMode.P1vsP2)
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 P1VsP2SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1VsP2SelectedImage.color = Color.white;
             }
-            else if (uiOutputData.gameMode == GameMode.P1P2vsAI)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
             {
                 P1P2VsAISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1P2VsAISelectedImage.color = Color.white;
             }
-            else if (uiOutputData.gameMode == GameMode.P1AIvsP2AI)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
             {
                 P1AIVsP2AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1AIVsP2AISelectedImage.color = Color.white;
             }
-            else if (uiOutputData.gameMode == GameMode.P1P2vsP3P4)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsP3P4)
             {
                 P1P2VsP3P4SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1P2VsP3P4SelectedImage.color = Color.white;
@@ -108,7 +108,7 @@ namespace com.VisionXR.Views
 
 
             Destination d = new Destination();
-            d.gameMode = uiOutputData.gameMode;
+            d.multiPlayerGameMode = uiOutputData.multiPlayerGameMode;
             d.gameType = GameType.PlayWithFriends;
             d.challenge = uiOutputData.challenge;
             d.region = playerSettings.serverRegion;
@@ -132,7 +132,7 @@ namespace com.VisionXR.Views
             P1VsP2SelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(2);
-            uiOutputData.SetGameMode(GameMode.P1vsP2);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
            
         }
         public void P1AIVsP2AIButtonClicked()
@@ -144,7 +144,7 @@ namespace com.VisionXR.Views
             P1AIVsP2AISelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(2);
-            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
            
 
         }
@@ -157,7 +157,7 @@ namespace com.VisionXR.Views
             P1P2VsAISelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(2);
-            uiOutputData.SetGameMode(GameMode.P1P2vsAI);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
            
         }
 
@@ -170,7 +170,7 @@ namespace com.VisionXR.Views
             P1P2VsP3P4SelectedImage.color = Color.white;
 
             uiOutputData.SetPlayerCount(4);
-            uiOutputData.SetGameMode(GameMode.P1P2vsP3P4);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsP3P4);
 
         }
 

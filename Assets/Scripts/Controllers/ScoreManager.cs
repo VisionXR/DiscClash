@@ -44,7 +44,7 @@ namespace com.VisionXR.Controllers
 
         private void StartGame()
         {
-            if(uiOutputData.gameMode == GameMode.PvsAI || uiOutputData.gameMode == GameMode.P1vsP2)
+            if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 ScorePanel2Players.gameObject.SetActive(true);
                 ScorePanel2Players.ShowImages();
@@ -72,7 +72,7 @@ namespace com.VisionXR.Controllers
 
         public void UpdateScore()
         {
-            if (uiOutputData.gameMode == GameMode.PvsAI || uiOutputData.gameMode == GameMode.P1vsP2)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 if(uiOutputData.challenge == Challenge.BlackAndWhite)
                 {

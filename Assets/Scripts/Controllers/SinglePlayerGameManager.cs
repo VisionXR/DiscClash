@@ -99,7 +99,7 @@ namespace com.VisionXR.Controllers
 
             int firstTurn = 1;
 
-            if (uiOutputData.gameMode == GameMode.PvsAI)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
@@ -111,7 +111,7 @@ namespace com.VisionXR.Controllers
                     firstTurn = 2;
                 }
             }
-            else if (uiOutputData.gameMode == GameMode.PAIvsAI)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
             {
                 if (p.myCoin == PlayerCoin.White)
                 {
@@ -282,7 +282,7 @@ namespace com.VisionXR.Controllers
         {
             int id = gameData.currentTurnId;
 
-            if (uiOutputData.gameMode == GameMode.PvsAI) // Two-player mode
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI) // Two-player mode
             {
                 if (id == 1)
                 {
@@ -340,7 +340,7 @@ namespace com.VisionXR.Controllers
         {
             Player mainPlayer = playersData.GetMainPlayer();
             int leaderboardPoints = 0;
-            if (uiOutputData.gameMode == GameMode.PvsAI)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
                
                if( mainPlayer.myId == 1)

@@ -33,7 +33,7 @@ namespace com.VisionXR.Views
 
             if (uiOutputData.gameType == GameType.VsCPU)
             {
-                if (uiOutputData.gameMode == GameMode.PvsAI)
+                if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
                 {
                     
                     SetTwoPlayerData(result);
@@ -42,7 +42,7 @@ namespace com.VisionXR.Views
             }
             else if ((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
             {
-                if (uiOutputData.gameMode == GameMode.P1vsP2)
+                if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
                 {
                   
                     SetTwoPlayerData(result);

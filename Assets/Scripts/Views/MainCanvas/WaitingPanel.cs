@@ -40,7 +40,7 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
-            gameModeText.text = Enum.GetName(typeof(GameMode), uiOutputData.gameMode);
+            gameModeText.text = Enum.GetName(typeof(MultiPlayerGameMode), uiOutputData.multiPlayerGameMode);
             
 
         }

@@ -58,7 +58,7 @@ namespace com.VisionXR.Views
 
             multiPlayerDestination.roomName = actualRoomName;
             multiPlayerDestination.region = targetRegion;
-            multiPlayerDestination.gameMode = uiOutPutData.gameMode;
+            multiPlayerDestination.multiPlayerGameMode = uiOutPutData.multiPlayerGameMode;
 
             uiData.uiManager.ChangeState(destinationState, true);        
             StartCoroutine(Join(multiPlayerDestination));

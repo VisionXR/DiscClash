@@ -110,17 +110,17 @@ namespace com.VisionXR.Views
         private void Initialize()
         {
             // Game mode selection
-            if (uiOutputData.gameMode == GameMode.P1vsP2)
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 P1VsP2SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1VsP2SelectedImage.color = Color.white;
             }
-            else if (uiOutputData.gameMode == GameMode.P1P2vsAI)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
             {
                 P1P2VsAISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1P2VsAISelectedImage.color = Color.white;
             }
-            else if (uiOutputData.gameMode == GameMode.P1AIvsP2AI)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
             {
                 P1AIVsP2AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
                 P1AIVsP2AISelectedImage.color = Color.white;
@@ -190,7 +190,7 @@ namespace com.VisionXR.Views
 
             P1VsP2SelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             P1VsP2SelectedImage.color = Color.white;
-            uiOutputData.SetGameMode(GameMode.P1vsP2);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
             ChangeJoinRoomText();
            
         }
@@ -203,7 +203,7 @@ namespace com.VisionXR.Views
             P1AIVsP2AISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             P1AIVsP2AISelectedImage.color = Color.white;
 
-            uiOutputData.SetGameMode(GameMode.P1AIvsP2AI);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
             ChangeJoinRoomText();
           
 
@@ -216,7 +216,7 @@ namespace com.VisionXR.Views
             P1P2VsAISelectedImage.gameObject.GetComponent<UIGradient>().enabled = true;
             P1P2VsAISelectedImage.color = Color.white;
 
-            uiOutputData.SetGameMode(GameMode.P1P2vsAI);
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
             ChangeJoinRoomText();
            
         }

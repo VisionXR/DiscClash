@@ -17,7 +17,7 @@ public class StartGame : StateMachineBehaviour
         {
             uiData.uiManager.HideCanvas(0);
 
-            if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
+            if (uIOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uIOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 uiData.uiManager.ShowCanvas(scoreCanvas2Players);
                 uiData.uiManager.scorePanel2Player.TurnOn();
@@ -42,7 +42,7 @@ public class StartGame : StateMachineBehaviour
         
         if (uiData.uiManager != null)
         {
-            if (uIOutputData.gameMode == GameMode.PvsAI || uIOutputData.gameMode == GameMode.P1vsP2)
+            if (uIOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uIOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 uiData.uiManager.HideCanvas(scoreCanvas2Players);
                 uiData.uiManager.scorePanel2Player.TurnOff();
