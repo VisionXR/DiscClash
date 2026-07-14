@@ -217,8 +217,8 @@ namespace com.VisionXR.Controllers
             {
               
                 gameData.TeamBScore = (gameData.P3Whites + gameData.P4Whites + gameData.P3Blacks + gameData.P4Blacks + gameData.P3Red * 3 + gameData.P4Red * 3);
-                ScorePanel4Players.rightPlayer1.SetScore(gameData.TeamAScore);
-                ScorePanel4Players.rightPlayer2.SetScore(gameData.TeamAScore);
+                ScorePanel4Players.rightPlayer1.SetScore(gameData.TeamBScore);
+                ScorePanel4Players.rightPlayer2.SetScore(gameData.TeamBScore);
             }
 
         }
