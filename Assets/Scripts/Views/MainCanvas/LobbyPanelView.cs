@@ -303,7 +303,7 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             PlayerNetworkData playerNetworkData = playerData.GetMainPlayer().GetComponent<PlayerNetworkData>();
 
-            playerNetworkData.RPC_StartGame(2, (int)uioutputData.MyCoinsId);
+            playerNetworkData.RPC_StartGame(1, (int)uioutputData.MyCoinsId);
         }
 
         public void BackBtnClicked()

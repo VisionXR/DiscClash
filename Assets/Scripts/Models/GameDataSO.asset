@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a14a88c02a0ae4b8cb80ec4a5f145e, type: 3}
   m_Name: GameDataSO
   m_EditorClassIdentifier: 
-  TotalCoins: 0
-  TotalWhites: 0
-  TotalBlacks: 0
-  TotalReds: 0
+  TotalCoins: 7
+  TotalWhites: 3
+  TotalBlacks: 3
+  TotalReds: 1
   P1Whites: 0
   P1Blacks: 0
   P1Red: 0
@@ -28,7 +28,11 @@ MonoBehaviour:
   P4Whites: 0
   P4Blacks: 0
   P4Red: 0
+  P1Score: 0
+  P2Score: 0
+  TeamAScore: 0
+  TeamBScore: 0
   isRedCovered: 0
   ShouldICoverCoin: 0
-  currentTurnId: 1
-  TurnTime: 20
+  currentTurnId: 2
+  TurnTime: 45

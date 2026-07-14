@@ -99,40 +99,14 @@ namespace com.VisionXR.Controllers
 
             int firstTurn = 1;
 
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-            {
-                if (p.myCoin == PlayerCoin.White)
-                {
-                    firstTurn = 1;
-
-                }
-                else
-                {
-                    firstTurn = 2;
-                }
-            }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
-            {
-                if (p.myCoin == PlayerCoin.White)
-                {
-                    firstTurn = 1;
-                }
-                else
-                {
-                    firstTurn = 3;
-                }
-
-            }
-
-
-            if (firstTurn == 1)
-            {
+            //if (firstTurn == 1)
+            //{
               
-                p.GetComponent<PlayerInput>().StartRotation();
-                coinData.ShowRotationCanvasEvent?.Invoke();
-                isFirstTurn = true;
+            //    p.GetComponent<PlayerInput>().StartRotation();
+            //    coinData.ShowRotationCanvasEvent?.Invoke();
+            //    isFirstTurn = true;
 
-            }
+            //}
 
             StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
@@ -413,9 +387,6 @@ namespace com.VisionXR.Controllers
             
 
         }
-
-
-
 
 
         private IEnumerator WaitForSeconds(float v, int turnid)

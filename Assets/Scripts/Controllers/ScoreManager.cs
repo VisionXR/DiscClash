@@ -2,7 +2,6 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
-using System;
 using UnityEngine;
 
 
@@ -155,9 +154,8 @@ namespace com.VisionXR.Controllers
             {
 
                 gameData.P2Score = gameData.P2Whites + gameData.P2Blacks + gameData.P2Red * 3;
-                ScorePanel2Players.rightPlayer.SetScore(gameData.P1Score);
+                ScorePanel2Players.rightPlayer.SetScore(gameData.P2Score);
             }
-
 
         }
 
