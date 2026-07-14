@@ -318,16 +318,11 @@ namespace com.VisionXR.Controllers
                 winPs1.Play();
                 winPs2.Play();
                
-                CalculatePoints();
-
-                gameResult.isMainPlayer = true;
-
-              
+                CalculatePoints();              
             }
             else
             {
-                AudioManager.instance.PlayLosingSound();
-                gameResult.coinsWon = 0;
+                AudioManager.instance.PlayLosingSound();              
             }
 
             uiInputData.GameCompleted(gameResult);

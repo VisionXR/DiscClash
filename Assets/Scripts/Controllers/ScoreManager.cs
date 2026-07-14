@@ -211,8 +211,7 @@ namespace com.VisionXR.Controllers
             {
              
                 gameData.TeamAScore = (gameData.P1Whites + gameData.P2Whites + gameData.P1Blacks + gameData.P2Blacks + gameData.P1Red * 3 + gameData.P2Red * 3);
-                ScorePanel4Players.leftPlayer1.SetScore(gameData.TeamAScore);
-            
+                ScorePanel4Players.leftPlayer1.SetScore(gameData.TeamAScore);      
                 ScorePanel4Players.leftPlayer2.SetScore(gameData.TeamAScore);
             }
 

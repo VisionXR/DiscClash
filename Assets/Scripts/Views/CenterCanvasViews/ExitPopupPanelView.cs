@@ -11,6 +11,17 @@ namespace com.VisionXR.Views
         public UIDataSO uiData;
 
 
+        public void ExitLobbyBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiInputData.GoToHome();
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("Tutorial", false);
+            uiData.uiManager.GoToState(StateName.HomeState);
+            uiData.uiManager.ResetAllBools();
+        }
+
         public void ResumeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();

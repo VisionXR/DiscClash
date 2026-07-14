@@ -177,22 +177,8 @@ namespace com.VisionXR.Controllers
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
 
             connectionDisconnection.StartGame();
-          
 
-            if (networkOutputData.IsHost())
-            {
-                GameResult result = new GameResult();
-                result.currentTurnId = turnId;
-                dataManager.SendGameResult(result);
-
-                //if (turnId == 1)
-                //{
-                //    Player p = playersData.GetMainPlayer();
-                //    p.GetComponent<PlayerInput>().StartRotation();
-                //    coinData.ShowRotationCanvasEvent?.Invoke();
-                //    isFirstTurn = true;
-                //}
-            }
+            gameData.ChangeTurn(turnId);
         }
     
         private void StrikeStarted(int id, float f)
@@ -423,14 +409,12 @@ namespace com.VisionXR.Controllers
 
                 CalculatePoints();
 
-                gameResult.isMainPlayer = true;
 
             }
             else
             {
                 AudioManager.instance.PlayLosingSound();
-
-                gameResult.coinsWon = 0;
+        
             }
 
 
