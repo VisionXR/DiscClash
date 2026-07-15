@@ -23,7 +23,8 @@ namespace com.VisionXR.Views
             {
                 item.TurnOffPanel();
             }
-           StartCoroutine(WaitAndTurnOff(uiData.disableTime));
+
+          // StartCoroutine(WaitAndTurnOff(uiData.disableTime));
         }
 
         public void TurnOn()

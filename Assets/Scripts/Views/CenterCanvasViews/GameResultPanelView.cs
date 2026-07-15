@@ -19,6 +19,7 @@ namespace com.VisionXR.Views
 
 
         [Header("UI Elements")]
+        public TMP_Text gameNameText;
         public GameObject P1Winner;
         public GameObject P2Winner;
         public Image P1Image;
@@ -35,17 +36,27 @@ namespace com.VisionXR.Views
             {
                 if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
                 {
-                    
+                    gameNameText.text = "Game : P vs AI";
                     SetTwoPlayerData(result);
+                }
+                else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
+                {
+                    gameNameText.text = "Game : PAI vs AI";
+                    SetFourPlayerData(result);
                 }
 
             }
-            else if ((uiOutputData.gameType == GameType.OnlineMultiPlayer || uiOutputData.gameType == GameType.PlayWithFriends))
+            else if ( uiOutputData.gameType == GameType.PlayWithFriends)
             {
                 if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
                 {
-                  
+                    gameNameText.text = "Game : P1 vs P2";
                     SetTwoPlayerData(result);
+                }
+                else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
+                {
+                    gameNameText.text = "Game : P1AI vs P2AI";
+                    SetFourPlayerData(result);
                 }
 
             }
@@ -70,6 +81,36 @@ namespace com.VisionXR.Views
             P2Image.sprite = playersData.GetPlayer(2).GetMyImage();
             player1Nam.text = playersData.GetPlayer(1).myName;
             player2Nam.text = playersData.GetPlayer(2).myName;
+        }
+
+        private void SetFourPlayerData(GameResult result)
+        {
+            if (result.winningTeam == Team.TeamA)
+            {
+                P1Winner.SetActive(true);
+                P2Winner.SetActive(false);
+            }
+            else if (result.winningTeam == Team.TeamB)
+            {
+                P1Winner.SetActive(false);
+                P2Winner.SetActive(true);
+            }
+
+            P1Image.sprite = playersData.GetPlayer(1).GetMyImage();
+            player1Nam.text = playersData.GetPlayer(1).myName;
+
+
+            if (uiOutputData.gameType == GameType.VsCPU)
+            {
+                P2Image.sprite = playersData.GetPlayer(2).GetMyImage();
+                player2Nam.text = playersData.GetPlayer(2).myName;
+            }
+            else if (uiOutputData.gameType == GameType.PlayWithFriends)
+            {
+                P2Image.sprite = playersData.GetPlayer(3).GetMyImage();
+                player2Nam.text = playersData.GetPlayer(3).myName;
+            }
+
         }
 
 
