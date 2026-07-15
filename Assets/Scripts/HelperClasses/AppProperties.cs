@@ -6,156 +6,109 @@ public class AppProperties : MonoBehaviour
 {
     [Header("Scriptable Objects")]
     public AppDataSO appData;
-   
 
-    // Android vibrator cache
+
+    // Android Native Vibration Cache
+    private AndroidJavaObject vibrator = null;
+
+    private void Awake()
+    {
+        // Cache the Android Vibrator Service on initialization (Android only)
 #if UNITY_ANDROID && !UNITY_EDITOR
-    private AndroidJavaObject _vibrator;
-    private AndroidJavaClass _vibrationEffectClass;
-    private int _androidApiLevel = 0;
+        try
+        {
+            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                using (AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+                {
+                    vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Failed to initialize Android Vibrator: " + e.Message);
+        }
 #endif
-
-    private Coroutine _vibrationCoroutine;
-
+    }
 
     private void OnEnable()
     {
-        appData.PlayButtonVibrationEvent += PlayButtonVibration;
-        appData.PlayStrikerVibrationEvent += PlayStrikerVibration;
+
+        appData.StartVibrationEvent += StartVibration;
+        appData.StartStrikingVibrationEvent += StartStrikerVibration;
+        
     }
 
     private void OnDisable()
     {
-        appData.PlayButtonVibrationEvent -= PlayButtonVibration;
-        appData.PlayStrikerVibrationEvent -= PlayStrikerVibration;
+
+        appData.StartVibrationEvent -= StartVibration;
+        appData.StartStrikingVibrationEvent -= StartStrikerVibration;
+        
     }
 
-    public void PlayButtonVibration()
+    // Normal vibration (uses your custom duration loop)
+    public void StartVibration()
     {
-        PlayVibration(appData.vibrationDuration, appData.vibrationAmplitude);
+       
+            StopAllCoroutines(); // Ensure no overlapping vibration timers are running
+            StartCoroutine(PlayHapticVibrationCoroutine());
+        
     }
 
-    public void PlayStrikerVibration()
+    // Striker collision vibration (typically a quick, snappy response pulse)
+    public void StartStrikerVibration()
     {
-        PlayVibration(appData.vibrationDuration, appData.vibrationAmplitudeForStriking);
+        
+            StopAllCoroutines();
+            // Quick 40ms buzz perfect for physical game collisions (like a striker hit)
+            VibrateAndroidNative(100);
+        
     }
 
-    public void PlayVibration(float durationSeconds, float amplitude01)
+    // Summary: Start haptic vibration for a given duration
+    public IEnumerator PlayHapticVibrationCoroutine()
     {
-        // clamp
-        durationSeconds = Mathf.Max(0f, durationSeconds);
-        amplitude01 = Mathf.Clamp01(amplitude01);
+        // Convert seconds to milliseconds for Android native call
+        long durationInMs = (long)(appData.vibrationDuration * 1000f);
+        VibrateAndroidNative(durationInMs);
 
-        // stop any ongoing
-        StopVibration();
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-        try
-        {
-            InitAndroidVibrator();
-
-            if (_vibrator == null)
-            {
-                // fallback
-                Handheld.Vibrate();
-                _vibrationCoroutine = StartCoroutine(PlayVibrationCoroutine(durationSeconds));
-                return;
-            }
-
-            long ms = Mathf.RoundToInt(durationSeconds * 1000f);
-
-            if (_androidApiLevel >= 26)
-            {
-                // map amplitude 0..1 -> 1..255 (0 is interpreted as DEFAULT on some devices, avoid 0)
-                int amp = Mathf.Clamp(Mathf.RoundToInt(amplitude01 * 255f), 1, 255);
-                AndroidJavaObject effect = _vibrationEffectClass.CallStatic<AndroidJavaObject>("createOneShot", ms, amp);
-                _vibrator.Call("vibrate", effect);
-            }
-            else
-            {
-                // older API: only duration
-                _vibrator.Call("vibrate", ms);
-            }
-
-            // schedule stop if needed (cancel after duration)
-            _vibrationCoroutine = StartCoroutine(PlayVibrationCoroutine(durationSeconds));
-            return;
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogWarning($"[AppProperties] Android vibration failed: {ex.Message}");
-            Handheld.Vibrate();
-            _vibrationCoroutine = StartCoroutine(PlayVibrationCoroutine(durationSeconds));
-            return;
-        }
-#endif
-
-
-        // Generic fallback
-        Handheld.Vibrate();
-        _vibrationCoroutine = StartCoroutine(PlayVibrationCoroutine(durationSeconds));
-    }
-
-    private IEnumerator PlayVibrationCoroutine(float durationSeconds)
-    {
         float startTime = Time.realtimeSinceStartup;
-        while (Time.realtimeSinceStartup < startTime + durationSeconds)
+        while (Time.realtimeSinceStartup < startTime + appData.vibrationDuration)
         {
             yield return null;
         }
 
         StopVibration();
-        _vibrationCoroutine = null;
     }
 
     public void StopVibration()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        try
+        if (vibrator != null)
         {
-            if (_vibrator == null)
-                InitAndroidVibrator();
-
-            _vibrator?.Call("cancel");
+            vibrator.Call("cancel");
         }
-        catch { /* ignore */ }
 #endif
-        if (_vibrationCoroutine != null)
-        {
-            StopCoroutine(_vibrationCoroutine);
-            _vibrationCoroutine = null;
-        }
     }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-    private void InitAndroidVibrator()
+    /// <summary>
+    /// Helper method to call the native Android Vibrator system API
+    /// </summary>
+    private void VibrateAndroidNative(long milliseconds)
     {
-        if (_vibrator != null) return;
-
-        try
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (vibrator != null)
         {
-            using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
-            {
-                _androidApiLevel = version.GetStatic<int>("SDK_INT");
-            }
-
-            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
-            _vibrator = context.Call<AndroidJavaObject>("getSystemService", "vibrator");
-
-            if (_androidApiLevel >= 26)
-            {
-                _vibrationEffectClass = new AndroidJavaClass("android.os.VibrationEffect");
-            }
+            // For Android 8.0 (API 26) and above, using VibrationEffect is recommended,
+            // but the basic "vibrate" method remains compatible as a robust fallback.
+            vibrator.Call("vibrate", milliseconds);
         }
-        catch (System.Exception ex)
-        {
-            Debug.LogWarning($"[AppProperties] InitAndroidVibrator failed: {ex.Message}");
-            _vibrator = null;
-            _vibrationEffectClass = null;
-        }
-    }
+#else
+        // Fallback for testing layouts inside the Unity Editor
+        Debug.Log($"[Editor Haptic Blueprint] Simulating vibration for {milliseconds} ms");
 #endif
+    }
 
 }

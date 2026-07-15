@@ -142,7 +142,22 @@ namespace com.VisionXR.Views
                     isHostJoined = false;
                 }
 
-                Player op = playerData.GetPlayer(2);
+                Player op;
+
+                if(uioutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+                {
+                    op = playerData.GetPlayer(2);
+                }
+                else if(uioutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+                {
+                    op = playerData.GetPlayer(3);
+                }
+                else
+                {
+                    op = playerData.GetPlayer(2);
+                }
+
+
                 if (op != null && !isClientJoined)
                 {
 

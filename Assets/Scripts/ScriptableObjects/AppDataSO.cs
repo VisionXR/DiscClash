@@ -8,49 +8,36 @@ namespace com.VisionXR.ModelClasses
     {
 
 
+        // variables
         [Header(" Colors ")]
-        public Color SelectedColor;
         public Color HoverColor;
         public Color IdleColor;
-        
 
         [Header(" Local variables")]
-        
-        public bool isHapticsOn = true;
-        public float vibrationDuration = 0.5f;
-        [Range(0f, 1f)]
-        public float vibrationAmplitude = 0.1f;
-        [Range(0f, 1f)]
-        public float vibrationAmplitudeForStriking = 1f;
-
-        // Action
-        public Action PlayButtonVibrationEvent;
-        public Action PlayStrikerVibrationEvent;
+        public float vibrationDuration = 0.2f;
+        public float vibrationAmplitude = 0.2f;
+        public float vibrationFrequency = 0.2f;
+        public float strikingVibrationFrequency = 0.5f;
+        public float strikingVibrationDuration = 0.5f;
 
 
+        // Actions
 
+        public Action StartVibrationEvent;
+        public Action StartStrikingVibrationEvent;
 
-        public void SetHaptics(bool val)
+        //Methods
+
+        public void StartVibration()
         {
-            isHapticsOn |= val;
+            StartVibrationEvent?.Invoke();
         }
 
-        public void PlayButtonVibration()
+        public void StartStrikingVibration()
         {
-            if(isHapticsOn)
-            {
-                PlayButtonVibrationEvent?.Invoke();
-            }
+            StartStrikingVibrationEvent?.Invoke();
         }
 
-        public void PlayStrikervibration()
-        {
-            if(isHapticsOn)
-            {
-                PlayStrikerVibrationEvent?.Invoke();
-            }
-        }
     }
-
 
 }

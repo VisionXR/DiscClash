@@ -174,8 +174,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: NEXT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 297517224990071886}
   - component: {fileID: 5930576472287926463}
   - component: {fileID: 5463796152776662335}
-  - component: {fileID: 3786371811199030295}
+  - component: {fileID: 5339014230517816381}
   m_Layer: 5
   m_Name: NextBtn
   m_TagString: Untagged
@@ -488,7 +488,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3786371811199030295
+--- !u!114 &5339014230517816381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -497,10 +497,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8294806813136025459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 776419921b371b24db9bc5f3da5f3edd, type: 3}
+  m_Script: {fileID: 11500000, guid: 487adba57751cfb43b3a962e3b546aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonStatesNew
-  appPropertiesData: {fileID: 11400000, guid: db275355743c10341a9fce199295fbff, type: 2}
+  appPropertiesData: {fileID: 11400000, guid: 9853dc98579ffe4489d500889a75d1f1, type: 2}
   HoverImage: {fileID: 7076646979771747297}
   ActualImage: {fileID: 2133422836832615756}
   isHovering: 0
