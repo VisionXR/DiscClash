@@ -8,6 +8,9 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
 {
     [Header("Scriptable Objects")]
     public InputDataSO inputData; // Reference to your ScriptableObject for input data
+    public AppDataSO appPropertiesData; // Reference to your ScriptableObject for app properties
+
+    [Header("UI Objects")]
     public AnimationCurve StrikeCurve;
     private Slider slider;
     public float powerFactor = 0.75f;
@@ -35,6 +38,7 @@ public class ForceSlider : MonoBehaviour, IPointerUpHandler
         force = Mathf.Pow(force, powerFactor);
 
         inputData.FireStrike(force);
+        appPropertiesData.StartStrikingVibration();
         // Trigger your game logic here!
         // Example: myPlayer.Launch(force);
     }
