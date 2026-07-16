@@ -1,8 +1,5 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -15,31 +12,35 @@ namespace com.VisionXR.Views
 
 
         [Header("Panel Objects")]
-        public List<PanelOnOff> panels;
+        public PanelOnOff rightSidePanel;
+        public PanelOnOff leftSidePanel;
       
         public void TurnOff()
         {
-           foreach (var item in panels)
+           if(playerSettings.myDominantHand == DominantHand.Right)
             {
-                item.TurnOffPanel();
+                rightSidePanel.TurnOffPanel();
+            }
+            else
+            {
+                leftSidePanel.TurnOffPanel();
             }
 
-          // StartCoroutine(WaitAndTurnOff(uiData.disableTime));
         }
 
         public void TurnOn()
         {
-           
-            foreach (var item in panels)
+
+            if (playerSettings.myDominantHand == DominantHand.Right)
             {
-                item.TurnOnPanel();
+                rightSidePanel.TurnOnPanel();
             }
-        }   
-        
-        private IEnumerator WaitAndTurnOff(float waitTime)
-        {
-            yield return new WaitForSeconds(waitTime);
-            gameObject.SetActive(false);
+            else
+            {
+                leftSidePanel.TurnOnPanel();
+            }
+
         }
+
     }
 }
