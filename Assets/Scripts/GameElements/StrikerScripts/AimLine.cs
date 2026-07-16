@@ -30,10 +30,16 @@ public class AimLine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Physics.Raycast(transform.position, transform.up, out hit))
+        float radius = boardData.StrikerRadius;
+        RaycastHit hit;
+
+        // SphereCast sweeps a sphere of 'radius' along 'transform.up' 
+        if (Physics.SphereCast(transform.position, radius, transform.up, out hit))
         {
-            Vector3 hitPoint = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            float d = Vector3.Distance(hit.point, transform.position);
+            // hit.distance is the exact travel distance from the start center to the collision center
+            float d = hit.distance;
+
+            // Apply your scaling logic
             d = d / 0.15f;
             float scaleY = d > CutOffLength ? CutOffLength : d;
             line.transform.localScale = new Vector3(LineThickness, scaleY, 1);

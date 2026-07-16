@@ -116,7 +116,7 @@ namespace com.VisionXR.Controllers
                 inputCanvasView.TurnOff();
             }
         }
-        public void PlayAgain()
+        public void PlayAgain(int id)
         {
             dataManager.PlayAgain();
         }

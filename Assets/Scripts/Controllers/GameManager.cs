@@ -12,6 +12,7 @@ namespace com.VisionXR.Controllers
         public InputDataSO inputData;
         public CloudDataSO cloudData;
         public DestinationDataSO destinationData;
+        public GameDataSO gameData;
         
 
         [Header("Game Objects")]
@@ -49,13 +50,18 @@ namespace com.VisionXR.Controllers
         }
 
     
-
-
         private void StartSinglePlayer()
         {
             ResetManagers();
             SinglePlayerManager.SetActive(true);
-            SinglePlayerManager.GetComponent<SinglePlayerGameManager>().StartGame();
+
+            int id = 1;
+            if(gameData.firstTurnId == 1)
+            {
+                id = 2;
+            }
+
+            SinglePlayerManager.GetComponent<SinglePlayerGameManager>().StartGame(id);
         }
 
         private void StartMultiPlayer()
@@ -82,7 +88,8 @@ namespace com.VisionXR.Controllers
             SinglePlayerManager.SetActive(false);
             MultiPlayerManager.SetActive(false);
             TutorialManager.SetActive(false);
-           
+
+            gameData.SetFirstTurnId(-1);
         }                           
 
     }

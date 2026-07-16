@@ -202,7 +202,7 @@ namespace com.VisionXR.Views
             }
 
             SetCoins(p.myId);
-            Reset();
+            Reset(1);
 
         }
         private void TurnChanged(int id)
@@ -380,10 +380,9 @@ namespace com.VisionXR.Views
             rightPlayer1.SetPlayerImage(null);
             rightPlayer2.SetPlayerImage(null);
         }
-        private void Reset()
+        private void Reset(int id)
         {
-            Debug.Log("Resetting scores and images");
-
+           
             leftPlayer1.SetScore(0);
             leftPlayer2.SetScore(0);
             rightPlayer1.SetScore(0);

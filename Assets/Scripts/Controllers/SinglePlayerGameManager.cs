@@ -40,7 +40,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            uiInputData.StartGameEvent += StartGame;
+            
             uiInputData.HomeEvent += ExitGame;
             uiInputData.ExitGameEvent += ExitGame;
             uiInputData.PlayAgainEvent += StartGame;
@@ -58,7 +58,7 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
-            uiInputData.StartGameEvent -= StartGame;
+          
             uiInputData.HomeEvent -= ExitGame;
             uiInputData.ExitGameEvent -= ExitGame;
 
@@ -91,15 +91,17 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        public void StartGame()
+        public void StartGame(int id)
         {
             coinData.ResetData();
 
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
 
-            Player p = playersData.GetMainPlayer();
+            Debug.Log(" First turn id is " + id);
 
-            int firstTurn = 1;
+            gameData.SetFirstTurnId(id);
+
+            int firstTurn = id;
 
             if (firstTurn == 1)
             {

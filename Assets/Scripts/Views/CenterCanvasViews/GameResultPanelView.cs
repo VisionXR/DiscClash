@@ -114,8 +114,6 @@ namespace com.VisionXR.Views
 
         }
 
-
-
         public void OnHomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
@@ -131,7 +129,13 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             uiData.uiManager.ChangeState("GameCompleted", false);
-            uiInputData.PlayAgain();
+
+            int id = 1;
+            if(gameData.firstTurnId == 1)
+            {
+                id = 2;
+            }
+            uiInputData.PlayAgain(id);
           
         }
 

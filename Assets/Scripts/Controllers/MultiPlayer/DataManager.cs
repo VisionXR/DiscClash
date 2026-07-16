@@ -75,7 +75,6 @@ namespace com.VisionXR.Controllers
         public void PlayAgain()
         {
 
-
             if (networkOutputData.IsHost())
             {
                 Player p = playerData.GetMainPlayer();

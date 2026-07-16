@@ -27,19 +27,17 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            uiInputData.StartGameEvent += StartGame;
+           
             gameData.TurnChangedEvent += TurnChanged;
             playersData.PlayerStrikeStartedEvent += StrikeStarted;
         }
 
         private void OnDisable()
         {
-            uiInputData.StartGameEvent -= StartGame;
+          
             gameData.TurnChangedEvent -= TurnChanged;
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
         }
-
-
 
         private void StartGame()
         {

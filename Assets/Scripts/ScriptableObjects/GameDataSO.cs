@@ -29,6 +29,7 @@ public class GameDataSO : ScriptableObject
     public int TeamBScore;
     public bool isRedCovered;
     public bool ShouldICoverCoin;
+    public int firstTurnId = -1;
     public int currentTurnId = 1;
     public int TurnTime = 20;
     
@@ -38,6 +39,12 @@ public class GameDataSO : ScriptableObject
     private void OnEnable()
     {
         currentTurnId = 1;
+        firstTurnId = -1;
+    }
+
+    public void SetFirstTurnId(int id)
+    {
+        firstTurnId = id;
     }
     public void ChangeTurn(int id)
     {

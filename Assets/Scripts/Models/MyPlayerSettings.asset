@@ -12,19 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a12177701bf9b74cbac69ef47a025e1, type: 3}
   m_Name: MyPlayerSettings
   m_EditorClassIdentifier: 
+  loginType: 0
+  IsLoggedIn: 1
   MyStrikerId: 0
   MyBoard: 0
   MyCoinsId: 0
-  MyArena: 1
   MyAvatar: 1
-  MyName: Test_User
+  MyName: Guest_Player
   MyProfileImage: {fileID: 21300000, guid: 15efdeb8860419c459b2a5e39fe4b3ca, type: 3}
   ImageUrl: 
-  MyOculusId: 963
+  MyId: 2211
   MyCoins: 0
   MyPoints: 0
-  isPassThrough: 0
-  myDominantHand: 0
-  MyFriends: []
   serverRegion: 0
-  device: 0
+  myDominantHand: 0
+  isHapticsEnabled: 1
