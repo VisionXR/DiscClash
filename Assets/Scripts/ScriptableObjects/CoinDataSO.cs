@@ -138,6 +138,11 @@ namespace com.VisionXR.ModelClasses
             return AllCoinsYRotationValue;
         }
 
+        public void ShowCoinRotationCanvas()
+        {
+            ShowRotationCanvasEvent?.Invoke();
+        }
+
 
 
         public void RotateCoins(float value)

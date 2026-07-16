@@ -4,8 +4,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 
-
-
 namespace com.VisionXR.Controllers
 {
     public class MobileInputManager : MonoBehaviour
@@ -15,19 +13,15 @@ namespace com.VisionXR.Controllers
         public MyPlayerSettings userData;
         public StrikerDataSO strikerData;
         public UIDataSO uiData;
-
         public GameDataSO gameData;
 
-
         [Header("Swipe Settings")]
-        public float swipeminDistanceThreshold = 100f; // Minimum pixels to register a swipe
-        public float swipemaxDistanceThreshold = 400f; // Minimum pixels to register a swipe
-        public float swipeminTimeThreshold = 0.1f; // Minimum time for a swipe (seconds)
-        public float swipemaxTimeThreshold = 1; // Maximum time for a swipe (seconds)
+        public float swipeminDistanceThreshold = 100f;
+        public float swipemaxDistanceThreshold = 400f;
+        public float swipeminTimeThreshold = 0.1f;
+        public float swipemaxTimeThreshold = 1;
 
-
-        //local variables
-        public LayerMask boardLayerMask;
+        // Local variables
         private Vector2 swipeStartPosition;
         private float swipeStartTime;
         public float cutoffValue = 0.1f;
@@ -36,17 +30,16 @@ namespace com.VisionXR.Controllers
         public bool isSwipeStarted = false;
         public bool isAimStarted = false;
 
-
-
         private void OnEnable()
         {
-            // 3. You MUST enable EnhancedTouch once
-             EnhancedTouchSupport.Enable();
+            EnhancedTouchSupport.Enable();
         }
+
         private void OnDisable()
         {
             EnhancedTouchSupport.Disable();
         }
+
         private void Start()
         {
             if (!Input.touchSupported && !Application.isEditor)
@@ -57,27 +50,20 @@ namespace com.VisionXR.Controllers
 
         private void LateUpdate()
         {
-
-            // In the New Input System, the Android back button natively maps to the Escape Key
+            // Android back button maps to Escape Key
             if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
             {
                 AudioManager.instance.PlayButtonClickSound();
                 uiData.uiManager.GoToState(HelperClasses.StateName.QuitState);
             }
 
-
-
             if (!inputData.isInputEnabled) return;
 
             HandleTouchInput();
         }
 
-
-
         private void HandleTouchInput()
         {
-
-
             var activeTouches = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches;
 
             if (activeTouches.Count == 1)
@@ -125,75 +111,54 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void HandleTouchBegan(Vector2 touch)
+        private void HandleTouchBegan(Vector2 touchPosition)
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                //  Debug.Log("Pointer on ui");
                 return;
             }
 
-            swipeStartPosition = touch;
+            swipeStartPosition = touchPosition;
             swipeStartTime = Time.time;
 
+            // Calculate the screen height threshold for the bottom 25%
+            float bottomRegionThreshold = Screen.height * 0.25f;
 
-            Ray ray = Camera.main.ScreenPointToRay(touch);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+            // Check if the touch started in the bottom 25% area
+            if (touchPosition.y <= bottomRegionThreshold)
             {
-                if ((boardLayerMask.value & (1 << hit.collider.gameObject.layer)) != 0)
-                {
-                    isSwipeStarted = true;
-                    return;
-                }
+                isSwipeStarted = true;
             }
-
-
-            isAimStarted = true;
-
+            else
+            {
+                isAimStarted = true;
+            }
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
-            if (isSwipeStarted) // Board Raycast Hit -> Move Striker Left/Right
+            if (isSwipeStarted) // Bottom 25% -> Move Striker Left/Right
             {
-                // 1. Calculate horizontal pixel delta from previous tracking point
                 float deltaX = touch.x - swipeStartPosition.x;
-
-                // 2. Normalize it against screen width
                 float normalizedDeltaX = deltaX / Screen.width;
-
-                // 3. Scale by your sensitivity (e.g., if a small swipe should map to full movement range)
                 float movementDelta = normalizedDeltaX * movementswipeSensitivity;
-
-                // 4. Clamp the output strictly between -1 and +1
                 movementDelta = Mathf.Clamp(movementDelta, -1f, 1f);
 
-              
-
-                //if (Mathf.Abs(movementDelta) > cutoffValue)
-                //{
-                // Fire the Move Striker event instead of the old SwipePinch Continued
                 inputData.MoveStriker(movementDelta);
 
-                    // Reset tracking markers dynamically for frame-by-frame delta relative updates
-                    swipeStartPosition = touch;
-                    swipeStartTime = Time.time;
-               // }
+                swipeStartPosition = touch;
+                swipeStartTime = Time.time;
             }
-            else if (isAimStarted) // No Board Hit -> Rotate Striker Delta Angle
+            else if (isAimStarted) // Top 75% -> Rotate Striker Delta Angle
             {
                 float deltaX = touch.x - swipeStartPosition.x;
                 float normalizedDeltaX = deltaX / Screen.width;
                 float angleDelta = normalizedDeltaX * aimswipeSensitivity;
 
-                //if (Mathf.Abs(angleDelta) > cutoffValue)
-                //{
-                    inputData.RotateStrikerAbsolute(angleDelta);
-                    swipeStartPosition = touch;
-                    swipeStartTime = Time.time;
-               // }
+                inputData.RotateStrikerAbsolute(angleDelta);
+
+                swipeStartPosition = touch;
+                swipeStartTime = Time.time;
             }
         }
 
@@ -201,15 +166,11 @@ namespace com.VisionXR.Controllers
         {
             if (isSwipeStarted)
             {
-                // Final micro-movement evaluation on release
                 float deltaX = touch.x - swipeStartPosition.x;
                 float normalizedDeltaX = deltaX / Screen.width;
                 float movementDelta = Mathf.Clamp(normalizedDeltaX * movementswipeSensitivity, -1f, 1f);
 
-
                 inputData.MoveStriker(movementDelta);
-                
-
                 isSwipeStarted = false;
             }
             else if (isAimStarted)
@@ -218,14 +179,9 @@ namespace com.VisionXR.Controllers
                 float normalizedDeltaX = deltaX / Screen.width;
                 float angleDelta = normalizedDeltaX * aimswipeSensitivity;
 
-                //if (Mathf.Abs(angleDelta) > cutoffValue)
-                //{
-                    inputData.RotateStrikerAbsolute(angleDelta);
-              //  }
-
+                inputData.RotateStrikerAbsolute(angleDelta);
                 isAimStarted = false;
             }
         }
-
     }
 }

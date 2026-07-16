@@ -100,14 +100,14 @@ namespace com.VisionXR.Controllers
 
             int firstTurn = 1;
 
-            //if (firstTurn == 1)
-            //{
-              
-            //    p.GetComponent<PlayerInput>().StartRotation();
-            //    coinData.ShowRotationCanvasEvent?.Invoke();
-            //    isFirstTurn = true;
+            if (firstTurn == 1)
+            {
 
-            //}
+                p.GetComponent<PlayerInput>().StartRotation();
+                coinData.ShowCoinRotationCanvas();
+                isFirstTurn = true;
+
+            }
 
             StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
