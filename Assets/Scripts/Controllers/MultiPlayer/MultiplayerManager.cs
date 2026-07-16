@@ -44,7 +44,7 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
-            gameData.currentTurnId = 1;
+            gameData.SetFirstTurnId(-1);
 
             uiInputData.ExitGameEvent += OnExitGame;
             uiInputData.HomeEvent += OnExitGame;
@@ -174,6 +174,7 @@ namespace com.VisionXR.Controllers
             coinData.ResetCount();
             strikerData.ResetFoul();
 
+            gameData.SetFirstTurnId(turnId);
 
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
 
@@ -181,11 +182,13 @@ namespace com.VisionXR.Controllers
 
             gameData.ChangeTurn(turnId);
 
-            if (turnId == 1)
+            Player p = playersData.GetMainPlayer();
+
+            if (p.myId == turnId)
             {
 
                 mobileInputManager.SetFirstTurn(true);
-                coinData.ShowCoinRotationCanvas();
+                coinData.ShowCoinRotationCanvas(turnId);
                 isFirstTurn = true;
 
             }
@@ -255,6 +258,7 @@ namespace com.VisionXR.Controllers
         {
             coinData.ResetData();
             strikerData.ResetFoul();
+
             if(result.isVictory)
             {
                 HandleVictory(result);

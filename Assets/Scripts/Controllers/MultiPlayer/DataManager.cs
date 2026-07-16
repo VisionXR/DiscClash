@@ -19,17 +19,6 @@ namespace com.VisionXR.Controllers
         public PlayerNetworkData mainPlayerNetworkData;
 
 
-
-        public void StartGame(int turnId,int coinsId)
-        {
-            SetMainPlayer();
-            if (networkOutputData.IsHost())
-            {
-                mainPlayerNetworkData.RPC_StartGame(turnId,coinsId);
-
-            }
-        }
-
         public void SendGameData(CurrentGameData data)
         {
 

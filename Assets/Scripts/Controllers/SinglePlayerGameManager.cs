@@ -107,7 +107,7 @@ namespace com.VisionXR.Controllers
             {
 
                 mobileInputManager.SetFirstTurn(true);
-                coinData.ShowCoinRotationCanvas();
+                coinData.ShowCoinRotationCanvas(firstTurn);
                 isFirstTurn = true;
 
             }

@@ -17,6 +17,9 @@ namespace com.VisionXR.Controllers
         public CloudDataSO cloudData;
         public DeepLinkManager deepLinkManager;
 
+        // local variables
+        private string displayName;
+
         private void OnEnable()
         {
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -35,13 +38,17 @@ namespace com.VisionXR.Controllers
 
         private void EditorLogin()
         {
+            displayName = "Guest_ " + SystemInfo.deviceUniqueIdentifier.Substring(0, 5);
+
             // Simplified Editor Mock
-            playerSettings.SetUserNameAndId("Guest_Player", UnityEngine.Random.Range(0, 9999).ToString());
+            playerSettings.SetUserNameAndId(displayName, SystemInfo.deviceUniqueIdentifier);
             deepLinkManager.ProcessGameFlow();
+
+
 
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID
-            string customId = Application.isEditor ? "Editor_Test_User" : SystemInfo.deviceUniqueIdentifier;
+            string customId =  SystemInfo.deviceUniqueIdentifier;
 
             var request = new LoginWithCustomIDRequest
             {
@@ -56,11 +63,26 @@ namespace com.VisionXR.Controllers
 
         private void GuestLogin()
         {
+            displayName = "Guest_ " + SystemInfo.deviceUniqueIdentifier.Substring(0, 5);
+
             // Simplified Editor Mock
-            playerSettings.SetUserNameAndId("Guest_Player", "12345");
-            playerSettings.SetLogIn(false);
-            playerSettings.SaveSettings();
+            playerSettings.SetUserNameAndId(displayName, SystemInfo.deviceUniqueIdentifier);
+
             deepLinkManager.ProcessGameFlow();
+
+            // If in Editor, use a fixed string so you always log into the same test account
+            // If on Mobile, use the unique Device ID
+            string customId = SystemInfo.deviceUniqueIdentifier;
+
+            var request = new LoginWithCustomIDRequest
+            {
+                CustomId = customId,
+                CreateAccount = true,
+                TitleId = PlayFabSettings.TitleId
+            };
+
+
+            PlayFabClientAPI.LoginWithCustomID(request, OnPlayFabSuccess, OnPlayFabFailure);
         }
 
         public void GoogleLogin()
@@ -77,12 +99,12 @@ namespace com.VisionXR.Controllers
                 Debug.Log("Disc Clash: Google Login Successful!");
 
                 // 1. First, set local UI data (Name and Image)
-                string name = Social.localUser.userName;
-                string googleID = Social.localUser.id;
+                displayName = PlayGamesPlatform.Instance.GetUserDisplayName();
+                string googleID = PlayGamesPlatform.Instance.GetUserId();
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
                 StartCoroutine(LoadProfileImage());
 
-                playerSettings.SetUserNameAndId(name, googleID);
+                playerSettings.SetUserNameAndId(displayName, googleID);
                 playerSettings.SetUserProfileImageUrl(imageUrl);
                 deepLinkManager.ProcessGameFlow();
 
@@ -98,8 +120,6 @@ namespace com.VisionXR.Controllers
             {
                 if (string.IsNullOrEmpty(authCode)) return;
 
-
-                Debug.Log("Disc Clash: Received Google Auth Code, logging into PlayFab...");
                 // Use LoginWithGooglePlayGamesServices instead of LoginWithGoogleAccount
                 var request = new LoginWithGooglePlayGamesServicesRequest
                 {
@@ -114,12 +134,29 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
-            Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: " + result.PlayFabId);
+            Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: ");
 
             playerSettings.SetLogIn(true);
             playerSettings.SaveSettings();
             cloudData.PlayFabLoginSuccess();
 
+            if (result.NewlyCreated)
+            {
+                Debug.Log("New PlayFab account detected! Setting up display name...");
+
+                if (!string.IsNullOrEmpty(displayName))
+                {
+                    SetPlayFabDisplayName(displayName);
+                }
+            }
+            else
+            {
+                Debug.Log("Existing user logged in. Skipping display name update to save API calls.");
+                if (!string.IsNullOrEmpty(displayName))
+                {
+                    SetPlayFabDisplayName(displayName);
+                }
+            }
             //// OPTIONAL: Update PlayFab display name to match Google name
             //UpdatePlayFabDisplayName(Social.localUser.userName);
         }
@@ -129,6 +166,24 @@ namespace com.VisionXR.Controllers
             Debug.Log("Disc Clash: PlayFab Login Error: " + error.GenerateErrorReport());
 
             cloudData.PlayFabLoginFailure();
+        }
+
+        public void SetPlayFabDisplayName(string displayName)
+        {
+            var request = new UpdateUserTitleDisplayNameRequest
+            {
+                DisplayName = displayName
+            };
+
+            PlayFabClientAPI.UpdateUserTitleDisplayName(request,
+                OnDisplayNameUpdateSuccess,
+                OnPlayFabFailure
+            );
+        }
+
+        private void OnDisplayNameUpdateSuccess(UpdateUserTitleDisplayNameResult result)
+        {
+            Debug.Log($"PlayFab Display Name successfully set to: {result.DisplayName}");
         }
 
         private IEnumerator LoadProfileImage()

@@ -30,7 +30,7 @@ namespace com.VisionXR.ModelClasses
         public Action<int> CreateAllCoinsEvent;
         public Action DestroyAllCoinsEvent;
 
-        public Action ShowRotationCanvasEvent;
+        public Action<int> ShowRotationCanvasEvent;
         public Action<float> RotateCoinsEvent;
         public Action<float> SetAllCoinsRotationEvent;
 
@@ -138,12 +138,10 @@ namespace com.VisionXR.ModelClasses
             return AllCoinsYRotationValue;
         }
 
-        public void ShowCoinRotationCanvas()
+        public void ShowCoinRotationCanvas(int id)
         {
-            ShowRotationCanvasEvent?.Invoke();
+            ShowRotationCanvasEvent?.Invoke(id);
         }
-
-
 
         public void RotateCoins(float value)
         {

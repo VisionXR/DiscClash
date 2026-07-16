@@ -62,8 +62,8 @@ namespace com.VisionXR.Views
                 timeRoutine = StartCoroutine(ShowTime());
             }
 
-            //networkOutPutData.HostReadyEvent += ResetTime;
-            //networkOutPutData.ClientReadyEvent += ResetTime;
+            networkOutPutData.HostReadyEvent += ResetTime;
+            networkOutPutData.ClientReadyEvent += ResetTime;
 
             roomId = networkOutPutData.runner.SessionInfo.Name;
 
@@ -90,8 +90,8 @@ namespace com.VisionXR.Views
                 timeRoutine = null;
             }
 
-            //networkOutPutData.HostReadyEvent -= ResetTime;
-            //networkOutPutData.ClientReadyEvent -= ResetTime;
+            networkOutPutData.HostReadyEvent -= ResetTime;
+            networkOutPutData.ClientReadyEvent -= ResetTime;
 
 
             networkOutPutData.SetHostReady(false);
@@ -318,7 +318,24 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             PlayerNetworkData playerNetworkData = playerData.GetMainPlayer().GetComponent<PlayerNetworkData>();
 
-            playerNetworkData.RPC_StartGame(1, (int)uioutputData.MyCoinsId);
+            int id = 1;
+
+            if (uioutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 2;
+                }
+            }
+            else if (uioutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 3;
+                }
+            }
+
+            playerNetworkData.RPC_StartGame(id, (int)uioutputData.MyCoinsId);
         }
 
         public void BackBtnClicked()

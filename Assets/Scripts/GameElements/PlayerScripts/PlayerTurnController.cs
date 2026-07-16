@@ -14,7 +14,7 @@ namespace com.VisionXR.GameElements
         public CoinDataSO coinData;
         public StrikerDataSO strikerData;
         public InputDataSO inputData;
-        public BoardDataSO boardData;
+
 
         [Header("local variables")]
         public Player player;   
@@ -36,9 +36,7 @@ namespace com.VisionXR.GameElements
 
             coinData.ResetData();
             strikerData.ResetStrikerData();
-          
-
-         
+                
             if (player.myId == currentPlayerId) // Id matches
             {
                 player.strikerMovement.ResetStriker(); // Reset the striker
@@ -47,8 +45,7 @@ namespace com.VisionXR.GameElements
 
                 if (player.myPlayerControl == PlayerControl.Local) // local player
                 {
-                    boardData.TurnOnHoles();
-                 
+                  
                     if (player.myPlayerRole == PlayerRole.Human)
                     {
 
@@ -67,7 +64,7 @@ namespace com.VisionXR.GameElements
                 else // Remote player
                 {
 
-                    boardData.TurnOffHoles();
+                  
                     inputData.DisableInput();
                 }
 

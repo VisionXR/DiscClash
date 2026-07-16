@@ -50,8 +50,6 @@ namespace com.VisionXR.ModelClasses
             LeaveRoomEvent?.Invoke();
         }
 
-
-
         public void StartGame(int turnId,int coinsId)
         {
             StartGameEvent?.Invoke(turnId,coinsId);
