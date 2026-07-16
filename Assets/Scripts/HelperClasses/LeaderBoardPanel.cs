@@ -1,87 +1,125 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace com.VisionXR.HelperClasses
+namespace com.VisionXR.Views
 {
-    public class LeaderBoardPanel : MonoBehaviour
+    public class LeaderBoardPanelView : MonoBehaviour
     {
-        [Header(" Scriptable Objects")]
+        [Header("Scriptable Objects")]
         public MyPlayerSettings settings;
         public LeaderBoardSO leaderBoard;
+       
         public UIDataSO uiData;
-        public string leaderBoardState;
 
-        [Header(" Game Objects")]
-        public GameObject MainPanel;
-        public TMP_Text myRankText;
-        public TMP_Dropdown ApiDD;
+        [Header("Tab Objects")]
+        public GameObject leaderBoardItem; // Prefab representing a row entry
+        public Transform leaderBoardItemParent; // Grid layout group or vertical panel parent
+        public List<GameObject> SelectionImages;
 
+        [Header("Panel Objects")]
+        public string currentState;
 
-        [Header(" Local Objects")]
-        public List<TMP_Text> Names;
-        public List<TMP_Text> Ranks;
-        public List<TMP_Text> Points;
-        
+        private int currentId = 0;
 
-
-        public string apiName = "MultiPlayer";
-            
-
-
-        public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
+        private void OnEnable()
         {
-            myRankText.text = "My Rank : " + leaderBoard.GetRankByApiName(ApiDD.value);
-            ClearAllText();
-            for (int i = 0; i < names.Count; i++)
-            {
-                Names[i].text = names[i];
-                Ranks[i].text = ranks[i].ToString();
-                Points[i].text = points[i].ToString();
-            }
+            leaderBoard.ShowLeaderBoardDataEvent += ShowLeaderBoard;
+            TabButtonClicked(0);
         }
 
-        private void ClearAllText()
+        private void OnDisable()
         {
-            for (int i = 0; i < Names.Count; i++)
-            {
-                Names[i].text = "";
-                Ranks[i].text = "";
-                Points[i].text = "";
-            }
+            leaderBoard.ShowLeaderBoardDataEvent -= ShowLeaderBoard;
         }
 
-
-        public void ApiDDChanged(int value)
+        public void TabButtonClicked(int id)
         {
             AudioManager.instance.PlayButtonClickSound();
-            if(value==0)
+            ResetTabs();
+            SelectionImages[id].SetActive(true);
+
+            currentId = id;
+            string apiName = "SinglePlayer";
+            // 1. Wipe current list clean
+            ClearAllText();
+            if(id == 1)
             {
                 apiName = "MultiPlayer";
             }
-            else if(value==1)
-            {
-                apiName = "SinglePlayer";
-            }
-            else if(value==2)
-            {
-                apiName = "TotalGames";
-            }
-            
+            leaderBoard.GetTop10Scores(apiName); // Fetch new data based on the selected tab's API name
         }
 
-        public void StartAtDDChanged(int value)
+        private void ResetTabs()
         {
-            AudioManager.instance.PlayButtonClickSound();
-           
+            foreach (var img in SelectionImages)
+            {
+                img.SetActive(false);
+            }
         }
 
-        public void BackButtonClicked()
+        /// <summary>
+        /// Clears old runtime row clones and instantiates a new leaderboard list
+        /// </summary>
+        public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
+        {
+            Debug.Log("Leaderboard Count " + names.Count);
+
+            // 2. Safety check bounds to make sure structural array sizes align cleanly
+            if (names == null || ranks == null || points == null ||
+                names.Count != ranks.Count || names.Count != points.Count)
+            {
+                Debug.LogError("Leaderboard population data collections have mismatched index counts!");
+                return;
+            }
+
+            // 3. Loop through your retrieved rows and populate rows dynamically
+            for (int i = 0; i < names.Count; i++)
+            {
+                // Instantiate runtime prefab container under target transform parent layout
+                GameObject itemInstance = Instantiate(leaderBoardItem, leaderBoardItemParent);
+
+                LeaderBoardItem item = itemInstance.GetComponent<LeaderBoardItem>();
+                item.SetLeaderBoardData(names[i], ranks[i], points[i]);
+
+            }
+        }
+
+        /// <summary>
+        /// Clears the items under the parent container safely by iterating backwards
+        /// </summary>
+        private void ClearAllText()
+        {
+            // We loop backwards using a standard integer loop to avoid enumeration mutation crashes
+            for (int i = leaderBoardItemParent.childCount - 1; i >= 0; i--)
+            {
+                Transform child = leaderBoardItemParent.GetChild(i);
+                Destroy(child.gameObject);
+            }
+        }
+
+        public void RefreshBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiData.uiManager.ChangeState(leaderBoardState, false);
+            ClearAllText();
+            string apiName = "SinglePlayer";
+            // 1. Wipe current list clean
+
+            if (currentId == 1)
+            {
+                apiName = "MultiPlayer";
+            }
+
+            leaderBoard.GetTop10Scores(apiName); // Fetch new data based on the selected tab's API name
+        }
+
+        public void BackBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(currentState, false);
         }
     }
 }

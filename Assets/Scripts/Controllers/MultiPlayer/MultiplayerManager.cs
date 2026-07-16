@@ -22,7 +22,7 @@ namespace com.VisionXR.Controllers
         public UIOutputDataSO uiOutputData;
         public UIInputDataSO uiInputData;
         public InputDataSO inputData;
-        public CloudDataSO cloudData;
+        public LeaderBoardSO leaderBoardData;
         public UIDataSO uiData;
 
 
@@ -492,6 +492,7 @@ namespace com.VisionXR.Controllers
             }
 
             Debug.Log("Points Earned: " + leaderboardPoints);
+            leaderBoardData.WriteToLeaderBoard(leaderboardPoints, "MultiPlayer");
             // Here you can add code to update the player's points in a leaderboard or player profile
         }
 

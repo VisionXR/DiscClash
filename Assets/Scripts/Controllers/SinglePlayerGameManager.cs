@@ -18,7 +18,8 @@ namespace com.VisionXR.Controllers
         public StrikerDataSO strikerData;
         public GameDataSO gameData;
         public InputDataSO inputData;
-        public CloudDataSO cloudData;
+        public LeaderBoardSO leaderBoardData;
+
 
 
         [Header("Scripts")]
@@ -132,8 +133,6 @@ namespace com.VisionXR.Controllers
             strikerData.ResetFoul();
 
         }
-
-
 
         private void PutFine(PlayerCoin coin)
         {
@@ -362,6 +361,7 @@ namespace com.VisionXR.Controllers
             }
 
             Debug.Log("Points Earned: " + leaderboardPoints);
+            leaderBoardData.WriteToLeaderBoard(leaderboardPoints, "SinglePlayer");
             // Here you can add code to update the player's points in a leaderboard or player profile
         }
 

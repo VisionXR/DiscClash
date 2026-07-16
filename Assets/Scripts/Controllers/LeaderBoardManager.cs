@@ -73,14 +73,23 @@ public class LeaderBoardManager : MonoBehaviour
     private void OnLeaderboardLoaded(List<PlayerLeaderboardEntry> entries, string mode)
     {
         Debug.Log($"--- {mode} Leaderboard Loaded ---");
+        List<string> names = new List<string>();
+        List<int> ranks = new List<int>();
+        List<int> scores = new List<int>();
         foreach (var entry in entries)
         {
             // Fallback to PlayFabId if DisplayName hasn't been set by the user yet
             string username = !string.IsNullOrEmpty(entry.DisplayName) ? entry.DisplayName : entry.PlayFabId;
             int rank = entry.Position + 1; // PlayFab ranks are 0-indexed
+            int score = entry.StatValue;
 
-            Debug.Log($"Rank #{rank}: {username} - Score: {entry.StatValue}");
+            names.Add( username );
+            ranks.Add( rank );
+            scores.Add( rank );
+   
         }
+
+        leaderBoardData.ShowLeaderBoardData(names,ranks, scores);
     }
 
 
