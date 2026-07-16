@@ -13,7 +13,7 @@ namespace com.VisionXR.ModelClasses
 
         // Action
      
-        public Action GetMyPointsEvent;
+        public Action<string> GetTop10ScoresEvent;
         public Action<int,string> WriteToLeaderBoardEvent;
         public Action<List<string>, List<int>, List<int>> ShowLeaderBoardDataEvent;
 
@@ -24,60 +24,21 @@ namespace com.VisionXR.ModelClasses
             WriteToLeaderBoardEvent?.Invoke(points,apiName);
         }
 
-      
-
-        public void GetMyPoints()
+        public void GetTop10Scores(string apiName)
         {
-            GetMyPointsEvent?.Invoke();
+            GetTop10ScoresEvent?.Invoke(apiName);
         }
+
+
 
         public void ShowLeaderBoardData(List<string> names,List<int> ranks,List<int> points)
         {
             ShowLeaderBoardDataEvent?.Invoke(names, ranks, points);
         }
 
-        public int GetPointsByApiName(string apiName)
-        {
-            foreach (var item in leaderBoardPoints)
-            {
-                if (item.apiName == apiName)
-                {
-                    return item.wins;
-                }
-            }
-            return 0;
-        }
 
-        public int GetRankByApiName(int id)
-        {
-          
-            return leaderBoardPoints[id].rank;
-        }
-        public void SetMyPoints(string apiName, int points)
-        {
-            
-            foreach (var item in leaderBoardPoints)
-            {
-                if (item.apiName == apiName)
-                {
-                    item.wins = points;                  
-                    break;
-                }
-            }
 
-        }
-
-        public void SetMyRank(string apiName, int rank)
-        {
-            foreach (var item in leaderBoardPoints)
-            {
-                if (item.apiName == apiName)
-                {
-                    item.rank = rank;
-                    break;
-                }
-            }
-        }
+   
     }
 
 
