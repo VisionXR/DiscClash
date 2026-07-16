@@ -1,75 +1,132 @@
-using TMPro;
+using com.VisionXR.HelperClasses;
+using com.VisionXR.ModelClasses;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using com.VisionXR.ModelClasses;
-using com.VisionXR.HelperClasses;
 
 
 namespace com.VisionXR.Views
 {
-
     public class SettingsPanelView : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public MyPlayerSettings myPlayerSettings;
+        public MyPlayerSettings userData;
         public UIDataSO uiData;
+        public AchievementsDataSO achievementsData;
 
-        [Header("Panels")]
-        public GameObject ProfilePanel;
-        public GameObject MainPanel;
-
-
-        [Space(5)]
-        [Header("Local Variables")]
-        public Image profileImage;
-        public Slider musicSlider;
-        public TMP_InputField playerNameIf;
-        public string settingsState;
+        [Header("Tab Objects")]
+        public List<GameObject> SelectionImages;
+        public List<GameObject> TabPanels;
 
 
+        [Header("Force Selection Images")]
+        public GameObject LeftSideSelectedImage;
+        public GameObject RightSideSelectedImage;
 
-        public void OnEquipmentButtonClicked()
+
+        [Header("Audio Objects")]
+        public PanelOnOff deleteAccountPanel;
+        public Toggle hapticsToggle;
+        public Slider bgSlider;
+        public AudioSource BGAudioSource;
+
+
+        [Header("Panel Objects")]
+        public string currentState;
+
+        private void OnEnable()
         {
-            AudioManager.instance.PlayButtonClickSound();
-            ProfilePanel.SetActive(false);
-            ResetImages();
-       
-        }
 
-        void ResetImages()
-        {
-           
-        }
-
-        public void OnNameChanged(string newName)
-        {
-            myPlayerSettings.MyName = newName;
-        }
-
-        public void OnVolumeChanged(float volume)
-        {
-            AudioManager.instance.SetBackGroundVolume(musicSlider.value);
-        }
-
-      
-        public void OnValueChanged(string output)
-        {
-            myPlayerSettings.MyName = playerNameIf.text;
-        }
-
- 
-        public void BackButtonClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            uiData.uiManager.ChangeState(settingsState, false);
-        }
-
-        public void OnProfileImageClicked()
-        {
-            if (!Application.isEditor)
+            if (userData.myDominantHand == DominantHand.Right)
             {
-              //  AvatarEditorDeeplink.LaunchAvatarEditor();
+                LeftSideSelectedImage.SetActive(false);
+                RightSideSelectedImage.SetActive(true);
+            }
+            else
+            {
+                LeftSideSelectedImage.SetActive(true);
+                RightSideSelectedImage.SetActive(false);
+            }
+
+            bgSlider.value = BGAudioSource.volume;
+        }
+
+        public void TabButtonClicked(int id)
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            ResetTabs();
+            TabPanels[id].SetActive(true);
+            SelectionImages[id].SetActive(true);
+
+        }
+
+        private void ResetTabs()
+        {
+            foreach (var tab in TabPanels)
+            {
+                tab.SetActive(false);
+            }
+
+            foreach (var img in SelectionImages)
+            {
+                img.SetActive(false);
             }
         }
+
+
+
+        public void RightBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            RightSideSelectedImage.SetActive(true);
+            LeftSideSelectedImage.SetActive(false);
+            userData.SetDominantHand(DominantHand.Right);
+        }
+
+
+        public void LeftBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            RightSideSelectedImage.SetActive(false);
+            LeftSideSelectedImage.SetActive(true);
+            userData.SetDominantHand(DominantHand.Left);
+        }
+
+        public void DeleteAccountBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            deleteAccountPanel.TurnOnPanel();
+        }
+
+        public void Logout()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            PlayerPrefs.DeleteKey("IsGoogleLogin");
+            PlayerPrefs.Save();
+        
+            uiData.uiManager.ChangeState("Login", true);
+            uiData.uiManager.GoToState(StateName.LoginState);
+            uiData.uiManager.ChangeState(currentState, false);
+        }
+
+        public void BGMusicChanged(float val)
+        {
+            BGAudioSource.volume = val;
+        }
+
+        public void HapticsChanged()
+        {
+
+            userData.SetHapticsEnabled(hapticsToggle.isOn);
+        }
+
+
+        public void BackBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(currentState, false);
+        }
+
     }
+
 }

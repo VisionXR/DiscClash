@@ -55,7 +55,8 @@ namespace com.VisionXR.Views
                 }
                 else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
                 {
-                    gameNameText.text = "Game : P1AI vs P2AI";
+                    gameNameText.text = "Game : P1AI vs P2AI" +
+                        "";
                     SetFourPlayerData(result);
                 }
 

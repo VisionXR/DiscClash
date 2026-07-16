@@ -27,7 +27,8 @@ namespace com.VisionXR.HelperClasses
     public enum RoomJoinType { Create,Join}
     public enum AudioType { Coin, Edge, Hole }
 
-   
+    public enum DominantHand {  Right,Left }
+
     public enum ServerRegion { any, us, @in, eu, asia, au, uae, jp, kr, cae, hk, sa, tr, ussc, usw }
    
 

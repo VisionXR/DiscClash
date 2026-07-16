@@ -21,7 +21,8 @@ using UnityEngine;
         public int MyCoins;
         public int MyPoints;
         public ServerRegion serverRegion;
-       
+        public DominantHand myDominantHand;
+        public bool isHapticsEnabled;
 
         // Events
         public Action<string> UserDataReceived;
@@ -40,6 +41,17 @@ using UnityEngine;
         private void OnEnable()
         {
             IsLoggedIn = false;
+            isHapticsEnabled = true;
+        }
+
+        public void SetHapticsEnabled(bool status)
+        {
+            isHapticsEnabled = status;
+        }
+
+        public void SetDominantHand(DominantHand hand)
+        {
+            myDominantHand = hand;
         }
 
         public void SetLoginType(LoginType type)

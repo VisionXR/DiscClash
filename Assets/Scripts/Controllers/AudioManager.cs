@@ -12,7 +12,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource winningAS;
     [SerializeField] private AudioSource losingAS;
     [SerializeField] private AudioSource redCoveredAS;
-    [SerializeField] public AudioSource backgroundMusicAS;
     [SerializeField] private AudioSource PopUpSound;
     [SerializeField] private AudioSource ToastSound;
     [SerializeField] private AudioSource NotificationSound;
@@ -23,11 +22,7 @@ public class AudioManager : MonoBehaviour
     {
         instance = this;
     }
-    public void SetBackGroundVolume(float volume)
-    {
-        
-        backgroundMusicAS.volume = volume;
-    }
+
     public void PlayButtonClickSound()
     {
         buttonClickAS.Play();

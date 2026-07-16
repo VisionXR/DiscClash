@@ -79,7 +79,7 @@ namespace com.VisionXR.Controllers
             strikerMovement.SetStrikerID(1);
 
             Invoke("DisplayCurrentStep", 1f);
-            AudioManager.instance.backgroundMusicAS.mute = true;
+   
             tutorialData.CheckPositionEvent += OnPositionLocked;
             tutorialData.CheckAimEvent += OnAimingLocked;
             Striker.GetComponent<StrikerShooting>().StrikeStartedEvent += StrikeStarted;
@@ -399,7 +399,6 @@ namespace com.VisionXR.Controllers
             tutorialData.SetCanIAim(false);
             tutorialData.SetCanIFire(false);
 
-            AudioManager.instance.backgroundMusicAS.mute = false;
             inputData.DisableInput();
 
             EndTutorial();
@@ -428,13 +427,9 @@ namespace com.VisionXR.Controllers
             tutorialData.SetCanIAim(false);
             tutorialData.SetCanIFire(false);
 
-            AudioManager.instance.backgroundMusicAS.mute = false;
             inputData.DisableInput();
 
             EndTutorial();
-       //     uiOutputData.EndTutorial();
-         
-
 
             gameObject.SetActive(false);
         }
