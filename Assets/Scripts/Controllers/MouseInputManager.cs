@@ -21,14 +21,25 @@ namespace com.VisionXR.Controllers
         public float swipeminTimeThreshold = 0.1f;
         public float swipemaxTimeThreshold = 1;
 
+        [Header("First Turn Setup")]
+        [Tooltip("Is it the first turn of the match? (Can also be read/set by Game Manager)")]
+        public bool isFirstTurn = false;
+        [Tooltip("Layer mask assigned to your Carrom coins")]
+        public LayerMask coinsLayerMask;
+        [Tooltip("Sensitivity multiplier for rotating the center coins")]
+        public float coinRotationSensitivity = 100f;
+
         // Local variables
         private Vector2 swipeStartPosition;
         private float swipeStartTime;
         public float cutoffValue = 0.1f;
         public float movementswipeSensitivity = 1;
         public float aimswipeSensitivity = 1;
+
+        [Header("Input States (Read Only)")]
         public bool isSwipeStarted = false;
         public bool isAimStarted = false;
+        public bool isRotatingPack = false;
 
         private void OnEnable()
         {
@@ -46,6 +57,11 @@ namespace com.VisionXR.Controllers
             {
                 this.enabled = false;
             }
+        }
+
+        public void SetFirstTurn(bool firstTurn)
+        {
+            isFirstTurn = firstTurn;    
         }
 
         private void LateUpdate()
@@ -121,26 +137,43 @@ namespace com.VisionXR.Controllers
             swipeStartPosition = touchPosition;
             swipeStartTime = Time.time;
 
-            // Calculate the screen height threshold for the bottom 25%
+            // 1. Calculate the screen height threshold for the bottom 25%
             float bottomRegionThreshold = Screen.height * 0.25f;
 
-            // Check if the touch started in the bottom 25% area
+            // 2. Check if the touch started in the bottom 25% area
             if (touchPosition.y <= bottomRegionThreshold)
             {
                 isSwipeStarted = true;
             }
-            else
+            else // Top 75% Area (Aim / Pack Rotation)
             {
+                // 3. If it's the first turn, raycast to see if we clicked a coin
+                if (isFirstTurn)
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(touchPosition);
+                    RaycastHit hit;
+
+                    // Perform raycast checking against the coinsLayerMask
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, coinsLayerMask))
+                    {
+                        // Player touched the coin pack! Lock into rotation mode
+                        isRotatingPack = true;
+                        return;
+                    }
+                }
+
+                // Default fallback: normal aiming
                 isAimStarted = true;
             }
         }
 
         private void HandleTouchUpdate(Vector2 touch)
         {
+            float deltaX = touch.x - swipeStartPosition.x;
+            float normalizedDeltaX = deltaX / Screen.width;
+
             if (isSwipeStarted) // Bottom 25% -> Move Striker Left/Right
             {
-                float deltaX = touch.x - swipeStartPosition.x;
-                float normalizedDeltaX = deltaX / Screen.width;
                 float movementDelta = normalizedDeltaX * movementswipeSensitivity;
                 movementDelta = Mathf.Clamp(movementDelta, -1f, 1f);
 
@@ -149,10 +182,17 @@ namespace com.VisionXR.Controllers
                 swipeStartPosition = touch;
                 swipeStartTime = Time.time;
             }
-            else if (isAimStarted) // Top 75% -> Rotate Striker Delta Angle
+            else if (isRotatingPack) // First Turn & Touched Coins -> Rotate Coins Pack
             {
-                float deltaX = touch.x - swipeStartPosition.x;
-                float normalizedDeltaX = deltaX / Screen.width;
+                float rotationDelta = normalizedDeltaX * coinRotationSensitivity;
+
+                inputData.RotateCoins(rotationDelta);
+
+                swipeStartPosition = touch;
+                swipeStartTime = Time.time;
+            }
+            else if (isAimStarted) // Top 75% (No coin hit) -> Rotate Striker Delta Angle
+            {
                 float angleDelta = normalizedDeltaX * aimswipeSensitivity;
 
                 inputData.RotateStrikerAbsolute(angleDelta);
@@ -164,21 +204,24 @@ namespace com.VisionXR.Controllers
 
         private void HandleTouchEnded(Vector2 touch)
         {
+            float deltaX = touch.x - swipeStartPosition.x;
+            float normalizedDeltaX = deltaX / Screen.width;
+
             if (isSwipeStarted)
             {
-                float deltaX = touch.x - swipeStartPosition.x;
-                float normalizedDeltaX = deltaX / Screen.width;
                 float movementDelta = Mathf.Clamp(normalizedDeltaX * movementswipeSensitivity, -1f, 1f);
-
                 inputData.MoveStriker(movementDelta);
                 isSwipeStarted = false;
             }
+            else if (isRotatingPack)
+            {
+                float rotationDelta = normalizedDeltaX * coinRotationSensitivity;
+                inputData.RotateCoins(rotationDelta);
+                isRotatingPack = false;
+            }
             else if (isAimStarted)
             {
-                float deltaX = touch.x - swipeStartPosition.x;
-                float normalizedDeltaX = deltaX / Screen.width;
                 float angleDelta = normalizedDeltaX * aimswipeSensitivity;
-
                 inputData.RotateStrikerAbsolute(angleDelta);
                 isAimStarted = false;
             }

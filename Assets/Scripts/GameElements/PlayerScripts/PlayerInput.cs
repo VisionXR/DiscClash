@@ -17,7 +17,7 @@ namespace com.VisionXR.GameElements
 
         [Header("Local Objects")]
         public Player player;
-        public bool canIRotate = false;
+       
 
 
 
@@ -28,6 +28,8 @@ namespace com.VisionXR.GameElements
             inputData.RotateStrikerAbsoluteEvent += RotateStriker;
             inputData.StrikerForceChangedEvent += StrikerForceChanged;
 
+            inputData.RotateCoinsEvent += RotateCoins;
+
         }
 
         private void OnDisable()
@@ -36,6 +38,8 @@ namespace com.VisionXR.GameElements
             inputData.FireStrikeEvent -= FireStriker;
             inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
             inputData.StrikerForceChangedEvent -= StrikerForceChanged;
+
+            inputData.RotateCoinsEvent -= RotateCoins;
         }
 
 
@@ -65,21 +69,10 @@ namespace com.VisionXR.GameElements
 
         private void RotateCoins(float val)
         {
-            if (canIRotate)
-            {
-                coinData.RotateCoins(val);
-                player.AllCoinsRotatedEvent?.Invoke(coinData.AllCoinsYRotationValue);
-            }
-        }
-
-        public void StartRotation()
-        {
-            canIRotate = true;
-        }
-
-        public void StopRotation()
-        {
-            canIRotate = false;
+           
+            coinData.RotateCoins(val);
+            player.AllCoinsRotatedEvent?.Invoke(coinData.AllCoinsYRotationValue);
+            
         }
 
     }

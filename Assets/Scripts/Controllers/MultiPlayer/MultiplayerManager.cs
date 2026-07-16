@@ -27,6 +27,7 @@ namespace com.VisionXR.Controllers
 
 
         [Header("Scripts")]
+        public MobileInputManager mobileInputManager;
         public InputCanvasView inputCanvasView;
         public BlackAndWhiteLogic blackAndWhiteLogic;
         public FreeStyleLogic freeStyleLogic;
@@ -179,6 +180,15 @@ namespace com.VisionXR.Controllers
             connectionDisconnection.StartGame();
 
             gameData.ChangeTurn(turnId);
+
+            if (turnId == 1)
+            {
+
+                mobileInputManager.SetFirstTurn(true);
+                coinData.ShowCoinRotationCanvas();
+                isFirstTurn = true;
+
+            }
         }
     
         private void StrikeStarted(int id, float f)
@@ -188,8 +198,7 @@ namespace com.VisionXR.Controllers
 
             if (isFirstTurn)
             {
-                Player p = playersData.GetMainPlayer();
-                p.GetComponent<PlayerInput>().StopRotation();
+                mobileInputManager.SetFirstTurn(false);
                 isFirstTurn = false;
             }
 
@@ -499,6 +508,7 @@ namespace com.VisionXR.Controllers
 
         private void OnExitGame()   
         {
+            mobileInputManager.SetFirstTurn(false);
             inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
             coinData.DestroyAllCoins();

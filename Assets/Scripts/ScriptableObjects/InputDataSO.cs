@@ -20,7 +20,7 @@ namespace com.VisionXR.ModelClasses
 
         public Action<float> RotateStrikerAbsoluteEvent;
         public Action<float> MoveStrikerEvent;
-
+        public Action<float> RotateCoinsEvent;
 
 
 
@@ -52,6 +52,11 @@ namespace com.VisionXR.ModelClasses
         public void RotateStrikerAbsolute(float angle)
         {
             RotateStrikerAbsoluteEvent?.Invoke(angle);
+        }
+
+        public void RotateCoins(float angle)
+        {
+            RotateCoinsEvent?.Invoke(angle);
         }
 
         public void FireStrike(float power)
