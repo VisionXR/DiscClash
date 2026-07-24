@@ -3,17 +3,28 @@ using UnityEngine;
 
 public class AimLine : MonoBehaviour
 {
-    [Header("References")]
+    [Header("Scriptable Objects")]
     public BoardDataSO boardData;
-    public GameObject line;
+
+    [Header("Game Objects")]
+    public Transform checkTransform;
     public Renderer lineRenderer;
+    public Renderer circleRenderer;
+    public GameObject line;
+    public GameObject quadCircle;
+
+    [Header("Properties")]
+    public LayerMask colliderMask;
+    public float CutOffLength = 1f;
+    public float arrowCutOffLength = 0.15f;
+    public float LineThickness = 0.08f;
+    public int NoofArrowsPerUnit = 5;
+    public float distanceFactor = 0.075f;
+
+    public float strikerOffset = 0.01f;
 
     // local variables
     private RaycastHit hit;
-    public float CutOffLength = 1f;
-
-    // Added variable for line thickness
-    public  float LineThickness = 0.08f;
 
     public void SetCutOffLength(float d)
     {
@@ -25,40 +36,46 @@ public class AimLine : MonoBehaviour
         if (lineRenderer != null && lineRenderer.material != null)
         {
             lineRenderer.material.color = color;
+            circleRenderer.material.color = color;
         }
     }
 
     private void FixedUpdate()
     {
-        float radius = boardData.StrikerRadius;
-        RaycastHit hit;
+        // SphereCast up to CutOffLength
+        bool hasHit = Physics.SphereCast(checkTransform.position, boardData.StrikerRadius, checkTransform.forward, out hit, CutOffLength, colliderMask);
 
-        // SphereCast sweeps a sphere of 'radius' along 'transform.up' 
-        if (Physics.SphereCast(transform.position, radius, transform.up, out hit))
+        // Clamp distance so it never exceeds CutOffLength
+        float targetDistance = hasHit ? Mathf.Min(hit.distance, CutOffLength) : CutOffLength;
+        float hitDistance = targetDistance / distanceFactor;
+
+        if (hitDistance < 1)
         {
-            // hit.distance is the exact travel distance from the start center to the collision center
-            float d = hit.distance;
+            line.SetActive(false);
+            quadCircle.SetActive(false);
+            return;
+        }
 
-            // Apply your scaling logic
-            d = d / 0.15f;
-            float scaleY = d > CutOffLength ? CutOffLength : d;
-            line.transform.localScale = new Vector3(LineThickness, scaleY, 1);
+        line.SetActive(true);
+        quadCircle.SetActive(true);
 
-            // Set tiling for lineRenderer's material
-            if (lineRenderer != null && lineRenderer.material != null)
-            {
-                lineRenderer.material.mainTextureScale = new Vector2(1, scaleY * 10);
-            }
+        Vector3 circleCenter;
+
+        if (hasHit && hit.distance <= CutOffLength)
+        {
+            // Position circle directly at the impact surface offset
+            circleCenter = hit.point + hit.normal * (boardData.StrikerRadius - strikerOffset);
         }
         else
         {
-            line.transform.localScale = new Vector3(LineThickness, CutOffLength, 1);
-
-            // Set tiling for lineRenderer's material
-            if (lineRenderer != null && lineRenderer.material != null)
-            {
-                lineRenderer.material.mainTextureScale = new Vector2(1, CutOffLength * 10);
-            }
+            // Position circle at the maximum allowed range along the aim vector
+            circleCenter = checkTransform.position + checkTransform.forward * CutOffLength;
         }
+
+        quadCircle.transform.position = circleCenter;
+
+        // Scale line to span precisely from its origin to the circle center
+        float exactDistance = Vector3.Distance(line.transform.position, circleCenter);
+        line.transform.localScale = new Vector3(LineThickness, exactDistance, LineThickness);
     }
 }
