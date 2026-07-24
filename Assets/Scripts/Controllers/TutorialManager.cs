@@ -173,8 +173,7 @@ namespace com.VisionXR.Controllers
                 if (currentStep.interactiveStepType == InteractiveStepType.Positioning)
                 {
                     tutorialStriker.SetActive(true);
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                   
 
                     strikerMovement.SetStrikerID(1);
                     tutorialData.canIPosition = true;
@@ -185,11 +184,11 @@ namespace com.VisionXR.Controllers
                 {
                     
                     tutorialStriker.SetActive(true);
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                    strikerMovement.ResetStriker();
 
 
                     strikerArrow.TurnOnArrow();
+                    tutorialData.canIPosition= true;
                     tutorialData.canIAim = true;
                 }
 
@@ -199,8 +198,8 @@ namespace com.VisionXR.Controllers
                     isCoinPocketed = false;
                     strikerArrow.TurnOnArrow();
                     tutorialStriker.SetActive(true);
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+
+                    strikerMovement.ResetStriker();
 
                     inputData.EnableInput();
                     tutorialData.canIPosition = true;

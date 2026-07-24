@@ -41,7 +41,10 @@ namespace com.VisionXR.GameElements
 
         private void MoveStriker(float delta)
         {
-            strikerMovement.MoveStriker(delta);
+            if (tutorialData.canIPosition)
+            {
+                strikerMovement.MoveStriker(delta);
+            }
         }
 
         private void StrikerForceChanged(float obj)
@@ -51,15 +54,19 @@ namespace com.VisionXR.GameElements
 
         private void RotateStriker(float angle)
         {
-           strikerMovement.AimStriker(angle);
+            if (tutorialData.canIAim)
+            {
+                strikerMovement.AimStriker(angle);
+            }
         }
 
         private void FireStriker(float val)
         {
-          
-            strikerShooting.FireStriker(val);
+            if (tutorialData.canIFire)
+            {
+                strikerShooting.FireStriker(val);
+            }
         }
-
 
     }
 }
