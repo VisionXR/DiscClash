@@ -39,7 +39,7 @@ namespace com.VisionXR.Controllers
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
         }
 
-        private void StartGame()
+        public void StartGame()
         {
             if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {

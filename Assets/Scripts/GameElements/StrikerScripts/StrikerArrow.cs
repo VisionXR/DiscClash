@@ -15,6 +15,7 @@ namespace com.VisionXR.GameElements
 
         [Header(" Game Objects")]
         public GameObject displayArrow;
+        public GameObject guide;
         public Renderer arrowRenderer;
 
 
@@ -35,6 +36,7 @@ namespace com.VisionXR.GameElements
          
             displayArrow.SetActive(true);
             arrowRenderer.material.SetFloat("_Threshold", 0);
+            guide.SetActive(true);
         }
 
         public void TurnOffArrow()
@@ -42,6 +44,7 @@ namespace com.VisionXR.GameElements
            
             displayArrow.SetActive(false);
             arrowRenderer.material.SetFloat("_Threshold", 0);
+            guide.SetActive(false);
         }
     }
 }

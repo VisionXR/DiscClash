@@ -17,15 +17,31 @@ public class StartGame : StateMachineBehaviour
         {
             uiData.uiManager.HideCanvas(0);
 
-            if (uIOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uIOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if (uIOutputData.gameType == GameType.VsCPU)
             {
-                uiData.uiManager.ShowCanvas(scoreCanvas2Players);
-                uiData.uiManager.scorePanel2Player.TurnOn();
+                if (uIOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI )
+                {
+                    uiData.uiManager.ShowCanvas(scoreCanvas2Players);
+                    uiData.uiManager.scorePanel2Player.TurnOn();
+                }
+                else
+                {
+                    uiData.uiManager.ShowCanvas(scoreCanvas4Players);
+                    uiData.uiManager.scorePanel4Player.TurnOn();
+                }
             }
-            else 
+            else if (uIOutputData.gameType == GameType.PlayWithFriends)
             {
-                uiData.uiManager.ShowCanvas(scoreCanvas4Players);
-                uiData.uiManager.scorePanel4Player.TurnOn();
+                if (uIOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+                {
+                    uiData.uiManager.ShowCanvas(scoreCanvas2Players);
+                    uiData.uiManager.scorePanel2Player.TurnOn();
+                }
+                else
+                {
+                    uiData.uiManager.ShowCanvas(scoreCanvas4Players);
+                    uiData.uiManager.scorePanel4Player.TurnOn();
+                }
             }
 
             uiData.uiManager.SetCurrentStateName(currentStateName);
@@ -42,18 +58,33 @@ public class StartGame : StateMachineBehaviour
         
         if (uiData.uiManager != null)
         {
-            if (uIOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uIOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if (uIOutputData.gameType == GameType.VsCPU)
             {
-                uiData.uiManager.HideCanvas(scoreCanvas2Players);
-                uiData.uiManager.scorePanel2Player.TurnOff();
+                if (uIOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+                {
+                    uiData.uiManager.HideCanvas(scoreCanvas2Players);
+                    uiData.uiManager.scorePanel2Player.TurnOff();
+                }
+                else
+                {
+                    uiData.uiManager.HideCanvas(scoreCanvas4Players);
+                    uiData.uiManager.scorePanel4Player.TurnOff();
+                }
             }
-            else
+            else if (uIOutputData.gameType == GameType.PlayWithFriends)
             {
-                uiData.uiManager.HideCanvas(scoreCanvas4Players);
-                uiData.uiManager.scorePanel4Player.TurnOff();
+                if (uIOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+                {
+                    uiData.uiManager.HideCanvas(scoreCanvas2Players);
+                    uiData.uiManager.scorePanel2Player.TurnOff();
+                }
+                else
+                {
+                    uiData.uiManager.HideCanvas(scoreCanvas4Players);
+                    uiData.uiManager.scorePanel4Player.TurnOff();
+                }
             }
 
-            
 
             uiData.uiManager.SetPreviousStateName(currentStateName);
         }

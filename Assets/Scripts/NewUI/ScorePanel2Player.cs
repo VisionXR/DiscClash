@@ -39,6 +39,10 @@ namespace com.VisionXR.Views
         public PanelOnOff bottomLeftPanel;
 
         // local variables
+        [Header("This Objects")]
+        public GameObject Player1ScorePanel;
+        public GameObject Player2ScorePanel;
+        public float scaleFactor = 1.1f;
         public float blinkTime = 0.2f;
         private Coroutine turnIndicatorCoroutine;
 
@@ -181,6 +185,18 @@ namespace com.VisionXR.Views
             }
 
             turnIndicatorCoroutine = StartCoroutine(TurnIndicator(id));
+
+            if (id == 1)
+            {
+                Player1ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+                Player2ScorePanel.transform.localScale = Vector3.one;
+
+            }
+            else
+            {
+                Player1ScorePanel.transform.localScale = Vector3.one;
+                Player2ScorePanel.transform.localScale = Vector3.one * scaleFactor;
+            }
         }
 
 
