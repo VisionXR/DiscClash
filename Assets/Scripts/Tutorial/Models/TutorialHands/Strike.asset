@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Strike
+  m_EditorClassIdentifier: 
+  stepNumber: 4
+  stepText: "Now for the fun part: let\u2019s strike! Aim at the piece just like
+    before, then pull back the force bar to take your shot!"
+  stepAudio: {fileID: 8300000, guid: 15ff3c09831a48a4fab75d55a3f23585, type: 3}
+  interactiveStepType: 3
+  successText: Well played! That was a perfect hit.
+  failureText: Take a moment and aim for a better shot.
+  successAudio: {fileID: 8300000, guid: b169767eaada21d488e5634a6a0af2a4, type: 3}
+  failureAudio: {fileID: 8300000, guid: d90fc71348618e2429b12c76fdbf6f9a, type: 3}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: -32.02, z: 0}
+  coinPosition: {x: -0.325, y: 0.61, z: 0.11}
+  holeName: Hole2

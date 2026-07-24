@@ -75,7 +75,7 @@ namespace com.VisionXR.Controllers
         {
             ResetManagers();
             TutorialManager.SetActive(true);
-            TutorialManager.GetComponent<TutorialManager>().StartTutorial();
+          //  TutorialManager.GetComponent<TutorialManager>().StartTutorial();
         }
 
         private void StopGame()

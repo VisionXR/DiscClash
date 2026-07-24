@@ -6,99 +6,67 @@ using UnityEngine;
 
 namespace com.VisionXR.GameElements
 {
-
     public class TutorialInput : MonoBehaviour
     {
         [Header("Scriptable Objects")]
         public InputDataSO inputData;
         public TutorialDataSO tutorialData;
+        public BoardDataSO boardData;
+        public StrikerDataSO strikerData;
 
         [Header("Game Objects")]
         public GameObject striker;
-        private IStrikerMovement strikerMovement;
+        public StrikerShooting strikerShooting;
+        public StrikerMovement strikerMovement;
 
-        public void RegisterEvents()
+
+
+        private void OnEnable()
         {
-            strikerMovement = striker.GetComponent<IStrikerMovement>();
-         
-   
+            inputData.FireStrikeEvent += FireStriker;
+            inputData.RotateStrikerAbsoluteEvent += RotateStriker;
+
+         //   inputData.SwipedEvent += Swiped;
+            inputData.StrikerForceChangedEvent += StrikerForceChanged;
         }
 
-        public void DeRegisterEvents()
+
+        private void OnDisable()
         {
-          
-       
+            inputData.FireStrikeEvent -= FireStriker;
+            inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
+
+          //  inputData.SwipedEvent -= Swiped;
+            inputData.StrikerForceChangedEvent -= StrikerForceChanged;
+
         }
 
-
-
-        private void OnTriggerButtonClicked()
+        private void Swiped(float velocity)
         {
-            if (tutorialData.canIAim && ! tutorialData.canIFire)
+
+          //  strikerMovement.RotateRelative(velocity);
+        }
+
+        private void StrikerForceChanged(float obj)
+        {
+            strikerShooting.SetStrikerForce(obj);
+        }
+
+        private void RotateStriker(float angle)
+        {
+          //  strikerMovement.RotateAbsolute(angle);
+        }
+
+        private void FireStriker(float val)
+        {
+            if (val < 0.9f)
             {
-               
-                tutorialData.CheckAim();
+                val = val + 0.1f;
             }
-        }
 
-        private void OnGrabButtonClicked()
-        {
-            if (tutorialData.canIPosition && !tutorialData.canIAim)
-            {
-               
-                tutorialData.CheckPosition();
-            }
-        }
-
-        private void OnControllerMoved(Vector3 vector, Transform transform)
-        {
-            if (tutorialData.canIPosition)
-            {
-                
-            }
+            strikerShooting.FireStriker(val);
         }
 
 
-        private void OnControllerRotated(float value)
-        {
-            if (tutorialData.canIAim)
-            {
-             
-            }
-           
-        }
-
-        private void OnHandRotated(Vector3 pos)
-        {
-            if (tutorialData.canIAim)
-            {
-                 
-            }
-        }
-
-        private void Swiped(SwipeDirection direction)
-        {
-            if (tutorialData.canIPosition)
-            {
-            
-                
-            }
-        }
-
-        private void KeyboardRotated(SwipeDirection direction)
-        {
-            if (tutorialData.canIAim)
-            {
-               
-            }
-        }
-
-        private void FireStrikerWithForce(float value)
-        {
-            if (tutorialData.canIFire)
-            {
-               
-            }
-        }
     }
 }

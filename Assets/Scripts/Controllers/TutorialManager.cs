@@ -1,437 +1,329 @@
 using com.VisionXR.GameElements;
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 namespace com.VisionXR.Controllers
 {
     public class TutorialManager : MonoBehaviour
     {
-        [Header(" Scriptable Objects")]
-        public UIOutputDataSO uiOutputData;
-        public UIInputDataSO uiInputData;
+        [Header("Scriptable Objects")]
+        public List<TutorialStep> tutorialSteps;
         public TutorialDataSO tutorialData;
+        public BoardDataSO boardData;
         public InputDataSO inputData;
         public CoinDataSO coinData;
         public StrikerDataSO strikerData;
-        public CamPositionSO camPositionData;
-        public BoardDataSO boardData;
-        public MyPlayerSettings myPlayerSettings;
+        public UIDataSO uiData;
 
-        // An array of Scriptable Objects for each tutorial step
-        public TutorialInput tutorialInput;
-        public TutorialStep[] tutorialStepsController;
-        public TutorialStep[] tutorialStepsHand;
-        public int currentStepIndex = 0;
+
+        [Header("Game Objects")]
+        public TutorialPanelView tutorialPanelView;
+        public GameObject tutorialBoard;
+        public GameObject tutorialStriker;
+        public GameObject tutorialCoin;
+        public InputCanvasView inputCanvasView;
+
+        [Header("Local Variables")]
+        public Vector3 strikerInitPosition;
+        public BoardManager boardManager;
+        public StrikerArrow strikerArrow;
         public TutorialStep currentStep;
-
-        // Reference for striker ,glow striker, coin and holes
-        [Header("Objects for turtorial")]
-        public TutorialCanvasUIManager tutorialCanvasUIManager;
-        public GameObject Board;
-        public GameObject Striker;
-        public GameObject GlowStriker;
-        public GameObject GlowArrow;
-        public GameObject BlackCoin;
-        public GameObject WhiteCoin;
-        public GameObject RedCoin;
-        public bool isCoinPocked = false;
-
-
-        public IStrikerMovement strikerMovement;
-        public Destination NewDestination;
-        private bool isFTUE = false;
-
+        private Coroutine _tutorialRoutine;
+        private bool _stepCompleted;
+        private bool _tutorialSkipped;
+        private int _currentStepIndex = -1;
+        private bool isCoinPocketed = false;
 
         private void OnEnable()
         {
-            uiInputData.ExitGameEvent += SkipButtonClicked;
-         
-       
+            Reset();
+            tutorialData.NextBtnClcikedEvent += NextBtnClicked;
+            tutorialData.SkipBtnClcikedEvent += SkipBtnClicked;
+            tutorialData.PlayBtnClickedEvent += PlayBtnClicked;
+
+            //inputData.RotationPinchStartedEvent += PlatformRotationStarted;
+            //inputData.RotationPinchEndedEvent += PlatformRotationEnded;
+
+            //inputData.SwipeCompleteEvent += SwipeCompeted;
+
+            //coinData.CoinPocketedEvent += CoinPocketed;
+
+            //strikerData.StrikerStartedEvent += StrikeStarted;
+            //strikerData.StrikerStoppedEvent += StrikeCompleted;
+
+
+            boardManager.StartTutorial();
+            tutorialBoard.SetActive(true);
+            StartCoroutine(RunTutorialSteps());
         }
 
         private void OnDisable()
         {
-            uiInputData.ExitGameEvent -= SkipButtonClicked;
+            tutorialData.NextBtnClcikedEvent -= NextBtnClicked;
+            tutorialData.SkipBtnClcikedEvent -= SkipBtnClicked;
+            tutorialData.PlayBtnClickedEvent -= PlayBtnClicked;
+
+
+            //inputData.RotationPinchStartedEvent -= PlatformRotationStarted;
+            //inputData.RotationPinchEndedEvent -= PlatformRotationEnded;
+
+            //inputData.SwipeCompleteEvent -= SwipeCompeted;
+
+            //coinData.CoinPocketedEvent -= CoinPocketed;
+            //strikerData.StrikerStoppedEvent -= StrikeCompleted;
+            //strikerData.StrikerStartedEvent -= StrikeStarted;
+
+
+            boardManager.EndTutorial();
+        }
+
+        private void Reset()
+        {
+            if (_tutorialRoutine != null)
+            {
+                StopCoroutine(_tutorialRoutine);
+                _tutorialRoutine = null;
+            }
+
+            tutorialBoard.SetActive(false);
+            tutorialStriker.SetActive(false);
+
+            tutorialCoin.SetActive(false);
+            inputData.DisableInput();
+            tutorialData.canIAim = false;
+            tutorialData.canIFire = false;
+            isCoinPocketed = false;
+            _tutorialSkipped = false;
+            _stepCompleted = false;
+            _currentStepIndex = -1;
+        }
+
+        private void CoinPocketed(GameObject coin)
+        {
+            tutorialCoin.GetComponent<Rigidbody>().isKinematic = true;
+            isCoinPocketed = true;
+        }
+
+        // Call this to start running the steps
+        private void PlayBtnClicked()
+        {
+            Reset();
+            uiData.uiManager.ChangeState("Tutorial", false);
+            gameObject.SetActive(false);
+        }
+
+        private void NextBtnClicked()
+        {
+            // Force-advance the current step
+            _stepCompleted = true;
+        }
+
+        private void SkipBtnClicked()
+        {
+
+            Reset();
+            uiData.uiManager.ChangeState("Tutorial", false);
+            gameObject.SetActive(false);
+        }
+
+        private IEnumerator RunTutorialSteps()
+        {
+            yield return new WaitForSeconds(1);
+
+
+            for (int i = 0; i < tutorialSteps.Count; i++)
+            {
+                if (_tutorialSkipped)
+                {
+                    break;
+                }
+
+                _currentStepIndex = i;
+                _stepCompleted = false;
+
+                currentStep = tutorialSteps[i];
+
+
+                // 1. Check if the audio clip actually EXISTS in Unity's memory
+                float audioDuration = 10f;
+
+                // Using explicit false check against true null/destroyed state
+                if (tutorialSteps[i].stepAudio)
+                {
+                    audioDuration = tutorialSteps[i].stepAudio.length;
+                }
+
+                tutorialData.ShowTutorialStep(
+                    i + 1,
+                    tutorialSteps[i].stepText,
+                    tutorialSteps[i].stepAudio,
+                    tutorialSteps[i].interactiveStepType,
+                    audioDuration
+                );
+
+
+                if (currentStep.interactiveStepType == InteractiveStepType.Positioning)
+                {
+                   
+                    inputData.EnableInput();
+                }
+
+                else if (currentStep.interactiveStepType == InteractiveStepType.Aiming)
+                {
+                    
+                    tutorialStriker.SetActive(true);
+                    tutorialStriker.transform.localPosition = strikerInitPosition;
+                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+
+
+                    strikerArrow.TurnOnArrow();
+                    tutorialData.canIAim = true;
+                }
+
+                else if (currentStep.interactiveStepType == InteractiveStepType.Striking)
+                {
+
+                    isCoinPocketed = false;
+                    strikerArrow.TurnOnArrow();
+                    tutorialStriker.SetActive(true);
+                    tutorialStriker.transform.localPosition = strikerInitPosition;
+                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+
+                    inputData.EnableInput();
+                    tutorialData.canIAim = true;
+                    tutorialData.canIFire = true;
+                    tutorialCoin.SetActive(true);
+
+                    inputCanvasView.TurnOn();
+
+                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
           
-        }
+                    tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialStriker.transform.localPosition = strikerInitPosition;
+                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
 
-        public void StartFTUE(Destination d)
-        {
-            isFTUE = true;
-            NewDestination = d;
-            StartTutorial();
-        }
-
-        public void StartTutorial()
-        {
-         
-            currentStepIndex = 0;
-            Board.SetActive(true);
-            boardData.TurnOnHoles();
-
-            tutorialCanvasUIManager.Reset();
-
-
-            strikerMovement = Striker.GetComponent<IStrikerMovement>();
-            strikerMovement.SetStrikerID(1);
-
-            Invoke("DisplayCurrentStep", 1f);
-   
-            tutorialData.CheckPositionEvent += OnPositionLocked;
-            tutorialData.CheckAimEvent += OnAimingLocked;
-            Striker.GetComponent<StrikerShooting>().StrikeStartedEvent += StrikeStarted;
-            Striker.GetComponent<StrikerShooting>().StrikeFinishedEvent += StrikeFinished;
-            coinData.CoinpocketedUntoHoleEvent += OnCoinFellIntoHole;
-           
-
-            camPositionData.SetCamPositionFrontView(1);
-            tutorialData.ResetVariables();
-
-            tutorialInput.RegisterEvents();
-
-        }
-
-        private void EndTutorial()
-        {
-           
-            tutorialData.CheckPositionEvent -= OnPositionLocked;
-            tutorialData.CheckAimEvent -= OnAimingLocked;     
-            coinData.CoinpocketedUntoHoleEvent -= OnCoinFellIntoHole;
-            Striker.GetComponent<StrikerShooting>().StrikeStartedEvent -= StrikeStarted;
-            Striker.GetComponent<StrikerShooting>().StrikeFinishedEvent -= StrikeFinished;
-            tutorialInput.DeRegisterEvents();
-        }
-
-        private void DisplayCurrentStep()
-        {
-
-            Striker.SetActive(false);
-            BlackCoin.SetActive(false);
-            WhiteCoin.SetActive(false);
-            RedCoin.SetActive(false);
-            // ... your existing code to display the step ...
-
-
-
-            tutorialCanvasUIManager.StepText.text = "Step : " + currentStep.stepNumber + " / "+tutorialStepsController.Length;
-            tutorialCanvasUIManager.ContentText.text = currentStep.stepText;
-
-            if (currentStep.stepAudio != null)
-            {
-                tutorialCanvasUIManager.audioSource.clip = currentStep.stepAudio;
-                tutorialCanvasUIManager.audioSource.Play();
-            }
-
-            if (currentStep.stepVideo != null)
-            {
-               
-                tutorialCanvasUIManager.videoPlayer.clip = currentStep.stepVideo;
-                tutorialCanvasUIManager.videoPlayer.Play();
-            }
-
-            if (currentStep.interactiveStepType == InteractiveStepType.None)
-            {
-                StartCoroutine(WaitForStepToComplete(currentStep.stepAudio.length));
-            }
-            else
-            {
-                inputData.EnableInput();
-                switch (currentStep.interactiveStepType)
-                {
-                    case InteractiveStepType.Positioning:
-                        SetUpPositioning();
-                        break;
-                    case InteractiveStepType.Aiming:
-                        SetUpAiming();
-                        break;
-                    case InteractiveStepType.Striking:
-                        SetUpStriking();
-                        break;
-                    case InteractiveStepType.Display:
-                        SetUpDisplay();
-                        break;
+                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
+                    tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialCoin.transform.localRotation = Quaternion.identity;
+                    tutorialCoin.transform.localPosition = currentStep.coinPosition;
                 }
-            }
-        }
-        private IEnumerator WaitForStepToComplete(float t)
-        {
 
-            yield return new WaitForSeconds(t);
-            tutorialCanvasUIManager.SuccessFailureText.text = "";
-            tutorialCanvasUIManager.NextButton.SetActive(true);
-
-            if (currentStepIndex == tutorialStepsController.Length - 1)
-            {
-                tutorialCanvasUIManager.NextButton.SetActive(false);
-                tutorialCanvasUIManager.PlayButton.SetActive(true);
-            }
-        }
-        private void SetUpPositioning()
-        {
-            // Enable user's striker, place a glowing striker
-
-            Striker.SetActive(true);
-
-            strikerMovement.ResetStriker();
-            tutorialData.SetCanIPosition(true);
-           
-            GlowStriker.SetActive(true);
-            GlowStriker.transform.position = currentStep.strikerPosition;
-            inputData.EnableInput();
-
-        }
-
-        private void SetUpAiming()
-        {
-            // Enable user's striker, place a glowing striker with an arrow direction
-            strikerMovement.ResetStriker();
-            tutorialData.SetCanIPosition(true);
-            tutorialData.SetCanIAim(true);
-            Striker.SetActive(true);
-            GlowStriker.SetActive(true);
-            GlowStriker.transform.position = currentStep.aimingStrikerPosition;
-            GlowStriker.transform.eulerAngles = currentStep.aimingStrikerRotation;
-            GlowArrow.SetActive(true);
-            inputData.EnableInput();
-           
-        }
-
-        private void SetUpStriking()
-        {
-            // Enable user's striker, place a glowing striker with an arrow direction
-            strikerMovement.ResetStriker();
-            tutorialData.SetCanIPosition(true);
-            tutorialData.SetCanIAim(true);
-            tutorialData.SetCanIFire(true);
-            Striker.SetActive(true);
-
-            GlowStriker.SetActive(true);
-            GlowStriker.transform.position = currentStep.strikingStrikerPosition;
-            GlowStriker.transform.eulerAngles = currentStep.strikingStrikerRotation;
-            GlowArrow.SetActive(true);
-            BlackCoin.SetActive(true);
-            BlackCoin.transform.position = currentStep.coinPosition;
-            BlackCoin.transform.rotation = Quaternion.identity;
-            isCoinPocked = false;
-            inputData.EnableInput();
-           
-        }
-
-        private void SetUpDisplay()
-        {
-            BlackCoin.transform.position = currentStep.coinPosition;
-            Striker.SetActive(true);
-            BlackCoin.SetActive(true);
-            WhiteCoin.SetActive(true);
-            RedCoin.SetActive(true);
-            StartCoroutine(WaitForStepToComplete(currentStep.stepAudio.length));
-        }
-
-
-        public void OnPositionLocked()
-        {
-            tutorialData.SetCanIPosition(false);
-            inputData.DisableInput();
-            Striker.SetActive(false);
-            GlowStriker.SetActive(false);
-            // success
-            if (Vector3.Distance(Striker.transform.position, GlowStriker.transform.position) < 0.05f)
-            {
-
-                tutorialCanvasUIManager.SuccessFailureText.text = currentStep.successText;
-                if (currentStep.successAudio != null)
+                else
                 {
-                    tutorialCanvasUIManager.audioSource.clip = currentStep.successAudio;
-                    tutorialCanvasUIManager.audioSource.Play();
+                    tutorialStriker.SetActive(false);
                 }
-                StartCoroutine(WaitForStepToComplete(1));
-            }
-            else  // failure try again
-            {
-                tutorialCanvasUIManager.SuccessFailureText.text = currentStep.failureText;
 
-                if (currentStep.failureAudio != null)
-                {
-                    tutorialCanvasUIManager.audioSource.clip = currentStep.failureAudio;
-                    tutorialCanvasUIManager.audioSource.Play();
-                }
-                Invoke("ResetCurrentStep", 2);
+
+                // Wait until this step is marked as completed or tutorial is skipped
+                yield return new WaitUntil(() => _stepCompleted || _tutorialSkipped);
+
+                // tutorialSteps[i].EndStep();
+            }
+
+            _currentStepIndex = -1;
+            _tutorialRoutine = null;
+
+
+        }
+
+
+        private void PlatformRotationStarted(Vector2 input)
+        {
+            if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Positioning)
+            {
+                tutorialPanelView.ResetObjects();
             }
         }
 
-        public void OnAimingLocked()
+        private void PlatformRotationEnded(Vector2 input)
         {
-            tutorialData.SetCanIPosition(false);
-            tutorialData.SetCanIAim(false);
-            inputData.DisableInput();
-            Striker.SetActive(false);
-            GlowStriker.SetActive(false);
-            GlowArrow.SetActive(false);
-            // success
-            if (Vector3.Distance(Striker.transform.position, GlowStriker.transform.position) < 0.05f && (Mathf.Abs(Striker.transform.eulerAngles.y - GlowStriker.transform.eulerAngles.y)) < 2f)
+            if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Positioning)
             {
 
-                tutorialCanvasUIManager.SuccessFailureText.text = currentStep.successText;
-                if (currentStep.successAudio != null)
-                {
-                    tutorialCanvasUIManager.audioSource.clip = currentStep.successAudio;
-                    tutorialCanvasUIManager.audioSource.Play();
-                }
-                StartCoroutine(WaitForStepToComplete(1));
-            }
-            else  // failure try again
-            {
-                tutorialCanvasUIManager.SuccessFailureText.text = currentStep.failureText;
+                tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
 
-                if (currentStep.failureAudio != null)
-                {
-                    tutorialCanvasUIManager.audioSource.clip = currentStep.failureAudio;
-                    tutorialCanvasUIManager.audioSource.Play();
-                }
-                Invoke("ResetCurrentStep", 2);
             }
         }
 
-        private void StrikeStarted(float force,Vector3 dir)
+
+        private void SwipeCompeted(float val)
         {
-            inputData.DisableInput();
-        }
-        public void StrikeFinished()
-        {
-            tutorialData.SetCanIPosition(true);
-            tutorialData.SetCanIAim(true);
-            tutorialData.SetCanIFire(true);
-            inputData.DisableInput();
-            // success
-            if (isCoinPocked)
+
+            if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Aiming)
             {
+
+                // Aimed properly
+                tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
+                tutorialStriker.SetActive(false);
+
                 inputData.DisableInput();
-                tutorialCanvasUIManager.SuccessFailureText.text = currentStep.successText;
-                if (currentStep.successAudio != null)
+                tutorialData.canIAim = false;
+
+            }
+        }
+
+        private void StrikeStarted()
+        {
+
+            inputCanvasView.TurnOff();
+        }
+
+        private void StrikeCompleted()
+        {
+            if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Striking)
+            {
+                if (isCoinPocketed)
                 {
-                    tutorialCanvasUIManager.audioSource.clip = currentStep.successAudio;
-                    tutorialCanvasUIManager.audioSource.Play();
-                }
-                StartCoroutine(WaitForStepToComplete(1));
-            }
-            else // failure
-            {
-                tutorialCanvasUIManager.SuccessFailureText.text = currentStep.failureText;
+                    // Aimed properly
+                    tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
 
-                if (currentStep.failureAudio != null)
+                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                    tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialStriker.transform.localPosition = strikerInitPosition;
+                    tutorialStriker.SetActive(false);
+
+
+                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
+              
+                    tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialCoin.transform.localPosition = currentStep.coinPosition;
+                    tutorialCoin.transform.localEulerAngles = Vector3.zero;
+                    tutorialCoin.SetActive(false);
+
+
+                    inputData.DisableInput();
+                    tutorialData.canIAim = false;
+                    tutorialData.canIFire = false;
+                }
+                else
                 {
-                    tutorialCanvasUIManager.audioSource.clip = currentStep.failureAudio;
-                    tutorialCanvasUIManager.audioSource.Play();
+                    inputData.EnableInput();
+                    strikerArrow.TurnOnArrow();
+
+                    tutorialData.ShowTutorialStepFailed(currentStep.failureText, currentStep.failureAudio);
+
+                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
+               
+                    tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialCoin.transform.localPosition = currentStep.coinPosition;
+                    tutorialCoin.transform.localEulerAngles = Vector3.zero;
+
+         
+                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                    tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                    tutorialStriker.GetComponent<Rigidbody>().isKinematic = false;
+                    tutorialStriker.transform.localPosition = strikerInitPosition;
+
+                    inputCanvasView.TurnOn();
+
                 }
-                Invoke("ResetCurrentStep", 2);
+
             }
 
-            Striker.SetActive(false);
-            GlowStriker.SetActive(false);
-            GlowArrow.SetActive(false);          
-            BlackCoin.SetActive(false);
         }
 
-        public void OnCoinFellIntoHole(GameObject hole)
-        {
-            if (hole.name == currentStep.holeName)
-            {
-                isCoinPocked = true;
-            }
-        }
-        private void ResetCurrentStep()
-        {
-            TutorialStep currentStep;
-            Striker.SetActive(false);
-            BlackCoin.SetActive(false);
-            WhiteCoin.SetActive(false);
-            RedCoin.SetActive(false);
-
-            tutorialCanvasUIManager.SuccessFailureText.text = "";
-            //switch (currentStep.interactiveStepType)
-            //{
-            //    case InteractiveStepType.Positioning:
-            //        SetUpPositioning();
-            //        break;
-            //    case InteractiveStepType.Aiming:
-            //        SetUpAiming();
-            //        break;
-            //    case InteractiveStepType.Striking:
-            //        SetUpStriking();
-            //        break;
-            //}
-        }
-
-        // Method to proceed to the next step.
-        public void NextStep()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            if (currentStepIndex < tutorialStepsController.Length - 1)
-            {
-                tutorialCanvasUIManager.NextButton.SetActive(false);
-                currentStepIndex++;
-                DisplayCurrentStep();
-            }
-            else if (currentStepIndex == tutorialStepsController.Length - 1)
-            {
-                tutorialCanvasUIManager.NextButton.SetActive(false);
-                tutorialCanvasUIManager.PlayButton.SetActive(true);
-            }
-        }
-
-        public void PlayButtonClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-        
-            Board.SetActive(false);
-            Striker.SetActive(false);
-            GlowStriker.SetActive(false);
-            GlowArrow.SetActive(false);
-
-            BlackCoin.SetActive(false);
-            WhiteCoin.SetActive(false);
-            RedCoin.SetActive(false);
-
-            tutorialData.SetCanIPosition(false);
-            tutorialData.SetCanIAim(false);
-            tutorialData.SetCanIFire(false);
-
-            inputData.DisableInput();
-
-            EndTutorial();
-       //     uiOutputData.EndTutorial();
-          
-
-
-            gameObject.SetActive(false);
-        }
-
-        public void SkipButtonClicked()
-        {
-            
-            AudioManager.instance.PlayButtonClickSound();
-     
-            Board.SetActive(false);
-            Striker.SetActive(false);
-            GlowStriker.SetActive(false);
-            GlowArrow.SetActive(false);
-
-            BlackCoin.SetActive(false);
-            WhiteCoin.SetActive(false);
-            RedCoin.SetActive(false);
-
-            tutorialData.SetCanIPosition(false);
-            tutorialData.SetCanIAim(false);
-            tutorialData.SetCanIFire(false);
-
-            inputData.DisableInput();
-
-            EndTutorial();
-
-            gameObject.SetActive(false);
-        }
     }
 }

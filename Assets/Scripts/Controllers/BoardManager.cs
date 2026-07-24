@@ -34,6 +34,16 @@ namespace com.VisionXR.Controllers
 
         }
 
+        public void StartTutorial()
+        {
+            if (currentBoard != null) currentBoard.SetActive(false);
+        }
+
+        public void EndTutorial()
+        {
+            if (currentBoard != null) currentBoard.SetActive(true);
+        }
+
         public void CreateNewBoardFromResources(int i)
         {
             

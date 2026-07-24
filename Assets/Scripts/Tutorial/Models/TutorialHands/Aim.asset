@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: Aim
+  m_EditorClassIdentifier: 
+  stepNumber: 3
+  stepText: Aiming is easy. Just press outside the board and move left or right to
+    rotate the striker. Go ahead, try it now!
+  stepAudio: {fileID: 8300000, guid: 22612fcc00e5dbc43bc9924bbc33643c, type: 3}
+  interactiveStepType: 2
+  successText: Well Done!
+  failureText: Give it another try.
+  successAudio: {fileID: 8300000, guid: ade62d55ab4bdae46a95ef36666a059a, type: 3}
+  failureAudio: {fileID: 8300000, guid: 84bd83cfc34f58d4f91441d17f02fa43, type: 3}
+  aimingStrikerRotation: {x: 0, y: 60, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

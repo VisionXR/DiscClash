@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f2e46894ad441ba06c7e07693731, type: 3}
+  m_Name: IntroStep
+  m_EditorClassIdentifier: 
+  stepNumber: 1
+  stepText: "Welcome to Carrom Pool 360! It\u2019s the ultimate mix of Pool, Snooker,
+    and Carrom. Spin the board, take aim with 360-degree control, and let\u2019s
+    play!"
+  stepAudio: {fileID: 8300000, guid: 8dd8d31b3910997439b6b2d8945605fc, type: 3}
+  interactiveStepType: 0
+  successText: 
+  failureText: 
+  successAudio: {fileID: 0}
+  failureAudio: {fileID: 0}
+  aimingStrikerRotation: {x: 0, y: 0, z: 0}
+  strikingStrikerRotation: {x: 0, y: 0, z: 0}
+  coinPosition: {x: 0, y: 0, z: 0}
+  holeName: 

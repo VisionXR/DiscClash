@@ -16,6 +16,7 @@ namespace com.VisionXR.Views
         public MyPlayerSettings playerSettings;
 
         [Header(" Selection Objects ")]
+        public GameObject tutorialManager;
         public List<GameObject> gameModeSelectionImages;
 
         [Header(" State variables ")]
@@ -124,6 +125,7 @@ namespace com.VisionXR.Views
             else if (uiOutputData.gameType == GameType.Tutorial)
             {
                 uiData.uiManager.ChangeState(tutorialState, true);
+                tutorialManager.SetActive(true);
             }
         }
 
