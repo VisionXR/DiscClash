@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1436632896028036055}
   - component: {fileID: 2832467409592422745}
   - component: {fileID: 1999228923219931246}
+  - component: {fileID: 8346183112333834859}
   m_Layer: 0
   m_Name: RecorderAndSpeaker
   m_TagString: Untagged
@@ -71,9 +72,9 @@ MonoBehaviour:
     CategoryOptions: 0800000004000000
   editorAudioSessionPreset: 1
   androidMicrophoneSettings:
-    EnableAEC: 0
+    EnableAEC: 1
     EnableAGC: 1
-    EnableNS: 0
+    EnableNS: 1
   stopRecordingWhenPaused: 0
   useOnAudioFilterRead: 0
   useMicrophoneTypeFallback: 1
@@ -205,15 +206,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ddec46cf6a4c4addbf21b6be8442124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.WebRtcAudioDsp
-  aec: 1
-  aecHighPass: 1
-  agc: 1
+  aec: 0
+  aecHighPass: 0
+  agc: 0
   agcCompressionGain: 6
   agcTargetLevel: 3
-  vad: 0
+  vad: 1
   highPass: 1
-  noiseSuppression: 1
+  noiseSuppression: 0
   reverseStreamDelayMs: 180
+--- !u!114 &8346183112333834859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104916355726681666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f95aa3c06eaa84bba4eafdedf12758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PhotonVoice::Photon.Voice.Unity.AudioChangesHandler
+  HandleDeviceChange: 1
+  HandleDeviceChangeIOS: 0
+  HandleDeviceChangeAndroid: 1
 --- !u!1 &9017803295949359465
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +331,6 @@ MonoBehaviour:
   coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
   inputData: {fileID: 11400000, guid: 4d294397516937e4e905e9cd20a9feb2, type: 2}
-  boardData: {fileID: 11400000, guid: 1dda4fe872a6b0b418a5eb3dc3967c03, type: 2}
   player: {fileID: 3804511622267319064}
   playerInput: {fileID: -8483040058767253964}
   aiPlayer: {fileID: 8655069913760380767}
@@ -352,7 +367,6 @@ MonoBehaviour:
   strikerData: {fileID: 11400000, guid: 47e6f33d5c8f6fb4ebf9cde410d5ae28, type: 2}
   appData: {fileID: 11400000, guid: 9853dc98579ffe4489d500889a75d1f1, type: 2}
   player: {fileID: 3804511622267319064}
-  canIRotate: 0
 --- !u!114 &8778300311534466445
 MonoBehaviour:
   m_ObjectHideFlags: 0
