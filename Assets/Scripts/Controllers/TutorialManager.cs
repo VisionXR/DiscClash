@@ -186,7 +186,7 @@ namespace com.VisionXR.Controllers
                     tutorialStriker.SetActive(true);
                     strikerMovement.ResetStriker();
 
-
+                    inputData.EnableInput();
                     strikerArrow.TurnOnArrow();
                     tutorialData.canIPosition= true;
                     tutorialData.canIAim = true;
@@ -208,17 +208,15 @@ namespace com.VisionXR.Controllers
                     tutorialCoin.SetActive(true);
 
                     inputCanvasView.TurnOn();
-
-                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
           
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                 
 
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+
                     tutorialCoin.transform.localRotation = Quaternion.identity;
-                    tutorialCoin.transform.localPosition = currentStep.coinPosition;
+                    tutorialCoin.transform.position = currentStep.coinPosition;
                 }
 
                 else
@@ -292,17 +290,20 @@ namespace com.VisionXR.Controllers
                     // Aimed properly
                     tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
 
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                   
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
+
+              
                     tutorialStriker.SetActive(false);
 
 
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
               
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                    tutorialCoin.transform.localPosition = currentStep.coinPosition;
-                    tutorialCoin.transform.localEulerAngles = Vector3.zero;
+
+                    tutorialCoin.transform.position = currentStep.coinPosition;
+                    tutorialCoin.transform.rotation = Quaternion.identity;
+
                     tutorialCoin.SetActive(false);
 
 
@@ -321,15 +322,15 @@ namespace com.VisionXR.Controllers
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
                
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                    tutorialCoin.transform.localPosition = currentStep.coinPosition;
-                    tutorialCoin.transform.localEulerAngles = Vector3.zero;
+                    tutorialCoin.transform.position = currentStep.coinPosition;
+                    tutorialCoin.transform.rotation = Quaternion.identity;
 
          
-                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+                    
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                     tutorialStriker.GetComponent<Rigidbody>().isKinematic = false;
-                    tutorialStriker.transform.localPosition = strikerInitPosition;
 
+                    strikerMovement.ResetStriker();
                     inputCanvasView.TurnOn();
 
                 }

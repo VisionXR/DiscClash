@@ -37,6 +37,8 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
             {
                 WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
             }
+
+            strikerArrow.TurnOffArrow();
             StrikeStartedEvent?.Invoke(StrikeForce, transform.forward);
         }
 
@@ -69,6 +71,7 @@ public class StrikerShooting : MonoBehaviour,IStrikerShoot
             WaitRoutine = StartCoroutine(WaituntilStrikeFinished());
         }
 
+        strikerArrow.TurnOffArrow();
         StrikeStartedEvent?.Invoke(force, transform.forward);
 
     }
