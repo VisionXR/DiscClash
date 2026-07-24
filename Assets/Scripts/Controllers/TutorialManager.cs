@@ -30,7 +30,12 @@ namespace com.VisionXR.Controllers
         public Vector3 strikerInitPosition;
         public BoardManager boardManager;
         public StrikerArrow strikerArrow;
-        public TutorialStep currentStep;
+        public StrikerShooting strikerShooting;
+        public StrikerMovement strikerMovement;
+
+
+        // local
+        private TutorialStep currentStep;
         private Coroutine _tutorialRoutine;
         private bool _stepCompleted;
         private bool _tutorialSkipped;
@@ -44,15 +49,15 @@ namespace com.VisionXR.Controllers
             tutorialData.SkipBtnClcikedEvent += SkipBtnClicked;
             tutorialData.PlayBtnClickedEvent += PlayBtnClicked;
 
-            //inputData.RotationPinchStartedEvent += PlatformRotationStarted;
-            //inputData.RotationPinchEndedEvent += PlatformRotationEnded;
+            inputData.StrikerPositioningStartedEvent += StrikerPositioningStarted;
+            inputData.StrikerPositioningEndedEvent += StrikerPositioningEnded;
 
-            //inputData.SwipeCompleteEvent += SwipeCompeted;
+            inputData.AimEndedEvent += AimEnded;
 
-            //coinData.CoinPocketedEvent += CoinPocketed;
+            coinData.CoinFellInHoleEvent += CoinPocketed;
 
-            //strikerData.StrikerStartedEvent += StrikeStarted;
-            //strikerData.StrikerStoppedEvent += StrikeCompleted;
+            strikerShooting.StrikeStartedEvent += StrikeStarted;
+            strikerShooting.StrikeFinishedEvent += StrikeCompleted;
 
 
             boardManager.StartTutorial();
@@ -67,14 +72,14 @@ namespace com.VisionXR.Controllers
             tutorialData.PlayBtnClickedEvent -= PlayBtnClicked;
 
 
-            //inputData.RotationPinchStartedEvent -= PlatformRotationStarted;
-            //inputData.RotationPinchEndedEvent -= PlatformRotationEnded;
+            inputData.StrikerPositioningStartedEvent -= StrikerPositioningStarted;
+            inputData.StrikerPositioningEndedEvent -= StrikerPositioningEnded;
 
-            //inputData.SwipeCompleteEvent -= SwipeCompeted;
+            inputData.AimEndedEvent -= AimEnded;
 
-            //coinData.CoinPocketedEvent -= CoinPocketed;
-            //strikerData.StrikerStoppedEvent -= StrikeCompleted;
-            //strikerData.StrikerStartedEvent -= StrikeStarted;
+            coinData.CoinFellInHoleEvent -= CoinPocketed;
+            strikerShooting.StrikeStartedEvent -= StrikeStarted;
+            strikerShooting.StrikeFinishedEvent -= StrikeCompleted;
 
 
             boardManager.EndTutorial();
@@ -167,7 +172,12 @@ namespace com.VisionXR.Controllers
 
                 if (currentStep.interactiveStepType == InteractiveStepType.Positioning)
                 {
-                   
+                    tutorialStriker.SetActive(true);
+                    tutorialStriker.transform.localPosition = strikerInitPosition;
+                    tutorialStriker.transform.localEulerAngles = Vector3.zero;
+
+                    strikerMovement.SetStrikerID(1);
+                    tutorialData.canIPosition = true;
                     inputData.EnableInput();
                 }
 
@@ -193,6 +203,7 @@ namespace com.VisionXR.Controllers
                     tutorialStriker.transform.localEulerAngles = Vector3.zero;
 
                     inputData.EnableInput();
+                    tutorialData.canIPosition = true;
                     tutorialData.canIAim = true;
                     tutorialData.canIFire = true;
                     tutorialCoin.SetActive(true);
@@ -230,7 +241,7 @@ namespace com.VisionXR.Controllers
         }
 
 
-        private void PlatformRotationStarted(Vector2 input)
+        private void StrikerPositioningStarted()
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Positioning)
             {
@@ -238,18 +249,20 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void PlatformRotationEnded(Vector2 input)
+        private void StrikerPositioningEnded()
         {
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Positioning)
             {
-
+                tutorialStriker.SetActive(false);
+                inputData.DisableInput();
+                tutorialData.canIPosition = false;
                 tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
 
             }
         }
 
 
-        private void SwipeCompeted(float val)
+        private void AimEnded()
         {
 
             if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Aiming)
@@ -265,7 +278,7 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        private void StrikeStarted()
+        private void StrikeStarted(float force , Vector3 direction)
         {
 
             inputCanvasView.TurnOff();
@@ -297,6 +310,7 @@ namespace com.VisionXR.Controllers
                     inputData.DisableInput();
                     tutorialData.canIAim = false;
                     tutorialData.canIFire = false;
+                    tutorialData.canIPosition = false;
                 }
                 else
                 {

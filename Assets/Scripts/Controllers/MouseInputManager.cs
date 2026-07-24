@@ -144,6 +144,7 @@ namespace com.VisionXR.Controllers
             if (touchPosition.y <= bottomRegionThreshold)
             {
                 isSwipeStarted = true;
+                inputData.StrikerPositioningStarted();
             }
             else // Top 75% Area (Aim / Pack Rotation)
             {
@@ -164,6 +165,7 @@ namespace com.VisionXR.Controllers
 
                 // Default fallback: normal aiming
                 isAimStarted = true;
+                inputData.AimStarted();
             }
         }
 
@@ -212,6 +214,7 @@ namespace com.VisionXR.Controllers
                 float movementDelta = Mathf.Clamp(normalizedDeltaX * movementswipeSensitivity, -1f, 1f);
                 inputData.MoveStriker(movementDelta);
                 isSwipeStarted = false;
+                inputData.StrikerPositioningEnded();
             }
             else if (isRotatingPack)
             {
@@ -224,6 +227,7 @@ namespace com.VisionXR.Controllers
                 float angleDelta = normalizedDeltaX * aimswipeSensitivity;
                 inputData.RotateStrikerAbsolute(angleDelta);
                 isAimStarted = false;
+                inputData.AimEnded();
             }
         }
     }

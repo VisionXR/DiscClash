@@ -23,6 +23,11 @@ namespace com.VisionXR.ModelClasses
         public Action<float> RotateCoinsEvent;
 
 
+        public Action StrikerPositioningStartedEvent;
+        public Action StrikerPositioningEndedEvent;
+
+        public Action AimStartedEvent;
+        public Action AimEndedEvent;
 
         //Methods
 
@@ -68,5 +73,25 @@ namespace com.VisionXR.ModelClasses
             StrikerForceChangedEvent?.Invoke(force);
         }
 
+
+        public void StrikerPositioningStarted()
+        {
+            StrikerPositioningStartedEvent?.Invoke();
+        }
+
+        public void StrikerPositioningEnded()
+        {
+            StrikerPositioningEndedEvent?.Invoke();
+        }
+
+        public void AimStarted()
+        {
+            AimStartedEvent?.Invoke(); 
+        }
+
+        public void AimEnded()
+        {
+            AimEndedEvent?.Invoke();
+        }
     }
 }

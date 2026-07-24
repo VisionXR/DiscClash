@@ -1,6 +1,4 @@
-using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using System;
 using UnityEngine;
 
 
@@ -26,7 +24,7 @@ namespace com.VisionXR.GameElements
             inputData.FireStrikeEvent += FireStriker;
             inputData.RotateStrikerAbsoluteEvent += RotateStriker;
 
-         //   inputData.SwipedEvent += Swiped;
+            inputData.MoveStrikerEvent += MoveStriker;
             inputData.StrikerForceChangedEvent += StrikerForceChanged;
         }
 
@@ -36,15 +34,14 @@ namespace com.VisionXR.GameElements
             inputData.FireStrikeEvent -= FireStriker;
             inputData.RotateStrikerAbsoluteEvent -= RotateStriker;
 
-          //  inputData.SwipedEvent -= Swiped;
+            inputData.MoveStrikerEvent -= MoveStriker;
             inputData.StrikerForceChangedEvent -= StrikerForceChanged;
 
         }
 
-        private void Swiped(float velocity)
+        private void MoveStriker(float delta)
         {
-
-          //  strikerMovement.RotateRelative(velocity);
+            strikerMovement.MoveStriker(delta);
         }
 
         private void StrikerForceChanged(float obj)
@@ -54,16 +51,12 @@ namespace com.VisionXR.GameElements
 
         private void RotateStriker(float angle)
         {
-          //  strikerMovement.RotateAbsolute(angle);
+           strikerMovement.AimStriker(angle);
         }
 
         private void FireStriker(float val)
         {
-            if (val < 0.9f)
-            {
-                val = val + 0.1f;
-            }
-
+          
             strikerShooting.FireStriker(val);
         }
 
