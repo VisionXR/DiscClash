@@ -127,7 +127,7 @@ namespace com.VisionXR.Views
             {
                 AimObject.SetActive(true);
                 swipeAnimator.SetBool("LeftText", true);    
-                swipeAnimator.SetBool("LeftHand", true);    
+                //swipeAnimator.SetBool("LeftHand", true);    
             }
 
             if (stepType == InteractiveStepType.Striking)
@@ -192,7 +192,7 @@ namespace com.VisionXR.Views
             swipeAnimator.SetBool("BoardRotation", false);
             swipeAnimator.SetBool("BoardHandAnimation", false);
             swipeAnimator.SetBool("LeftText", false);
-            swipeAnimator.SetBool("LeftHand", false);
+           // swipeAnimator.SetBool("LeftHand", false);
             swipeAnimator.SetBool("RightText", false);
             swipeAnimator.SetBool("RightHand", false);
             swipeAnimator.SetBool("PocketCoin", false);

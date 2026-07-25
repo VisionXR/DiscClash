@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Aim
   m_EditorClassIdentifier: 
   stepNumber: 3
-  stepText: Aiming is easy. Just press outside the board and move left or right to
-    rotate the striker. Go ahead, try it now!
-  stepAudio: {fileID: 8300000, guid: 22612fcc00e5dbc43bc9924bbc33643c, type: 3}
+  stepText: Swipe anywhere above the striker line to set your target.
+  stepAudio: {fileID: 8300000, guid: c3182c1f3d6d7eb4790cc32619a4d7fb, type: 3}
   interactiveStepType: 2
   successText: Well Done!
   failureText: Give it another try.
-  successAudio: {fileID: 8300000, guid: ade62d55ab4bdae46a95ef36666a059a, type: 3}
-  failureAudio: {fileID: 8300000, guid: 84bd83cfc34f58d4f91441d17f02fa43, type: 3}
+  successAudio: {fileID: 8300000, guid: 584cde69a48e0c6429432b54bc83163a, type: 3}
+  failureAudio: {fileID: 8300000, guid: 584bd460763457a448003b0c669b7993, type: 3}
   aimingStrikerRotation: {x: 0, y: 60, z: 0}
   strikingStrikerRotation: {x: 0, y: 0, z: 0}
   coinPosition: {x: 0, y: 0, z: 0}
