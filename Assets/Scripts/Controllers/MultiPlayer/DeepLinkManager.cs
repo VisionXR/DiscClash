@@ -45,7 +45,7 @@ namespace com.VisionXR.Controllers
             }
             else
             {
-                Debug.Log("Disc Clash: No deep link detected on startup.");
+                Debug.Log("Real Carrom 3D: No deep link detected on startup.");
                 destinationData.currentDestination = destinationData.homeDestination;
                 StartCoroutine(CheckLogin());
             }
@@ -123,19 +123,17 @@ namespace com.VisionXR.Controllers
                 {
                     cloudData.LoginToGoogle();
                 }
-                uiData.uiManager.ChangeState(homeState, true);
-                
+
+                Debug.Log("Real Carrom 3D : Login Found Going to Home.");
+                            
             }
             else
             {
-                Debug.Log("Disc Clash: User not logged in. Redirecting to login.");
+                Debug.Log("Real Carrom 3D : User not logged in. Redirecting to login.");
                 uiData.uiManager.ChangeState(loginState, true);
                 yield break;
             }
 
-            //Debug.Log("Disc Clash LoginFetchManager: User is logged in. Proceeding to fetch cloud data.");
-
-            //cloudData.StartFetch();
         }
 
 

@@ -105,10 +105,11 @@ namespace com.VisionXR.Controllers
                 displayName = PlayGamesPlatform.Instance.GetUserDisplayName();
                 string googleID = PlayGamesPlatform.Instance.GetUserId();
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
-                StartCoroutine(LoadProfileImage(imageUrl));
+                
 
                 playerSettings.SetUserNameAndId(displayName, googleID);
                 playerSettings.SetUserProfileImageUrl(imageUrl);
+                StartCoroutine(LoadProfileImage(imageUrl));
                 deepLinkManager.ProcessGameFlow();
 
                 // 2. Trigger PlayFab Login

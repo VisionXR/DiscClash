@@ -49,9 +49,10 @@ public class ButtonStatesNew : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
         if (!isHovering)
         {
+            appPropertiesData.StartVibration();
             isHovering = true;
             if (HoverImage != null) HoverImage.gameObject.SetActive(true);
-            appPropertiesData.StartVibration();
+          
 
             // scale/pop the actual image slightly toward the user
             if (ActualImage != null)
