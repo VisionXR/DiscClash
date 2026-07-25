@@ -1,12 +1,13 @@
 using com.VisionXR.ModelClasses;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using System.Collections;
-using UnityEngine;
 // Add PlayFab Namespaces
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace com.VisionXR.Controllers
 {
@@ -98,13 +99,13 @@ namespace com.VisionXR.Controllers
         {
             if (status == SignInStatus.Success)
             {
-                Debug.Log("Disc Clash: Google Login Successful!");
+                Debug.Log("Real Carrom 3D: Google Login Successful!");
 
                 // 1. First, set local UI data (Name and Image)
                 displayName = PlayGamesPlatform.Instance.GetUserDisplayName();
                 string googleID = PlayGamesPlatform.Instance.GetUserId();
                 string imageUrl = PlayGamesPlatform.Instance.GetUserImageUrl();
-                StartCoroutine(LoadProfileImage());
+                StartCoroutine(LoadProfileImage(imageUrl));
 
                 playerSettings.SetUserNameAndId(displayName, googleID);
                 playerSettings.SetUserProfileImageUrl(imageUrl);
@@ -188,19 +189,24 @@ namespace com.VisionXR.Controllers
             Debug.Log($"PlayFab Display Name successfully set to: {result.DisplayName}");
         }
 
-        private IEnumerator LoadProfileImage()
+        private IEnumerator LoadProfileImage(string url)
         {
-            float timeout = 5f;
-            while (Social.localUser.image == null && timeout > 0)
-            {
-                timeout -= Time.deltaTime;
-                yield return null;
-            }
 
-            if (Social.localUser.image != null)
+            using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(url))
             {
-                playerSettings.SetUserProfileImage(ConvertTextureToSprite(Social.localUser.image));
-                Debug.Log("Real Carrom: Profile Image Loaded!");
+                yield return uwr.SendWebRequest();
+
+                if (uwr.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("Failed to download avatar: " + uwr.error);
+                    yield break;
+                }
+
+                Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
+                Sprite s = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+
+                playerSettings.SetUserProfileImage(s);
+
             }
         }
 

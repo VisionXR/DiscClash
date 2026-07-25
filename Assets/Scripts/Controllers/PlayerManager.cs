@@ -113,7 +113,7 @@ namespace com.VisionXR.Controllers
                     p1.myOculusID = playerSettings.MyId ;
                     p1.myName = playerSettings.MyName;
                     p1.myStrikerID = playerSettings.MyStrikerId;
-
+                    
                
                     p1.myPlayerControl = PlayerControl.Local;
                     p1.myPlayerRole = PlayerRole.Human;

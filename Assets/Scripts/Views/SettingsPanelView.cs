@@ -101,12 +101,13 @@ namespace com.VisionXR.Views
         public void Logout()
         {
             AudioManager.instance.PlayButtonClickSound();
-            PlayerPrefs.DeleteKey("IsGoogleLogin");
+            PlayerPrefs.DeleteKey("Login");
             PlayerPrefs.Save();
         
             uiData.uiManager.ChangeState("Login", true);
             uiData.uiManager.GoToState(StateName.LoginState);
             uiData.uiManager.ChangeState(currentState, false);
+            uiData.uiManager.ChangeState("Home", false);
         }
 
         public void BGMusicChanged(float val)
