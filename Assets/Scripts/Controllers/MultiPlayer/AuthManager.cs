@@ -22,7 +22,9 @@ namespace com.VisionXR.Controllers
 
         private void OnEnable()
         {
+            Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
             cloudData.LoginToGoogleEvent += GoogleLogin;
             cloudData.GuestLoginEvent += GuestLogin;
             cloudData.EditorLoginEvent += EditorLogin;
@@ -134,7 +136,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
-            Debug.Log("Disc Clash: PlayFab Login Success! PlayFabID: ");
+            Debug.Log("Real Carrom : PlayFab Login Success! PlayFabID: ");
 
             playerSettings.SetLogIn(true);
             playerSettings.SaveSettings();
@@ -163,7 +165,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabFailure(PlayFabError error)
         {
-            Debug.Log("Disc Clash: PlayFab Login Error: " + error.GenerateErrorReport());
+            Debug.Log("Real Carrom 3D : PlayFab Login Error: " + error.GenerateErrorReport());
 
             cloudData.PlayFabLoginFailure();
         }
@@ -198,7 +200,7 @@ namespace com.VisionXR.Controllers
             if (Social.localUser.image != null)
             {
                 playerSettings.SetUserProfileImage(ConvertTextureToSprite(Social.localUser.image));
-                Debug.Log("Disc Clash: Profile Image Loaded!");
+                Debug.Log("Real Carrom: Profile Image Loaded!");
             }
         }
 
