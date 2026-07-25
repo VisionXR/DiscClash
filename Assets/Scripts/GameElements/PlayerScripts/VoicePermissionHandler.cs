@@ -37,13 +37,10 @@ public class VoicePermissionHandler : NetworkBehaviour
         }
         else
         {
-
             photonRecorder.enabled = false;
             speaker.mute = false;        
-
         }
     }
-
     void OnPermissionGranted(string permissionName)
     {
         if (permissionName == Permission.Microphone)

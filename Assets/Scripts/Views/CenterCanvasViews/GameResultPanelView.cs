@@ -1,3 +1,4 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using TMPro;
@@ -55,11 +56,14 @@ namespace com.VisionXR.Views
                 }
                 else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
                 {
-                    gameNameText.text = "Game : P1AI vs P2AI" +
-                        "";
+                    gameNameText.text = "Game : P1AI vs P2AI";                     
                     SetFourPlayerData(result);
                 }
-
+                else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
+                {
+                    gameNameText.text = "Game : P1P2 vs AI";                     
+                    SetFourPlayerData(result);
+                }
             }
 
 
@@ -97,8 +101,20 @@ namespace com.VisionXR.Views
                 P2Winner.SetActive(true);
             }
 
-            P1Image.sprite = playersData.GetPlayer(1).GetMyImage();
-            player1Nam.text = playersData.GetPlayer(1).myName;
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            {
+                P1Image.sprite = playersData.GetPlayer(1).GetMyImage();
+                player1Nam.text = playersData.GetPlayer(1).myName;
+            }
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            {
+                Player p = playersData.GetMainPlayer();
+                if (p != null)
+                {
+                    P1Image.sprite = playersData.GetPlayer(p.myId).GetMyImage();
+                    player1Nam.text = playersData.GetPlayer(p.myId).myName;
+                }
+            }
 
 
             if (uiOutputData.gameType == GameType.VsCPU)
@@ -108,8 +124,10 @@ namespace com.VisionXR.Views
             }
             else if (uiOutputData.gameType == GameType.PlayWithFriends)
             {
-                P2Image.sprite = playersData.GetPlayer(3).GetMyImage();
-                player2Nam.text = playersData.GetPlayer(3).myName;
+               
+                    P2Image.sprite = playersData.GetPlayer(3).GetMyImage();
+                    player2Nam.text = playersData.GetPlayer(3).myName;
+                
             }
 
         }

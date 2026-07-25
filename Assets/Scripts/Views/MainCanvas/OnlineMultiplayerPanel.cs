@@ -48,6 +48,14 @@ namespace com.VisionXR.Views
             {
                 GameModeSelectedImages[3].SetActive(true);
             }
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            {
+                GameModeSelectedImages[4].SetActive(true);
+            }
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            {
+                GameModeSelectedImages[5].SetActive(true);
+            }
 
             if (uiOutputData.roomJoinType == RoomJoinType.Create)
             {
@@ -99,6 +107,26 @@ namespace com.VisionXR.Views
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
             GameModeSelectedImages[3].SetActive(true);
+        }
+
+        public void P1P2vsAI_BW_BtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            ResetGameModeImages();
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
+            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            GameModeSelectedImages[4].SetActive(true);
+
+
+        }
+
+        public void P1P2vsAI_FS_BtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            ResetGameModeImages();
+            uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
+            uiOutputData.SetChallenge(Challenge.FreeStyle);
+            GameModeSelectedImages[5].SetActive(true);
         }
 
         public void CreateRoomBtnClicked()
