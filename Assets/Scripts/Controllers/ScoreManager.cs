@@ -69,26 +69,54 @@ namespace com.VisionXR.Controllers
 
         public void UpdateScore()
         {
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI || uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            if (uiOutputData.gameType == GameType.VsCPU)
             {
-                if(uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
                 {
-                    ShowBlackAndWhite2PlayerScore();
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    {
+                        ShowBlackAndWhite2PlayerScore();
+                    }
+                    else
+                    {
+                        ShowFreeStyle2PlayerScore();
+                    }
                 }
                 else
                 {
-                    ShowFreeStyle2PlayerScore();
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    {
+                        ShowBlackAndWhite4PlayerScore();
+                    }
+                    else
+                    {
+                        ShowFreeStyle4PlayerScore();
+                    }
                 }
             }
-            else
+            else if (uiOutputData.gameType == GameType.PlayWithFriends)
             {
-                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
                 {
-                    ShowBlackAndWhite4PlayerScore();
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    {
+                        ShowBlackAndWhite2PlayerScore();
+                    }
+                    else
+                    {
+                        ShowFreeStyle2PlayerScore();
+                    }
                 }
                 else
                 {
-                    ShowFreeStyle4PlayerScore();
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    {
+                        ShowBlackAndWhite4PlayerScore();
+                    }
+                    else
+                    {
+                        ShowFreeStyle4PlayerScore();
+                    }
                 }
             }
         }

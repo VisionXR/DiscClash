@@ -199,9 +199,10 @@ namespace com.VisionXR.Views
             }
         }
 
-
         private IEnumerator TurnIndicator(int id)
         {
+            ResetIndicators();
+
             while (true)
             {
                 if (id == 1)
@@ -302,10 +303,10 @@ namespace com.VisionXR.Views
 
         }
 
-        private void ResetImages()
+        private void ResetIndicators()
         {
-            leftPlayer.SetPlayerImage(null);
-            rightPlayer.SetPlayerImage(null);
+            leftPlayer.SetPlayerTurnIndicator(false);
+            rightPlayer.SetPlayerTurnIndicator(false);
         }
         private void Reset(int id)
         {
