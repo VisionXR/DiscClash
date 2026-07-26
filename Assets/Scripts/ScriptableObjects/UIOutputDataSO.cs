@@ -33,8 +33,9 @@ namespace com.VisionXR.ModelClasses
 
 
         // Board And Coins Events
-        public Action<int> SetMyCoinsIdEvent;
+        public Action<int> SetMyCoinsEvent;
         public Action<int> SetMyBoardEvent;
+        public Action<int> SetMyStrikerEvent;
         public Action CoinsSetEvent;
 
 
@@ -102,11 +103,13 @@ namespace com.VisionXR.ModelClasses
         public void SetMyStrikerId(int strikerId)
         {
             MyStrikerId = strikerId;
+            SetMyStrikerEvent?.Invoke(strikerId);
         }
 
         public void SetMyCoinsId(int coinsId)
         {
-            MyCoinsId = coinsId;             
+            MyCoinsId = coinsId;       
+            SetMyCoinsEvent?.Invoke(coinsId);
         }
 
     }
