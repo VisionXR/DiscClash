@@ -3,6 +3,7 @@ using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace com.VisionXR.Views
@@ -19,48 +20,49 @@ namespace com.VisionXR.Views
         public DestinationDataSO destinationData;
 
         [Header("Local Objects")]
+        public Image currentBoardImage;
+        public Image currentStrikerImage;
+        public Image currentCoinsImage;
+        public List<Sprite> coinUIImages;
+        public List<Sprite> boardUIImages;
+        public List<Sprite> strikerUIImages;
+
+        [Header("States ")]
         public DestinationPanelView destinationPanelView;
-        public List<GameObject> coinSelectedImages;
-        public List<GameObject> boardSelectedImages;
-        public List<GameObject> strikerSelectedImages;
         public Destination destination;
         public string singlePlayerState;
         public string createRoomState;
-
+        public string currentState;
+        public string boardsState;
+        public string coinsState;
+        public string strikersState;
 
 
         private void OnEnable()
         {
-            ResetBoardImages();
-            ResetStrikerImages();
-            ResetCoinImages();
-            boardSelectedImages[uiOutputData.MyBoardId].SetActive(true);
-            strikerSelectedImages[uiOutputData.MyStrikerId].SetActive(true);
-            coinSelectedImages[uiOutputData.MyCoinsId].SetActive(true);
+            currentBoardImage.sprite = boardUIImages[uiOutputData.MyBoardId];
+            currentCoinsImage.sprite = coinUIImages[uiOutputData.MyCoinsId];
+            currentStrikerImage.sprite = strikerUIImages[uiOutputData.MyStrikerId];
+
         }
 
-        public void BoardBtnClicked(int id)
+        public void BoardBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetBoardImages();
-            boardSelectedImages[id].SetActive(true);
-            uiOutputData.SetMyBoardId(id);
+            Debug.Log(" going to " + boardsState);
+            uiData.uiManager.ChangeState(boardsState, true);
         }
 
-        public void StrikerBtnClicked(int id)
+        public void StrikerBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetStrikerImages();
-            strikerSelectedImages[id].SetActive(true);
-            uiOutputData.SetMyStrikerId(id);
+            uiData.uiManager.ChangeState(strikersState, true);
         }
 
-        public void CoinsBtnClciked(int id)
+        public void CoinsBtnClciked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            ResetCoinImages();
-            coinSelectedImages[id].SetActive(true);
-            uiOutputData.SetMyCoinsId(id);
+            uiData.uiManager.ChangeState(coinsState, true);
         }
 
         public void NextBtnClicked()
@@ -93,34 +95,12 @@ namespace com.VisionXR.Views
 
         public void BackBtnClicked()
         {
-            
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(currentState, false);
 
         }
 
-        private void ResetBoardImages()
-        {
-            foreach (var item in boardSelectedImages)
-            {
-                item.SetActive(false);
-            }
 
-        }
-
-        private void ResetStrikerImages()
-        {
-            foreach (var item in strikerSelectedImages)
-            {
-                item.SetActive(false);
-            }
-        }
-
-        private void ResetCoinImages()
-        {
-            foreach (var item in coinSelectedImages)
-            {
-                item.SetActive(false);
-            }
-        }
     }
 }
 
