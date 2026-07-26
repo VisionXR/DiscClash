@@ -150,7 +150,7 @@ namespace com.VisionXR.Controllers
                 OnDestinationSuccesEvent?.Invoke();
                 uiInputData.StartSinglePlayerGame();
             }
-            else if (destination.gameType == GameType.OnlineMultiPlayer || destination.gameType == GameType.PlayWithFriends)
+            else if ( destination.gameType == GameType.PlayWithFriends)
             {
                
 

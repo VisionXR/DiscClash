@@ -33,11 +33,12 @@ namespace com.VisionXR.Views
         private void OnEnable()
         {
             ResetImages();
+
             if(uiOutputData.gameType == GameType.VsCPU)
             {
                 gameModeSelectionImages[0].SetActive(true);
             }
-            else if (uiOutputData.gameType == GameType.PlayWithFriends || uiOutputData.gameType == GameType.OnlineMultiPlayer)
+            else if (uiOutputData.gameType == GameType.PlayWithFriends)
             {
                 gameModeSelectionImages[1].SetActive(true);
             }

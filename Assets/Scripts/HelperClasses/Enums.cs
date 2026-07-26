@@ -17,7 +17,7 @@ namespace com.VisionXR.HelperClasses
     public enum PlayerControl { Local, Remote }
     public enum PlayerCoin { Black, White, Red, All }
     public enum Team { TeamA, TeamB }
-    public enum GameType { VsCPU , OnlineMultiPlayer, PlayWithFriends,Tutorial}
+    public enum GameType { VsCPU , PlayWithFriends,Tutorial}
     public enum Challenge { BlackAndWhite, FreeStyle, Tournament, TrickShots }
     public enum SinglePlayerGameMode { PvsAI, PAIvsAI }
     public enum MultiPlayerGameMode { P1vsP2, P1AIvsP2AI, P1P2vsAI, P1P2vsP3P4 }

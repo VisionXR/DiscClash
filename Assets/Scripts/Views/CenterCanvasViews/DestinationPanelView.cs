@@ -100,7 +100,7 @@ namespace com.VisionXR.Views
                 connectionRoutine = null;
             }
             // Additional logic for successful destination change can be added here.
-           if ((currentDestination.gameType == GameType.OnlineMultiPlayer || currentDestination.gameType == GameType.PlayWithFriends))
+           if (currentDestination.gameType == GameType.PlayWithFriends)
             {
                 uiData.uiManager.ChangeState(joinLobbyState, true);
             }

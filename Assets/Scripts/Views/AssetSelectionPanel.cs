@@ -78,7 +78,7 @@ namespace com.VisionXR.Views
                 uiData.uiManager.ChangeState(singlePlayerState, true);
                 destinationData.ConnectToDestination(destination, null, null);
             }
-            else if (destination.gameType == GameType.PlayWithFriends || destination.gameType == GameType.OnlineMultiPlayer)
+            else if (destination.gameType == GameType.PlayWithFriends)
             {
                 uiData.uiManager.ChangeState(createRoomState, true);
                 StartCoroutine(Connect(destination));

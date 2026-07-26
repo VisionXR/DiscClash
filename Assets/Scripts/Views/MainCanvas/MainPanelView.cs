@@ -44,21 +44,7 @@ namespace com.VisionXR.Views
             HomePanel.SetActive(false);
         }
 
-        public void OnlineMultiPlayerBtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            if(Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                DisplayToast();
-                return;
-            }
-
-            uiOutputData.SetGameType(GameType.OnlineMultiPlayer);
-            uiOutputData.SetRoomType(RoomType.Public);
-            PlayWithStrangersPanel.SetActive(true);
-
-            HomePanel.SetActive(false);
-        }
+   
 
         public void PlayWithFriendsBtnClicked()
         {
