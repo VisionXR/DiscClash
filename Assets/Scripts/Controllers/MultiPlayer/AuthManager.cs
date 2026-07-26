@@ -149,10 +149,7 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.Log("Existing user logged in. Skipping display name update to save API calls.");
-                if (!string.IsNullOrEmpty(displayName))
-                {
-                    SetPlayFabDisplayName(displayName);
-                }
+               
             }
             //// OPTIONAL: Update PlayFab display name to match Google name
             //UpdatePlayFabDisplayName(Social.localUser.userName);
