@@ -85,7 +85,7 @@ public class LeaderBoardManager : MonoBehaviour
 
             names.Add( username );
             ranks.Add( rank );
-            scores.Add( rank );
+            scores.Add( score );
    
         }
 
