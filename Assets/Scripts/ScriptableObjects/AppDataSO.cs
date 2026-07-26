@@ -8,11 +8,6 @@ namespace com.VisionXR.ModelClasses
     {
 
 
-        // variables
-        [Header(" Colors ")]
-        public Color HoverColor;
-        public Color IdleColor;
-
         [Header(" Local variables")]
         public float vibrationDuration = 0.2f;
         public float vibrationAmplitude = 0.2f;

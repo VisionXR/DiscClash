@@ -22,18 +22,14 @@ namespace com.VisionXR.Controllers
         private string displayName;
 
         private void OnEnable()
-        {
-            Application.targetFrameRate = 60;
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
+        {           
             cloudData.LoginToGoogleEvent += GoogleLogin;
             cloudData.GuestLoginEvent += GuestLogin;
             cloudData.EditorLoginEvent += EditorLogin;
         }
 
         private void OnDisable()
-        {
-            Screen.sleepTimeout = SleepTimeout.SystemSetting;
+        {          
             cloudData.LoginToGoogleEvent -= GoogleLogin;
             cloudData.GuestLoginEvent -= GuestLogin;
             cloudData.EditorLoginEvent -= EditorLogin;
@@ -46,8 +42,6 @@ namespace com.VisionXR.Controllers
             // Simplified Editor Mock
             playerSettings.SetUserNameAndId(displayName, SystemInfo.deviceUniqueIdentifier);
             deepLinkManager.ProcessGameFlow();
-
-
 
             // If in Editor, use a fixed string so you always log into the same test account
             // If on Mobile, use the unique Device ID

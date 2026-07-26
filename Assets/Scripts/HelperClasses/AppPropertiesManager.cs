@@ -2,11 +2,11 @@ using com.VisionXR.ModelClasses;
 using System.Collections;
 using UnityEngine;
 
-public class AppProperties : MonoBehaviour
+public class AppPropertiesManager : MonoBehaviour
 {
     [Header("Scriptable Objects")]
     public AppDataSO appData;
-
+    public MyPlayerSettings playerSettings;
 
     // Android Native Vibration Cache
     private AndroidJavaObject vibrator = null;
@@ -34,7 +34,8 @@ public class AppProperties : MonoBehaviour
 
     private void OnEnable()
     {
-
+        Application.targetFrameRate = 60;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         appData.StartVibrationEvent += StartVibration;
         appData.StartStrikingVibrationEvent += StartStrikerVibration;
         
@@ -42,7 +43,7 @@ public class AppProperties : MonoBehaviour
 
     private void OnDisable()
     {
-
+        Screen.sleepTimeout = SleepTimeout.SystemSetting;
         appData.StartVibrationEvent -= StartVibration;
         appData.StartStrikingVibrationEvent -= StartStrikerVibration;
         
@@ -51,19 +52,23 @@ public class AppProperties : MonoBehaviour
     // Normal vibration (uses your custom duration loop)
     public void StartVibration()
     {
-       
+        if (playerSettings.isHapticsEnabled)
+        {
             StopAllCoroutines(); // Ensure no overlapping vibration timers are running
             StartCoroutine(PlayHapticVibrationCoroutine());
+        }
         
     }
 
     // Striker collision vibration (typically a quick, snappy response pulse)
     public void StartStrikerVibration()
     {
-        
+        if (playerSettings.isHapticsEnabled)
+        {
             StopAllCoroutines();
             // Quick 40ms buzz perfect for physical game collisions (like a striker hit)
             VibrateAndroidNative(100);
+        }
         
     }
 
