@@ -153,6 +153,7 @@ namespace com.VisionXR.Views
             uiData.uiManager.ShowCanvas(0);
             uiData.uiManager.ChangeState(gameResultState, true);
             gameResultPanelView.ShowResult(result);
+     
             gameObject.SetActive(false);
         }
 
@@ -226,7 +227,7 @@ namespace com.VisionXR.Views
 
         public void PauseButtonClicked()
         {
-            Debug.Log("Pause button clicked");
+        
             AudioManager.instance.PlayButtonClickSound();
             uiData.uiManager.ChangeState(pauseState, true);
             uiInputData.PauseGame();

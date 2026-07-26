@@ -24,6 +24,7 @@ namespace com.VisionXR.Controllers
         public InputDataSO inputData;
         public LeaderBoardSO leaderBoardData;
         public UIDataSO uiData;
+        public ADDataSO adData;
 
 
         [Header("Scripts")]
@@ -413,25 +414,19 @@ namespace com.VisionXR.Controllers
 
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
-            {
-      
-                AudioManager.instance.PlayWinningSound();
-              
+            {     
+                AudioManager.instance.PlayWinningSound();            
                 winPs1.Play();
                 winPs2.Play();
-
                 CalculatePoints();
-
-
             }
             else
             {
                 AudioManager.instance.PlayLosingSound();
         
             }
-
-
             EndGame();
+            adData.ShowInterstitialAd();
         }
 
 

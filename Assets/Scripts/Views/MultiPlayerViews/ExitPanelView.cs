@@ -11,10 +11,9 @@ namespace com.VisionXR.Views
         public UIInputDataSO uIInputData;
         public GameDataSO gameData;
         public UIDataSO uiData;
-
+        public ADDataSO adData;
 
         [Header("Next And Previous Panels")]
-        public GameObject InputCanvas;
         public string currentState;
 
         public void ExitBtnClicked()
@@ -27,7 +26,7 @@ namespace com.VisionXR.Views
             uiData.uiManager.ResetAllBools();
 
             uIInputData.ExitGame();
-          
+            adData.ShowInterstitialAd();
 
         }
 

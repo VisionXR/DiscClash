@@ -19,7 +19,7 @@ namespace com.VisionXR.Controllers
         public GameDataSO gameData;
         public InputDataSO inputData;
         public LeaderBoardSO leaderBoardData;
-
+        public ADDataSO adData;
 
 
         [Header("Scripts")]
@@ -94,24 +94,15 @@ namespace com.VisionXR.Controllers
         public void StartGame(int id)
         {
             coinData.ResetData();
-
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
-
-            Debug.Log(" First turn id is " + id);
-
             gameData.SetFirstTurnId(id);
-
             int firstTurn = id;
-
             if (firstTurn == 1)
             {
-
                 mobileInputManager.SetFirstTurn(true);
                 coinData.ShowCoinRotationCanvas(firstTurn);
                 isFirstTurn = true;
-
             }
-
             StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
 
@@ -301,9 +292,8 @@ namespace com.VisionXR.Controllers
             }
 
             uiInputData.GameCompleted(gameResult);
-
             EndGame();
-            
+            adData.ShowInterstitialAd();
         }
 
         private void CalculatePoints()
