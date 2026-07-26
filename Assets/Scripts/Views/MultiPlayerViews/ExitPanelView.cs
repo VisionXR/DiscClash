@@ -15,6 +15,8 @@ namespace com.VisionXR.Views
 
         [Header("Next And Previous Panels")]
         public string currentState;
+        public string settingsState;
+        public string rulesState;
 
         public void ExitBtnClicked()
         {

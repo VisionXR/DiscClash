@@ -27,7 +27,7 @@ namespace com.VisionXR.Views
         public Image P2Image;
         public TMP_Text player1Nam;
         public TMP_Text player2Nam;
-
+        public string leaderBoardState;
 
         public void ShowResult(GameResult result)
         {
@@ -141,6 +141,12 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState("Tutorial", false);
             uiData.uiManager.GoToState(StateName.HomeState);
             uiData.uiManager.ResetAllBools();
+        }
+
+        public void LeaderBoardBtnClicked()
+        {
+            AudioManager.instance.PlayButtonClickSound();
+            uiData.uiManager.ChangeState(leaderBoardState, true);
         }
 
         public void OnPlayAgainButtonClicked()

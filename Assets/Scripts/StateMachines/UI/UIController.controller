@@ -1081,7 +1081,7 @@ AnimatorStateMachine:
     m_Position: {x: -670, y: 710, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5228931399919747224}
-    m_Position: {x: -530, y: 990, z: 0}
+    m_Position: {x: -490, y: 880, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1651067106822719026}
     m_Position: {x: 450, y: 930, z: 0}
@@ -1105,10 +1105,10 @@ AnimatorStateMachine:
     m_Position: {x: -300, y: 950, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5756930627530027861}
-    m_Position: {x: -720, y: 1110, z: 0}
+    m_Position: {x: -700, y: 1030, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2578223262346305599}
-    m_Position: {x: -480, y: 1150, z: 0}
+    m_Position: {x: -490, y: 1090, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8112812211156057091}
     m_Position: {x: 780, y: 1130, z: 0}
@@ -3110,7 +3110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
-  nextPanelId: 2
+  nextPanelId: 3
   currentStateName: 15
 --- !u!1101 &3752194254137249504
 AnimatorStateTransition:
@@ -3861,7 +3861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GenericState
   uiData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
-  nextPanelId: 1
+  nextPanelId: 2
   currentStateName: 14
 --- !u!1102 &7759643327280556803
 AnimatorState:
@@ -4012,7 +4012,7 @@ MonoBehaviour:
   mainCanvasId: 0
   scoreCanvas2Players: 1
   scoreCanvas4Players: 2
-  pauseState: 12
+  pauseState: 20
   currentStateName: 22
 --- !u!1101 &8637320211016376285
 AnimatorStateTransition:
