@@ -9,17 +9,12 @@ using UnityEngine;
     {
         // Player Data
         public LoginType loginType;
-        public bool IsLoggedIn;
-        public int MyStrikerId;
-        public int MyBoard;
-        public int MyCoinsId;
-        public int MyAvatar;
+     
         public string MyName;
         public Sprite MyProfileImage;
         public string ImageUrl;
         public string MyId;
-        public int MyCoins;
-        public int MyPoints;
+
         public ServerRegion serverRegion;
         public DominantHand myDominantHand;
         public bool isHapticsEnabled;
@@ -40,7 +35,7 @@ using UnityEngine;
 
         private void OnEnable()
         {
-            IsLoggedIn = false;
+          
             isHapticsEnabled = true;
         }
 
@@ -65,23 +60,6 @@ using UnityEngine;
             UserDataReceived?.Invoke(MyId);
         }
 
-        public void SetBoard(int id)
-        {
-            MyBoard = id;
-            BoardChangedEvent?.Invoke(id);
-        }
-
-        public void SetStriker(int id)
-        {
-            MyStrikerId = id;
-            StrikerChangedEvent?.Invoke(id);
-        }
-
-        public void SetCoins(int id)
-        {
-            MyCoinsId = id;
-            CoinsChangedEvent?.Invoke(id);
-        }
 
         public void SetUserProfileImageUrl(string url)
         {
@@ -101,10 +79,6 @@ using UnityEngine;
             ServerRegionChangedEvent?.Invoke(serverRegion);
         }
 
-        public void SetLogIn(bool status)
-        {
-            IsLoggedIn = status;
-        }
 
         public void SaveSettings()
         {

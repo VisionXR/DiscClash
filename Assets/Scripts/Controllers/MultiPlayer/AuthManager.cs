@@ -140,7 +140,6 @@ namespace com.VisionXR.Controllers
         {
             Debug.Log("Real Carrom : PlayFab Login Success! PlayFabID: ");
 
-            playerSettings.SetLogIn(true);
             playerSettings.SaveSettings();
             cloudData.PlayFabLoginSuccess();
 

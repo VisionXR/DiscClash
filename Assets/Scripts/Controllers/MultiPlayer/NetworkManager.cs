@@ -237,7 +237,7 @@ namespace com.VisionXR.Controllers
                     uiOutputData.SetChallenge((Challenge)(int)gameProp);
 
                 if (props.TryGetValue("board", out var boardProp))
-                    playerSettings.SetBoard((int)boardProp);
+                    uiOutputData.SetMyBoardId((int)boardProp);
 
                 if (props.TryGetValue("difficulty", out var difficultyProp))
                     uiOutputData.SetAIDifficulty((AIDifficulty)(int)difficultyProp);

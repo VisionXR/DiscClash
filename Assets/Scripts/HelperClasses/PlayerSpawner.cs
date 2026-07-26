@@ -81,7 +81,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
         p.myOculusID = playerSettings.MyId;
         p.myName = playerSettings.MyName;
-        p.myStrikerID = playerSettings.MyStrikerId;
+        p.myStrikerID = uiData.MyStrikerId;
         p.imageURL = playerSettings.ImageUrl;
 
         p.myPlayerControl = PlayerControl.Local;
@@ -117,7 +117,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p1.myId = 1;
             p1.myOculusID = playerSettings.MyId;
             p1.myName = playerSettings.MyName;
-            p1.myStrikerID = playerSettings.MyStrikerId;
+            p1.myStrikerID = uiData.MyStrikerId;
             p1.imageURL = playerSettings.ImageUrl;
             p1.myPlayerControl = PlayerControl.Local;
             p1.myPlayerRole = PlayerRole.Human;
@@ -156,7 +156,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p2.myId = 2;
             p2.myOculusID = playerSettings.MyId;
             p2.myName = playerSettings.MyName;
-            p2.myStrikerID = playerSettings.MyStrikerId;
+            p2.myStrikerID = uiData.MyStrikerId;
             p2.imageURL = playerSettings.ImageUrl;
             p2.myPlayerControl = PlayerControl.Local;
             p2.myPlayerRole = PlayerRole.Human;
@@ -200,7 +200,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p1.myId = 1;
             p1.myOculusID = playerSettings.MyId;
             p1.myName = playerSettings.MyName;
-            p1.myStrikerID = playerSettings.MyStrikerId;
+            p1.myStrikerID = uiData.MyStrikerId;
             p1.imageURL = playerSettings.ImageUrl;
             p1.myPlayerControl = PlayerControl.Local;
             p1.myPlayerRole = PlayerRole.Human;
@@ -239,7 +239,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p3.myId = 3;
             p3.myOculusID = playerSettings.MyId;
             p3.myName = playerSettings.MyName;
-            p3.myStrikerID = playerSettings.MyStrikerId;
+            p3.myStrikerID = uiData.MyStrikerId;
             p3.imageURL = playerSettings.ImageUrl;
             p3.myPlayerControl = PlayerControl.Local;
             p3.myPlayerRole = PlayerRole.Human;
@@ -282,7 +282,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
         p.myOculusID = playerSettings.MyId;
         p.myName = playerSettings.MyName;
-        p.myStrikerID = playerSettings.MyStrikerId;
+        p.myStrikerID = uiData.MyStrikerId;
         p.imageURL = playerSettings.ImageUrl;
 
         p.myPlayerControl = PlayerControl.Local;

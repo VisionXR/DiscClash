@@ -32,11 +32,9 @@ namespace com.VisionXR.Controller
         {
             PlayerData newPlayerData = new PlayerData();
         
-            newPlayerData.BoardId = playerSettings.MyBoard;
-            newPlayerData.StrikerId = playerSettings.MyStrikerId;
-            newPlayerData.CoinsId = playerSettings.MyCoins;
+
             newPlayerData.region = playerSettings.serverRegion;
-            newPlayerData.isLoggedIn = playerSettings.IsLoggedIn;
+     
 
             SaveData(Key, JsonUtility.ToJson(newPlayerData));
         }
@@ -52,11 +50,9 @@ namespace com.VisionXR.Controller
                 {
                     data = JsonUtility.FromJson<PlayerData>(playerData);
                   
-                    playerSettings.SetBoard(data.BoardId);
-                    playerSettings.SetStriker(data.StrikerId);
-                    playerSettings.SetCoins(data.CoinsId);
+
                     playerSettings.SetServerRegion(data.region);
-                 //   playerSettings.SetLogIn(data.isLoggedIn);
+               
 
                 }
                 catch (Exception e)
