@@ -41,6 +41,13 @@ namespace com.VisionXR.ModelClasses
 
         // Methods
 
+        private void OnEnable()
+        {
+            MyBoardId = 0;
+            MyStrikerId = 0;
+            MyCoinsId = 0;
+        }
+
         public void SetRoomJoinType(RoomJoinType roomJoinType)
         {
             this.roomJoinType = roomJoinType;

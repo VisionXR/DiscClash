@@ -1390,6 +1390,7 @@ Transform:
   - {fileID: 6742831997112023821}
   - {fileID: 7203328617966736846}
   - {fileID: 8351557860149464821}
+  - {fileID: 5224377016868244341}
   - {fileID: 6615144118042653026}
   - {fileID: 3935006940853794536}
   - {fileID: 7463401921355464849}
@@ -2157,7 +2158,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 71
+  m_VersionIndex: 82
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2835,7 +2836,6 @@ Transform:
   - {fileID: 6037504208676901177}
   - {fileID: 4776153195196002209}
   - {fileID: 6142387399309511846}
-  - {fileID: 5224377016868244341}
   - {fileID: 423542260105006517}
   - {fileID: 4556936516782921548}
   m_Father: {fileID: 8623686483076497884}
@@ -2881,7 +2881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456131510100342367}
   m_Layer: 0
-  m_Name: SquareHoleGlows
+  m_Name: HoleGlows
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3042,12 +3042,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8921509300225196077}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7825418217160396699}
+  m_Father: {fileID: 8623686483076497884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9063452415826228244
 GameObject:
