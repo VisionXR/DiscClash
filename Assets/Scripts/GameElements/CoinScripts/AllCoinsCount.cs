@@ -15,8 +15,6 @@ public class AllCoinsCount : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.position = boardData.GetAllCoinsTransform().position;
-        transform.rotation = boardData.GetAllCoinsTransform().rotation;
         gameData.SetData(TotalCoins, TotalWhites, TotalBlacks, TotalReds);
     }
 }

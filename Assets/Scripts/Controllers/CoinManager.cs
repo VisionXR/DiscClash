@@ -90,9 +90,11 @@ public class CoinManager : MonoBehaviour
         {
             coinData.AllCoinsReference = Instantiate(
                 allCoinsPrefab,
-                boardData.GetAllCoinsTransform().position,
-                boardData.GetAllCoinsTransform().rotation
+                boardData.GetAllCoinsTransform()           
             );
+
+            coinData.AllCoinsReference.transform.localPosition = Vector3.zero;
+            coinData.AllCoinsReference.transform.localRotation = Quaternion.identity;
         }
         else
         {

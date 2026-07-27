@@ -16,14 +16,11 @@ namespace com.VisionXR.Controllers
         public GameObject BoardPos;
         public GameObject currentBoard;
 
-
-
         private void OnEnable()
         {
             myPlayerSettings.BoardChangedEvent += CreateNewBoardFromResources;
             uIOutputData.SetMyBoardEvent += CreateNewBoardFromResources;
-            
-           
+            CreateNewBoardFromResources(0);
         }
 
         private void OnDisable()
@@ -31,7 +28,6 @@ namespace com.VisionXR.Controllers
             myPlayerSettings.BoardChangedEvent -= CreateNewBoardFromResources;
             uIOutputData.SetMyBoardEvent -= CreateNewBoardFromResources;
           
-
         }
 
         public void StartTutorial()
@@ -58,7 +54,7 @@ namespace com.VisionXR.Controllers
 
             if (boardPrefab != null)
             {
-                currentBoard = Instantiate(boardPrefab, BoardPos.transform.position, BoardPos.transform.rotation);
+                currentBoard = Instantiate(boardPrefab, BoardPos.transform);
             }
             else
             {

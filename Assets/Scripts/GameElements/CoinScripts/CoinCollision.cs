@@ -6,17 +6,14 @@ public class CoinCollision : MonoBehaviour
     [Header(" Scriptable Objects")]
     public CoinDataSO coinDataSO;
 
-    // local variables
-    public bool isPassed = false;
     public void OnTriggerEnter(Collider other)
     {
       
         if (other.gameObject.tag == "Hole")
         {
-         
-            isPassed = true;
             coinDataSO.CoinFellInHole(gameObject);
             coinDataSO.CoinPocketedUntoHole(other.gameObject);
+            GetComponent<MeshCollider>().enabled = false;
                      
         }
     }
@@ -26,10 +23,7 @@ public class CoinCollision : MonoBehaviour
        
         if(collision.collider.gameObject.tag == "Ground")
         {
-            if(!isPassed)
-            {
-                coinDataSO.CoinFellOnGround(gameObject);             
-            }
+           coinDataSO.CoinFellOnGround(gameObject);                       
         }
     }
 
