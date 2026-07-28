@@ -317,6 +317,7 @@ Transform:
   - {fileID: 7845482294069197257}
   - {fileID: 3799468034876643683}
   - {fileID: 3740457348876946491}
+  - {fileID: 3798681288097537208}
   - {fileID: 4993423382832017361}
   - {fileID: 1349759338104000790}
   - {fileID: 4028447579632611441}
@@ -1366,7 +1367,7 @@ GameObject:
   - component: {fileID: 8623686483076497884}
   - component: {fileID: 4335392599022114264}
   m_Layer: 0
-  m_Name: Board0
+  m_Name: Board4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1490,11 +1491,11 @@ Transform:
   m_GameObject: {fileID: 4424621742599411552}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.062, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.00999999, z: 0.058}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4993423382832017361}
+  m_Father: {fileID: 6142387399309511846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5000610541646206894
 GameObject:
@@ -1666,7 +1667,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9eced57a9ad0d204998b2c042a76c329, type: 2}
+  - {fileID: 2100000, guid: 7984a3d376dad124d8216e651427f913, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1913,8 +1914,7 @@ Transform:
   m_LocalPosition: {x: 0.062, y: 0.00999999, z: 0.058}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3798681288097537208}
+  m_Children: []
   m_Father: {fileID: 6142387399309511846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5961297618371075671
@@ -3227,7 +3227,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b7d1ce6ee9279ce4ba7221045b79dd22, type: 2}
+  - {fileID: 2100000, guid: 93a9cb004abdd0c4cbe27042d8b75fbf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
