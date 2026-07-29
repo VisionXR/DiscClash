@@ -49,7 +49,7 @@ namespace com.VisionXR.Views
         public void BoardBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            Debug.Log(" going to " + boardsState);
+          
             uiData.uiManager.ChangeState(boardsState, true);
         }
 
