@@ -117,6 +117,73 @@ namespace com.VisionXR.HelperClasses
     }
 
     [Serializable]
+
+    public class AchievementInfo
+    {
+        public int id;
+        public Sprite icon;
+        public string name;
+        public string apiName;
+        public string achievementName;
+        public string description;
+
+        public GameType type;
+        public GameMode mode;
+        public BoardType boardType;
+        public AIDifficulty difficulty;
+        public AchievementSection achievementSection;
+
+
+        public AchievementType achievementType;
+        public bool isAchieved;
+        public int actual;
+        public int target;
+
+    }
+
+    [Serializable]
+    public class DefaultBoardWinsData
+    {
+
+        public string lastLoginDate;
+        public int totalLogins;
+
+        public int spTotalGames;
+        public int spTotalWins;
+        public int spBWEasyWins;
+        public int spBWMediumWins;
+        public int spBWHardWins;
+        public int spFSEasyWins;
+        public int spFSMediumWins;
+        public int spFSHardWins;
+
+        public int mpTotalGames;
+        public int mpTotalWins;
+        public int mpBWWins;
+        public int mpFSWins;
+
+    }
+
+    [Serializable]
+    public class SpecialBoardWinsStats
+    {
+        public List<BoardStats> boardStats = new List<BoardStats>();
+        public List<string> clientNames = new List<string>();
+
+    }
+
+    [Serializable]
+    public class BoardStats
+    {
+        public BoardType boardType;
+        public int spBWWins;
+        public int spFSWins;
+        public int mpBWWins;
+        public int mpFSWins;
+
+    }
+
+    [Serializable]
     public class AIBotAnimationDetails
     {
         public string time;

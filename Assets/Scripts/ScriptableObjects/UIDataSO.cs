@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using com.VisionXR.Controllers;
+using com.VisionXR.HelperClasses;
 
 namespace com.VisionXR.ModelClasses
 {
@@ -10,6 +11,7 @@ namespace com.VisionXR.ModelClasses
         // variables
         [Header("References")]
         public UIManager uiManager;
+        public BoardType currentBoardType;
 
 
         [Header("OutPut")]
