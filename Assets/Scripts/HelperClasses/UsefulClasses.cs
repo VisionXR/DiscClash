@@ -173,6 +173,7 @@ namespace com.VisionXR.HelperClasses
     public class AssetData
     {
         public string skuName;
+        public string productId;
         public bool isPurchased = false;
         public string Price;
     }

@@ -6,139 +6,104 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PurchaseDataSO", menuName = "ScriptableObjects/PurchaseDataSO", order = 1)]
 public class PurchaseDataSO : ScriptableObject
 {
-    [Header(" Striker skus")]
-    public List<AssetData> StrikersData;
+
 
     [Header(" Board skus")]
     public List<AssetData> BoardsData;
+    public List<bool> allSingleBoards;
 
-    [Header(" Coin skus")]
-    public List<AssetData> CoinsData;
 
     [Header(" Player skus")]
     public string[] allSkusData;
 
 
     // Actions
-    public Action StrikerAssetPurchasedEvent;
     public Action BoardAssetPurchasedEvent;
-    public Action CoinAssetPurchasedEvent;
     public Action GetPurchasedItemsEvent;
     public Action GetAllItemsEvent;
     public Action RefreshDataEvent;
+    public Action<string> BuyProductEvent;
+
+
+    public Action SetPurchasedItemsEvent;
 
     // Methods
+
+    private void OnEnable()
+    {
+        if (allSingleBoards != null)
+        {
+            for (int i = 0; i < allSingleBoards.Count; i++)
+            {
+                allSingleBoards[i] = false;
+            }
+        }
+    }
 
     public void RefreshData()
     {
         RefreshDataEvent?.Invoke();
     }
 
-    public AssetData GetStrikerDataById(int id )
-    {
-        return StrikersData[id];
-    }
 
     public AssetData GetBoardDataById(int id)
     {
         return BoardsData[id];
     }
 
-    public AssetData GetCoinDataById(int id)
+    public AssetData GetBoardByProductId(string id)
     {
-        return CoinsData[id];
-    }
-
-
-    public void MarkStrikerAsPurchased(int id)
-    {
-        AssetData striker = GetStrikerDataById(id);
-        if (striker != null)
+        foreach (var item in BoardsData)
         {
-            striker.isPurchased = true;
+            if (item.productId == id) return item;
         }
-        StrikerAssetPurchasedEvent?.Invoke();
+        return null;
     }
 
-    public void MarkBoardAsPurchased(int id)
+    public void MarkBoardAsPurchased(string id)
     {
-        AssetData board = GetBoardDataById(id);
+        AssetData board = GetBoardByProductId(id);
         if (board != null)
         {
             board.isPurchased = true;
         }
         BoardAssetPurchasedEvent?.Invoke();
     }
-    public void MarkCoinAsPurchased(int id)
-    {
-        AssetData coin = GetCoinDataById(id);
-        if (coin != null)
-        {
-            coin.isPurchased = true;
-        }
-        CoinAssetPurchasedEvent?.Invoke();
-    }
 
 
-    public void InitialisePurchases(List<string> purchasedSkus)
+    public void SetPurchasedItems(List<AssetData> productdIds)
     {
-        foreach (var sku in purchasedSkus)
+        foreach (var id in productdIds)
         {
-            foreach (var striker in StrikersData)
-            {
-                if (striker.skuName == sku)
-                {
-                    striker.isPurchased = true;
-                    StrikerAssetPurchasedEvent?.Invoke();
-                }
-            }
+
             foreach (var board in BoardsData)
             {
-                if (board.skuName == sku)
+                if (board.productId == id.productId)
                 {
                     board.isPurchased = true;
-                    BoardAssetPurchasedEvent?.Invoke();
+
                 }
             }
-            foreach (var coin in CoinsData)
-            {
-                if (coin.skuName == sku)
-                {
-                    coin.isPurchased = true;
-                    CoinAssetPurchasedEvent?.Invoke();
-                }
-            }
+
         }
+
+        SetPurchasedItemsEvent?.Invoke();
     }
 
-
-    public void SetPurchasePrices(List<AssetData> assetDatas)
-    
+    public void SetPriceOfItems(List<AssetData> productdIds)
     {
-        foreach(var assetData in assetDatas)
+        foreach (var id in productdIds)
         {
-            foreach (var striker in StrikersData)
-            {
-                if (striker.skuName == assetData.skuName)
-                {
-                    striker.Price = assetData.Price;
-                    
-                }
-            }
+
             foreach (var board in BoardsData)
             {
-                if(board.skuName == assetData.skuName)
+                if (board.productId == id.productId)
                 {
-                    board.Price = assetData.Price;
+                    board.Price = id.Price;
+
                 }
             }
-            foreach (var coin in CoinsData)
-            {
-               if(coin.skuName != assetData.skuName)
-                {
-                    coin.Price = assetData.Price;
-                }
-            }
+
         }
     }
     public void GetPurchasedItems()
@@ -149,5 +114,13 @@ public class PurchaseDataSO : ScriptableObject
     public void GetAllItems()
     {
         GetAllItemsEvent?.Invoke();
+    }
+
+    public void BuyProduct(string productId)
+    {
+        // This method can be called from your UI when a purchase button is clicked
+        // It will trigger the purchase flow in your PurchaseManager
+        // You can pass the productId to identify which item to buy
+        BuyProductEvent?.Invoke(productId);
     }
 }
