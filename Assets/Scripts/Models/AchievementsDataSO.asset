@@ -13,44 +13,111 @@ MonoBehaviour:
   m_Name: AchievementsDataSO
   m_EditorClassIdentifier: 
   AllAchievementInfo:
-  - apiName: Ach_Continues_Login_Three
+  - id: 0
+    icon: {fileID: 0}
+    name: Login1
+    apiName: CgkIj6yl06QSEAIQAQ
     achievementName: Login Milestone I
-    description: Log in 5 days
+    description: Log in for the first time
+    type: 0
+    challenge: 0
+    boardType: 0
+    difficulty: 0
+    achievementSection: 2
+    achievementType: 0
     isAchieved: 0
-  - apiName: Ach_Continues_Login_Five
+    actual: 0
+    target: 0
+  - id: 0
+    icon: {fileID: 0}
+    name: Login2
+    apiName: CgkIj6yl06QSEAIQAg
     achievementName: Login Milestone II
-    description: Log in 10 days
+    description: Log in 3 days
+    type: 0
+    challenge: 0
+    boardType: 0
+    difficulty: 0
+    achievementSection: 2
+    achievementType: 0
     isAchieved: 0
-  - apiName: Ach_Continues_Login_Ten
+    actual: 0
+    target: 0
+  - id: 0
+    icon: {fileID: 0}
+    name: Login3
+    apiName: CgkIj6yl06QSEAIQAw
     achievementName: Login Milestone III
-    description: Log in 15 days.
+    description: Log in 5 days
+    type: 0
+    challenge: 0
+    boardType: 0
+    difficulty: 0
+    achievementSection: 2
+    achievementType: 0
     isAchieved: 0
-  - apiName: Ach_Invites_Three
+    actual: 0
+    target: 0
+  - id: 0
+    icon: {fileID: 0}
+    name: Login4
+    apiName: CgkIj6yl06QSEAIQBA
+    achievementName: Login Milestone IV
+    description: Log in 10 days
+    type: 0
+    challenge: 0
+    boardType: 0
+    difficulty: 0
+    achievementSection: 2
+    achievementType: 1
+    isAchieved: 0
+    actual: 0
+    target: 0
+  - id: 0
+    icon: {fileID: 0}
+    name: Host1
+    apiName: CgkIj6yl06QSEAIQBQ
     achievementName: Table Host I
-    description: In Multiplayer P1 Vs P2, send invites to 3 unique players.
+    description: In Multiplayer  send first invite.
+    type: 0
+    challenge: 0
+    boardType: 0
+    difficulty: 0
+    achievementSection: 2
+    achievementType: 0
     isAchieved: 0
-  - apiName: Ach_Invites_Five
-    achievementName: Table Host II
-    description: In Multiplayer  P1 Vs P2, send invites to 5 unique players.
-    isAchieved: 0
-  - apiName: Ach_Invites_Ten
-    achievementName: Table Host III
-    description: In Multiplayer P1 Vs P2, send invites to 10 unique players.
-    isAchieved: 0
-  - apiName: Ach_Single_BW_AIHard_Win_Three
-    achievementName: B&W Ace
-    description: "Single Player \u2022 BlackAndWhite \u2022 AI: Hard \u2014 win 3
-      matches."
-    isAchieved: 0
-  - apiName: Ach_Single_FreeStyle_AI_Hard_Win_Three
-    achievementName: Freestyle Ace
-    description: "Single Player \u2022 Free Style \u2022 AI: Hard \u2014 win 3 matches."
-    isAchieved: 0
-  - apiName: Ach_Multi_P1_AI1_Vs_P2_AI2_AI_Hard_Win_3
-    achievementName: Tactical Tandem
-    description: "P1 + AI vs P2 + AI \u2022 AI: Hard \u2014 win 3 matches."
-    isAchieved: 0
-  - apiName: Ach_Multi_P1_P2_Vs_AI1_AI2_AI_Hard_Win_3
-    achievementName: Doubles Dominance
-    description: "P1 + P2 vs AI + AI \u2022 AI: Hard \u2014 win 3 matches."
-    isAchieved: 0
+    actual: 0
+    target: 0
+  defaultBoardWinsData:
+    lastLoginDate: 
+    totalLogins: 0
+    spTotalGames: 0
+    spTotalWins: 0
+    spBWEasyWins: 0
+    spBWMediumWins: 0
+    spBWHardWins: 0
+    spFSEasyWins: 0
+    spFSMediumWins: 0
+    spFSHardWins: 0
+    mpTotalGames: 0
+    mpTotalWins: 0
+    mpBWWins: 0
+    mpFSWins: 0
+  specialBoardWinsStats:
+    boardStats:
+    - boardType: 0
+      spBWWins: 0
+      spFSWins: 0
+      mpBWWins: 0
+      mpFSWins: 0
+    - boardType: 2
+      spBWWins: 0
+      spFSWins: 0
+      mpBWWins: 0
+      mpFSWins: 0
+    - boardType: 1
+      spBWWins: 0
+      spFSWins: 0
+      mpBWWins: 0
+      mpFSWins: 0
+    clientNames: []

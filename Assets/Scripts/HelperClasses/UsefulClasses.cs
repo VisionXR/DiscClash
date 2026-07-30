@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using Fusion;
 
 namespace com.VisionXR.HelperClasses
 {
@@ -128,7 +127,7 @@ namespace com.VisionXR.HelperClasses
         public string description;
 
         public GameType type;
-        public GameMode mode;
+        public Challenge challenge;
         public BoardType boardType;
         public AIDifficulty difficulty;
         public AchievementSection achievementSection;
@@ -231,7 +230,7 @@ namespace com.VisionXR.HelperClasses
     public class LinkData
     {
         public GameType gameType;
-        public GameMode gameMode;
+        public MultiPlayerGameMode multiPlayerGameMode;
         public Challenge challenge;
     }
 
