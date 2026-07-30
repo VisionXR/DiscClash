@@ -176,7 +176,7 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             if (!coinLockImages[id].gameObject.activeInHierarchy)
             {
-                uiOutputData.SetMyStrikerId(id);
+                uiOutputData.SetMyCoinsId(id);
                 ResetBoardImages();
                 coinSelectionImages[uiOutputData.MyCoinsId].gameObject.SetActive(true);
 
