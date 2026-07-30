@@ -31,44 +31,44 @@ namespace com.VisionXR.Views
         public TMP_Text progressText;
 
 
-        //public void SetAchivementInfo(AchievementInfo achievementInfo)
-        //{
-        //    this.achievementInfo = achievementInfo;
-        //    id.text = achievementInfo.id.ToString();
-        //    Icon.sprite = achievementInfo.icon;
-        //    title.text = achievementInfo.achievementName;
-        //    description.text = achievementInfo.description;
-          
+        public void SetAchivementInfo(AchievementInfo achievementInfo)
+        {
+            this.achievementInfo = achievementInfo;
+            id.text = achievementInfo.id.ToString();
+            Icon.sprite = achievementInfo.icon;
+            title.text = achievementInfo.achievementName;
+            description.text = achievementInfo.description;
 
-        //    if (achievementInfo.achievementType == AchievementType.Simple)
-        //    {
-        //        simpleObject.SetActive(true);
-        //        progressObject.SetActive(false);
-        //        if (achievementInfo.isAchieved)
-        //        {
-        //            UnLockedObject.SetActive(true);
-        //            LockedObject.SetActive(false);
-        //        }
-        //        else
-        //        {
-        //            UnLockedObject.SetActive(false);
-        //            LockedObject.SetActive(true);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        simpleObject.SetActive(false);
-        //        progressObject.SetActive(true);
 
-        //        if (achievementInfo.actual >= achievementInfo.target)
-        //        {
-        //            achievementInfo.actual = achievementInfo.target;
-        //        }
+            if (achievementInfo.achievementType == AchievementType.Simple)
+            {
+                simpleObject.SetActive(true);
+                progressObject.SetActive(false);
+                if (achievementInfo.isAchieved)
+                {
+                    UnLockedObject.SetActive(true);
+                    LockedObject.SetActive(false);
+                }
+                else
+                {
+                    UnLockedObject.SetActive(false);
+                    LockedObject.SetActive(true);
+                }
+            }
+            else
+            {
+                simpleObject.SetActive(false);
+                progressObject.SetActive(true);
 
-        //        progressSlider.maxValue = achievementInfo.target;
-        //        progressSlider.value = achievementInfo.actual;
-        //        progressText.text = $"{achievementInfo.actual}/{achievementInfo.target}";
-        //    }
-        //}
+                if (achievementInfo.actual >= achievementInfo.target)
+                {
+                    achievementInfo.actual = achievementInfo.target;
+                }
+
+                progressSlider.maxValue = achievementInfo.target;
+                progressSlider.value = achievementInfo.actual;
+                progressText.text = $"{achievementInfo.actual}/{achievementInfo.target}";
+            }
+        }
     }
 }
