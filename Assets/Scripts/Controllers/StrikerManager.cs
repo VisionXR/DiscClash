@@ -82,7 +82,7 @@ namespace com.VisionXR.Controllers
                     StrikerProperties strikerProperties = strikerPropertiesList[strikerId];
 
                     striker.GetComponent<StrikerProperties>().ChangeProperties
-                       (strikerProperties.power, strikerProperties.aim, strikerProperties.time, strikerProperties.aimColor);
+                       (strikerProperties.power, strikerProperties.aim, strikerProperties.aimColor);
 
                 }
             }

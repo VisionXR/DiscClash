@@ -150,10 +150,10 @@ public class ReceivePlayerData : MonoBehaviour
         Vector3 strikerRot = strikerData.Rotation;
         // Estimate striker position
         Vector3 strikerEstimated =
-        GetEstimatedReflectedPoint(strikerData.Position, strikerData.Velocity, player.strikerProperties.time, dt, boardData.GetStrikerRadius());
+        GetEstimatedReflectedPoint(strikerData.Position, strikerData.Velocity, 1.25f , dt, boardData.GetStrikerRadius());
 
 
-        Vector3 VelEstimated = (Vector3)strikerData.Velocity * Mathf.Exp(-player.strikerProperties.time * dt);
+        Vector3 VelEstimated = (Vector3)strikerData.Velocity * Mathf.Exp(-1.25f * dt);
 
 
 
