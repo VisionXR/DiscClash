@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 7870721439449366768}
   - component: {fileID: 4224860099864187400}
   m_Layer: 0
-  m_Name: Striker2
+  m_Name: Striker14
   m_TagString: Striker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -695,17 +695,17 @@ MonoBehaviour:
   rb: {fileID: 6280634625301834858}
   HandPosObject: {fileID: 7019290970040135205}
   aimLine: {fileID: 1259495821330414344}
-  strikerName: Surya Chakra
+  strikerName: Ayush Chakra
   minAim: 0.5
   maxAim: 1.5
   minTime: 0.85
   maxTime: 1.25
   minPower: 2
   maxPower: 3.5
-  aimColor: {r: 1, g: 0.6383666, b: 0, a: 1}
-  aim: 1
-  time: 1.15
-  power: 2.4
+  aimColor: {r: 0.5, g: 0.1428565, b: 0, a: 1}
+  aim: 1.1
+  time: 1.25
+  power: 2.55
 --- !u!23 &7870721439449366768
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -731,7 +731,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bb4bb6a84feb85d43a319aba7c76f7d6, type: 2}
+  - {fileID: 2100000, guid: 1f52a3d78a9e8564e8260c4869d0c9de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
