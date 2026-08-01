@@ -12,9 +12,13 @@ namespace com.VisionXR.Controllers
         public ADDataSO adDataSO;
         public PurchaseDataSO purchaseData;
 
+        [Header("Ad Unit IDs")]
+        public string testInterstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712"; // Test Interstitial Ad Unit ID
+        public string testRewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"; // Test Rewarded Ad Unit ID
         public string _interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
         public string _rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
 
+        // Local variables to hold the loaded ads
         private InterstitialAd _interstitialAd;
         private RewardedAd _rewardedAd;
         private bool isSdkInitialized = false;
@@ -70,7 +74,7 @@ namespace com.VisionXR.Controllers
 
             var adRequest = new AdRequest();
 
-            InterstitialAd.Load(_interstitialAdUnitId, adRequest, (InterstitialAd ad, LoadAdError error) =>
+            InterstitialAd.Load(testInterstitialAdUnitId, adRequest, (InterstitialAd ad, LoadAdError error) =>
             {
                 if (error != null || ad == null)
                 {
@@ -125,7 +129,7 @@ namespace com.VisionXR.Controllers
             isRewardedAdLoading = true;
             var adRequest = new AdRequest();
 
-            RewardedAd.Load(_rewardedAdUnitId, adRequest, (RewardedAd ad, LoadAdError error) =>
+            RewardedAd.Load(testRewardedAdUnitId, adRequest, (RewardedAd ad, LoadAdError error) =>
             {
                 isRewardedAdLoading = false;
 
@@ -156,22 +160,30 @@ namespace com.VisionXR.Controllers
         {
             if (_rewardedAd != null && _rewardedAd.CanShowAd())
             {
-                _rewardedAd.Show((Reward reward) =>
+                // 1. Keep a local reference to the ad about to be displayed
+                RewardedAd adToShow = _rewardedAd;
+
+                // 2. Clear the main reference variable right away
+                _rewardedAd = null;
+
+                // 3. Immediately start preloading the NEXT ad in the background while this one plays
+                LoadRewardedAd();
+
+                // 4. Show the current ad using the local reference
+                adToShow.Show((Reward reward) =>
                 {
                     Debug.Log($"User earned reward: {reward.Amount} {reward.Type}");
-
-                    // Grant the reward inside the successful user completion callback
                     adDataSO.OnRewardedAdSuccess();
                 });
             }
+            else if (isRewardedAdLoading)
+            {
+                Debug.LogWarning("Ad is still downloading. Please wait a second!");
+            }
             else
             {
-                Debug.LogWarning("Rewarded ad is not ready yet.");
-
-                // 1. Fire failure event on Scriptable Object so UI can notify the user
+                Debug.LogWarning("Rewarded ad is not ready yet. Reloading...");
                 adDataSO.RewardAdFailedToLoad();
-
-                // 2. Trigger a fresh reload attempt
                 LoadRewardedAd();
             }
         }
