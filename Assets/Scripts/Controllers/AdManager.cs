@@ -94,7 +94,7 @@ namespace com.VisionXR.Controllers
 
         public void ShowInterstitialAd()
         {
-            AssetData noAdsData = purchaseData.GetBoardDataById(purchaseData.BoardsData.Count - 1);
+            AssetData noAdsData = purchaseData.GetItemByProductId(purchaseData.AllItemsData.Count - 1);
             if (noAdsData != null && noAdsData.isPurchased)
             {
                 Debug.Log("Purchase made for no ads");

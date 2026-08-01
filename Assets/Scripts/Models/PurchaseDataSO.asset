@@ -12,47 +12,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc3f24f0f6de404ab485d1628312807, type: 3}
   m_Name: PurchaseDataSO
   m_EditorClassIdentifier: 
-  StrikersData:
-  - skuName: Striker_Bundle0
+  AllItemsData:
+  - skuName: Five Elements Circle Boards
+    productId: circle_pancha_bhoota_boards
     isPurchased: 0
     Price: 
-  - skuName: Striker_Bundle1
+  - skuName: Five Elements Octagon Boards
+    productId: octagon_pancha_bhoota_boards
     isPurchased: 0
     Price: 
-  - skuName: Striker_Bundle2
+  - skuName: Five Elements Square Boards
+    productId: square_pancha_bhoota_boards
     isPurchased: 0
     Price: 
-  - skuName: Striker_Bundle3
+  - skuName: 'Balanced Aim & Power Strikers '
+    productId: balanced_aim_power_strikers
     isPurchased: 0
     Price: 
-  BoardsData:
-  - skuName: Board_Bundle0
+  - skuName: Max Power Strikers Pack
+    productId: max_power_strikers_pack
     isPurchased: 0
     Price: 
-  - skuName: Board_Bundle1
+  - skuName: Max Aim Strikers Pack
+    productId: max_aim_strikers_pack
     isPurchased: 0
     Price: 
-  - skuName: Board_Bundle2
+  - skuName: Divine 9x9 Coins Pack
+    productId: 9x9_divine_coins_pack
     isPurchased: 0
     Price: 
-  CoinsData:
-  - skuName: Coin_Bundle0
+  - skuName: Divine 6x6 Coins Pack
+    productId: 6x6_divine_coins_pack
     isPurchased: 0
     Price: 
-  - skuName: Coin_Bundle1
+  - skuName: Divine 3x3 Coins Pack
+    productId: 3x3_divine_coins_pack
     isPurchased: 0
     Price: 
-  - skuName: Coin_Bundle2
-    isPurchased: 0
-    Price: 
+  allSingleBoards: 
+  allSingleStrikers: 
+  allSingleCoins: 
   allSkusData:
-  - Striker_Bundle0
-  - Striker_Bundle1
-  - Striker_Bundle2
-  - Striker_Bundle3
-  - Board_Bundle0
-  - Board_Bundle1
-  - Board_Bundle2
-  - Coin_Bundle0
-  - Coin_Bundle1
+  - circle_pancha_bhoota_boards
+  - octagon_pancha_bhoota_boards
+  - square_pancha_bhoota_boards
+  - balanced_aim_power_strikers
+  - max_power_strikers_pack
+  - max_aim_strikers_pack
+  - 9x9_divine_coins_pack
+  - 6x6_divine_coins_pack
+  - 3x3_divine_coins_pack
   - Coin_Bundle2

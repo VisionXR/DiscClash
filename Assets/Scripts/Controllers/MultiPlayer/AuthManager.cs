@@ -18,6 +18,7 @@ namespace com.VisionXR.Controllers
         public CloudDataSO cloudData;
         public DeepLinkManager deepLinkManager;
         public AchievementsDataSO achievementsData;
+        public PurchaseDataSO purchaseData;
 
         // local variables
         private string displayName;
@@ -121,7 +122,10 @@ namespace com.VisionXR.Controllers
             yield return new WaitForSeconds(1f);
             RequestTokenAndLoginToPlayFab();
             yield return new WaitForSeconds(1f);
-
+            purchaseData.GetAllItems();
+            yield return new WaitForSeconds(1f);
+            purchaseData.GetPurchasedItems();
+            yield return new WaitForSeconds(1f);
             StartCoroutine(LoadProfileImage(imageUrl));
         }
 

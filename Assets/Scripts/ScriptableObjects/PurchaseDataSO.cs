@@ -7,10 +7,8 @@ using UnityEngine;
 public class PurchaseDataSO : ScriptableObject
 {
 
-
-    [Header(" Board skus")]
-    public List<AssetData> BoardsData;
-    public List<bool> allSingleBoards;
+    [Header(" Item skus")]
+    public List<AssetData> AllItemsData;
 
 
     [Header(" Player skus")]
@@ -18,56 +16,49 @@ public class PurchaseDataSO : ScriptableObject
 
 
     // Actions
-    public Action BoardAssetPurchasedEvent;
+    public Action AssetPurchasedEvent;
     public Action GetPurchasedItemsEvent;
     public Action GetAllItemsEvent;
     public Action RefreshDataEvent;
     public Action<string> BuyProductEvent;
-
-
     public Action SetPurchasedItemsEvent;
 
     // Methods
-
-    private void OnEnable()
-    {
-        if (allSingleBoards != null)
-        {
-            for (int i = 0; i < allSingleBoards.Count; i++)
-            {
-                allSingleBoards[i] = false;
-            }
-        }
-    }
 
     public void RefreshData()
     {
         RefreshDataEvent?.Invoke();
     }
 
-
-    public AssetData GetBoardDataById(int id)
+    public AssetData GetAssetDataById(int id)
     {
-        return BoardsData[id];
+        return AllItemsData[id];
     }
 
-    public AssetData GetBoardByProductId(string id)
+    public AssetData GetItemByProductId(int id)
     {
-        foreach (var item in BoardsData)
+       
+        return AllItemsData[id];
+    }
+
+    public AssetData GetItemByProductId(string id)
+    {
+        foreach (var item in AllItemsData)
         {
             if (item.productId == id) return item;
         }
         return null;
     }
 
-    public void MarkBoardAsPurchased(string id)
+    public void MarkItemAsPurchased(string id)
     {
-        AssetData board = GetBoardByProductId(id);
+        AssetData board = GetItemByProductId(id);
         if (board != null)
         {
             board.isPurchased = true;
         }
-        BoardAssetPurchasedEvent?.Invoke();
+
+        AssetPurchasedEvent?.Invoke();
     }
 
 
@@ -76,11 +67,11 @@ public class PurchaseDataSO : ScriptableObject
         foreach (var id in productdIds)
         {
 
-            foreach (var board in BoardsData)
+            foreach (var item in AllItemsData)
             {
-                if (board.productId == id.productId)
+                if (item.productId == id.productId)
                 {
-                    board.isPurchased = true;
+                    item.isPurchased = true;
 
                 }
             }
@@ -95,12 +86,11 @@ public class PurchaseDataSO : ScriptableObject
         foreach (var id in productdIds)
         {
 
-            foreach (var board in BoardsData)
+            foreach (var item in AllItemsData)
             {
-                if (board.productId == id.productId)
+                if (item.productId == id.productId)
                 {
-                    board.Price = id.Price;
-
+                    item.Price = id.Price;
                 }
             }
 

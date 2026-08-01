@@ -24,21 +24,21 @@ namespace com.VisionXR.Views
         private void OnEnable()
         {
 
-            purchaseData.BoardAssetPurchasedEvent += SetProductPrices;
+            purchaseData.AssetPurchasedEvent += SetProductPrices;
 
-           // SetProductPrices();
+            SetProductPrices();
         }
 
         private void OnDisable()
         {
-            purchaseData.BoardAssetPurchasedEvent -= SetProductPrices;
+            purchaseData.AssetPurchasedEvent -= SetProductPrices;
           
         }
 
         public void BoardBundleClicked(int id)
         {
             AudioManager.instance.PlayButtonClickSound();
-            string productId = purchaseData.BoardsData[id].productId;
+            string productId = purchaseData.AllItemsData[id].productId;
             purchaseData.BuyProduct(productId);
         }
 
@@ -53,17 +53,17 @@ namespace com.VisionXR.Views
         private void SetProductPrices()
         {
 
-            for (int i = 0; i < purchaseData.BoardsData.Count; i++)
+            for (int i = 0; i < purchaseData.AllItemsData.Count; i++)
             {
                 if (boardPriceTexts[i] != null)
                 {
-                    if (purchaseData.BoardsData[i].isPurchased)
+                    if (purchaseData.AllItemsData[i].isPurchased)
                     {
                         boardPriceTexts[i].text = "Purchased";
                     }
                     else
                     {
-                        boardPriceTexts[i].text = purchaseData.BoardsData[i].Price;
+                        boardPriceTexts[i].text = purchaseData.AllItemsData[i].Price;
                     }
                 }
             }
