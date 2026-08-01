@@ -18,19 +18,18 @@ namespace com.VisionXR.ModelClasses
         public Action StartMultiPlayerGameEvent;
         public Action StartTutorialEvent;
 
-        public Action ExitGameEvent;
-        public Action HomeEvent;
+
+        public Action StartGameEvent;
         public Action<int> PlayAgainEvent;
-        public Action ShowLoginEvent;
-        public Action<GameResult> ShowGameResultEvent;
-
-
+        public Action ExitGameEvent;
         public Action PauseGameEvent;
         public Action ResumeGameEvent;
+        public Action<GameResult> ShowGameResultEvent;
 
         //General Events
-      
 
+        public Action HomeEvent;
+        public Action ShowLoginEvent;
 
         //Network  Events    
         public Action<Destination> ShowDestinationPanelEvent;
@@ -70,6 +69,11 @@ namespace com.VisionXR.ModelClasses
         public void StartTutorial()
         {
             StartTutorialEvent?.Invoke();
+        }
+
+        public void StartGame()
+        {
+            StartGameEvent?.Invoke(); 
         }
 
         public void GameCompleted(GameResult gameResult)

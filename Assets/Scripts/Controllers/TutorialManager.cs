@@ -296,6 +296,7 @@ namespace com.VisionXR.Controllers
               
                     tutorialStriker.SetActive(false);
 
+                    tutorialCoin.GetComponent<MeshCollider>().enabled = true;
 
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
               

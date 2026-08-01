@@ -96,6 +96,7 @@ namespace com.VisionXR.Controllers
             coinData.ResetData();
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
             gameData.SetFirstTurnId(id);
+            uiInputData.StartGame();
             int firstTurn = id;
             if (firstTurn == 1)
             {

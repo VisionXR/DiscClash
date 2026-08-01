@@ -24,7 +24,6 @@ public class PanelOnOff : MonoBehaviour
     public void TurnOnPanel()
     {
       
-
         panelCanvasGroup.gameObject.SetActive(true);
 
         StartCoroutine(TurnOnAlpha());

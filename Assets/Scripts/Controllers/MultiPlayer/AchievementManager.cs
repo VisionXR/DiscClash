@@ -1,4 +1,3 @@
-using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System;
@@ -13,13 +12,12 @@ public class AchievementManager : MonoBehaviour
     [Header("Scriptable Objects")]
     public AchievementsDataSO achievementData;
     public UIDataSO uiData;
-    public GameDataSO gameData;
+    public UIInputDataSO uiInputData;
     public CloudDataSO cloudData;
+    public DestinationDataSO destinationData;
 
     [Header("Local Objects")]
     public AudioSource achievementAS;
-
-
 
     // local variables
     private Coroutine unlockRoutine;
@@ -28,9 +26,9 @@ public class AchievementManager : MonoBehaviour
     {
       
         achievementData.GetAllAchievementsEvent += GetAllAchievements;
-        //gameData.StartGameEvent += GameStarted;
-        //gameData.GameCompletedEvent += GameCompleted;
-        //achievementData.UserLoggedInEvent += AddLogin;
+        uiInputData.StartGameEvent += GameStarted;
+        uiInputData.ShowGameResultEvent += GameCompleted;
+        achievementData.UserLoggedInEvent += AddLogin;
 
 
     }
@@ -38,9 +36,9 @@ public class AchievementManager : MonoBehaviour
     private void OnDisable()
     {
         achievementData.GetAllAchievementsEvent -= GetAllAchievements;
-        //gameData.StartGameEvent -= GameStarted;
-        //gameData.GameCompletedEvent -= GameCompleted;
-        //achievementData.UserLoggedInEvent -= AddLogin;
+        uiInputData.StartGameEvent -= GameStarted;
+        uiInputData.ShowGameResultEvent -= GameCompleted;
+        achievementData.UserLoggedInEvent -= AddLogin;
     }
 
     public void GetAllAchievements()
@@ -97,21 +95,18 @@ public class AchievementManager : MonoBehaviour
 
     public void GameStarted()
     {
-       
-     
+
+        Debug.Log("Game Started in achievements");
 
         SaveUserData();
     }
 
-    public void GameCompleted(int id)
+    public void GameCompleted(GameResult result)
     {
-       
-               
-           
 
-      
-           
-        
+        Debug.Log("Game Completed in achievements");
+
+
     }
 
     private IEnumerator UnLockWin()
@@ -119,8 +114,7 @@ public class AchievementManager : MonoBehaviour
         SetTotalWins();
         SaveUserData();
         yield return StartCoroutine(UnLockWinAchievements());
-        yield return StartCoroutine(UnLockBoardAchievements());
-        yield return StartCoroutine(UnLockOverallAchievements());
+ 
     }
 
 
@@ -218,12 +212,6 @@ public class AchievementManager : MonoBehaviour
         achievementData.defaultBoardWinsData.mpTotalWins = achievementData.defaultBoardWinsData.mpBWWins + achievementData.defaultBoardWinsData.mpFSWins;
 
 
-        foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
-        {
-            achievementData.defaultBoardWinsData.spTotalWins += (stats.spBWWins + stats.spFSWins);
-            achievementData.defaultBoardWinsData.mpTotalWins += (stats.mpBWWins + stats.mpFSWins);
-        }
-
 
     }
 
@@ -262,9 +250,9 @@ public class AchievementManager : MonoBehaviour
 
     public void AddClient(string clientId)
     {
-        if (!achievementData.specialBoardWinsStats.clientNames.Contains(clientId))
+        if (!achievementData.defaultBoardWinsData.clientNames.Contains(clientId))
         {
-            achievementData.specialBoardWinsStats.clientNames.Add(clientId);
+            achievementData.defaultBoardWinsData.clientNames.Add(clientId);
             StartCoroutine(UnLockTableHostAchievements());
         }
     }
@@ -329,7 +317,7 @@ public class AchievementManager : MonoBehaviour
     {
         yield return null;
 
-        if (achievementData.specialBoardWinsStats.clientNames.Count >= 1)
+        if (achievementData.defaultBoardWinsData.clientNames.Count >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite1"))
             {
@@ -340,7 +328,7 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (achievementData.specialBoardWinsStats.clientNames.Count >= 3)
+        if (achievementData.defaultBoardWinsData.clientNames.Count >= 3)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite3"))
             {
@@ -350,7 +338,7 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
-        if (achievementData.specialBoardWinsStats.clientNames.Count >= 5)
+        if (achievementData.defaultBoardWinsData.clientNames.Count >= 5)
         {
             if (!achievementData.IsAchievementUnlockedByName("invite5"))
             {
@@ -364,13 +352,13 @@ public class AchievementManager : MonoBehaviour
         if (!achievementData.IsAchievementUnlockedByName("invite10"))
         {
             AchievementInfo info = achievementData.GetAchievementByName("invite10");
-            if (achievementData.defaultBoardWinsData.spBWHardWins > 10)
+            if (achievementData.defaultBoardWinsData.clientNames.Count > 10)
             {
                 info.actual = 10;
             }
             else
             {
-                info.actual = achievementData.specialBoardWinsStats.clientNames.Count;
+                info.actual = achievementData.defaultBoardWinsData.clientNames.Count;
             }
             UpdateIncrementalAchievement(info, info.actual, info.target);
             yield return new WaitForSeconds(1);
@@ -647,78 +635,6 @@ public class AchievementManager : MonoBehaviour
 
     }
 
-    public IEnumerator UnLockBoardAchievements()
-    {
-        yield return null;
-
-        AchievementInfo achievementInfo = null;
-
-        foreach (BoardStats stats in achievementData.specialBoardWinsStats.boardStats)
-        {
-            achievementInfo = achievementData.GetAchievementByName("spPool" + Enum.GetName(typeof(BoardType), stats.boardType));
-           
-            if (achievementInfo != null)
-            {
-                if (stats.spBWWins >= 1)
-                {
-                    if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
-                    {
-                        Debug.Log("Trying to unlock pool " + achievementInfo.name);
-                        UnlockSimpleAchievement(achievementInfo);
-                        yield return new WaitForSeconds(1);
-                    }
-                }
-
-            }
-
-            achievementInfo = achievementData.GetAchievementByName("spSnooker" + Enum.GetName(typeof(BoardType), stats.boardType));
-
-            if (achievementInfo != null)
-            {
-                if (stats.spFSWins >= 1)
-                {
-                    if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
-                    {
-                        Debug.Log("Trying to unlock snooker " + achievementInfo.name);
-                        UnlockSimpleAchievement(achievementInfo);
-                        yield return new WaitForSeconds(1);
-                    }
-                }
-
-            }
-
-            achievementInfo = achievementData.GetAchievementByName("mpPool" + Enum.GetName(typeof(BoardType), stats.boardType));
-
-            if (achievementInfo != null)
-            {
-                if (stats.mpBWWins >= 1)
-                {
-                    if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
-                    {
-                        UnlockSimpleAchievement(achievementInfo);
-                        yield return new WaitForSeconds(1);
-                    }
-                }
-
-            }
-
-            achievementInfo = achievementData.GetAchievementByName("mpSnooker" + Enum.GetName(typeof(BoardType), stats.boardType));
-
-            if (achievementInfo != null)
-            {
-                if (stats.mpFSWins >= 1)
-                {
-                    if (!achievementData.IsAchievementUnlockedByName(achievementInfo.name))
-                    {
-                        UnlockSimpleAchievement(achievementInfo);
-                        yield return new WaitForSeconds(1);
-                    }
-                }
-
-            }
-        }
-
-    }
 
     public void SaveUserData()
     {

@@ -11,22 +11,18 @@ namespace com.VisionXR.ModelClasses
         // Variables
         public List<AchievementInfo> AllAchievementInfo;
         public DefaultBoardWinsData defaultBoardWinsData;
-        public SpecialBoardWinsStats specialBoardWinsStats;
 
 
         // Actions
         public Action GetAllAchievementsEvent;
-        public Action SinglePlayerGameWonEvent;
-        public Action MultiPlayerGameWonEvent;
-        public Action MultiPlayerGameStartEvent;
         public Action UserLoggedInEvent;
         public Action GotAllAchievementsEvent;
 
         private void OnEnable()
         {
-            specialBoardWinsStats = new SpecialBoardWinsStats();
+       
             defaultBoardWinsData = new DefaultBoardWinsData();
-            SetSpecialBoardsData();
+   
         }
 
         public void GetAllAchievemnets()
@@ -101,31 +97,12 @@ namespace com.VisionXR.ModelClasses
             return false;
         }
 
-        public void SetSpecialBoardsData()
-        {
-            if (specialBoardWinsStats.boardStats.Count == 0)
-            {
-                BoardStats squareStats = new BoardStats();
-                squareStats.boardType = BoardType.Square4;
 
-                BoardStats circle4stats = new BoardStats();
-                circle4stats.boardType = BoardType.Circle4;
-
-                BoardStats oct4Stats = new BoardStats();
-                oct4Stats.boardType = BoardType.Octagon4;
-          
-
-                specialBoardWinsStats.boardStats.Add(squareStats);
-                specialBoardWinsStats.boardStats.Add(oct4Stats);
-                specialBoardWinsStats.boardStats.Add(circle4stats);
-            }
-        }
 
         public void Clear()
         {
             defaultBoardWinsData = new DefaultBoardWinsData();
-            specialBoardWinsStats = new SpecialBoardWinsStats();
-            SetSpecialBoardsData();
+  
         }
     }
 

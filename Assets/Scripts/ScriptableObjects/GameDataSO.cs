@@ -35,6 +35,7 @@ public class GameDataSO : ScriptableObject
     
     public Action<int> TurnChangedEvent;
     public Action<CurrentGameData> GameResultEvent;
+    public Action StartGameEvent;
 
     private void OnEnable()
     {

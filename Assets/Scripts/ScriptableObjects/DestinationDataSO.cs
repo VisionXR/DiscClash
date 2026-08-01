@@ -10,7 +10,6 @@ namespace com.VisionXR.ModelClasses
     {
         // variables
         public Destination currentDestination;
-        public Destination homeDestination;
 
         // events
 

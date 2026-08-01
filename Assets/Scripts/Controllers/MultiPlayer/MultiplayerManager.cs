@@ -181,6 +181,8 @@ namespace com.VisionXR.Controllers
 
             connectionDisconnection.StartGame();
 
+            uiInputData.StartGame();
+
             gameData.ChangeTurn(turnId);
 
             Player p = playersData.GetMainPlayer();

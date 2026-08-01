@@ -143,7 +143,7 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class DefaultBoardWinsData
     {
-
+        public List<string> clientNames;
         public string lastLoginDate;
         public int totalLogins;
 
@@ -217,7 +217,7 @@ namespace com.VisionXR.HelperClasses
         public AIDifficulty difficulty;
         public string lobbyName;
         public string roomName;
-        public bool isJoinable;
+
         public ServerRegion GetRegion()
         {
             return Enum.TryParse(lobbyName, true, out ServerRegion serverRegion) ? serverRegion : ServerRegion.any;

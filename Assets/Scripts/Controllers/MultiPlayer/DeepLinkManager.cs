@@ -46,7 +46,7 @@ namespace com.VisionXR.Controllers
             else
             {
                 Debug.Log("Real Carrom 3D: No deep link detected on startup.");
-                destinationData.currentDestination = destinationData.homeDestination;
+
                 StartCoroutine(CheckLogin());
             }
         }
@@ -80,8 +80,8 @@ namespace com.VisionXR.Controllers
         {
             Debug.Log("Disc Clash: Link Received: " + url);
         
-            Destination linkData = ParseDeepLink(url);
-            destinationData.currentDestination = linkData ?? destinationData.homeDestination;
+            //Destination linkData = ParseDeepLink(url);
+            //destinationData.currentDestination = linkData ?? destinationData.homeDestination;
 
             StartCoroutine(CheckLogin());
         }
@@ -153,7 +153,6 @@ namespace com.VisionXR.Controllers
             else if ( destination.gameType == GameType.PlayWithFriends)
             {
                
-
                 if (destination.roomName == "")
                 {
                     string roomName = playerSettings.MyId.ToString();
@@ -178,9 +177,9 @@ namespace com.VisionXR.Controllers
             destinationData.currentDestination.lobbyName = networkOutput.runner.SessionInfo.Region;
             destinationData.currentDestination.roomName = networkOutput.runner.SessionInfo.Name;
             destinationData.currentDestination.region = playerSettings.serverRegion;
+       
 
-            uiInputData.StartMultiPlayerGame();
-            destinationData.currentDestination.isJoinable = true;
+            uiInputData.StartMultiPlayerGame();        
             OnDestinationSuccesEvent?.Invoke();
         }
 
@@ -194,9 +193,9 @@ namespace com.VisionXR.Controllers
             destinationData.currentDestination.region = playerSettings.serverRegion;
             destinationData.currentDestination.lobbyName = networkOutput.runner.SessionInfo.Region;
             destinationData.currentDestination.roomName = networkOutput.runner.SessionInfo.Name;
+           
 
-            uiInputData.StartMultiPlayerGame();
-            destinationData.currentDestination.isJoinable = false;
+            uiInputData.StartMultiPlayerGame();         
             OnDestinationSuccesEvent?.Invoke();
         }
 
