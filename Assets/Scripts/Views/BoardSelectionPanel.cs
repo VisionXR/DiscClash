@@ -1,3 +1,4 @@
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections;
 using System.Collections.Generic;
@@ -104,66 +105,31 @@ namespace com.VisionXR.Views
 
         private void OpenLock()
         {
-            UnlockBoards(0, 2);
-            //foreach (AssetData data in purchaseData.BoardsData)
-            //{
-            //    if (data.isPurchased)
-            //    {
-            //        int id = purchaseData.BoardsData.IndexOf(data);
+            UnLockBoard(0);
+            foreach (AssetData data in purchaseData.AllItemsData)
+            {
+                if (data.purchaseItemType == PurchaseItemType.Board && data.isPurchased)
+                {
+                    foreach (int id in data.itemIds)
+                    {
+                        UnLockBoard(id);
+                    }
 
-            //        // Unlock striker images based on purchased id
-            //        if (id == 0)
-            //        {
-            //            UnlockBoards(3, 5); // Unlock 1,2,3,4 (indices 0-4)
-            //        }
-            //        else if (id == 1)
-            //        {
-            //            UnlockBoards(6, 8); // Unlock 5,6,7,8,9 (indices 5-9)
-            //        }
-            //        else if (id == 2)
-            //        {
-            //            UnlockBoards(9, 11); // Unlock 10,11,12,13,14 (indices 10-14)
-            //        }
-            //        else if (id == 3)
-            //        {
-            //            UnlockBoards(12, 14); // Unlock 10,11,12,13,14 (indices 10-14)
-            //        }
-            //        else if (id == 4)
-            //        {
-            //            UnlockBoards(15, 17); // Unlock 10,11,12,13,14 (indices 10-14)
-            //        }
-            //        else if (id == 5)
-            //        {
-            //            UnlockBoards(18, 20); // Unlock 10,11,12,13,14 (indices 10-14)
-            //        }
-            //        else if (id == 6)
-            //        {
-            //            UnlockBoards(0, 20); // Unlock 10,11,12,13,14 (indices 10-14)
-            //        }
-
-            //    }
-            //}
-
-            //for (int i = 0; i < purchaseData.allSingleBoards.Count; i++)
-            //{
-            //    if (purchaseData.allSingleBoards[i])
-            //    {
-            //        boardLockImages[i].gameObject.SetActive(false);
-            //        adButtons[i].gameObject.SetActive(false);
-            //    }
-            //}
-
+                }
+            }
         }
 
-        private void UnlockBoards(int startIndex, int endIndex)
+        private void UnLockBoard(int boardIndex)
         {
-          
-            for (int i = startIndex; i <= endIndex; i++)
+            if (boardIndex >= 0 && boardIndex < boardLockImages.Count)
             {
-                boardLockImages[i].gameObject.SetActive(false);
-                adButtons[i].gameObject.SetActive(false);
+                boardLockImages[boardIndex].gameObject.SetActive(false);
+                adButtons[boardIndex].gameObject.SetActive(false);
             }
-
+            else
+            {
+                Debug.LogWarning($"Board index {boardIndex} is out of range for boardLockImages or adButtons.");
+            }
         }
 
         public void BoardSelected(int id)

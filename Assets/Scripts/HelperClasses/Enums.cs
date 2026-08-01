@@ -19,6 +19,9 @@ namespace com.VisionXR.HelperClasses
     public enum PlayerCoin { Black, White, Red, All }
     public enum Team { TeamA, TeamB }
     public enum GameType { VsCPU , PlayWithFriends,Tutorial}
+
+    public enum  PurchaseItemType { Board,Striker,Coin,NoAds}
+
     public enum Challenge { BlackAndWhite, FreeStyle, Tournament, TrickShots }
     public enum BoardType { Square4, Circle4,Octagon4 }
 

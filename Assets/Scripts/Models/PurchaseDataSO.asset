@@ -13,45 +13,66 @@ MonoBehaviour:
   m_Name: PurchaseDataSO
   m_EditorClassIdentifier: 
   AllItemsData:
-  - skuName: Five Elements Circle Boards
+  - purchaseItemType: 0
+    skuName: Five Elements Circle Boards
     productId: circle_pancha_bhoota_boards
     isPurchased: 0
-    Price: 
-  - skuName: Five Elements Octagon Boards
+    Price: 0.01 USD
+    itemIds: 0100000004000000070000000a0000000d00000010000000
+  - purchaseItemType: 0
+    skuName: Five Elements Octagon Boards
     productId: octagon_pancha_bhoota_boards
     isPurchased: 0
-    Price: 
-  - skuName: Five Elements Square Boards
+    Price: 0.01 USD
+    itemIds: 0200000005000000080000000b0000000e00000011000000
+  - purchaseItemType: 0
+    skuName: Five Elements Square Boards
     productId: square_pancha_bhoota_boards
     isPurchased: 0
-    Price: 
-  - skuName: 'Balanced Aim & Power Strikers '
+    Price: 0.01 USD
+    itemIds: 0300000006000000090000000c0000000f000000
+  - purchaseItemType: 1
+    skuName: 'Balanced Aim & Power Strikers '
     productId: balanced_aim_power_strikers
     isPurchased: 0
-    Price: 
-  - skuName: Max Power Strikers Pack
+    Price: 0.01 USD
+    itemIds: 02000000030000000c0000000d0000000e000000
+  - purchaseItemType: 1
+    skuName: Max Power Strikers Pack
     productId: max_power_strikers_pack
     isPurchased: 0
-    Price: 
-  - skuName: Max Aim Strikers Pack
+    Price: 0.01 USD
+    itemIds: 01000000090000000b0000000400000006000000
+  - purchaseItemType: 1
+    skuName: Max Aim Strikers Pack
     productId: max_aim_strikers_pack
     isPurchased: 0
-    Price: 
-  - skuName: Divine 9x9 Coins Pack
+    Price: 0.01 USD
+    itemIds: 0500000007000000080000000a0000000f000000
+  - purchaseItemType: 2
+    skuName: Divine 9x9 Coins Pack
     productId: 9x9_divine_coins_pack
     isPurchased: 0
-    Price: 
-  - skuName: Divine 6x6 Coins Pack
+    Price: 0.01 USD
+    itemIds: 0300000006000000090000000c0000000f000000
+  - purchaseItemType: 2
+    skuName: Divine 6x6 Coins Pack
     productId: 6x6_divine_coins_pack
     isPurchased: 0
-    Price: 
-  - skuName: Divine 3x3 Coins Pack
+    Price: 0.01 USD
+    itemIds: 0100000004000000070000000a0000000d00000010000000
+  - purchaseItemType: 2
+    skuName: Divine 3x3 Coins Pack
     productId: 3x3_divine_coins_pack
     isPurchased: 0
-    Price: 
-  allSingleBoards: 
-  allSingleStrikers: 
-  allSingleCoins: 
+    Price: 0.01 USD
+    itemIds: 0200000005000000080000000b0000000e00000011000000
+  - purchaseItemType: 3
+    skuName: Remove Interstitial Ads
+    productId: no_interstitial_ads
+    isPurchased: 0
+    Price: 0.01 USD
+    itemIds: 
   allSkusData:
   - circle_pancha_bhoota_boards
   - octagon_pancha_bhoota_boards
@@ -62,4 +83,4 @@ MonoBehaviour:
   - 9x9_divine_coins_pack
   - 6x6_divine_coins_pack
   - 3x3_divine_coins_pack
-  - Coin_Bundle2
+  - no_interstitial_ads

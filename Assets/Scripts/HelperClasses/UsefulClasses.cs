@@ -220,10 +220,12 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class AssetData
     {
+        public PurchaseItemType purchaseItemType;
         public string skuName;
         public string productId;
         public bool isPurchased = false;
         public string Price;
+        public List<int> itemIds;
     }
 
     [Serializable]
