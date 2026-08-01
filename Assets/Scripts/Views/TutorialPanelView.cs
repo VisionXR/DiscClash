@@ -120,7 +120,7 @@ namespace com.VisionXR.Views
             {
                BoardRotationObject.SetActive(true);
                swipeAnimator.SetBool("BoardRotation", true);
-               swipeAnimator.SetBool("BoardHandAnimation", true);
+               //swipeAnimator.SetBool("BoardHandAnimation", true);
             }
 
             if (stepType == InteractiveStepType.Aiming)
@@ -190,7 +190,7 @@ namespace com.VisionXR.Views
         public void ResetStates()
         {
             swipeAnimator.SetBool("BoardRotation", false);
-            swipeAnimator.SetBool("BoardHandAnimation", false);
+           // swipeAnimator.SetBool("BoardHandAnimation", false);
             swipeAnimator.SetBool("LeftText", false);
            // swipeAnimator.SetBool("LeftHand", false);
             swipeAnimator.SetBool("RightText", false);
