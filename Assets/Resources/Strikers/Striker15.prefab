@@ -698,13 +698,10 @@ MonoBehaviour:
   strikerName: Neon Kamal
   minAim: 0.5
   maxAim: 1.5
-  minTime: 0.85
-  maxTime: 1.25
   minPower: 2
   maxPower: 3.5
   aimColor: {r: 0, g: 0.021962643, b: 1, a: 1}
   aim: 1.35
-  time: 1.2
   power: 2.55
 --- !u!23 &7870721439449366768
 MeshRenderer:
@@ -731,7 +728,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8ea9173de23cc7447817c73cf5fe1691, type: 2}
+  - {fileID: 2100000, guid: 8ffe15d1ec87cf24eb76444fd23d6385, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
