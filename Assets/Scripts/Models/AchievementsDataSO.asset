@@ -15,7 +15,7 @@ MonoBehaviour:
   AllAchievementInfo:
   - id: 0
     icon: {fileID: 21300000, guid: 17558d027c859704c9d839593c1194da, type: 3}
-    name: Login1
+    name: login1
     apiName: CgkIj6yl06QSEAIQAQ
     achievementName: Login Milestone I
     description: Log in for the first time
@@ -30,7 +30,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: af03aa49d9d8b894e91961bd55bfcd6b, type: 3}
-    name: Login2
+    name: login3
     apiName: CgkIj6yl06QSEAIQAg
     achievementName: Login Milestone II
     description: Log in 3 days
@@ -45,7 +45,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: d7864f505779f364c9d56fd33c69a045, type: 3}
-    name: Login3
+    name: login5
     apiName: CgkIj6yl06QSEAIQAw
     achievementName: Login Milestone III
     description: Log in 5 days
@@ -60,7 +60,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 1028511d98b5bb442b765681af224ff0, type: 3}
-    name: Login4
+    name: login10
     apiName: CgkIj6yl06QSEAIQBA
     achievementName: Login Milestone IV
     description: Log in 10 days
@@ -75,7 +75,7 @@ MonoBehaviour:
     target: 10
   - id: 0
     icon: {fileID: 21300000, guid: 53aa2d127f5768e41b1905ac9ffab73f, type: 3}
-    name: Host1
+    name: host1
     apiName: CgkIj6yl06QSEAIQBQ
     achievementName: Table Host I
     description: In Multiplayer  send first invite.
@@ -90,7 +90,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 5dc310dcae0637d43b6ca0e29315963d, type: 3}
-    name: Host2
+    name: host3
     apiName: CgkIj6yl06QSEAIQBg
     achievementName: Table Host II
     description: In Multiplayer  send 3  invites.
@@ -105,7 +105,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: b304d5480c2899749bdbd48a06a7bc06, type: 3}
-    name: Host3
+    name: host5
     apiName: CgkIj6yl06QSEAIQBw
     achievementName: Table Host III
     description: In Multiplayer  send 5  invites.
@@ -120,7 +120,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 996c6cb72119c6747b4233783ae26382, type: 3}
-    name: Host4
+    name: host10
     apiName: CgkIj6yl06QSEAIQCA
     achievementName: Table Host IV
     description: In Multiplayer  send 10  invites.
@@ -135,11 +135,10 @@ MonoBehaviour:
     target: 10
   - id: 0
     icon: {fileID: 21300000, guid: f35fcaddca2856f4bbcdb086906405c1, type: 3}
-    name: SPBWEasy1
+    name: spBWEasyWins1
     apiName: CgkIj6yl06QSEAIQCQ
     achievementName: Black And White I  Easy AI
-    description: Win your first Black and White match against the Easy AI on Square
-      Board
+    description: Win your first Black and White match against the Easy AI
     type: 0
     challenge: 0
     boardType: 0
@@ -151,10 +150,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: f003b9e13053a364fa7bcccb9b50d36e, type: 3}
-    name: SPBWEasy3
+    name: spBWEasyWins3
     apiName: CgkIj6yl06QSEAIQCg
     achievementName: Black And White II  Easy AI
-    description: Win 3 Black and White matches against the Square Board
+    description: Win 3 Black and White matches against Easy AI
     type: 0
     challenge: 0
     boardType: 0
@@ -166,11 +165,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 4e09b0ab1e7486c488a902c775525ac7, type: 3}
-    name: SPBWMedium1
+    name: spBWMediumWins1
     apiName: CgkIj6yl06QSEAIQCw
     achievementName: Black And White III Medium AI
-    description: Win your first Black and White match against the Medium AI on Square
-      Board
+    description: Win your first Black and White match against the Medium AI
     type: 0
     challenge: 0
     boardType: 0
@@ -182,10 +180,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: b41e82cac20472640a2dada1379bf0e8, type: 3}
-    name: SPBWMedium3
+    name: spBWMediumWins3
     apiName: CgkIj6yl06QSEAIQDA
     achievementName: Black And White IV Medium AI
-    description: Win 3 Black and White matches against the Medium AI on Square Board
+    description: Win 3 Black and White matches against the Medium AI
     type: 0
     challenge: 0
     boardType: 0
@@ -197,11 +195,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: b4e363c2321307044a82f9233072d5b3, type: 3}
-    name: SPBWHard1
+    name: spBWHardWins1
     apiName: CgkIj6yl06QSEAIQDQ
     achievementName: Black And White V Hard AI
-    description: Win your first Black and White match against the Hard AI on Square
-      Board
+    description: Win your first Black and White match against the Hard AI
     type: 0
     challenge: 0
     boardType: 0
@@ -213,10 +210,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 86e6f2d0e645db540b8b465b10ca6d73, type: 3}
-    name: SPBWHard3
+    name: spBWHardWins3
     apiName: CgkIj6yl06QSEAIQDg
     achievementName: Black And White VI Hard AI
-    description: Win 3 Black and White matches against the Hard AI on Square Board
+    description: Win 3 Black and White matches against the Hard AI
     type: 0
     challenge: 0
     boardType: 0
@@ -228,10 +225,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: a0f3a1241c343924392b6ca7076fa08b, type: 3}
-    name: SPFSEasy1
+    name: spFSEasyWins1
     apiName: CgkIj6yl06QSEAIQDw
     achievementName: Free Style I  Easy AI
-    description: Win your first Free Style match against the Easy AI on Square Board
+    description: Win your first Free Style match against  Easy AI
     type: 0
     challenge: 1
     boardType: 0
@@ -243,10 +240,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: cb547c9127b4fd346adaff6da264c2c9, type: 3}
-    name: SPFSEasy3
+    name: spFSEasyWins3
     apiName: CgkIj6yl06QSEAIQEA
     achievementName: Free Style II  Easy AI
-    description: Win 3 Free Style matches against the Square Board
+    description: Win 3 Free Style matches against Easy AI
     type: 0
     challenge: 1
     boardType: 0
@@ -258,11 +255,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: a4ae3c6e9ff18234e9d0418f545e0576, type: 3}
-    name: SPFSMedium1
+    name: spFSMediumWins1
     apiName: CgkIj6yl06QSEAIQEQ
     achievementName: Free Style III Medium AI
-    description: Win your first Free Style match against the Medium AI on Square
-      Board
+    description: Win your first Free Style match against the Medium AI
     type: 0
     challenge: 1
     boardType: 0
@@ -274,10 +270,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 020e8900080598249a455aefd46e292c, type: 3}
-    name: SPFSMedium3
+    name: spFSMediumWins3
     apiName: CgkIj6yl06QSEAIQEg
     achievementName: Free Style IV Medium AI
-    description: Win 3 Free Style matches against the Medium AI on Square Board
+    description: Win 3 Free Style matches against the Medium AI
     type: 0
     challenge: 1
     boardType: 0
@@ -289,10 +285,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 21dfc203c9aebac479379c0fa333d7eb, type: 3}
-    name: SPFSHard1
+    name: spFSHardWins1
     apiName: CgkIj6yl06QSEAIQEw
     achievementName: Free Style V Hard AI
-    description: Win your first Free Style match against the Hard AI on Square Board
+    description: Win your first Free Style match against the Hard AI
     type: 0
     challenge: 1
     boardType: 0
@@ -304,10 +300,10 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 6794ff14f1175b24a8e4bfbd7bb444cb, type: 3}
-    name: SPFSHard3
+    name: spFSHardWins3
     apiName: CgkIj6yl06QSEAIQFA
     achievementName: Free Style VI Hard AI
-    description: Win 3 Free Style matches against the Hard AI on Square Board
+    description: Win 3 Free Style matches against the Hard AI
     type: 0
     challenge: 1
     boardType: 0
@@ -319,7 +315,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 536db6eee46d94f4f8181a9a3a34086d, type: 3}
-    name: MPBW1
+    name: mpBWWins1
     apiName: CgkIj6yl06QSEAIQFQ
     achievementName: MultiPlayer I Black And White
     description: Win 1 multiplayer match in Black and White Mode.
@@ -334,7 +330,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 5ba1e9827bb0eb540a4312e63179bf35, type: 3}
-    name: MPBW3
+    name: mpBWWins3
     apiName: CgkIj6yl06QSEAIQFg
     achievementName: MultiPlayer II Black And White
     description: Win 3 multiplayer matches in Black and White Mode.
@@ -349,7 +345,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: fb23282db67325141986793b418723a7, type: 3}
-    name: MPBW5
+    name: mpBWWins5
     apiName: CgkIj6yl06QSEAIQFw
     achievementName: MultiPlayer III Black And White
     description: Win 5 multiplayer matches in Black and White Mode.
@@ -364,7 +360,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: e67771a57eca03040bd64d559e8b1440, type: 3}
-    name: MPFS1
+    name: mpFSWins1
     apiName: CgkIj6yl06QSEAIQGA
     achievementName: MultiPlayer IV Free Style
     description: Win 1 multiplayer match in Free Style Mode.
@@ -379,7 +375,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 2bcb47ab6ef541d49a4a83f7f432b3d1, type: 3}
-    name: MPFS3
+    name: mpFSWins3
     apiName: CgkIj6yl06QSEAIQGQ
     achievementName: MultiPlayer V Free Style
     description: Win 3 multiplayer matches in Free Style Mode.
@@ -394,7 +390,7 @@ MonoBehaviour:
     target: 0
   - id: 0
     icon: {fileID: 21300000, guid: 9676747f7a70da14081d35b281b7764d, type: 3}
-    name: MPFS5
+    name: mpFSWins5
     apiName: CgkIj6yl06QSEAIQGg
     achievementName: MultiPlayer VI Free Style
     description: Win 5 multiplayer matches in Free Style Mode.
@@ -408,6 +404,7 @@ MonoBehaviour:
     actual: 0
     target: 0
   defaultBoardWinsData:
+    clientNames: []
     lastLoginDate: 
     totalLogins: 0
     spTotalGames: 0
@@ -422,21 +419,3 @@ MonoBehaviour:
     mpTotalWins: 0
     mpBWWins: 0
     mpFSWins: 0
-  specialBoardWinsStats:
-    boardStats:
-    - boardType: 0
-      spBWWins: 0
-      spFSWins: 0
-      mpBWWins: 0
-      mpFSWins: 0
-    - boardType: 2
-      spBWWins: 0
-      spFSWins: 0
-      mpBWWins: 0
-      mpFSWins: 0
-    - boardType: 1
-      spBWWins: 0
-      spFSWins: 0
-      mpBWWins: 0
-      mpFSWins: 0
-    clientNames: []

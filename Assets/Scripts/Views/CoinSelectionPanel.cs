@@ -90,9 +90,9 @@ namespace com.VisionXR.Views
         void OnEnable()
         {
             ResetBoardImages();
-            if (coinSelectionImages.Count > uiOutputData.MyBoardId)
+            if (coinSelectionImages.Count > uiOutputData.MyCoinsId)
             {
-                coinSelectionImages[uiOutputData.MyBoardId].SetActive(true);
+                coinSelectionImages[uiOutputData.MyCoinsId].SetActive(true);
                 OpenLock();
             }
 
@@ -109,7 +109,7 @@ namespace com.VisionXR.Views
 
         private void OpenLock()
         {
-            UnlockBoards(0, 1);
+            UnlockBoards(0, coinSelectionImages.Count-1);
             //foreach (AssetData data in purchaseData.BoardsData)
             //{
             //    if (data.isPurchased)

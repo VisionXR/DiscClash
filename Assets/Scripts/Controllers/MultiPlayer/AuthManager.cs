@@ -17,6 +17,7 @@ namespace com.VisionXR.Controllers
         public MyPlayerSettings playerSettings;
         public CloudDataSO cloudData;
         public DeepLinkManager deepLinkManager;
+        public AchievementsDataSO achievementsData;
 
         // local variables
         private string displayName;

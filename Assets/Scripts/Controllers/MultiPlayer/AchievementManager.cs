@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using GooglePlayGames;
 using System.Collections;
+using com.VisionXR.GameElements;
 
 
 public class AchievementManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class AchievementManager : MonoBehaviour
     public UIInputDataSO uiInputData;
     public CloudDataSO cloudData;
     public DestinationDataSO destinationData;
+    public PlayersDataSO playersData;
 
     [Header("Local Objects")]
     public AudioSource achievementAS;
@@ -98,6 +100,29 @@ public class AchievementManager : MonoBehaviour
 
         Debug.Log("Game Started in achievements");
 
+        Destination d = destinationData.currentDestination;
+
+        if (d != null)
+        {
+            if (d.gameType == GameType.VsCPU)
+            {
+                achievementData.defaultBoardWinsData.spTotalGames++;
+
+            }
+
+            else if (d.gameType == GameType.PlayWithFriends)
+            {
+                achievementData.defaultBoardWinsData.mpTotalGames++;
+
+                Player otherPlayer = playersData.GetOtherPlayer();
+                if (otherPlayer != null)
+                {
+                    AddClient(otherPlayer.myOculusID);
+                }
+
+            }
+        }
+
         SaveUserData();
     }
 
@@ -111,7 +136,7 @@ public class AchievementManager : MonoBehaviour
 
     private IEnumerator UnLockWin()
     {
-        SetTotalWins();
+       
         SaveUserData();
         yield return StartCoroutine(UnLockWinAchievements());
  
@@ -202,18 +227,7 @@ public class AchievementManager : MonoBehaviour
         });
     }
 
-    public void SetTotalWins()
-    {
-
-        achievementData.defaultBoardWinsData.spTotalWins = achievementData.defaultBoardWinsData.spBWEasyWins + achievementData.defaultBoardWinsData.spBWMediumWins + achievementData.defaultBoardWinsData.spBWHardWins
-        + achievementData.defaultBoardWinsData.spFSEasyWins + achievementData.defaultBoardWinsData.spFSMediumWins + achievementData.defaultBoardWinsData.spFSHardWins;
-
-
-        achievementData.defaultBoardWinsData.mpTotalWins = achievementData.defaultBoardWinsData.mpBWWins + achievementData.defaultBoardWinsData.mpFSWins;
-
-
-
-    }
+  
 
     public void AddLogin()
     {
@@ -238,12 +252,6 @@ public class AchievementManager : MonoBehaviour
             StartCoroutine(UnLockLoginAchievements());
            
         }
-
-
-        achievementData.defaultBoardWinsData.spTotalWins = achievementData.defaultBoardWinsData.spBWEasyWins + achievementData.defaultBoardWinsData.spBWMediumWins + achievementData.defaultBoardWinsData.spBWHardWins
-            + achievementData.defaultBoardWinsData.spFSEasyWins + achievementData.defaultBoardWinsData.spFSMediumWins + achievementData.defaultBoardWinsData.spFSHardWins;
-
-        achievementData.defaultBoardWinsData.mpTotalWins = achievementData.defaultBoardWinsData.mpBWWins + achievementData.defaultBoardWinsData.mpFSWins;
 
         SaveUserData();
     }
@@ -319,9 +327,9 @@ public class AchievementManager : MonoBehaviour
 
         if (achievementData.defaultBoardWinsData.clientNames.Count >= 1)
         {
-            if (!achievementData.IsAchievementUnlockedByName("invite1"))
+            if (!achievementData.IsAchievementUnlockedByName("host1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("invite1");
+                AchievementInfo info = achievementData.GetAchievementByName("host1");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -330,9 +338,9 @@ public class AchievementManager : MonoBehaviour
 
         if (achievementData.defaultBoardWinsData.clientNames.Count >= 3)
         {
-            if (!achievementData.IsAchievementUnlockedByName("invite3"))
+            if (!achievementData.IsAchievementUnlockedByName("host3"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("invite3");
+                AchievementInfo info = achievementData.GetAchievementByName("host3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -340,18 +348,18 @@ public class AchievementManager : MonoBehaviour
 
         if (achievementData.defaultBoardWinsData.clientNames.Count >= 5)
         {
-            if (!achievementData.IsAchievementUnlockedByName("invite5"))
+            if (!achievementData.IsAchievementUnlockedByName("host5"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("invite5");
+                AchievementInfo info = achievementData.GetAchievementByName("host5");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
         }
 
 
-        if (!achievementData.IsAchievementUnlockedByName("invite10"))
+        if (!achievementData.IsAchievementUnlockedByName("host10"))
         {
-            AchievementInfo info = achievementData.GetAchievementByName("invite10");
+            AchievementInfo info = achievementData.GetAchievementByName("host10");
             if (achievementData.defaultBoardWinsData.clientNames.Count > 10)
             {
                 info.actual = 10;
@@ -372,21 +380,42 @@ public class AchievementManager : MonoBehaviour
 
         if (achievementData.defaultBoardWinsData.spBWEasyWins >= 1)
         {
-            if (!achievementData.IsAchievementUnlockedByName("spPoolEasyWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("spBWEasyWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spPoolEasyWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("spBWEasyWins1");
+                UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        if (achievementData.defaultBoardWinsData.spBWEasyWins >= 3)
+        {
+            if (!achievementData.IsAchievementUnlockedByName("spBWEasyWins3"))
+            {
+                AchievementInfo info = achievementData.GetAchievementByName("spBWEasyWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
         }
 
 
-        if (achievementData.defaultBoardWinsData.spFSMediumWins >= 1)
+        if (achievementData.defaultBoardWinsData.spBWMediumWins >= 1)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("spPoolMediumWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("spBWMediumWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spPoolMediumWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("spBWMediumWins1");
+                UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        if (achievementData.defaultBoardWinsData.spBWMediumWins >= 3)
+        {
+
+            if (!achievementData.IsAchievementUnlockedByName("spBWMediumWins3"))
+            {
+                AchievementInfo info = achievementData.GetAchievementByName("spBWMediumWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -396,9 +425,21 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.spBWHardWins >= 1)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("spBWHardWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("spBWHardWins1");
+                UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
+            }
+
+        }
+
+        if (achievementData.defaultBoardWinsData.spBWHardWins >= 3)
+        {
+
+            if (!achievementData.IsAchievementUnlockedByName("spBWHardWins3"))
+            {
+                AchievementInfo info = achievementData.GetAchievementByName("spBWHardWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -406,28 +447,25 @@ public class AchievementManager : MonoBehaviour
         }
 
 
-        if (!achievementData.IsAchievementUnlockedByName("spPoolHardWins10"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("spPoolHardWins10");
-            if (achievementData.defaultBoardWinsData.spBWHardWins > 10)
-            {
-                info.actual = 10;
-            }
-            else
-            {
-                info.actual = achievementData.defaultBoardWinsData.spBWHardWins;
-            }
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            
-            yield return new WaitForSeconds(1);
-        }
+    
 
         if (achievementData.defaultBoardWinsData.spFSEasyWins >= 1)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("spSnookerEasyWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("spFSEasyWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spSnookerEasyWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("spFSEasyWins1");
+                UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        if (achievementData.defaultBoardWinsData.spFSEasyWins >= 3)
+        {
+
+            if (!achievementData.IsAchievementUnlockedByName("spFSEasyWins3"))
+            {
+                AchievementInfo info = achievementData.GetAchievementByName("spFSEasyWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -437,9 +475,20 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.spFSMediumWins >= 1)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("spSnookerMediumWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("spFSMediumWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spSnookerMediumWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("spFSMediumWins1");
+                UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        if (achievementData.defaultBoardWinsData.spFSMediumWins >= 3)
+        {
+
+            if (!achievementData.IsAchievementUnlockedByName("spFSMediumWins3"))
+            {
+                AchievementInfo info = achievementData.GetAchievementByName("spFSMediumWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -449,9 +498,22 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.spFSHardWins >= 1)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("spFSHardWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("spFSHardWins1");
+                UnlockSimpleAchievement(info);
+                yield return new WaitForSeconds(1);
+            }
+
+        }
+
+
+        if (achievementData.defaultBoardWinsData.spFSHardWins >= 3)
+        {
+
+            if (!achievementData.IsAchievementUnlockedByName("spFSHardWins3"))
+            {
+                AchievementInfo info = achievementData.GetAchievementByName("spFSHardWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -460,31 +522,11 @@ public class AchievementManager : MonoBehaviour
 
 
 
-        if (!achievementData.IsAchievementUnlockedByName("spSnookerHardWins10"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("spSnookerHardWins10");
-            
-            if (achievementData.defaultBoardWinsData.spFSHardWins > 10)
-            {
-                info.actual = 10;
-            }
-            else
-            {
-                info.actual = achievementData.defaultBoardWinsData.spFSHardWins;
-            }
-
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            yield return new WaitForSeconds(1);
-        }
-
-
-
-
         if (achievementData.defaultBoardWinsData.mpBWWins >= 1)
         {
-            if (!achievementData.IsAchievementUnlockedByName("mpPoolWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("mpBWWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("mpBWWins1");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -492,9 +534,9 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.mpBWWins >= 3)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("mpPoolWins3"))
+            if (!achievementData.IsAchievementUnlockedByName("mpBWWins3"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins3");
+                AchievementInfo info = achievementData.GetAchievementByName("mpBWWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -502,38 +544,21 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.mpBWWins >= 5)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("mpPoolWins5"))
+            if (!achievementData.IsAchievementUnlockedByName("mpBWWins5"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins5");
+                AchievementInfo info = achievementData.GetAchievementByName("mpBWWins5");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
         }
 
 
-        if (!achievementData.IsAchievementUnlockedByName("mpPoolWins10"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("mpPoolWins10");
-            if (achievementData.defaultBoardWinsData.mpBWWins > 10)
-            {
-                info.actual = 10;
-            }
-            else
-            {
-                info.actual = achievementData.defaultBoardWinsData.mpBWWins;
-            }
-            
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            yield return new WaitForSeconds(1);
-        }
-
-
 
         if (achievementData.defaultBoardWinsData.mpFSWins >= 1)
         {
-            if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins1"))
+            if (!achievementData.IsAchievementUnlockedByName("mpFSWins1"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins1");
+                AchievementInfo info = achievementData.GetAchievementByName("mpFSWins1");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -541,9 +566,9 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.mpFSWins >= 3)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins3"))
+            if (!achievementData.IsAchievementUnlockedByName("mpFSWins3"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins3");
+                AchievementInfo info = achievementData.GetAchievementByName("mpFSWins3");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
@@ -551,94 +576,20 @@ public class AchievementManager : MonoBehaviour
         if (achievementData.defaultBoardWinsData.mpFSWins >= 5)
         {
 
-            if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins5"))
+            if (!achievementData.IsAchievementUnlockedByName("mpFSWins5"))
             {
-                AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins5");
+                AchievementInfo info = achievementData.GetAchievementByName("mpFSWins5");
                 UnlockSimpleAchievement(info);
                 yield return new WaitForSeconds(1);
             }
         }
 
-        if (!achievementData.IsAchievementUnlockedByName("mpSnookerWins10"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("mpSnookerWins10");
-            if (achievementData.defaultBoardWinsData.mpFSWins > 10)
-            {
-                info.actual = 10;
-            }
-            else
-            {
-                info.actual = achievementData.defaultBoardWinsData.mpFSWins;
-            }
-
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            yield return new WaitForSeconds(1);
-        }
 
     }
-    public IEnumerator UnLockOverallAchievements()
-    {
-        yield return null;
-
-
-        if (!achievementData.IsAchievementUnlockedByName("spTotalWins50"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("spTotalWins50");
-            if (achievementData.defaultBoardWinsData.spTotalWins > 50)
-            {
-                info.actual = 50;
-            }
-            else
-            {
-                info.actual = achievementData.defaultBoardWinsData.spTotalWins;
-            }
-            info.actual = achievementData.defaultBoardWinsData.spTotalWins;
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            yield return new WaitForSeconds(1);
-        }
-
-        if (!achievementData.IsAchievementUnlockedByName("mpTotalWins50"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("mpTotalWins50");
-            if (achievementData.defaultBoardWinsData.mpTotalWins > 50)
-            {
-                info.actual = 50;
-            }
-            else
-            {
-                info.actual = achievementData.defaultBoardWinsData.mpTotalWins;
-            }
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            yield return new WaitForSeconds(1);
-        }
-
-
-
-        int totalWins = achievementData.defaultBoardWinsData.spTotalWins + achievementData.defaultBoardWinsData.mpTotalWins;
-
-
-        if (!achievementData.IsAchievementUnlockedByName("GrandChampion"))
-        {
-            AchievementInfo info = achievementData.GetAchievementByName("GrandChampion");
-            if (totalWins <= 100)
-            {
-                info.actual = totalWins;
-            }
-            else
-            {
-                info.actual = 100;
-            }
-            UpdateIncrementalAchievement(info, info.actual, info.target);
-            yield return new WaitForSeconds(1);
-        }
-
-
-    }
-
-
+  
     public void SaveUserData()
     {
-        //cloudData.SavePlayerData();
+        cloudData.SavePlayerData();
     }
 
 }

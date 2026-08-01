@@ -8,7 +8,7 @@ namespace com.VisionXR.ModelClasses
     public class CloudDataSO : ScriptableObject   
     {
         // variables
-        public int coins;
+        private bool isPlayerDataLoaded = false;
 
 
         //Login  Events    
@@ -22,24 +22,33 @@ namespace com.VisionXR.ModelClasses
         public Action PlayFabLoginSuccessEvent;
         public Action PlayFabLoginFailureEvent;
 
-
-
-        // coin events
-        public Action<int,Action,Action> DeductEntryFeeEvent;
-        public Action<int,Action,Action> GrantWinningsEvent;
-        public Action<Action,Action> FetchCoinsEvent;
+        // save and load data
+        public Action<Action, Action> LoadPlayerDataEvent;
+        public Action SavePlayerDataEvent;
 
         public Action FetchSuccessEvent;
         public Action FetchFailureEvent;
-
-
 
         // Methods
 
         private void OnEnable()
         {
-            coins = 0;
+            isPlayerDataLoaded = false;
         }
+
+        public void LoadPlayerData(Action OnSuccess, Action OnFailure)
+        {
+            LoadPlayerDataEvent?.Invoke(OnSuccess, OnFailure);
+        }
+
+        public void SavePlayerData()
+        {
+            if (isPlayerDataLoaded)
+            {
+                SavePlayerDataEvent?.Invoke();
+            }
+        }
+
         public void LoginToGoogle()
         {
             LoginToGoogleEvent?.Invoke();
@@ -55,10 +64,6 @@ namespace com.VisionXR.ModelClasses
             EditorLoginEvent?.Invoke();
         }
 
-        public void FetchCoins(Action OnSuccess,Action OnFailure)
-        {
-            FetchCoinsEvent?.Invoke(OnSuccess,OnFailure);
-        }
 
         public void PlayFabLoginSuccess()
         {
@@ -70,24 +75,15 @@ namespace com.VisionXR.ModelClasses
             PlayFabLoginFailureEvent?.Invoke();
         }
 
-        public void DeductEntryFee(int amount,Action OnSuccess,Action Onfailure)
+
+        public void DataLoaded(bool status)
         {
-            DeductEntryFeeEvent?.Invoke(amount,OnSuccess,Onfailure);
+            isPlayerDataLoaded = status;
         }
 
-        public void GrantWinnings(int amount, Action OnSuccess, Action OnFailure)
+        public bool isDataLoaded()
         {
-            GrantWinningsEvent?.Invoke(amount, OnSuccess, OnFailure);
-        }
-
-        public void StartFetch()
-        {
-            StartFetchEvent?.Invoke();
-        }
-
-        public void Retry()
-        {
-            RetryEvent?.Invoke();
+            return isPlayerDataLoaded;
         }
 
         public void FetchSuccess()
@@ -99,6 +95,12 @@ namespace com.VisionXR.ModelClasses
         {
             FetchFailureEvent?.Invoke();
         }
+
+        public void Retry()
+        {
+            RetryEvent?.Invoke();
+        }
+
 
 
     }

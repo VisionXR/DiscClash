@@ -22,7 +22,7 @@ namespace com.VisionXR.Views
         {
             playerImage.sprite = playerSettings.MyProfileImage;
             playerName.text = playerSettings.MyName;
-            playerCoins.text = cloudData.coins.ToString();
+            
         }
     }
 }

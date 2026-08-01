@@ -9,7 +9,7 @@ namespace com.VisionXR.Controllers
     {
         [Header("Scriptable Objects")]
         public CloudDataSO cloudData;
-        public UIInputDataSO uiInputData;
+        public UIDataSO uiInputData;
         public DestinationDataSO destinationData;
 
         [Header("Retry Settings")]
@@ -26,9 +26,6 @@ namespace com.VisionXR.Controllers
         private void OnEnable()
         {
 
-            cloudData.StartFetchEvent += StartLoginAndFetchCoins;
-            cloudData.RetryEvent += RetryFetch;
-
             cloudData.PlayFabLoginSuccessEvent += OnPlayFabLoginSuccess;
             cloudData.PlayFabLoginFailureEvent += OnPlayFabLoginFailure;
 
@@ -36,119 +33,40 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
-            cloudData.StartFetchEvent -= StartLoginAndFetchCoins;
-            cloudData.RetryEvent -= RetryFetch;
 
             cloudData.PlayFabLoginSuccessEvent -= OnPlayFabLoginSuccess;
             cloudData.PlayFabLoginFailureEvent -= OnPlayFabLoginFailure;
 
         }
 
-        // Public API ---------------------------------------------------------
-
-        // Call from UI or GameManager to start the flow.
-        public void StartLoginAndFetchCoins()
-        {
-         
-            fetchAttempt = 0;
-            awaitingFetch = true;
-
-            // Kick off platform-specific login
-            if (Application.isEditor)
-                cloudData.EditorLogin();
-            else
-                cloudData.LoginToGoogle();
-        }
-
-        // Manual retry button should call this (UI)
-        public void RetryFetch()
-        {
-            if (awaitingFetch)
-            {
-                Debug.Log("[LoginFetchManager] Already awaiting fetch, ignoring RetryFetch.");
-                return;
-            }
-
-            // restart full flow with configured settings
-            StartLoginAndFetchCoins();
-        }
 
         // Internal callbacks -------------------------------------------------
 
         private void OnPlayFabLoginSuccess()
         {
-            if (!awaitingFetch)
-            {
-                // if not part of an explicit StartLoginAndFetchCoins flow, forward existing behaviour
-                cloudData.FetchCoins(OnFetchSuccessInternal, OnFetchFailureInternal);
-                return;
-            }
 
-            AttemptFetch();
+            // if not part of an explicit StartLoginAndFetchCoins flow, forward existing behaviour
+            cloudData.LoadPlayerData(OnFetchSuccessInternal, OnFetchFailureInternal);
+
         }
 
         private void OnPlayFabLoginFailure()
         {
-            Debug.LogWarning("[LoginFetchManager] PlayFab login failed.");
+            Debug.Log("[LoginFetchManager] PlayFab login failed.");
 
-            if (!awaitingFetch) return;
-
-            fetchAttempt++;
-
-            if (autoRetry && fetchAttempt < maxAttempts)
-            {
-                ScheduleRetry(() =>
-                {
-                    Debug.Log($"[LoginFetchManager] Retrying login (attempt {fetchAttempt + 1})");
-                    if (Application.isEditor)
-                        cloudData.EditorLogin();
-                    else
-                        cloudData.LoginToGoogle();
-                });
-            }
-            else
-            {
-                awaitingFetch = false;
-                cloudData.FetchFailure();
-            }
         }
 
-        private void AttemptFetch()
-        {
-            fetchAttempt++;
-            Debug.Log($"[LoginFetchManager] Fetch attempt {fetchAttempt} / {maxAttempts}");
-
-            // cloudData.FetchCoins will trigger CloudManager.FetchUserCoins -> PlayFab call
-            cloudData.FetchCoins(OnFetchSuccessInternal, OnFetchFailureInternal);
-        }
 
         private void OnFetchSuccessInternal()
         {
-            Debug.Log("[LoginFetchManager] Fetch success.");
-            awaitingFetch = false;
-            fetchAttempt = 0;
 
             cloudData.FetchSuccess();
         }
 
         private void OnFetchFailureInternal()
         {
-            Debug.LogWarning("[LoginFetchManager] Fetch failed.");
-           
+            Debug.Log("[LoginFetchManager] Fetch failed.");
 
-            if (autoRetry && fetchAttempt < maxAttempts)
-            {
-                ScheduleRetry(() =>
-                {
-                    Debug.Log("[LoginFetchManager] Auto retrying fetch.");
-                    AttemptFetch();
-                });
-            }
-            else
-            {
-                awaitingFetch = false;
-                cloudData.FetchFailure();
-            }
         }
 
         private void ScheduleRetry(Action action)

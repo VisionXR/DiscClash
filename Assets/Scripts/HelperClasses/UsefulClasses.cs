@@ -163,24 +163,6 @@ namespace com.VisionXR.HelperClasses
 
     }
 
-    [Serializable]
-    public class SpecialBoardWinsStats
-    {
-        public List<BoardStats> boardStats = new List<BoardStats>();
-        public List<string> clientNames = new List<string>();
-
-    }
-
-    [Serializable]
-    public class BoardStats
-    {
-        public BoardType boardType;
-        public int spBWWins;
-        public int spFSWins;
-        public int mpBWWins;
-        public int mpFSWins;
-
-    }
 
     [Serializable]
     public class AIBotAnimationDetails
@@ -197,7 +179,7 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class PlayerData
     {
-        public bool isLoggedIn = false;
+        
         public int StrikerId;
         public int BoardId;
         public int CoinsId;
