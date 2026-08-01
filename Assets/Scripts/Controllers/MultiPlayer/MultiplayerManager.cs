@@ -420,6 +420,7 @@ namespace com.VisionXR.Controllers
                 AudioManager.instance.PlayWinningSound();            
                 winPs1.Play();
                 winPs2.Play();
+                uiInputData.GameWon();
                 CalculatePoints();
             }
             else

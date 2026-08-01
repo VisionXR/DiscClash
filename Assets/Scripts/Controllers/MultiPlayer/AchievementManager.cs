@@ -21,15 +21,13 @@ public class AchievementManager : MonoBehaviour
     [Header("Local Objects")]
     public AudioSource achievementAS;
 
-    // local variables
-    private Coroutine unlockRoutine;
 
     private void OnEnable()
     {
       
         achievementData.GetAllAchievementsEvent += GetAllAchievements;
         uiInputData.StartGameEvent += GameStarted;
-        uiInputData.ShowGameResultEvent += GameCompleted;
+        uiInputData.GameWonEvent += GameCompleted;
         achievementData.UserLoggedInEvent += AddLogin;
 
 
@@ -39,9 +37,95 @@ public class AchievementManager : MonoBehaviour
     {
         achievementData.GetAllAchievementsEvent -= GetAllAchievements;
         uiInputData.StartGameEvent -= GameStarted;
-        uiInputData.ShowGameResultEvent -= GameCompleted;
+        uiInputData.GameWonEvent -= GameCompleted;
         achievementData.UserLoggedInEvent -= AddLogin;
     }
+
+    /// <summary>
+    /// Instantly unlocks a standard, one-time achievement.
+    /// </summary>
+    /// <param name="achievementId">The exact alphanumeric string ID from the Google Play Console</param>
+    public void UnlockSimpleAchievement(AchievementInfo info)
+    {
+
+        string achievementId = info.apiName;
+        //    Debug.Log("Trying to unlock" + info.name);
+
+        if (!PlayGamesPlatform.Instance.IsAuthenticated())
+        {
+            Debug.LogWarning($"[Achievements] User not authenticated. Cannot unlock ID: {achievementId}");
+            return;
+        }
+
+        // Passing 100.0 instantly triggers a full unlock for standard achievements
+        Social.ReportProgress(achievementId, 100.0, (bool success) =>
+        {
+            if (success)
+            {
+                //  Debug.Log($"[Achievements] Successfully unlocked standard achievement: {achievementId}");
+
+                // Mark it unlocked in your local ScriptableObject
+                achievementData.UnLockLocal(achievementId);
+
+                // Play your sound effect cleanly if a source is set
+                if (achievementAS != null && !achievementAS.isPlaying)
+                {
+                    achievementAS.Play();
+                }
+            }
+            else
+            {
+                Debug.LogError($"[Achievements] Failed to unlock standard achievement: {achievementId}");
+            }
+        });
+    }
+
+    /// <summary>
+    /// Updates an incremental achievement directly to your current absolute count 
+    /// and checks if it has been fully unlocked.
+    /// </summary>
+    /// <param name="achievementId">The exact alphanumeric string ID from the Google Play Console</param>
+    /// <param name="currentCount">The current absolute total step count</param>
+    /// <param name="targetCount">The unlock threshold for this achievement (e.g., 10 for 10 wins)</param>
+    public void UpdateIncrementalAchievement(AchievementInfo info, int currentCount, int targetCount)
+    {
+        string achievementId = info.apiName;
+
+        if (!PlayGamesPlatform.Instance.IsAuthenticated())
+        {
+            Debug.LogWarning($"[Achievements] User not authenticated. Cannot update incremental ID: {achievementId}");
+            return;
+        }
+
+        // FIX: Use PlayGamesPlatform specific API for exact step targeting
+        // SetStepsAtLeast ensures the server updates to your latest local progress smoothly
+        PlayGamesPlatform.Instance.SetStepsAtLeast(achievementId, currentCount, (bool success) =>
+        {
+            if (success)
+            {
+                //  Debug.Log($"[Achievements] Successfully set incremental achievement {info.name} steps to: {currentCount}/{targetCount}");
+
+                // Check if your local count has officially hit or crossed the required server target
+                if (currentCount >= targetCount)
+                {
+                    //  Debug.Log($"[Achievements] TARGET REACHED! Achievement {achievementId} is now FULLY UNLOCKED!");
+
+                    achievementData.UnLockLocal(achievementId);
+
+                    if (achievementAS != null && !achievementAS.isPlaying)
+                    {
+                        achievementAS.Play();
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError($"[Achievements] Failed to update incremental achievement steps via SetStepsAtLeast for ID: {achievementId}");
+            }
+        });
+    }
+
+
 
     public void GetAllAchievements()
     {
@@ -126,108 +210,71 @@ public class AchievementManager : MonoBehaviour
         SaveUserData();
     }
 
-    public void GameCompleted(GameResult result)
+    public void GameCompleted()
     {
 
         Debug.Log("Game Completed in achievements");
 
+        Destination d = destinationData.currentDestination;
 
-    }
-
-    private IEnumerator UnLockWin()
-    {
-       
-        SaveUserData();
-        yield return StartCoroutine(UnLockWinAchievements());
- 
-    }
-
-
-    /// <summary>
-    /// Instantly unlocks a standard, one-time achievement.
-    /// </summary>
-    /// <param name="achievementId">The exact alphanumeric string ID from the Google Play Console</param>
-    public void UnlockSimpleAchievement(AchievementInfo info)
-    {
-
-        string achievementId = info.apiName;
-    //    Debug.Log("Trying to unlock" + info.name);
-
-        if (!PlayGamesPlatform.Instance.IsAuthenticated())
+        if (d != null)
         {
-            Debug.LogWarning($"[Achievements] User not authenticated. Cannot unlock ID: {achievementId}");
-            return;
-        }
-
-        // Passing 100.0 instantly triggers a full unlock for standard achievements
-        Social.ReportProgress(achievementId, 100.0, (bool success) =>
-        {
-            if (success)
+            if (d.gameType == GameType.VsCPU)
             {
-              //  Debug.Log($"[Achievements] Successfully unlocked standard achievement: {achievementId}");
-
-                // Mark it unlocked in your local ScriptableObject
-                achievementData.UnLockLocal(achievementId);
-
-                // Play your sound effect cleanly if a source is set
-                if (achievementAS != null && !achievementAS.isPlaying)
+                if (d.challenge == Challenge.BlackAndWhite)
                 {
-                    achievementAS.Play();
-                }
-            }
-            else
-            {
-                Debug.LogError($"[Achievements] Failed to unlock standard achievement: {achievementId}");
-            }
-        });
-    }
-
-    /// <summary>
-    /// Updates an incremental achievement directly to your current absolute count 
-    /// and checks if it has been fully unlocked.
-    /// </summary>
-    /// <param name="achievementId">The exact alphanumeric string ID from the Google Play Console</param>
-    /// <param name="currentCount">The current absolute total step count</param>
-    /// <param name="targetCount">The unlock threshold for this achievement (e.g., 10 for 10 wins)</param>
-    public void UpdateIncrementalAchievement(AchievementInfo info, int currentCount, int targetCount)
-    {
-        string achievementId = info.apiName;
-
-        if (!PlayGamesPlatform.Instance.IsAuthenticated())
-        {
-            Debug.LogWarning($"[Achievements] User not authenticated. Cannot update incremental ID: {achievementId}");
-            return;
-        }
-
-        // FIX: Use PlayGamesPlatform specific API for exact step targeting
-        // SetStepsAtLeast ensures the server updates to your latest local progress smoothly
-        PlayGamesPlatform.Instance.SetStepsAtLeast(achievementId, currentCount, (bool success) =>
-        {
-            if (success)
-            {
-              //  Debug.Log($"[Achievements] Successfully set incremental achievement {info.name} steps to: {currentCount}/{targetCount}");
-
-                // Check if your local count has officially hit or crossed the required server target
-                if (currentCount >= targetCount)
-                {
-                  //  Debug.Log($"[Achievements] TARGET REACHED! Achievement {achievementId} is now FULLY UNLOCKED!");
-
-                    achievementData.UnLockLocal(achievementId);
-
-                    if (achievementAS != null && !achievementAS.isPlaying)
+                    if (d.difficulty == AIDifficulty.Easy)
                     {
-                        achievementAS.Play();
+                        achievementData.defaultBoardWinsData.spBWEasyWins++;
                     }
+                    else if (d.difficulty == AIDifficulty.Medium)
+                    {
+                        achievementData.defaultBoardWinsData.spBWMediumWins++;
+                    }
+                    else if (d.difficulty == AIDifficulty.Hard)
+                    {
+                        achievementData.defaultBoardWinsData.spBWHardWins++;
+                    }
+
+                }
+                else if (d.challenge == Challenge.FreeStyle)
+                {
+                    if (d.difficulty == AIDifficulty.Easy)
+                    {
+                        achievementData.defaultBoardWinsData.spFSEasyWins++;
+                    }
+                    else if (d.difficulty == AIDifficulty.Medium)
+                    {
+                        achievementData.defaultBoardWinsData.spFSMediumWins++;
+                    }
+                    else if (d.difficulty == AIDifficulty.Hard)
+                    {
+                        achievementData.defaultBoardWinsData.spFSHardWins++;
+
+                    }
+
+                }
+
+            }
+
+            else if (d.gameType == GameType.PlayWithFriends)
+            {
+                if (d.challenge == Challenge.BlackAndWhite)
+                {
+                    achievementData.defaultBoardWinsData.mpBWWins++;
+                }
+                else if (d.challenge == Challenge.FreeStyle)
+                {
+                    achievementData.defaultBoardWinsData.mpFSWins++;
                 }
             }
-            else
-            {
-                Debug.LogError($"[Achievements] Failed to update incremental achievement steps via SetStepsAtLeast for ID: {achievementId}");
-            }
-        });
-    }
 
-  
+        }
+
+        SaveUserData();
+        StartCoroutine(UnLockWinAchievements());
+
+    }
 
     public void AddLogin()
     {
@@ -250,7 +297,7 @@ public class AchievementManager : MonoBehaviour
             achievementData.defaultBoardWinsData.lastLoginDate = DateTime.Now.ToLongDateString();
             achievementData.defaultBoardWinsData.totalLogins += 1;
             StartCoroutine(UnLockLoginAchievements());
-           
+
         }
 
         SaveUserData();
@@ -265,6 +312,8 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+
+  
     public IEnumerator UnLockLoginAchievements()
     {
 

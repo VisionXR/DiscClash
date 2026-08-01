@@ -284,7 +284,8 @@ namespace com.VisionXR.Controllers
                
                 winPs1.Play();
                 winPs2.Play();
-               
+
+                uiInputData.GameWon();
                 CalculatePoints();              
             }
             else

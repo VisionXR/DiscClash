@@ -25,6 +25,7 @@ namespace com.VisionXR.ModelClasses
         public Action PauseGameEvent;
         public Action ResumeGameEvent;
         public Action<GameResult> ShowGameResultEvent;
+        public Action GameWonEvent;
 
         //General Events
 
@@ -79,6 +80,11 @@ namespace com.VisionXR.ModelClasses
         public void GameCompleted(GameResult gameResult)
         {
             ShowGameResultEvent?.Invoke(gameResult);
+        }
+
+        public void GameWon()
+        {
+            GameWonEvent?.Invoke();
         }
 
         public void ExitGame()
