@@ -183,7 +183,7 @@ namespace com.VisionXR.Views
             }
             else
             {
-                uiData.uiManager.ChangeState(purchaseState, true);
+                uiData.uiManager.GoToState(HelperClasses.StateName.AssetPurchaseState);
             }
 
         }

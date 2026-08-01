@@ -74,7 +74,15 @@ namespace com.VisionXR.Views
         public void BackBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            uiData.uiManager.ChangeState(currentState,false);
+
+            if (uiData.uiManager.previousStateName == StateName.HomeState)
+            {
+                uiData.uiManager.ChangeState(currentState, false);
+            }
+            else
+            {
+                uiData.uiManager.GoToState(uiData.uiManager.previousStateName);
+            }
             
         }
 

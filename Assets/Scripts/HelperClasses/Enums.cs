@@ -8,7 +8,7 @@ namespace com.VisionXR.HelperClasses
         MultiPlayerState, MPDestinationState, JoinRoomState, LobbyState, ExitLobbyState, MPInGameState, MPPauseState, MPSettingsState, MPRulesState,
         MPGameCompletedState, MPLeaderBoardState, MPHostDisconnectedState, MPClientDisconnectState, 
         ChangeDestinationState, Tutorial, InfoState, LoginState,AssetsState,MPAssetsState,
-        SPBoardsState,SPStrikersState,SPCoinsState,MPBoardsState,MPStrikersState,MPCoinsState
+        SPBoardsState,SPStrikersState,SPCoinsState,MPBoardsState,MPStrikersState,MPCoinsState,AssetPurchaseState
     }
     public enum LoginType { Google, Guest }
     public enum SwipeDirection { LEFT, RIGHT,UP,DOWN };
