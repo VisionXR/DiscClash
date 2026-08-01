@@ -104,13 +104,25 @@ namespace com.VisionXR.Controllers
 
                 playerSettings.SetUserNameAndId(displayName, googleID);
                 playerSettings.SetUserProfileImageUrl(imageUrl);
-                StartCoroutine(LoadProfileImage(imageUrl));
+               
                 deepLinkManager.ProcessGameFlow();
 
                 // 2. Trigger PlayFab Login
-                RequestTokenAndLoginToPlayFab();
+               
+               StartCoroutine(LoadData(imageUrl));
+
             }
 
+        }
+
+        private IEnumerator LoadData(string imageUrl)
+        {
+            achievementsData.GetAllAchievements();
+            yield return new WaitForSeconds(1f);
+            RequestTokenAndLoginToPlayFab();
+            yield return new WaitForSeconds(1f);
+
+            StartCoroutine(LoadProfileImage(imageUrl));
         }
 
         private void RequestTokenAndLoginToPlayFab()

@@ -278,13 +278,16 @@ public class AchievementManager : MonoBehaviour
 
     public void AddLogin()
     {
+        Debug.Log("Adding login in achievements");
+
         // If we have no record, count this as first login
         if (string.IsNullOrEmpty(achievementData.defaultBoardWinsData.lastLoginDate))
         {
 
             achievementData.defaultBoardWinsData.lastLoginDate = DateTime.Now.ToLongDateString();
             achievementData.defaultBoardWinsData.totalLogins += 1;
-
+            SaveUserData();
+            StartCoroutine(UnLockLoginAchievements());
             return;
         }
 
@@ -296,11 +299,12 @@ public class AchievementManager : MonoBehaviour
         {
             achievementData.defaultBoardWinsData.lastLoginDate = DateTime.Now.ToLongDateString();
             achievementData.defaultBoardWinsData.totalLogins += 1;
-            StartCoroutine(UnLockLoginAchievements());
+            SaveUserData();
+            
 
         }
 
-        SaveUserData();
+        StartCoroutine(UnLockLoginAchievements());
     }
 
     public void AddClient(string clientId)
@@ -312,12 +316,13 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-
-  
     public IEnumerator UnLockLoginAchievements()
     {
 
         yield return null;
+
+        Debug.Log("Unlocking login achievements. Total logins: " + achievementData.defaultBoardWinsData.totalLogins);
+
         if (achievementData.defaultBoardWinsData.totalLogins >= 1)
         {
             if (!achievementData.IsAchievementUnlockedByName("login1"))
@@ -355,7 +360,7 @@ public class AchievementManager : MonoBehaviour
         if (!achievementData.IsAchievementUnlockedByName("login10"))
         {
             AchievementInfo info = achievementData.GetAchievementByName("login10");
-            if (achievementData.defaultBoardWinsData.spBWHardWins > 10)
+            if (achievementData.defaultBoardWinsData.totalLogins > 10)
             {
                 info.actual = 10;
             }
@@ -436,7 +441,6 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-
         if (achievementData.defaultBoardWinsData.spBWEasyWins >= 3)
         {
             if (!achievementData.IsAchievementUnlockedByName("spBWEasyWins3"))
@@ -458,7 +462,6 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-
         if (achievementData.defaultBoardWinsData.spBWMediumWins >= 3)
         {
 
@@ -482,7 +485,6 @@ public class AchievementManager : MonoBehaviour
             }
 
         }
-
         if (achievementData.defaultBoardWinsData.spBWHardWins >= 3)
         {
 
@@ -494,9 +496,7 @@ public class AchievementManager : MonoBehaviour
             }
 
         }
-
-
-    
+ 
 
         if (achievementData.defaultBoardWinsData.spFSEasyWins >= 1)
         {
@@ -508,7 +508,6 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-
         if (achievementData.defaultBoardWinsData.spFSEasyWins >= 3)
         {
 
@@ -531,7 +530,6 @@ public class AchievementManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
             }
         }
-
         if (achievementData.defaultBoardWinsData.spFSMediumWins >= 3)
         {
 
@@ -555,8 +553,6 @@ public class AchievementManager : MonoBehaviour
             }
 
         }
-
-
         if (achievementData.defaultBoardWinsData.spFSHardWins >= 3)
         {
 

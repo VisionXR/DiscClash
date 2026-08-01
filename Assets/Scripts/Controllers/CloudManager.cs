@@ -121,13 +121,12 @@ namespace com.VisionXR.Controllers
                     {
                         string json = result.Data[defaultBoardsWinsKey].Value;
                         achievementsData.defaultBoardWinsData = JsonUtility.FromJson<DefaultBoardWinsData>(json);
-                        
+                        achievementsData.UserLoggedIn();
                     }
 
                     Debug.Log("User data loaded successfully.");
 
-                    achievementsData.UserLoggedIn();
-
+                  
                     // Critical: Setting this triggers the coroutine while-loop to stop early!
                     cloudData.DataLoaded(true);
 

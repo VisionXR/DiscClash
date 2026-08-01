@@ -25,7 +25,7 @@ namespace com.VisionXR.ModelClasses
    
         }
 
-        public void GetAllAchievemnets()
+        public void GetAllAchievements()
         {
             GetAllAchievementsEvent?.Invoke();
         }

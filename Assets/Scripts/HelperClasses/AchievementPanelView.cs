@@ -143,7 +143,7 @@ namespace com.VisionXR.Views
         public void RefreshBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
-            achievementData.GetAllAchievemnets();
+            achievementData.GetAllAchievements();
         }
 
         public void BackBtnClicked()
