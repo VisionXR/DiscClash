@@ -129,39 +129,39 @@ namespace com.VisionXR.Controllers
 
         private void TurnChanged(int id)
         {
-            if (turnTimeRoutine == null)
-            {
-                turnTimeRoutine = StartCoroutine(TurnTimeRoutine(id));
-            }
-            else
-            {
-                StopCoroutine(turnTimeRoutine);
-                turnTimeRoutine = StartCoroutine(TurnTimeRoutine(id));
-            }
+            //if (turnTimeRoutine == null)
+            //{
+            //    turnTimeRoutine = StartCoroutine(TurnTimeRoutine(id));
+            //}
+            //else
+            //{
+            //    StopCoroutine(turnTimeRoutine);
+            //    turnTimeRoutine = StartCoroutine(TurnTimeRoutine(id));
+            //}
         }
 
-        // Add this coroutine to fix CS0103: The name 'TurnTimeRoutine' does not exist in the current context
-        private IEnumerator TurnTimeRoutine(int id)
-        {
-            // Example: Wait for a fixed turn time (e.g., 30 seconds)
-            float turnTime = 45f;
-            float elapsed = 0f;
-            while (elapsed < turnTime)
-            {
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+        //// Add this coroutine to fix CS0103: The name 'TurnTimeRoutine' does not exist in the current context
+        //private IEnumerator TurnTimeRoutine(int id)
+        //{
+        //    // Example: Wait for a fixed turn time (e.g., 30 seconds)
+        //    float turnTime = 45f;
+        //    float elapsed = 0f;
+        //    while (elapsed < turnTime)
+        //    {
+        //        elapsed += Time.deltaTime;
+        //        yield return null;
+        //    }
           
-            turnTimeRoutine = null;
+        //    turnTimeRoutine = null;
 
-            if(networkOutputData.IsHost())
-            {
-                GameResult result = new GameResult();
-                result.isVictory = false;
-                result.currentTurnId = NextTurn();
-                dataManager.SendGameResult(result);
-            }
-        }
+        //    if(networkOutputData.IsHost())
+        //    {
+        //        GameResult result = new GameResult();
+        //        result.isVictory = false;
+        //        result.currentTurnId = NextTurn();
+        //        dataManager.SendGameResult(result);
+        //    }
+        //}
 
 
         public void StartGame(int turnId,int coinsId)

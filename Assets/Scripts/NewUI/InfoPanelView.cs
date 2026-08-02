@@ -7,8 +7,7 @@ namespace com.VisionXR.Views
     public class InfoPanelView : MonoBehaviour
     {
         [Header("Scriptable Objects")]
-        public MyPlayerSettings userData;
-      
+        public MyPlayerSettings userData; 
         public UIDataSO uiData;
 
 

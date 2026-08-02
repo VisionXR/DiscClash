@@ -31,7 +31,7 @@ public class GameDataSO : ScriptableObject
     public bool ShouldICoverCoin;
     public int firstTurnId = -1;
     public int currentTurnId = 1;
-    public int TurnTime = 20;
+
     
     public Action<int> TurnChangedEvent;
     public Action<CurrentGameData> GameResultEvent;

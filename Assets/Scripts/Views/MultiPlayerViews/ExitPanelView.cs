@@ -27,7 +27,9 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
 
+           
             uIInputData.ExitGame();
+            uIInputData.isGamePaused = false;
             adData.ShowInterstitialAd();
 
         }

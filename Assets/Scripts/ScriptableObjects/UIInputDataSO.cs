@@ -2,7 +2,6 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using System;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 
 namespace com.VisionXR.ModelClasses
@@ -76,6 +75,7 @@ namespace com.VisionXR.ModelClasses
 
         public void StartGame()
         {
+            isGamePaused = false;
             StartGameEvent?.Invoke(); 
         }
 

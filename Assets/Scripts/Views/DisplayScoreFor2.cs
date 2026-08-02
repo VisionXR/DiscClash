@@ -85,62 +85,62 @@ namespace com.VisionXR.Views
                 ShowFreeStyleScore(newPlayerID);
             }
 
-            if(TimerRoutine == null)
-            {
-                TimerRoutine = StartCoroutine(ShowTurnTime(newPlayerID));
-            }
-            else
-            {
-                StopCoroutine(TimerRoutine);
-                TimerRoutine = StartCoroutine(ShowTurnTime(newPlayerID));
-            }
+            //if(TimerRoutine == null)
+            //{
+            //    TimerRoutine = StartCoroutine(ShowTurnTime(newPlayerID));
+            //}
+            //else
+            //{
+            //    StopCoroutine(TimerRoutine);
+            //    TimerRoutine = StartCoroutine(ShowTurnTime(newPlayerID));
+            //}
 
         }
 
-        private IEnumerator ShowTurnTime(int id)
-        {
-            // Set both timers to 0 initially
-            player1Timer.fillAmount = 0;
-            player2Timer.fillAmount = 0;
+        //private IEnumerator ShowTurnTime(int id)
+        //{
+        //    // Set both timers to 0 initially
+        //    player1Timer.fillAmount = 0;
+        //    player2Timer.fillAmount = 0;
 
-            // The total duration of the turn (in seconds)
-            float turnDuration = gameData.TurnTime;
-            float elapsedTime = 0f;
+        //    // The total duration of the turn (in seconds)
+        //    float turnDuration = gameData.TurnTime;
+        //    float elapsedTime = 0f;
 
-            // Reference to the active timer
-            Image activeTimer = null;
+        //    // Reference to the active timer
+        //    Image activeTimer = null;
 
-            // Set the correct timer fill based on the player's turn (id)
-            if (id == 1)
-            {
-                player1Timer.fillAmount = 1; // Start full
-                activeTimer = player1Timer;  // Set player 1's timer as active
-            }
-            else if (id == 2)
-            {
-                player2Timer.fillAmount = 1; // Start full
-                activeTimer = player2Timer;  // Set player 2's timer as active
-            }
+        //    // Set the correct timer fill based on the player's turn (id)
+        //    if (id == 1)
+        //    {
+        //        player1Timer.fillAmount = 1; // Start full
+        //        activeTimer = player1Timer;  // Set player 1's timer as active
+        //    }
+        //    else if (id == 2)
+        //    {
+        //        player2Timer.fillAmount = 1; // Start full
+        //        activeTimer = player2Timer;  // Set player 2's timer as active
+        //    }
 
-            activeTimer.fillAmount = 1;
+        //    activeTimer.fillAmount = 1;
 
-            // Gradually reduce the fillAmount to 0 over 'turnDuration' seconds
-            while (elapsedTime < turnDuration)
-            {
-                elapsedTime += Time.deltaTime; // Time passed since last frame
+        //    // Gradually reduce the fillAmount to 0 over 'turnDuration' seconds
+        //    while (elapsedTime < turnDuration)
+        //    {
+        //        elapsedTime += Time.deltaTime; // Time passed since last frame
 
-                // Calculate the new fill amount based on elapsed time
-                activeTimer.fillAmount = Mathf.Lerp(1f, 0f, elapsedTime / turnDuration);
+        //        // Calculate the new fill amount based on elapsed time
+        //        activeTimer.fillAmount = Mathf.Lerp(1f, 0f, elapsedTime / turnDuration);
 
-                // Wait until the next frame
-                yield return new WaitForEndOfFrame();
-            }
+        //        // Wait until the next frame
+        //        yield return new WaitForEndOfFrame();
+        //    }
 
-            // Ensure the fill amount is set to 0 at the end of the timer
-            activeTimer.fillAmount = 0f;
+        //    // Ensure the fill amount is set to 0 at the end of the timer
+        //    activeTimer.fillAmount = 0f;
 
             
-        }
+        //}
 
         private void OnPlayerStrikeStarted()
         {

@@ -154,6 +154,7 @@ namespace com.VisionXR.GameElements
                 yield return new WaitForEndOfFrame();
 
             }
+
             int coinIndex = GetIndexOfNextCoin();
             CoinInfo currentSelectedCoin = hitCoinList[coinIndex];
             // Add the selected coin to last hit history
