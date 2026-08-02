@@ -75,6 +75,7 @@ namespace com.VisionXR.ModelClasses
             Blacks = 0;
             Red = 0;
             CoinFellInThisTurn.Clear();
+            AvailableCoinsInGame.Sort();
         }
 
 

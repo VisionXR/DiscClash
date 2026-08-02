@@ -123,10 +123,8 @@ public class AIMovement : MonoBehaviour
 
     public void ShowFingerCloseAnimation(Vector3 coinPos)
     {
-
             CoinPos = coinPos;
             hittingDirection = (coinPos - Striker.transform.position).normalized;
-         //   SetHandPosition();
             SetBotPosition();
             StartCoroutine(CloseFinger());
             SendAIMovement(MyId, 2, coinPos, Striker.transform.position, Striker.transform.eulerAngles);
@@ -259,10 +257,8 @@ public class AIMovement : MonoBehaviour
             details.strikerPosition = DataConverter.FormatVector3(strikePos);
             details.strikerRotation = DataConverter.FormatVector3(strikerot);
 
-        string botDetails = JsonUtility.ToJson(details);
-        Debug.Log(botDetails);
-        AIBotAnimationEvent?.Invoke(botDetails);            
-        
+            string botDetails = JsonUtility.ToJson(details);   
+            AIBotAnimationEvent?.Invoke(botDetails);                   
     }
 
 }
