@@ -15,7 +15,7 @@ public class AIMovement : MonoBehaviour
     public GameDataSO gameData;
     
     [Header("local Objects")]
-    public GameObject Head;
+
     public GameObject Hand;
     public GameObject AllParts;
     public Animator HandAnimator;
@@ -24,11 +24,10 @@ public class AIMovement : MonoBehaviour
     public Sprite AIIcon;
     public GameObject Striker;
     public Action<string> AIBotAnimationEvent;  
-    private Coroutine headNodRoutine;  
     private GameObject HandPos;
     private int MyId;
-    private Quaternion desiredRotation,BotInitRotation, HandInitRot,handdesiredRotation, headdesiredRotation,HeadInitRot;
-    private Vector3 desiredPosition,handdesiredPosition, BotInitPos, HandInitPos,CoinPos;
+    private Quaternion BotInitRotation, HandInitRot,handdesiredRotation, headdesiredRotation,HeadInitRot;
+    private Vector3 handdesiredPosition, BotInitPos, HandInitPos,CoinPos;
     private Vector3 hittingDirection,lookDirection;
     public bool canIAnimate = false;
 
@@ -42,10 +41,7 @@ public class AIMovement : MonoBehaviour
         BotInitRotation = transform.rotation;
         HandInitPos = Hand.transform.position;
         HandInitRot = Hand.transform.rotation;
-        HeadInitRot = Head.transform.rotation;
-
-        desiredPosition = transform.position;
-        desiredRotation = transform.rotation;
+      
         handdesiredPosition = HandInitPos;
         handdesiredRotation = HandInitRot;
         headdesiredRotation = HeadInitRot;
@@ -164,8 +160,7 @@ public class AIMovement : MonoBehaviour
         }
 
 
-        desiredRotation = Quaternion.LookRotation(hittingDirection);
-        desiredPosition = Striker.transform.position + hittingDirection * -0.55f;
+    
 
     }
     private IEnumerator CloseFinger()
@@ -185,8 +180,7 @@ public class AIMovement : MonoBehaviour
         HandAnimator.SetBool("FingerStrike", false);
 
         yield return new WaitForSeconds(1);
-        desiredPosition = BotInitPos;
-        desiredRotation = BotInitRotation;
+  
         handdesiredPosition = HandInitPos;
         handdesiredRotation = HandInitRot;
 
