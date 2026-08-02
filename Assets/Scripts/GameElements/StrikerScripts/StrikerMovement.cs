@@ -189,6 +189,8 @@ namespace com.VisionXR.GameElements
 
         public void ResetStriker()
         {
+            GetComponent<MeshCollider>().enabled = true;
+
             if (strikerSpline == null) return;
 
             currentProgress = 0f;

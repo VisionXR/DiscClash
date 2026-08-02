@@ -179,6 +179,7 @@ namespace com.VisionXR.Controllers
             else if (isRewardedAdLoading)
             {
                 Debug.LogWarning("Ad is still downloading. Please wait a second!");
+                adDataSO.RewardAdFailedToLoad();
             }
             else
             {

@@ -13,6 +13,7 @@ public class StrikerCollision : MonoBehaviour
             isPassed = true;
             strikerDataSO.StrikerFellInHole(gameObject);        
             strikerDataSO.StrikerPocketedUntoHole(other.gameObject);
+            GetComponent<MeshCollider>().enabled = false;
           
         }
     }
