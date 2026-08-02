@@ -26,7 +26,8 @@ using UnityEngine;
         public Action<ServerRegion> ServerRegionChangedEvent;
         public Action SaveSettingsEvent;
         public Action LoadSettingsEvent;
-        
+        public Action DeleteAccountEvent;
+
 
         public Action<int> BoardChangedEvent;
         public Action<int> StrikerChangedEvent;
@@ -88,6 +89,11 @@ using UnityEngine;
         public void LoadSettings()
         {
             LoadSettingsEvent?.Invoke();
+        }
+
+        public void DeleteAccount()
+        {
+            DeleteAccountEvent?.Invoke();
         }
     }
 }

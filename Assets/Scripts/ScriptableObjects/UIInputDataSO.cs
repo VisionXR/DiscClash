@@ -11,7 +11,7 @@ namespace com.VisionXR.ModelClasses
     public class UIInputDataSO : ScriptableObject   
     {
         // variables
-
+        public bool isGamePaused = false;
 
         // Game Events
         public Action StartSinglePlayerGameEvent;
@@ -51,11 +51,13 @@ namespace com.VisionXR.ModelClasses
 
         public void PauseGame()
         {
+            isGamePaused = true;
             PauseGameEvent?.Invoke();
         }
 
         public void ResumeGame()
         {
+            isGamePaused = false;
             ResumeGameEvent?.Invoke();
         }
 

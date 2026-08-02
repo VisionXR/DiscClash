@@ -117,7 +117,7 @@ namespace com.VisionXR.Views
 
         public void HapticsChanged()
         {
-
+            AudioManager.instance.PlayButtonClickSound();
             userData.SetHapticsEnabled(hapticsToggle.isOn);
         }
 

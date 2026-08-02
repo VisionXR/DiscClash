@@ -30,14 +30,14 @@ namespace com.VisionXR.Controllers
         {
             cloudData.LoadPlayerDataEvent += LoadPlayerData;
             cloudData.SavePlayerDataEvent += SaveUserData;
-           // userData.DeleteAccountEvent += DeleteUserData;
+            userData.DeleteAccountEvent += DeleteUserData;
         }
 
         private void OnDisable()
         {
             cloudData.LoadPlayerDataEvent -= LoadPlayerData;
             cloudData.SavePlayerDataEvent -= SaveUserData;
-          //  userData.DeleteAccountEvent -= DeleteUserData;
+            userData.DeleteAccountEvent -= DeleteUserData;
 
             // Safety check to prevent memory leaks if destroyed during loading
             if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);

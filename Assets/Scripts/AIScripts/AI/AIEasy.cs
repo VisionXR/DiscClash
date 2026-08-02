@@ -16,6 +16,7 @@ namespace com.VisionXR.GameElements
         public BoardDataSO boardData;
         public PlayersDataSO playersData;
         public StrikerDataSO strikerData;
+        public UIInputDataSO uIInputData;
 
 
         [Header(" AI Variables")]
@@ -33,12 +34,11 @@ namespace com.VisionXR.GameElements
         public List<StrikerInfo> strikerDetails;
         public SplineContainer strikerSpline;
         public List<GameObject> holes;
-        public LineRenderer debugLine;
+  
 
         // local variables
         private List<CoinInfo> hitCoinList = new List<CoinInfo>();
         private List<CoinInfo> lastHitCoins = new List<CoinInfo>(); // Stores history of recent coins
-        private bool isPaused;
         private bool isExcecuting = false;       
        
         private PlayerCoin playerCoin = PlayerCoin.White;
@@ -146,10 +146,9 @@ namespace com.VisionXR.GameElements
         }
 
         private IEnumerator HitCoin()
-
         {
 
-            while (isPaused)
+            while (uIInputData.isGamePaused)
             {
 
                 yield return new WaitForEndOfFrame();
@@ -178,13 +177,7 @@ namespace com.VisionXR.GameElements
 
             if (currentSelectedCoin.angle < CutOffAngle)
             {
-                debugLine.positionCount = 3;
 
-                debugLine.SetPosition(0, Striker.transform.position);
-
-                debugLine.SetPosition(1, currentSelectedCoin.FinalPos);
-
-                debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
                 // Non-linear weighting for angle contribution
 
                 float a = Mathf.Clamp01(currentSelectedCoin.angle / CutOffAngle);
@@ -198,10 +191,7 @@ namespace com.VisionXR.GameElements
             }
             else
             {
-                debugLine.positionCount = 3;
-                debugLine.SetPosition(0, Striker.transform.position);
-                debugLine.SetPosition(1, currentSelectedCoin.Coin.transform.position);
-                debugLine.SetPosition(2, currentSelectedCoin.Hole.transform.position);
+             
                 force = currentSelectedCoin.distance + forceAdder + 0.5f;
                 dir = (currentSelectedCoin.Coin.transform.position - Striker.transform.position).normalized;
                 yield return Strike(dir, force, currentSelectedCoin);
@@ -211,6 +201,12 @@ namespace com.VisionXR.GameElements
 
         private IEnumerator Strike(Vector3 direction, float strikeForce, CoinInfo coinInfo)
         {
+            while (uIInputData.isGamePaused)
+            {
+
+                yield return new WaitForEndOfFrame();
+
+            }
 
             aIMovement.ShowFingerCloseAnimation(coinInfo.Coin.transform.position);
             yield return new WaitForSeconds(aIData.strikeWaitTime);
