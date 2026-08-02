@@ -121,7 +121,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p1.imageURL = playerSettings.ImageUrl;
             p1.myPlayerControl = PlayerControl.Local;
             p1.myPlayerRole = PlayerRole.Human;
-            p1.myAiDifficulty = uiData.aIDifficulty;
+            p1.myAiDifficulty = AIDifficulty.Hard;
             p1.myCoin = PlayerCoin.White;
             p1.myTeam = Team.TeamA;
 
@@ -135,7 +135,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p3.imageURL = "";
             p3.myPlayerControl = PlayerControl.Local;
             p3.myPlayerRole = PlayerRole.AI;
-            p3.myAiDifficulty = uiData.aIDifficulty;
+            p3.myAiDifficulty = AIDifficulty.Hard;
             p3.myCoin = PlayerCoin.Black;
             p3.myTeam = Team.TeamB;
 
@@ -160,7 +160,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p2.imageURL = playerSettings.ImageUrl;
             p2.myPlayerControl = PlayerControl.Local;
             p2.myPlayerRole = PlayerRole.Human;
-            p2.myAiDifficulty = uiData.aIDifficulty;
+            p2.myAiDifficulty = AIDifficulty.Hard;
             p2.myCoin = PlayerCoin.White;
             p2.myTeam = Team.TeamA;
 
@@ -174,7 +174,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p4.imageURL = "";
             p4.myPlayerControl = PlayerControl.Local;
             p4.myPlayerRole = PlayerRole.AI;
-            p4.myAiDifficulty = uiData.aIDifficulty;
+            p4.myAiDifficulty = AIDifficulty.Hard;
             p4.myCoin = PlayerCoin.Black;
             p4.myTeam = Team.TeamB;
 
@@ -204,7 +204,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p1.imageURL = playerSettings.ImageUrl;
             p1.myPlayerControl = PlayerControl.Local;
             p1.myPlayerRole = PlayerRole.Human;
-            p1.myAiDifficulty = uiData.aIDifficulty;
+            p1.myAiDifficulty = AIDifficulty.Hard;
             p1.myCoin = PlayerCoin.White;
             p1.myTeam = Team.TeamA;
 
@@ -218,7 +218,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p2.imageURL = "";
             p2.myPlayerControl = PlayerControl.Local;
             p2.myPlayerRole = PlayerRole.AI;
-            p2.myAiDifficulty = uiData.aIDifficulty;
+            p2.myAiDifficulty = AIDifficulty.Hard;
             p2.myCoin = PlayerCoin.White;
             p2.myTeam = Team.TeamA;
 
@@ -243,7 +243,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p3.imageURL = playerSettings.ImageUrl;
             p3.myPlayerControl = PlayerControl.Local;
             p3.myPlayerRole = PlayerRole.Human;
-            p3.myAiDifficulty = uiData.aIDifficulty;
+            p3.myAiDifficulty = AIDifficulty.Hard;
             p3.myCoin = PlayerCoin.Black;
             p3.myTeam = Team.TeamB;
 
@@ -257,7 +257,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
             p4.imageURL = "";
             p4.myPlayerControl = PlayerControl.Local;
             p4.myPlayerRole = PlayerRole.AI;
-            p4.myAiDifficulty = uiData.aIDifficulty;
+            p4.myAiDifficulty = AIDifficulty.Hard;
             p4.myCoin = PlayerCoin.Black;
             p4.myTeam = Team.TeamB;
 
@@ -289,7 +289,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined, IPlayerLeft
         p.myPlayerRole = PlayerRole.Human;
 
 
-        p.myAiDifficulty = uiData.aIDifficulty;
+        p.myAiDifficulty = AIDifficulty.Hard;
 
         if (playerRef.PlayerId == 1 || playerRef.PlayerId == 2)
         {

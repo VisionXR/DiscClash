@@ -95,6 +95,7 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+        
             GameModeSelectedImages[2].SetActive(true);
 
 
@@ -106,6 +107,7 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
+          
             GameModeSelectedImages[3].SetActive(true);
         }
 
@@ -115,6 +117,7 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
             uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+      
             GameModeSelectedImages[4].SetActive(true);
 
 
@@ -126,6 +129,7 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
             uiOutputData.SetChallenge(Challenge.FreeStyle);
+       
             GameModeSelectedImages[5].SetActive(true);
         }
 

@@ -106,7 +106,7 @@ namespace com.VisionXR.Views
                 P1Image.sprite = playersData.GetPlayer(1).GetMyImage();
                 player1Nam.text = playersData.GetPlayer(1).myName;
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI)
             {
                 Player p = playersData.GetMainPlayer();
                 if (p != null)
