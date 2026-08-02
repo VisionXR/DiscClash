@@ -25,6 +25,14 @@ public class PurchaseDataSO : ScriptableObject
 
     // Methods
 
+    private void OnEnable()
+    {
+        foreach(AssetData assetData in AllItemsData) 
+        {
+            assetData.isPurchased = false;
+        }
+    }
+
     public void RefreshData()
     {
         RefreshDataEvent?.Invoke();

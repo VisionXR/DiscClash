@@ -6,31 +6,15 @@ using UnityEngine;
 
 public class PlayerVoiceControl : MonoBehaviour { 
 
-    [Header(" Scriptable Objects Objects")]
-    public UIInputDataSO uIInputData;
 
     [Header(" Local Objects")]
     public Player currentPlayer;
     public AudioSource speaker;
     public Recorder recorder;
 
-    public void OnEnable()
-    {
-        uIInputData.TurnOnMicEvent += TurnOnMic;
-        uIInputData.TurnOffMicEvent += TurnOffMic;
-        uIInputData.TurnOnSpeakerEvent += TurnOnSpeaker;
-        uIInputData.TurnOffSpeakerEvent += TurnOffSpeaker;
-    }
 
-    private void OnDisable()
-    {
-        uIInputData.TurnOnMicEvent -= TurnOnMic;
-        uIInputData.TurnOffMicEvent -= TurnOffMic;
-        uIInputData.TurnOnSpeakerEvent -= TurnOnSpeaker;
-        uIInputData.TurnOffSpeakerEvent -= TurnOffSpeaker;
-    }
 
-    private void TurnOnSpeaker()
+    public void TurnOnSpeaker()
     {
         if (currentPlayer.myPlayerRole == PlayerRole.Human &&  currentPlayer.myPlayerControl == PlayerControl.Remote)
         {
@@ -38,7 +22,7 @@ public class PlayerVoiceControl : MonoBehaviour {
         }
     }
 
-    private void TurnOffSpeaker()
+    public void TurnOffSpeaker()
     {
         if (currentPlayer.myPlayerRole == PlayerRole.Human  && currentPlayer.myPlayerControl == PlayerControl.Remote)
         {
@@ -46,7 +30,7 @@ public class PlayerVoiceControl : MonoBehaviour {
         }
     }
 
-    private void TurnOnMic()
+    public void TurnOnMic()
     {
         if (currentPlayer.myPlayerRole == PlayerRole.Human && currentPlayer.myPlayerControl == PlayerControl.Local)
         {
@@ -55,7 +39,7 @@ public class PlayerVoiceControl : MonoBehaviour {
         }
     }
 
-    private void TurnOffMic()
+    public void TurnOffMic()
     {
         if (currentPlayer.myPlayerRole == PlayerRole.Human &&  currentPlayer.myPlayerControl == PlayerControl.Local)
         {

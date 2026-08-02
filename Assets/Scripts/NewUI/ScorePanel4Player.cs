@@ -36,6 +36,7 @@ namespace com.VisionXR.Views
 
         [Header("Off Panels")]
         public List<PanelOnOff> panelsToOff;
+        public List<PanelOnOff> voicePanelsToOff;
         public PanelOnOff bottomRightPanel;
         public PanelOnOff bottomLeftPanel;
 
@@ -55,6 +56,14 @@ namespace com.VisionXR.Views
                 item.TurnOnPanel();
             }
 
+            if (uiOutputData.gameType == GameType.PlayWithFriends)
+            {
+                foreach (var item in voicePanelsToOff)
+                {
+                    item.TurnOnPanel();
+                }
+            }
+
             if (myPlayerSettings.myDominantHand == DominantHand.Right)
             {
                 bottomLeftPanel.TurnOnPanel();
@@ -70,6 +79,15 @@ namespace com.VisionXR.Views
             foreach (var item in panelsToOff)
             {
                 item.TurnOffPanel();
+            }
+
+
+            if (uiOutputData.gameType == GameType.PlayWithFriends)
+            {
+                foreach (var item in voicePanelsToOff)
+                {
+                    item.TurnOffPanel();
+                }
             }
 
             if (myPlayerSettings.myDominantHand == DominantHand.Right)

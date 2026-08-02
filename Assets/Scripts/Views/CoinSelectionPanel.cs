@@ -134,7 +134,9 @@ namespace com.VisionXR.Views
             }
             else
             {
-                Debug.LogWarning($"Coin index {coinIndex} is out of range for coinLockImages or adButtons.");
+                Debug.LogWarning($"Coin" +
+                    $"" +
+                    $" index {coinIndex} is out of range for coinLockImages or adButtons.");
             }
         }
 
