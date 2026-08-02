@@ -206,6 +206,7 @@ namespace com.VisionXR.Views
 
                 adButtons[currentStrikerIndex].gameObject.SetActive(false);
                 strikerLockImages[currentStrikerIndex].gameObject.SetActive(false);
+                StrikerBtnClicked(currentStrikerIndex);
             }
         }
 

@@ -200,6 +200,7 @@ namespace com.VisionXR.Views
             
                 adButtons[currentBoardIndex].gameObject.SetActive(false);
                 boardLockImages[currentBoardIndex].gameObject.SetActive(false);
+                BoardSelected(currentBoardIndex);
             }
         }
 

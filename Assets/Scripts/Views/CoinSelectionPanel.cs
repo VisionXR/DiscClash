@@ -208,6 +208,7 @@ namespace com.VisionXR.Views
 
                 adButtons[currentcoinIndex].gameObject.SetActive(false);
                 coinLockImages[currentcoinIndex].gameObject.SetActive(false);
+                CoinBtnClicked(currentcoinIndex);
             }
         }
 

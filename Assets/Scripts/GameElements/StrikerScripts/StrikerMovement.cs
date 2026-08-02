@@ -102,7 +102,7 @@ namespace com.VisionXR.GameElements
 
             // Adjust step resolution: How much spline 't' progress roughly equals half a radius?
             // Since spline lengths vary, a fine step size works best (e.g., 1% or 2% steps)
-            float splineStepSize = 0.015f * stepDirection;
+            float splineStepSize = radius * stepDirection;
             int safetyCounter = 0;
 
             while (true)
