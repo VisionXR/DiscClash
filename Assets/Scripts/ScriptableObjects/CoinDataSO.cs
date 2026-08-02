@@ -75,7 +75,10 @@ namespace com.VisionXR.ModelClasses
             Blacks = 0;
             Red = 0;
             CoinFellInThisTurn.Clear();
-            AvailableCoinsInGame.Sort();
+            if (AvailableCoinsInGame.Count > 1)
+            {
+                AvailableCoinsInGame.Sort((a, b) => a.gameObject.name.CompareTo(b.gameObject.name));
+            }
         }
 
 
