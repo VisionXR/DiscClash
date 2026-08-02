@@ -86,12 +86,6 @@ namespace com.VisionXR.Views
             
         }
 
-        public void RefreshBtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            purchaseData.GetPurchasedItems();
-
-        }
 
     }
 }
