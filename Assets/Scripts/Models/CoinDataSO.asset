@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33d330172f0c6345a172c5e034b116a, type: 3}
   m_Name: CoinDataSO
   m_EditorClassIdentifier: 
-  uiData: {fileID: 11400000, guid: 145ff82f9250e84438504e46ded791bb, type: 2}
   WhiteCount: 10
   BlackCount: 10
-  RedCount: 1
+  RedCount: 2
   Whites: 0
   Blacks: 0
   Red: 0
   CoinFellInThisTurn: []
   AvailableCoinsInGame: []
+  BlackCoins: []
+  WhiteCoins: []
+  RedCoin: {fileID: 0}
   AllCoinsReference: {fileID: 0}
-  audioData: []
   AllCoinsYRotationValue: 0
   baseLerpDuration: 0.05

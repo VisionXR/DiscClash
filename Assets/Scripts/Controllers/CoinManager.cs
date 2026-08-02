@@ -93,8 +93,7 @@ public class CoinManager : MonoBehaviour
                 boardData.GetAllCoinsTransform()
             );
 
-            //coinData.AllCoinsReference.transform.localPosition = Vector3.zero;
-            //coinData.AllCoinsReference.transform.localRotation = Quaternion.identity;
+
         }
         else
         {

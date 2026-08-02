@@ -194,90 +194,9 @@ public class AIMovement : MonoBehaviour
         headdesiredRotation = HeadInitRot;
         Hand.transform.parent = AllParts.transform;
     }
-    private void Update()
-    {
-        if (canIAnimate)
-        {
-            if (MyId == gameData.currentTurnId)
-            {
-                // Stop nodding and reset the head rotation if it's the player's turn
-                if (headNodRoutine != null)
-                {
-                    StopCoroutine(headNodRoutine);
-                    headNodRoutine = null; // Clear the reference to the coroutine
-
-                }
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * aiData.rotationSpeed);
-                transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * aiData.positionSpeed);
-
-                //Hand.transform.position = Vector3.Lerp(Hand.transform.position, handdesiredPosition, Time.deltaTime * aiData.positionSpeed);
-                //Hand.transform.rotation = Quaternion.Lerp(Hand.transform.rotation, handdesiredRotation, Time.deltaTime * aiData.rotationSpeed);
 
 
-                if (Hand.transform.parent == null)
-                {
-                    lookDirection = (CoinPos - Head.transform.position).normalized;
-                    // Make head face opposite to the look direction so the face points correctly
-                    headdesiredRotation = Quaternion.LookRotation(-lookDirection, Vector3.up);
-                    Head.transform.rotation = Quaternion.Lerp(Head.transform.rotation, headdesiredRotation, Time.deltaTime * aiData.rotationSpeed);
-                }
-                else
-                {
-                    Head.transform.rotation = Quaternion.Lerp(Head.transform.rotation, headdesiredRotation, Time.deltaTime * aiData.rotationSpeed);
-                }
-            }
-            else
-            {
-                // Start nodding or looking around if it's not the player's turn
-                if (headNodRoutine == null)
-                {
-                    headNodRoutine = StartCoroutine(NodHead());
-                }
-            }
-        }
-
-    }
-
-    private IEnumerator NodHead()
-    {
-        // Store the original local rotation to return to later
-        Quaternion originalLocalRotation = Head.transform.localRotation;
-
-        while (true)
-        {
-            // Nodding or looking around behavior
-            float nodAmount = UnityEngine.Random.Range(0, 25f); // Random angle for nodding
-            Quaternion randomRotation = Quaternion.Euler(-nodAmount, UnityEngine.Random.Range(-45f, 45f), 0); // Random yaw for side-to-side movement
-
-            // Use local rotation to ensure the nod is relative to the current head orientation
-            Quaternion targetLocalRotation = originalLocalRotation * randomRotation;
-
-            // Smoothly transition to the new local rotation
-            float duration = 2f; // Duration for the nod
-            float elapsedTime = 0f;
-
-            while (elapsedTime < duration)
-            {
-                Head.transform.localRotation = Quaternion.Slerp(Head.transform.localRotation, targetLocalRotation, elapsedTime / duration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // Return to the original local rotation
-            elapsedTime = 0f;
-            while (elapsedTime < duration)
-            {
-                Head.transform.localRotation = Quaternion.Slerp(Head.transform.localRotation, originalLocalRotation, elapsedTime / duration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // Wait for a bit before the next nod
-            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3f)); // Random delay between nods
-        }
-    }
-
+   
     /// <summary>
     /// Smoothly move the Hand from its current world position/rotation to handdesiredPosition/handdesiredRotation over 'duration' seconds.
     /// If a previous hand move is running it will be stopped and replaced.
