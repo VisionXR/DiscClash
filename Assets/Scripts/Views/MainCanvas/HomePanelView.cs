@@ -14,6 +14,7 @@ namespace com.VisionXR.Views
         public UIOutputDataSO uiOutputData;
         public UIDataSO uiData;
         public MyPlayerSettings playerSettings;
+        public CamPositionSO camPosition;
 
         [Header(" Selection Objects ")]
         public GameObject tutorialManager;
@@ -32,6 +33,8 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+            camPosition.Recenter(1);
+
             ResetImages();
 
             if(uiOutputData.gameType == GameType.VsCPU)

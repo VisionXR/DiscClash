@@ -102,6 +102,10 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+            Player p = playerData.GetMainPlayer();
+            camViewImage.sprite = FrontViewSprite;
+            camPositionData.SetCamPositionFrontView(p.myId);
+
             ShowImages();
             ShowScore();
 
