@@ -86,6 +86,7 @@ public class AIMovement : MonoBehaviour
                 Hand.transform.parent = Striker.transform;
                 handdesiredPosition = HandPos.transform.position;
                 handdesiredRotation = HandPos.transform.rotation;
+                StartHandMove(0.5f);
             }
             else if (details.eventId == 2)
             {
@@ -257,7 +258,10 @@ public class AIMovement : MonoBehaviour
             details.coinPosition = DataConverter.FormatVector3(coinPos);
             details.strikerPosition = DataConverter.FormatVector3(strikePos);
             details.strikerRotation = DataConverter.FormatVector3(strikerot);
-            AIBotAnimationEvent?.Invoke(JsonUtility.ToJson(details));            
+
+        string botDetails = JsonUtility.ToJson(details);
+        Debug.Log(botDetails);
+        AIBotAnimationEvent?.Invoke(botDetails);            
         
     }
 
