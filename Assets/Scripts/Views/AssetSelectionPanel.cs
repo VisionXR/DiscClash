@@ -44,6 +44,8 @@ namespace com.VisionXR.Views
             currentCoinsImage.sprite = coinUIImages[uiOutputData.MyCoinsId];
             currentStrikerImage.sprite = strikerUIImages[uiOutputData.MyStrikerId];
 
+            destination.roomName = "";
+
         }
 
         public void BoardBtnClicked()

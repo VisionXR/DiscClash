@@ -46,6 +46,11 @@ namespace com.VisionXR.ModelClasses
             MyBoardId = 0;
             MyStrikerId = 0;
             MyCoinsId = 0;
+            SetGameType(GameType.VsCPU);
+            SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
+            SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
+            SetAIDifficulty(AIDifficulty.Easy);
+            SetRoomJoinType(RoomJoinType.Create);
         }
 
         public void SetRoomJoinType(RoomJoinType roomJoinType)
