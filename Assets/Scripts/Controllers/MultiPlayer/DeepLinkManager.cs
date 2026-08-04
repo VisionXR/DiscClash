@@ -1,8 +1,10 @@
-using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
+using com.VisionXR.ModelClasses;
+using com.VisionXR.Views;
 using System;
-using UnityEngine;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
 namespace com.VisionXR.Controllers
 {
@@ -22,9 +24,22 @@ namespace com.VisionXR.Controllers
         [Header("States")]
         public string loginState;
         public string homeState;
+        public string tutorialState;
+
+        [Header("Local Objects")]
+        public GameObject tutorialManager;
+        public Destination multiPlayerDestination;
+        
+        public DestinationPanelView destinationPanelView;
+     //   public ChangeDestinationView changeDestinationPanelView;
+        public TMP_Text errorText;
+        public Sprite GuestPlayerIcon;
+        public bool isLoggedIn = false;
+        public bool isLink = false;
+        private bool isFirstTime = true;
 
         // Action
-        
+
         public Action OnDestinationSuccesEvent;
         public Action OnDestinationFailEvent;
         public Action RoomCreateSuccessEvent;
@@ -78,7 +93,7 @@ namespace com.VisionXR.Controllers
 
         private void OnDeepLinkActivated(string url)
         {
-            Debug.Log("Disc Clash: Link Received: " + url);
+            Debug.Log("Real Carrom 3D: Link Received: " + url);
         
             //Destination linkData = ParseDeepLink(url);
             //destinationData.currentDestination = linkData ?? destinationData.homeDestination;
@@ -92,7 +107,7 @@ namespace com.VisionXR.Controllers
 
             try
             {
-                string prefix = "DiscClash://";
+                string prefix = "RealCarrom3D://";
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);

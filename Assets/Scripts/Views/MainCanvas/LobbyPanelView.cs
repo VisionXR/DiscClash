@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using Player = com.VisionXR.GameElements.Player;
 
@@ -271,33 +272,32 @@ namespace com.VisionXR.Views
             player2Name.text = "";
         }
 
-        //public void LaunchInvitePanel()
-        //{
+        public void LaunchInvitePanel()
+        {
+            AudioManager.instance.PlayButtonClickSound();
 
-            
-
-        //    string wixBaseUrl = "https://visionxr.co.in/carrompool360/join";
+            string wixBaseUrl = "https://visionxr.co.in/RealCarrom3D/join";
 
 
-        //    // Escape Room ID to keep URL formatting valid
-        //    string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
+            // Escape Room ID to keep URL formatting valid
+            string escapedRoomId = UnityWebRequest.EscapeURL(roomId);
 
-        //    // Generates something like: 202606011805 (Year, Month, Day, Hour, Minute)
-        //    string shortTime = DateTime.UtcNow.ToString("yyyyMMddHHmm");
+            // Generates something like: 202606011805 (Year, Month, Day, Hour, Minute)
+            string shortTime = DateTime.UtcNow.ToString("yyyyMMddHHmm");
 
-        //    string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&g={(int)userData.myCoins}&t={shortTime}";
+            string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&g={(int)uioutputData.multiPlayerGameMode}&t={shortTime}";
 
-        //    // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
-        //    // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
-        //    string inviteMessage = shareUrl;
+            // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
+            // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
+            string inviteMessage = shareUrl;
 
-        //    //     Debug.Log("Url is " + shareUrl);
+            //     Debug.Log("Url is " + shareUrl);
 
-        //    new NativeShare()
-        //        .SetSubject("Carrom Pool 360 : Multiplayer Challenge")
-        //        .SetText(inviteMessage)
-        //        .Share();
-        //}
+            new NativeShare()
+                .SetSubject("RealCarrom3D : Multiplayer Challenge")
+                .SetText(inviteMessage)
+                .Share();
+        }
 
 
         public void ShowHostStartButton()
