@@ -278,8 +278,7 @@ public class AchievementManager : MonoBehaviour
 
     public void AddLogin()
     {
-        Debug.Log("Adding login in achievements");
-
+       
         // If we have no record, count this as first login
         if (string.IsNullOrEmpty(achievementData.defaultBoardWinsData.lastLoginDate))
         {

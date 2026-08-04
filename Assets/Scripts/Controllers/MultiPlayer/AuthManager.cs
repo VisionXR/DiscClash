@@ -149,9 +149,7 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
-            Debug.Log("Real Carrom : PlayFab Login Success! PlayFabID: ");
-
-            playerSettings.SaveSettings();
+           
             cloudData.PlayFabLoginSuccess();
 
             if (result.NewlyCreated)
@@ -163,11 +161,7 @@ namespace com.VisionXR.Controllers
                     SetPlayFabDisplayName(displayName);
                 }
             }
-            else
-            {
-                Debug.Log("Existing user logged in. Skipping display name update to save API calls.");
-               
-            }
+
             //// OPTIONAL: Update PlayFab display name to match Google name
             //UpdatePlayFabDisplayName(Social.localUser.userName);
         }

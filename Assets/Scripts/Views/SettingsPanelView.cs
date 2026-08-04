@@ -49,6 +49,8 @@ namespace com.VisionXR.Views
             }
 
             bgSlider.value = BGAudioSource.volume;
+
+            hapticsToggle.isOn = userData.isHapticsEnabled;
         }
 
         public void TabButtonClicked(int id)
@@ -81,6 +83,7 @@ namespace com.VisionXR.Views
             RightSideSelectedImage.SetActive(true);
             LeftSideSelectedImage.SetActive(false);
             userData.SetDominantHand(DominantHand.Right);
+            userData.SaveSettings();
         }
 
 
@@ -90,6 +93,7 @@ namespace com.VisionXR.Views
             RightSideSelectedImage.SetActive(false);
             LeftSideSelectedImage.SetActive(true);
             userData.SetDominantHand(DominantHand.Left);
+            userData.SaveSettings();
         }
 
         public void DeleteAccountBtnClicked()
@@ -119,12 +123,14 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             userData.SetHapticsEnabled(hapticsToggle.isOn);
+            userData.SaveSettings();
         }
 
 
         public void BackBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            userData.SaveSettings();
             uiData.uiManager.ChangeState(currentState, false);
         }
 

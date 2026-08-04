@@ -74,13 +74,6 @@ using UnityEngine;
 
         }
 
-        public void SetServerRegion(ServerRegion region)
-        {
-            serverRegion = region;
-            ServerRegionChangedEvent?.Invoke(serverRegion);
-        }
-
-
         public void SaveSettings()
         {
             SaveSettingsEvent?.Invoke();

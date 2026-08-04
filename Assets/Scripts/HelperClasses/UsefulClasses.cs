@@ -179,12 +179,9 @@ namespace com.VisionXR.HelperClasses
     [Serializable]
     public class PlayerData
     {
-        
-        public int StrikerId;
-        public int BoardId;
-        public int CoinsId;
-        public ServerRegion region;
-
+        public bool isHapticsEnabled = false;
+        public float bgMusic;
+        public DominantHand dominantHand;
     }
 
     [Serializable]

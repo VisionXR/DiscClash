@@ -10,9 +10,10 @@ namespace com.VisionXR.Controller
     {
         [Header(" Scriptable Objects")]
         public MyPlayerSettings playerSettings;
+        public AudioSource bgAudioSource;
 
         [Header(" Local Objects")]
-        public string Key = "DiscClash";
+        public string Key = "RealCarrom3DSettings";
         public PlayerData data;
 
 
@@ -31,12 +32,16 @@ namespace com.VisionXR.Controller
         private void SaveData()
         {
             PlayerData newPlayerData = new PlayerData();
-        
+       
+            newPlayerData.bgMusic = bgAudioSource.volume;
+            newPlayerData.dominantHand = playerSettings.myDominantHand;
+            newPlayerData.isHapticsEnabled = playerSettings.isHapticsEnabled;
 
-            newPlayerData.region = playerSettings.serverRegion;
-     
+            string jsonData = JsonUtility.ToJson(newPlayerData);
 
-            SaveData(Key, JsonUtility.ToJson(newPlayerData));
+
+
+            SaveData(Key, jsonData);
         }
 
         private void LoadData()
@@ -48,10 +53,13 @@ namespace com.VisionXR.Controller
               
                 try
                 {
-                    data = JsonUtility.FromJson<PlayerData>(playerData);
-                  
+                    
 
-                    playerSettings.SetServerRegion(data.region);
+                    data = JsonUtility.FromJson<PlayerData>(playerData);
+                   
+                    bgAudioSource.volume = data.bgMusic;
+                    playerSettings.SetDominantHand(data.dominantHand);
+                    playerSettings.SetHapticsEnabled(data.isHapticsEnabled);
                
 
                 }
