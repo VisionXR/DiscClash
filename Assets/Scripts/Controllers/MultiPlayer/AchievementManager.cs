@@ -182,7 +182,7 @@ public class AchievementManager : MonoBehaviour
     public void GameStarted()
     {
 
-        Debug.Log("Game Started in achievements");
+       
 
         Destination d = destinationData.currentDestination;
 
@@ -321,7 +321,7 @@ public class AchievementManager : MonoBehaviour
 
         yield return null;
 
-        Debug.Log("Unlocking login achievements. Total logins: " + achievementData.defaultBoardWinsData.totalLogins);
+        
 
         if (achievementData.defaultBoardWinsData.totalLogins >= 1)
         {

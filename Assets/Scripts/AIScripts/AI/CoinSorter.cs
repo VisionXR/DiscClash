@@ -16,10 +16,11 @@ public  class CoinSorter : MonoBehaviour
     public AIDataSO aiData;
 
     [Header(" Local Objects")]
-    public List<CoinInfo> coinInfoList = new List<CoinInfo>();
+    private List<CoinInfo> coinInfoList = new List<CoinInfo>();
     public List<GameObject> blackCoins;
     public List<GameObject> whiteCoins;
     public GameObject redCoin;
+    public float offset = 0.001f;
     private int id;
 
 
@@ -158,7 +159,7 @@ public  class CoinSorter : MonoBehaviour
         coinInfo.Hole = hole;
         coinInfo.strikerInfo = strikerInfo;
         Vector3 holedir = (hole.transform.position - coin.transform.position).normalized;
-        Vector3 finalPos = coin.transform.position - holedir * (boardData.GetCoinRadius() + boardData.GetStrikerRadius());
+        Vector3 finalPos = coin.transform.position - holedir * (boardData.GetCoinRadius() + boardData.GetStrikerRadius() + offset);
         coinInfo.FinalPos = finalPos;
         Vector3 Strikerdir = (finalPos - strikerInfo.strikerPos).normalized;
         coinInfo.angle = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(holedir, Strikerdir));
