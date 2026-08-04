@@ -135,6 +135,7 @@ namespace com.VisionXR.Views
         public void BoardSelected(int id)
         {
             AudioManager.instance.PlayButtonClickSound();
+
             if (!boardLockImages[id].gameObject.activeInHierarchy)
             {
                 uiOutputData.SetMyBoardId(id);
@@ -200,6 +201,7 @@ namespace com.VisionXR.Views
             
                 adButtons[currentBoardIndex].gameObject.SetActive(false);
                 boardLockImages[currentBoardIndex].gameObject.SetActive(false);
+
                 BoardSelected(currentBoardIndex);
             }
         }
