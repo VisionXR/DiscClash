@@ -66,7 +66,7 @@ namespace com.VisionXR.Views
         /// </summary>
         public void ShowLeaderBoard(List<string> names, List<int> ranks, List<int> points)
         {
-            Debug.Log("Leaderboard Count " + names.Count);
+            
 
             // 2. Safety check bounds to make sure structural array sizes align cleanly
             if (names == null || ranks == null || points == null ||

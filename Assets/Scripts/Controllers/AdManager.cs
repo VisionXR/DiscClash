@@ -160,31 +160,22 @@ namespace com.VisionXR.Controllers
         {
             if (_rewardedAd != null && _rewardedAd.CanShowAd())
             {
-                // 1. Keep a local reference to the ad about to be displayed
-                RewardedAd adToShow = _rewardedAd;
-
-                // 2. Clear the main reference variable right away
-                _rewardedAd = null;
-
-                // 3. Immediately start preloading the NEXT ad in the background while this one plays
-                LoadRewardedAd();
-
-                // 4. Show the current ad using the local reference
-                adToShow.Show((Reward reward) =>
+                _rewardedAd.Show((Reward reward) =>
                 {
                     Debug.Log($"User earned reward: {reward.Amount} {reward.Type}");
+
+                    // Grant the reward inside the successful user completion callback
                     adDataSO.OnRewardedAdSuccess();
                 });
             }
-            else if (isRewardedAdLoading)
-            {
-                Debug.LogWarning("Ad is still downloading. Please wait a second!");
-                adDataSO.RewardAdFailedToLoad();
-            }
             else
             {
-                Debug.LogWarning("Rewarded ad is not ready yet. Reloading...");
+                Debug.LogWarning("Rewarded ad is not ready yet.");
+
+                // 1. Fire failure event on Scriptable Object so UI can notify the user
                 adDataSO.RewardAdFailedToLoad();
+
+                // 2. Trigger a fresh reload attempt
                 LoadRewardedAd();
             }
         }
