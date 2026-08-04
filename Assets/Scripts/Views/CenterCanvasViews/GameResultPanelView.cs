@@ -135,6 +135,7 @@ namespace com.VisionXR.Views
         public void OnHomeButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            gameData.ResetData();
             uiInputData.GoToHome();
             uiData.uiManager.ChangeState("SinglePlayer", false);
             uiData.uiManager.ChangeState("MultiPlayer", false);
@@ -152,6 +153,8 @@ namespace com.VisionXR.Views
         public void OnPlayAgainButtonClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
+            gameData.ResetData();
+
             uiData.uiManager.ChangeState("GameCompleted", false);
 
             int id = 1;

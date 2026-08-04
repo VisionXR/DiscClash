@@ -41,6 +41,7 @@ public class GameDataSO : ScriptableObject
     {
         currentTurnId = 1;
         firstTurnId = -1;
+        ResetData();
     }
 
     public void SetFirstTurnId(int id)
