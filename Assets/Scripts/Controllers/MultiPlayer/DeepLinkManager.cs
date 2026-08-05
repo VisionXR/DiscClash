@@ -1,6 +1,7 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
+using Fusion;
 using System;
 using System.Collections;
 using TMPro;
@@ -31,7 +32,7 @@ namespace com.VisionXR.Controllers
         public Destination multiPlayerDestination;
         
         public DestinationPanelView destinationPanelView;
-     //   public ChangeDestinationView changeDestinationPanelView;
+        public ChangeDestinationView changeDestinationPanelView;
         public TMP_Text errorText;
         public Sprite GuestPlayerIcon;
         public bool isLoggedIn = false;
@@ -93,15 +94,67 @@ namespace com.VisionXR.Controllers
 
         private void OnDeepLinkActivated(string url)
         {
-            Debug.Log("Real Carrom 3D: Link Received: " + url);
-        
-            //Destination linkData = ParseDeepLink(url);
-            //destinationData.currentDestination = linkData ?? destinationData.homeDestination;
 
-            StartCoroutine(CheckLogin());
+            isLink = true;
+            string linkurl = ParseDeepLink(url);
+
+            if (string.IsNullOrEmpty(linkurl))
+            {
+                return;
+            }
+
+
+            UrlLinkData newData = ConvertStringToLinkData(linkurl);
+            uiOutputData.SetGameType(GameType.PlayWithFriends);
+
+            string fullInput = newData.r;
+            string actualRoomName = fullInput;
+            ServerRegion targetRegion = ServerRegion.any;
+
+            // Ensure the input has at least 2 characters before splitting
+            if (!string.IsNullOrEmpty(fullInput) && fullInput.Length >= 2)
+            {
+                string regionCodeStr = fullInput.Substring(0, 2);
+                actualRoomName = fullInput.Substring(2);
+
+                // 2. Convert the 2-digit string to an integer
+                if (int.TryParse(regionCodeStr, out int regionIndex))
+                {
+                    // 3. Explicitly cast the integer to your ServerRegion enum
+                    // (Note: This assumes the parsed integer maps directly to your enum indexes)
+                    targetRegion = (ServerRegion)regionIndex;
+                }
+                else
+                {
+                    Debug.LogWarning($"Could not parse '{regionCodeStr}' into an integer. Defaulting to 'any'.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Room code entered is too short! Using fallback handling.");
+            }
+
+            multiPlayerDestination.roomName = actualRoomName;
+            multiPlayerDestination.region = targetRegion;
+            multiPlayerDestination.multiPlayerGameMode = (MultiPlayerGameMode)(int.Parse(newData.g));
+       
+
+            if (isFirstTime)
+            {
+                isFirstTime = false;
+                StartCoroutine(CheckLogin());
+
+            }
+            else
+            {
+
+                changeDestinationPanelView.SetDestination(multiPlayerDestination);
+                uiData.uiManager.GoToState(StateName.ChangeDestinationState);
+                isLink = false;
+            }
         }
 
-        public Destination ParseDeepLink(string url)
+        public string ParseDeepLink(string url)
         {
             if (string.IsNullOrEmpty(url)) return null;
 
@@ -111,9 +164,9 @@ namespace com.VisionXR.Controllers
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
-                string decodedJson = Uri.UnescapeDataString(jsonPart);
-                Destination dest = JsonUtility.FromJson<Destination>(decodedJson);
-                return dest;
+
+
+                return jsonPart;
             }
             catch (Exception e)
             {
@@ -121,6 +174,45 @@ namespace com.VisionXR.Controllers
                 return null;
             }
         }
+
+        public UrlLinkData ConvertStringToLinkData(string queryString)
+        {
+            // Create a new instance of your class to populate
+            UrlLinkData data = new UrlLinkData();
+
+            // 1. Split the string by '&' to get each individual parameter pair
+            string[] pairs = queryString.Split('&');
+
+            foreach (string pair in pairs)
+            {
+                // 2. Split each pair by '=' to separate the key from the value
+                string[] keyValue = pair.Split('=');
+
+                // Ensure we actually have a valid key and value pair to avoid errors
+                if (keyValue.Length == 2)
+                {
+                    string key = keyValue[0].Trim();
+                    string value = keyValue[1].Trim();
+
+                    // 3. Match the key and assign the value to the correct class property
+                    switch (key)
+                    {
+                        case "r":
+                            data.r = value;
+                            break;
+                        case "g":
+                            data.g = value;
+                            break;
+                        case "t":
+                            data.t = value;
+                            break;
+                    }
+                }
+            }
+
+            return data;
+        }
+
 
         private IEnumerator CheckLogin()
         {
@@ -220,8 +312,44 @@ namespace com.VisionXR.Controllers
         }
 
         public void ProcessGameFlow()
-        {         
-            uiData.uiManager.GoToState(StateName.HomeState);
+        {
+            if (!isLink)
+            {
+
+                isFirstTime = false;
+
+                if (!PlayerPrefs.HasKey("Tutorial"))
+                {
+                    tutorialManager.SetActive(true);
+                    uiData.uiManager.ChangeState("Tutorial", true);
+                    uiData.uiManager.GoToState(StateName.Tutorial);
+                    PlayerPrefs.SetString("Tutorial", "true");
+                }
+                else
+                {
+
+                    uiData.uiManager.GoToState(StateName.HomeState);
+                }
+
+            }
+            else
+            {
+
+               
+                uiData.uiManager.ChangeState("Link", true);
+                destinationPanelView.ConnectToDestination(multiPlayerDestination);
+                isLink = false;
+            }
         }
+
     }
+}
+
+
+[Serializable]
+public class UrlLinkData
+{
+    public string r;
+    public string g;
+    public string t;
 }
