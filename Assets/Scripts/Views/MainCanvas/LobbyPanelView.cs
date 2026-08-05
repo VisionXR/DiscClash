@@ -276,7 +276,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
 
-            string wixBaseUrl = "https://visionxr.co.in/RealCarrom3D/join";
+            string wixBaseUrl = "https://visionxr.co.in/realcarrom3d/join";
 
 
             // Escape Room ID to keep URL formatting valid

@@ -154,7 +154,11 @@ namespace com.VisionXR.Views
             LinkExpiredBtn.SetActive(false);
             HomeButton.SetActive(false);
             RetryButton.SetActive(false);
-            uiInputData.GoToHome();
+            uiInputData.ExitGame();
+            uiData.uiManager.ChangeState("SinglePlayer", false);
+            uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("Home", true);
+            uiData.uiManager.ResetAllBools();
         }
 
         private void OnDestinationSuccess()
