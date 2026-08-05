@@ -106,7 +106,7 @@ namespace com.VisionXR.Views
                     if (timeDifference.TotalMinutes > 15 || timeDifference.TotalMinutes < 0)
                     {
                         Debug.LogWarning($"Link expired! It was created {timeDifference.TotalMinutes:F1} minutes ago.");
-                        statusText.text = " Link Expired ...";
+                        statusText.text = "Link Expired ...";
                         LinkExpiredBtn.SetActive(true);
                         // TODO: Call your UI manager here to show an "expired link" pop-up screen
                         // uiData.uiManager.ShowPopup("This invite link has expired. Please ask for a new one.");
