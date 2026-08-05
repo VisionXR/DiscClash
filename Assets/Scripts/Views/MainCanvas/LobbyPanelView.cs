@@ -287,6 +287,8 @@ namespace com.VisionXR.Views
 
             string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&g={(int)uioutputData.multiPlayerGameMode}&t={shortTime}";
 
+            Debug.Log("Share URL " + shareUrl);
+
             // Craft a clean message. Line breaks (\n) push the ugly link out of focus.
             // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
             string inviteMessage = shareUrl;

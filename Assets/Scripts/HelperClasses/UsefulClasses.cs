@@ -196,6 +196,7 @@ namespace com.VisionXR.HelperClasses
         public AIDifficulty difficulty;
         public string lobbyName;
         public string roomName;
+        public string time;
 
         public ServerRegion GetRegion()
         {

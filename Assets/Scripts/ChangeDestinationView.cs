@@ -31,9 +31,9 @@ namespace com.VisionXR.Views
             uiData.uiManager.ResetAllBools();
             uIInputData.ExitGame();
 
-       
+            destinationPanelView.SetDestination(newDestination);
             uiData.uiManager.GoToState(StateName.MPDestinationState);
-            destinationPanelView.ConnectToDestination(newDestination);
+           
 
         }
 

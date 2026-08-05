@@ -137,6 +137,7 @@ namespace com.VisionXR.Controllers
             multiPlayerDestination.roomName = actualRoomName;
             multiPlayerDestination.region = targetRegion;
             multiPlayerDestination.multiPlayerGameMode = (MultiPlayerGameMode)(int.Parse(newData.g));
+            multiPlayerDestination.time = newData.t;
        
 
             if (isFirstTime)
@@ -160,7 +161,7 @@ namespace com.VisionXR.Controllers
 
             try
             {
-                string prefix = "RealCarrom3D://";
+                string prefix = "realcarrom3d://";
                 if (!url.StartsWith(prefix)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
@@ -335,9 +336,8 @@ namespace com.VisionXR.Controllers
             else
             {
 
-               
-                uiData.uiManager.ChangeState("Link", true);
-                destinationPanelView.ConnectToDestination(multiPlayerDestination);
+                destinationPanelView.SetDestination(multiPlayerDestination);
+                uiData.uiManager.ChangeState("Link", true);            
                 isLink = false;
             }
         }

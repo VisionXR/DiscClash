@@ -93,6 +93,12 @@ namespace com.VisionXR.Controllers
 
         public void StartGame(int id)
         {
+            StartCoroutine(WaitAndStart(id));
+        }
+
+        private IEnumerator WaitAndStart(int id)
+        {
+            yield return new WaitForSeconds(1);
             coinData.ResetData();
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
             gameData.SetFirstTurnId(id);
