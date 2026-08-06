@@ -31,8 +31,7 @@ namespace com.VisionXR.Views
 
         public void ShowResult(GameResult result)
         {
-           
-
+          
             if (uiOutputData.gameType == GameType.VsCPU)
             {
                 if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
@@ -162,6 +161,7 @@ namespace com.VisionXR.Views
             {
                 id = 2;
             }
+
             uiInputData.PlayAgain(id);
           
         }

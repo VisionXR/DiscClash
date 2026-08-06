@@ -54,14 +54,7 @@ namespace com.VisionXR.Controllers
         {
             ResetManagers();
             SinglePlayerManager.SetActive(true);
-
-            int id = 1;
-            if(gameData.firstTurnId == 1)
-            {
-                id = 2;
-            }
-
-            SinglePlayerManager.GetComponent<SinglePlayerGameManager>().StartGame(id);
+            SinglePlayerManager.GetComponent<SinglePlayerGameManager>().StartGame(1);
         }
 
         private void StartMultiPlayer()

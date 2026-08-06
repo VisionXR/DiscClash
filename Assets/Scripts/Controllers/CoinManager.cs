@@ -90,7 +90,8 @@ public class CoinManager : MonoBehaviour
         {
             coinData.AllCoinsReference = Instantiate(
                 allCoinsPrefab,
-                boardData.GetAllCoinsTransform()
+                boardData.GetAllCoinsTransform().position,
+                boardData.GetAllCoinsTransform().rotation
             );
 
 

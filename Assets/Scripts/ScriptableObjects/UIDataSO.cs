@@ -15,10 +15,8 @@ namespace com.VisionXR.ModelClasses
 
 
         [Header("OutPut")]
+        public float disableTime = 0.3f;
 
-        public float disableTime = 0.5f;
-        public Color selectionColor;
-        public Color defaultColor;
         // Actions
 
         public Action HomeEvent;

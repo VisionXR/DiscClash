@@ -2,7 +2,6 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -98,7 +97,7 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator WaitAndStart(int id)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
             coinData.ResetData();
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
             gameData.SetFirstTurnId(id);

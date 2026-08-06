@@ -1,5 +1,7 @@
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace com.VisionXR.Views
@@ -12,8 +14,23 @@ namespace com.VisionXR.Views
 
 
         [Header("Panel Objects")]
+        [SerializeField] private ScrollRect scrollRect;
         public string currentState;
 
+        private void OnEnable()
+        {
+           StartCoroutine(ResetScrollRect());
+        }
+
+        private IEnumerator ResetScrollRect()
+        {
+            yield return new WaitForSeconds(0.35f);
+            // Reset the scroll position to the top when the panel is enabled
+            if (scrollRect != null)
+            {
+                scrollRect.verticalNormalizedPosition = 1f;
+            }
+        }
 
         public void BackBtnClicked()
         {
