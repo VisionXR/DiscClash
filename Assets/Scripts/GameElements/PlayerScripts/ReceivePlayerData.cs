@@ -75,11 +75,6 @@ public class ReceivePlayerData : MonoBehaviour
 
     }
 
-    public void ChangeStrikerReceived(int playerId, int strikerId)
-    {
-        strikerData.NetworkStrikerEvent?.Invoke(playerId, strikerId);
-    }
-
     public void ReceiveStrikerData(Vector3 pos, Vector3 rot)
     {
         if (!canIReceive)

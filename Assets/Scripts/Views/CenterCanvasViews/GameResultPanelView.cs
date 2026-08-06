@@ -156,17 +156,9 @@ namespace com.VisionXR.Views
 
             uiData.uiManager.ChangeState("GameCompleted", false);
 
-            int id = 1;
-            if(gameData.firstTurnId == 1)
-            {
-                id = 2;
-            }
-
-            uiInputData.PlayAgain(id);
+            uiInputData.PlayAgain();
           
-        }
-
-       
+        }   
 
     }
 }

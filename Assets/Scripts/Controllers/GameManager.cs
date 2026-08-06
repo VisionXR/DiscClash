@@ -54,7 +54,7 @@ namespace com.VisionXR.Controllers
         {
             ResetManagers();
             SinglePlayerManager.SetActive(true);
-            SinglePlayerManager.GetComponent<SinglePlayerGameManager>().StartGame(1);
+            SinglePlayerManager.GetComponent<SinglePlayerGameManager>().StartGame();
         }
 
         private void StartMultiPlayer()

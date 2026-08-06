@@ -19,7 +19,7 @@ namespace com.VisionXR.ModelClasses
 
 
         public Action StartGameEvent;
-        public Action<int> PlayAgainEvent;
+        public Action PlayAgainEvent;
         public Action ExitGameEvent;
         public Action PauseGameEvent;
         public Action ResumeGameEvent;
@@ -99,9 +99,9 @@ namespace com.VisionXR.ModelClasses
             HomeEvent?.Invoke();
         }
 
-        public void PlayAgain(int id)
+        public void PlayAgain()
         {
-            PlayAgainEvent?.Invoke(id);
+            PlayAgainEvent?.Invoke();
         }
 
         public void ShowDestination(Destination destination)

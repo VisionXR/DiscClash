@@ -65,7 +65,6 @@ namespace com.VisionXR.Controllers
 
             gameData.TurnChangedEvent += TurnChanged;
 
-            strikerData.ChangeStrikerEvent += ChangeStriker;
 
             uiInputData.PauseGameEvent += PauseGame;
             uiInputData.ResumeGameEvent += ResumeGame;
@@ -96,7 +95,7 @@ namespace com.VisionXR.Controllers
 
 
             gameData.TurnChangedEvent -= TurnChanged;
-            strikerData.ChangeStrikerEvent -= ChangeStriker;
+   
 
             uiInputData.PauseGameEvent -= PauseGame;
             uiInputData.ResumeGameEvent -= ResumeGame;
@@ -117,27 +116,14 @@ namespace com.VisionXR.Controllers
                 inputCanvasView.TurnOff();
             }
         }
-        public void PlayAgain(int id)
+        public void PlayAgain()
         {
             dataManager.PlayAgain();
         }
 
-        private void ChangeStriker(int playerId, int strikerId)
-        {
-            dataManager.SendStrikerChange(playerId, strikerId);
-        }
-
         private void TurnChanged(int id)
         {
-            //if (turnTimeRoutine == null)
-            //{
-            //    turnTimeRoutine = StartCoroutine(TurnTimeRoutine(id));
-            //}
-            //else
-            //{
-            //    StopCoroutine(turnTimeRoutine);
-            //    turnTimeRoutine = StartCoroutine(TurnTimeRoutine(id));
-            //}
+
         }
 
         //// Add this coroutine to fix CS0103: The name 'TurnTimeRoutine' does not exist in the current context

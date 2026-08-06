@@ -24,8 +24,7 @@ namespace com.VisionXR.ModelClasses
         // Events
         public Action<int, int,Action<GameObject>> CreateStrikerEvent;
         public Action<int> DestroyStrikerEvent;
-        public Action<int, int> ChangeStrikerEvent;
-        public Action<int, int> NetworkStrikerEvent;
+
        
         public Action<StrikerData> SetStrikerDataEvent;
         public Action<StrikerData> SetInitialStrikerDataEvent;
@@ -46,10 +45,6 @@ namespace com.VisionXR.ModelClasses
             isMoving = false;
         }
 
-        public void ChangeStriker(int playerId,int strikerId)
-        {
-            ChangeStrikerEvent?.Invoke(playerId,strikerId);
-        }
 
         public void StrikerFellInHole(GameObject striker)
         {

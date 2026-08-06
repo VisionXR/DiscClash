@@ -195,7 +195,7 @@ namespace com.VisionXR.Views
             }
 
             SetCoins(p.myId);
-            Reset(1);
+            Reset();
 
         }
         private void TurnChanged(int id)
@@ -330,7 +330,7 @@ namespace com.VisionXR.Views
             leftPlayer.SetPlayerTurnIndicator(false);
             rightPlayer.SetPlayerTurnIndicator(false);
         }
-        private void Reset(int id)
+        private void Reset()
         {
             leftPlayer.SetScore(0);
             rightPlayer.SetScore(0);

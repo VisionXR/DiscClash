@@ -90,8 +90,36 @@ namespace com.VisionXR.Controllers
             }
         }
 
-        public void StartGame(int id)
+        public void StartGame()
         {
+            int id = 1;
+            if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            {
+                if(gameData.firstTurnId == 1)
+                {
+                    id = 2;
+                }
+            }
+            else
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 3;
+                }
+                else if (gameData.firstTurnId == 3)
+                {
+                    id = 2;
+                }
+                else if (gameData.firstTurnId == 2)
+                {
+                    id = 4;
+                }
+                else if (gameData.firstTurnId == 4)
+                {
+                    id = 1;
+                }
+            }
+
             StartCoroutine(WaitAndStart(id));
         }
 

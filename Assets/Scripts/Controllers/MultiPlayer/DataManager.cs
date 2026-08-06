@@ -46,12 +46,6 @@ namespace com.VisionXR.Controllers
             mainPlayerNetworkData.RPC_PutFine(coin);
         }
 
-        public void SendStrikerChange(int playerId, int strikerId)
-        {
-            SetMainPlayer();
-            mainPlayerNetworkData.RPC_ChangeStriker(playerId, strikerId);
-        }
-
         private void SetMainPlayer()
         {
             if (mainPlayer == null)

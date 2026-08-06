@@ -265,16 +265,6 @@ namespace com.VisionXR.HelperClasses
 
         }
 
-        [Rpc(RpcSources.StateAuthority, RpcTargets.Proxies, Channel = RpcChannel.Reliable)]
-        public void RPC_ChangeStriker(int playerId, int strikerId)
-        {
-            if (!HasStateAuthority)
-            {
-                receivePlayerData.ChangeStrikerReceived(playerId,strikerId);
-            }
-
-        }
-
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.Proxies, Channel = RpcChannel.Unreliable)]
         public void RPC_SendCoinRotation(float val)

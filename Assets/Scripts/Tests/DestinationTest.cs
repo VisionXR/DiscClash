@@ -27,7 +27,7 @@ public class DestinationTest : MonoBehaviour
         {
             Debug.Log("Connecting to test destination...");
             deepLinkManager.ConnectToDestination(testDestination, null, null);
-            singlePlayerGameManager.StartGame(1);
+            singlePlayerGameManager.StartGame();
         }
 
 
