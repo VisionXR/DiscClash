@@ -48,8 +48,7 @@ namespace com.VisionXR.Controllers
             uiInputData.HomeEvent += StopGame;
 
         }
-
-    
+   
         private void StartSinglePlayer()
         {
             ResetManagers();

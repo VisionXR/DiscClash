@@ -137,6 +137,7 @@ namespace com.VisionXR.Controllers
             multiPlayerDestination.roomName = actualRoomName;
             multiPlayerDestination.region = targetRegion;
             multiPlayerDestination.multiPlayerGameMode = (MultiPlayerGameMode)(int.Parse(newData.g));
+            multiPlayerDestination.challenge = (Challenge)(int.Parse(newData.c));
             multiPlayerDestination.time = newData.t;
        
 
@@ -200,6 +201,9 @@ namespace com.VisionXR.Controllers
                     {
                         case "r":
                             data.r = value;
+                            break;
+                        case "c":
+                            data.c = value;
                             break;
                         case "g":
                             data.g = value;
@@ -350,6 +354,7 @@ namespace com.VisionXR.Controllers
 public class UrlLinkData
 {
     public string r;
+    public string c;
     public string g;
     public string t;
 }

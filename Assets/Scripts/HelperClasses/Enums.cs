@@ -19,14 +19,10 @@ namespace com.VisionXR.HelperClasses
     public enum PlayerCoin { Black, White, Red, All }
     public enum Team { TeamA, TeamB }
     public enum GameType { VsCPU , PlayWithFriends,Tutorial}
-
     public enum  PurchaseItemType { Board,Striker,Coin,NoAds}
-
     public enum Challenge { BlackAndWhite, FreeStyle, Tournament, TrickShots }
     public enum BoardType { Square4, Circle4,Octagon4 }
-
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }
-
     public enum AchievementType { Simple, Progess }
     public enum SinglePlayerGameMode { PvsAI, PAIvsAI }
     public enum MultiPlayerGameMode { P1vsP2, P1AIvsP2AI, P1P2vsAI, P1P2vsP3P4 }
@@ -35,9 +31,7 @@ namespace com.VisionXR.HelperClasses
     public enum RoomType { Public,Private}
     public enum RoomJoinType { Create,Join}
     public enum AudioType { Coin, Edge, Hole }
-
     public enum DominantHand {  Right,Left }
-
     public enum ServerRegion { any, us, @in, eu, asia, au, uae, jp, kr, cae, hk, sa, tr, ussc, usw }
    
 
