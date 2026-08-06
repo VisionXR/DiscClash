@@ -78,7 +78,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private IEnumerator ShowPlayers()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.1f);
         foreach (Player p in playersData.CurrentPlayers)
         {
             uiInputData.ShowPlayerDetails(p);

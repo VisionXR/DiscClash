@@ -169,6 +169,13 @@ namespace com.VisionXR.Controllers
 
             uiInputData.StartGame();
 
+            StartCoroutine(WaitAndStart(turnId));
+
+        }
+
+        private IEnumerator WaitAndStart(int turnId)
+        {
+            yield return new WaitForSeconds(0.5f);
             gameData.ChangeTurn(turnId);
 
             Player p = playersData.GetMainPlayer();
