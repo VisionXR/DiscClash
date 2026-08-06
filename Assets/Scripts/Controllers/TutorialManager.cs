@@ -52,6 +52,7 @@ namespace com.VisionXR.Controllers
             inputData.StrikerPositioningStartedEvent += StrikerPositioningStarted;
             inputData.StrikerPositioningEndedEvent += StrikerPositioningEnded;
 
+            inputData.AimStartedEvent += AimStarted;
             inputData.AimEndedEvent += AimEnded;
 
             coinData.CoinFellInHoleEvent += CoinPocketed;
@@ -75,6 +76,7 @@ namespace com.VisionXR.Controllers
             inputData.StrikerPositioningStartedEvent -= StrikerPositioningStarted;
             inputData.StrikerPositioningEndedEvent -= StrikerPositioningEnded;
 
+            inputData.AimStartedEvent -= AimStarted;
             inputData.AimEndedEvent -= AimEnded;
 
             coinData.CoinFellInHoleEvent -= CoinPocketed;
@@ -210,6 +212,7 @@ namespace com.VisionXR.Controllers
                     tutorialData.canIFire = true;
                     tutorialCoin.SetActive(true);
 
+                    inputCanvasView.gameObject.SetActive(true);
                     inputCanvasView.TurnOn();
           
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
@@ -258,6 +261,14 @@ namespace com.VisionXR.Controllers
                 tutorialData.canIPosition = false;
                 tutorialData.ShowTutorialStepSuccess(currentStep.successText, currentStep.successAudio);
 
+            }
+        }
+
+        private void AimStarted()
+        {
+            if (currentStep != null && currentStep.interactiveStepType == InteractiveStepType.Aiming)
+            {
+                tutorialPanelView.ResetObjects();
             }
         }
 
