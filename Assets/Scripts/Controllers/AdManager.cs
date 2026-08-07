@@ -14,10 +14,10 @@ namespace com.VisionXR.Controllers
         public PurchaseDataSO purchaseData;
 
         [Header("Ad Unit IDs")]
-        public string testInterstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712"; // Test Interstitial Ad Unit ID
-        public string testRewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"; // Test Rewarded Ad Unit ID
-        public string _interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
-        public string _rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+   //     public string testInterstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712"; // Test Interstitial Ad Unit ID
+  //      public string testRewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917"; // Test Rewarded Ad Unit ID
+        public string interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+        public string rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
 
         // Local variables to hold the loaded ads
         private InterstitialAd _interstitialAd;
@@ -77,7 +77,7 @@ namespace com.VisionXR.Controllers
 
             var adRequest = new AdRequest();
 
-            InterstitialAd.Load(testInterstitialAdUnitId, adRequest, (InterstitialAd ad, LoadAdError error) =>
+            InterstitialAd.Load(interstitialAdUnitId, adRequest, (InterstitialAd ad, LoadAdError error) =>
             {
                 if (error != null || ad == null)
                 {
@@ -132,7 +132,7 @@ namespace com.VisionXR.Controllers
             isRewardedAdLoading = true;
             var adRequest = new AdRequest();
 
-            RewardedAd.Load(testRewardedAdUnitId, adRequest, (RewardedAd ad, LoadAdError error) =>
+            RewardedAd.Load(rewardedAdUnitId, adRequest, (RewardedAd ad, LoadAdError error) =>
             {
                 isRewardedAdLoading = false;
 
