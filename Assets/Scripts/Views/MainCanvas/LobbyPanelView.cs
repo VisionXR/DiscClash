@@ -285,7 +285,7 @@ namespace com.VisionXR.Views
             // Generates something like: 202606011805 (Year, Month, Day, Hour, Minute)
             string shortTime = DateTime.UtcNow.ToString("yyyyMMddHHmm");
 
-            string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&c={(int)uioutputData.challenge} &g={(int)uioutputData.multiPlayerGameMode}&t={shortTime}";
+            string shareUrl = $"{wixBaseUrl}?r={regionCode + roomId}&c={(int)uioutputData.challenge}&g={(int)uioutputData.multiPlayerGameMode}&t={shortTime}";
 
             Debug.Log("Share URL " + shareUrl);
 
