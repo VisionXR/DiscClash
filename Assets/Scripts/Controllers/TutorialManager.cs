@@ -113,7 +113,7 @@ namespace com.VisionXR.Controllers
 
         private void CoinPocketed(GameObject coin)
         {
-            tutorialCoin.GetComponent<Rigidbody>().isKinematic = true;
+           
             isCoinPocketed = true;
         }
 
@@ -210,14 +210,14 @@ namespace com.VisionXR.Controllers
                     tutorialData.canIPosition = true;
                     tutorialData.canIAim = true;
                     tutorialData.canIFire = true;
-                    tutorialCoin.SetActive(true);
+                  
 
                     inputCanvasView.gameObject.SetActive(true);
                     inputCanvasView.TurnOn();
           
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                 
 
+                    tutorialCoin.SetActive(true);
                     tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
@@ -312,7 +312,7 @@ namespace com.VisionXR.Controllers
 
                     tutorialCoin.GetComponent<MeshCollider>().enabled = true;
 
-                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
+                
               
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
@@ -334,7 +334,7 @@ namespace com.VisionXR.Controllers
 
                     tutorialData.ShowTutorialStepFailed(currentStep.failureText, currentStep.failureAudio);
 
-                    tutorialCoin.GetComponent<Rigidbody>().isKinematic = false;
+           
                
                     tutorialCoin.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                     tutorialCoin.transform.position = currentStep.coinPosition;
@@ -344,6 +344,8 @@ namespace com.VisionXR.Controllers
                     
                     tutorialStriker.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                     tutorialStriker.GetComponent<Rigidbody>().isKinematic = false;
+
+                    tutorialCoin.SetActive(true);
 
                     strikerMovement.ResetStriker();
                     inputCanvasView.TurnOn();
