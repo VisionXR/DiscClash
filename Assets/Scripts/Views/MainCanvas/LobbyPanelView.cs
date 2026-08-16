@@ -293,7 +293,7 @@ namespace com.VisionXR.Views
             // Messaging apps will read the URL at the bottom, build the OG card, and look clean.
             string inviteMessage = shareUrl;
 
-            //     Debug.Log("Url is " + shareUrl);
+   
 
             new NativeShare()
                 .SetSubject("RealCarrom3D : Multiplayer Challenge")
