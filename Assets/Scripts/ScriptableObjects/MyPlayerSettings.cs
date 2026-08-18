@@ -27,6 +27,8 @@ using UnityEngine;
         public Action SaveSettingsEvent;
         public Action LoadSettingsEvent;
         public Action DeleteAccountEvent;
+        public Action<string> ChangeDisplayNameEvent;
+
 
 
         public Action<int> BoardChangedEvent;
@@ -35,9 +37,13 @@ using UnityEngine;
 
 
         private void OnEnable()
-        {
-          
+        {        
             isHapticsEnabled = true;
+        }
+
+        public void ChangeDisplayName(string name)
+        {
+            ChangeDisplayNameEvent?.Invoke(name);
         }
 
         public void SetHapticsEnabled(bool status)
@@ -61,7 +67,10 @@ using UnityEngine;
             UserDataReceived?.Invoke(MyId);
         }
 
-
+        public void SetUserName(string userName)
+        {
+            MyName = userName;
+        }
         public void SetUserProfileImageUrl(string url)
         {
             ImageUrl = url;

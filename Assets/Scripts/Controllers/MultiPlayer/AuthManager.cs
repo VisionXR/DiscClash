@@ -28,6 +28,8 @@ namespace com.VisionXR.Controllers
             cloudData.LoginToGoogleEvent += GoogleLogin;
             cloudData.GuestLoginEvent += GuestLogin;
             cloudData.EditorLoginEvent += EditorLogin;
+
+            playerSettings.ChangeDisplayNameEvent += SetPlayFabDisplayName;
         }
 
         private void OnDisable()
@@ -35,6 +37,8 @@ namespace com.VisionXR.Controllers
             cloudData.LoginToGoogleEvent -= GoogleLogin;
             cloudData.GuestLoginEvent -= GuestLogin;
             cloudData.EditorLoginEvent -= EditorLogin;
+
+            playerSettings.ChangeDisplayNameEvent -= SetPlayFabDisplayName;
         }
 
         private void EditorLogin()
@@ -53,7 +57,11 @@ namespace com.VisionXR.Controllers
             {
                 CustomId = customId,
                 CreateAccount = true,
-                TitleId = PlayFabSettings.TitleId
+                TitleId = PlayFabSettings.TitleId,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                {
+                    GetUserAccountInfo = true
+                }
             };
 
    
@@ -77,7 +85,11 @@ namespace com.VisionXR.Controllers
             {
                 CustomId = customId,
                 CreateAccount = true,
-                TitleId = PlayFabSettings.TitleId
+                TitleId = PlayFabSettings.TitleId,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                {
+                    GetUserAccountInfo = true
+                }
             };
 
 
@@ -140,7 +152,11 @@ namespace com.VisionXR.Controllers
                 {
                     ServerAuthCode = authCode,
                     CreateAccount = true,
-                    TitleId = PlayFabSettings.TitleId
+                    TitleId = PlayFabSettings.TitleId,
+                    InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
+                    {
+                        GetUserAccountInfo = true
+                    }
                 };
 
                 PlayFabClientAPI.LoginWithGooglePlayGamesServices(request, OnPlayFabSuccess, OnPlayFabFailure);
@@ -152,25 +168,23 @@ namespace com.VisionXR.Controllers
            
             cloudData.PlayFabLoginSuccess();
 
-            if (result.NewlyCreated)
-            {
-                Debug.Log("New PlayFab account detected! Setting up display name...");
+            // Read the existing display name from the login payload
+            string currentDisplayName = result.InfoResultPayload?.AccountInfo?.TitleInfo?.DisplayName;
 
+            if (string.IsNullOrEmpty(currentDisplayName))
+            {
+                Debug.Log("DisplayName is null or empty. Setting standard display name...");
                 if (!string.IsNullOrEmpty(displayName))
                 {
                     SetPlayFabDisplayName(displayName);
                 }
             }
+            else
+            {
+                Debug.Log($"Existing PlayFab DisplayName found: {currentDisplayName}");
+                playerSettings.SetUserName(currentDisplayName);
+            }
 
-            //// OPTIONAL: Update PlayFab display name to match Google name
-            //UpdatePlayFabDisplayName(Social.localUser.userName);
-        }
-
-        private void OnPlayFabFailure(PlayFabError error)
-        {
-            Debug.Log("Real Carrom 3D : PlayFab Login Error: " + error.GenerateErrorReport());
-
-            cloudData.PlayFabLoginFailure();
         }
 
         public void SetPlayFabDisplayName(string displayName)
@@ -189,8 +203,15 @@ namespace com.VisionXR.Controllers
         private void OnDisplayNameUpdateSuccess(UpdateUserTitleDisplayNameResult result)
         {
             Debug.Log($"PlayFab Display Name successfully set to: {result.DisplayName}");
+            playerSettings.SetUserName(result.DisplayName);
         }
 
+        private void OnPlayFabFailure(PlayFabError error)
+        {
+            Debug.Log("Real Carrom 3D : PlayFab Login Error: " + error.GenerateErrorReport());
+
+            cloudData.PlayFabLoginFailure();
+        }
         private IEnumerator LoadProfileImage(string url)
         {
 

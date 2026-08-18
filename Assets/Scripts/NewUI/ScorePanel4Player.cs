@@ -47,7 +47,12 @@ namespace com.VisionXR.Views
 
         public float scaleFactor = 1.1f;
         public float blinkTime = 0.2f;
+        public GameObject PositionObject;
+        public GameObject AimObject;
+
+        // local variables
         private Coroutine turnIndicatorCoroutine;
+        private Coroutine controlsRoutine;
 
         public void TurnOn()
         {
@@ -312,6 +317,24 @@ namespace com.VisionXR.Views
                 camViewImage.sprite = FrontViewSprite;
                 camPositionData.SetCamPositionFrontView(p.myId);
             }
+        }
+
+        public void ControlsBtnClicked()
+        {
+            if (controlsRoutine == null)
+            {
+                AudioManager.instance.PlayButtonClickSound();
+                controlsRoutine = StartCoroutine(ShowControls());
+            }
+        }
+        private IEnumerator ShowControls()
+        {
+            PositionObject.SetActive(true);
+            AimObject.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            PositionObject.SetActive(false);
+            AimObject.SetActive(false);
+            controlsRoutine = null;
         }
 
 

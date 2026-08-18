@@ -1,6 +1,8 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,10 +27,12 @@ namespace com.VisionXR.Views
 
 
         [Header("Audio Objects")]
+        public TMP_InputField displayNameIF;
         public PanelOnOff deleteAccountPanel;
         public Toggle hapticsToggle;
         public Slider bgSlider;
         public AudioSource BGAudioSource;
+        public ScrollRect generalScrollRect;
 
 
         [Header("Panel Objects")]
@@ -51,6 +55,16 @@ namespace com.VisionXR.Views
             bgSlider.value = BGAudioSource.volume;
 
             hapticsToggle.isOn = userData.isHapticsEnabled;
+
+            displayNameIF.text = userData.MyName;
+
+            StartCoroutine(ResetScroll());
+        }
+
+        private IEnumerator ResetScroll()
+        {
+            yield return new WaitForSeconds(uiData.disableTime + 0.1f);
+            generalScrollRect.verticalNormalizedPosition = 1f;
         }
 
         public void TabButtonClicked(int id)
@@ -124,6 +138,11 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             userData.SetHapticsEnabled(hapticsToggle.isOn);
             userData.SaveSettings();
+        }
+
+        public void DisplayNameChanged()
+        {
+            userData.ChangeDisplayName(displayNameIF.text);
         }
 
 
