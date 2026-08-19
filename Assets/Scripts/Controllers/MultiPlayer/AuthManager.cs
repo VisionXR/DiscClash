@@ -119,8 +119,6 @@ namespace com.VisionXR.Controllers
                 playerSettings.SetUserProfileImageUrl(imageUrl);
                
                 deepLinkManager.ProcessGameFlow();
-
-                // 2. Trigger PlayFab Login
                
                StartCoroutine(LoadData(imageUrl));
 

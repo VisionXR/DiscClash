@@ -171,6 +171,7 @@ public class AchievementManager : MonoBehaviour
                     if (achievement.completed)
                     {
                         achievementData.UnLockLocal(achievement.id);
+
                     }
 
                    // Debug.Log($"Progress synced for {info.name}: Server reporting {achievement.percentCompleted}%. Local step calculation: {calculatedProgress}/{info.target}");
@@ -299,11 +300,9 @@ public class AchievementManager : MonoBehaviour
             achievementData.defaultBoardWinsData.lastLoginDate = DateTime.Now.ToLongDateString();
             achievementData.defaultBoardWinsData.totalLogins += 1;
             SaveUserData();
-            
-
+            StartCoroutine(UnLockLoginAchievements());
         }
-
-        StartCoroutine(UnLockLoginAchievements());
+   
     }
 
     public void AddClient(string clientId)
@@ -318,9 +317,7 @@ public class AchievementManager : MonoBehaviour
     public IEnumerator UnLockLoginAchievements()
     {
 
-        yield return null;
-
-        
+        yield return new WaitForSeconds(1);
 
         if (achievementData.defaultBoardWinsData.totalLogins >= 1)
         {

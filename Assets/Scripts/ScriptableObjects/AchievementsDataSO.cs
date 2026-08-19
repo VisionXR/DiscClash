@@ -43,6 +43,7 @@ namespace com.VisionXR.ModelClasses
                 if (info.apiName == apiName)
                 {
                     info.isAchieved = true;
+                    Debug.Log("Achievement Unlocked: " + info.name);
                 }
             }
         }

@@ -2,6 +2,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.Views;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ namespace com.VisionXR.Controllers
         public ParticleSystem winPs2;
 
         // local variables
+        private DateTime matchStartTime;
         private bool isFirstTurn = false;
 
         private void OnEnable()
@@ -137,6 +139,15 @@ namespace com.VisionXR.Controllers
                 coinData.ShowCoinRotationCanvas(firstTurn);
                 isFirstTurn = true;
             }
+
+            matchStartTime = DateTime.Now;
+
+            FireBaseAnalyticsManager.Instance.LogGameStart(
+                Enum.GetName(typeof(GameType), uiOutputData.gameType),
+                Enum.GetName(typeof(Challenge), uiOutputData.challenge)
+                );
+
+
             StartCoroutine(WaitForSeconds(0.1f, firstTurn));
         }
 
@@ -308,6 +319,12 @@ namespace com.VisionXR.Controllers
         private void HandleVictory(GameResult gameResult)
         {
           
+            float matchDuration = (float)(DateTime.Now - matchStartTime).TotalSeconds;
+            FireBaseAnalyticsManager.Instance.LogGameComplete(
+              Enum.GetName(typeof(GameType), uiOutputData.gameType),
+                Enum.GetName(typeof(Challenge), uiOutputData.challenge),
+              matchDuration
+              );
 
             Player mainPlayer = playersData.GetMainPlayer();
             if (mainPlayer.myTeam == gameResult.winningTeam)
@@ -405,6 +422,15 @@ namespace com.VisionXR.Controllers
         }
         private void ExitGame()
         {
+
+            float matchDuration = (float)(DateTime.Now - matchStartTime).TotalSeconds;
+            FireBaseAnalyticsManager.Instance.LogGameExit(
+             Enum.GetName(typeof(GameType), uiOutputData.gameType),
+             Enum.GetName(typeof(Challenge), uiOutputData.challenge),
+             matchDuration
+             );
+
+
             inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
             coinData.DestroyAllCoins();

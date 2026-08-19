@@ -41,6 +41,7 @@ namespace com.VisionXR.Controllers
         [Header("Local")]
         public ParticleSystem winPs1;
         public ParticleSystem winPs2;
+        private DateTime matchStartTime;
         private Coroutine turnTimeRoutine;
 
         private void OnEnable()
@@ -170,6 +171,14 @@ namespace com.VisionXR.Controllers
             uiInputData.StartGame();
 
             StartCoroutine(WaitAndStart(turnId));
+
+            matchStartTime = DateTime.Now;
+
+            FireBaseAnalyticsManager.Instance.LogGameStart(
+               Enum.GetName(typeof(GameType), uiOutputData.gameType),
+               Enum.GetName(typeof(Challenge), uiOutputData.challenge)
+
+               );
 
         }
 
@@ -403,6 +412,14 @@ namespace com.VisionXR.Controllers
 
         private void HandleVictory(GameResult gameResult)
         {
+
+            float matchDuration = (float)(DateTime.Now - matchStartTime).TotalSeconds;
+            FireBaseAnalyticsManager.Instance.LogGameComplete(
+              Enum.GetName(typeof(GameType), uiOutputData.gameType),
+                Enum.GetName(typeof(Challenge), uiOutputData.challenge),
+              matchDuration
+              );
+
             // Update LeaderBoard
             uiData.uiManager.ChangeState("MultiPlayerStartGame", false);
             uiInputData.GameCompleted(gameResult);
@@ -503,6 +520,13 @@ namespace com.VisionXR.Controllers
 
         private void OnExitGame()   
         {
+            float matchDuration = (float)(DateTime.Now - matchStartTime).TotalSeconds;
+            FireBaseAnalyticsManager.Instance.LogGameExit(
+             Enum.GetName(typeof(GameType), uiOutputData.gameType),
+             Enum.GetName(typeof(Challenge), uiOutputData.challenge),
+             matchDuration
+             );
+
             mobileInputManager.SetFirstTurn(false);
             inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
