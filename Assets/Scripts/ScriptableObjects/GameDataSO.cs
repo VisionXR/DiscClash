@@ -1,10 +1,15 @@
+using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
+using com.VisionXR.ModelClasses;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameDataSO", menuName = "ScriptableObjects/GameDataSO", order = 1)]
 public class GameDataSO : ScriptableObject
 {
+    public UIOutputDataSO uiOutputData;
+
     public int TotalCoins;
     public int TotalWhites;
     public int TotalBlacks;
@@ -32,7 +37,10 @@ public class GameDataSO : ScriptableObject
     public int firstTurnId = -1;
     public int currentTurnId = 1;
 
-    
+
+    public TournamentData tournamentData;
+
+
     public Action<int> TurnChangedEvent;
     public Action<CurrentGameData> GameResultEvent;
     public Action StartGameEvent;
@@ -53,7 +61,7 @@ public class GameDataSO : ScriptableObject
         currentTurnId = id;
         TurnChangedEvent?.Invoke(currentTurnId);
     }
-     public CurrentGameData GetCurrentGameData()
+    public CurrentGameData GetCurrentGameData()
     {
         CurrentGameData data = new CurrentGameData();
 
@@ -153,5 +161,144 @@ public class GameDataSO : ScriptableObject
         P2Score = 0;
         TeamAScore = 0;
         TeamBScore = 0;
+
+    }
+
+    public int GetPointsForPlayer(Player mainPlayer)
+    {
+        int leaderboardPoints = 0;
+        if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+        {
+            if (mainPlayer.myId == 1)
+            {
+               
+                    if (mainPlayer.myCoin == PlayerCoin.White)
+                    {
+                        leaderboardPoints = TotalBlacks - P2Blacks + P1Red;
+
+                    }
+                    else
+                    {
+                        leaderboardPoints = TotalWhites - P2Whites + P1Red;
+                    }
+               
+            }
+            else
+            {
+
+                if (mainPlayer.myCoin == PlayerCoin.White)
+                {
+                    leaderboardPoints = TotalBlacks - P1Blacks + P2Red;
+
+                }
+                else
+                {
+                    leaderboardPoints = TotalWhites - P1Whites + P2Red;
+                }
+            }
+        }
+        else
+        {
+            if (mainPlayer.myTeam == Team.TeamA)
+            {
+                if (mainPlayer.myCoin == PlayerCoin.White)
+                {
+                    leaderboardPoints = TotalBlacks - P3Blacks - P4Blacks + P1Red + P2Red;
+
+                }
+                else
+                {
+                    leaderboardPoints = TotalWhites - P3Whites - P4Whites + P1Red + P2Red;
+                }
+            }
+            else
+            {
+                if (mainPlayer.myCoin == PlayerCoin.White)
+                {
+                    leaderboardPoints = TotalBlacks - P1Blacks - P2Blacks + P3Red + P4Red;
+
+                }
+                else
+                {
+                    leaderboardPoints = TotalWhites - P1Whites - P2Whites + P3Red + P4Red;
+                }
+            }
+        }
+        return leaderboardPoints;
+    }
+
+
+    [Serializable]
+    public class TournamentData
+    {
+        public int currentBoardNo;
+        public List<int> P1Scores;
+        public List<int> P2Scores;
+        public int P1TotalScore;
+        public int P2TotalScore;
+
+
+        public void SetBoardNo(int boardNo)
+        {
+            currentBoardNo = boardNo;
+        }
+
+        public void SetScores(int P1Score, int P2Score)
+        {
+            P1Scores[currentBoardNo] = P1Score;
+            P2Scores[currentBoardNo] = P2Score;
+        }
+
+        public void CalculateScores()
+        {
+            int totalScore = 0;
+            foreach (int score in P1Scores)
+            {
+                totalScore += score;
+            }
+            P1TotalScore = totalScore;
+
+            totalScore = 0;
+            foreach (int score in P2Scores)
+            {
+                totalScore += score;
+            }
+            P2TotalScore = totalScore;
+
+        }
+
+        public void ResetTournamentData()
+        {
+            currentBoardNo = 0;
+
+            for (int i = 0; i < P1Scores.Count; i++)
+            {
+                P1Scores[i] = 0;
+                P2Scores[i] = 0;
+            }
+
+            P1TotalScore = 0;
+            P2TotalScore = 0;
+        }
+
+
+        public int GetPlayerScore(int playerId)
+        {
+            CalculateScores();
+
+            if (playerId == 1)
+            {
+                return P1TotalScore;
+            }
+            else if (playerId == 2)
+            {
+                return P2TotalScore;
+            }
+            else
+            {
+                Debug.LogError("Invalid player ID: " + playerId);
+                return -1; // or throw an exception
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace com.VisionXR.HelperClasses
     public enum Team { TeamA, TeamB }
     public enum GameType { VsCPU , PlayWithFriends,Tutorial}
     public enum  PurchaseItemType { Board,Striker,Coin,NoAds}
-    public enum Challenge { BlackAndWhite, FreeStyle, Tournament, TrickShots }
+    public enum Challenge { BlackAndWhite, FreeStyle, BWTournament,FSTournament,TrickShots }
     public enum BoardType { Square4, Circle4,Octagon4 }
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }
     public enum AchievementType { Simple, Progess }

@@ -122,6 +122,12 @@ namespace com.VisionXR.Controllers
                 }
             }
 
+            if (uiOutputData.challenge == Challenge.BWTournament || uiOutputData.challenge == Challenge.FSTournament)
+            {
+                gameData.tournamentData.ResetTournamentData();
+
+            }
+
             StartCoroutine(WaitAndStart(id));
         }
 
@@ -195,7 +201,14 @@ namespace com.VisionXR.Controllers
 
             if (gameResult.isVictory)
             {
-                HandleVictory(gameResult);
+                if(uiOutputData.challenge == Challenge.BWTournament || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    HandleTournamentVictory(gameResult);
+                }
+                else
+                {
+                    HandleVictory(gameResult);
+                }
             }
             else
             {
@@ -204,7 +217,7 @@ namespace com.VisionXR.Controllers
         }
         private bool DeterminePlayerTurn(Player p, int Whites, int Blacks, int Red, bool isFoul)
         {
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
             {
                 return blackAndWhiteLogic.ShouldPlayerContinueTurn(p, Whites, Blacks, Red, isFoul);
             }
@@ -249,11 +262,11 @@ namespace com.VisionXR.Controllers
         }
         private GameResult CheckGameResult(Player p)
         {
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
             {
                 return blackAndWhiteLogic.CheckWinningCondition(p);
             }
-            else if (uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
             {
                 return freeStyleLogic.CheckWinningCondition(p);
             }
@@ -336,7 +349,9 @@ namespace com.VisionXR.Controllers
                 winPs2.Play();
 
                 uiInputData.GameWon();
-                CalculatePoints();              
+
+                leaderBoardData.WriteToLeaderBoard(gameData.GetPointsForPlayer(mainPlayer), "SinglePlayer");
+                            
             }
             else
             {
@@ -348,65 +363,17 @@ namespace com.VisionXR.Controllers
             adData.ShowInterstitialAd();
         }
 
-        private void CalculatePoints()
+        private void HandleTournamentVictory(GameResult gameResult)
         {
+
             Player mainPlayer = playersData.GetMainPlayer();
-            int leaderboardPoints = 0;
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            if (mainPlayer.myTeam == gameResult.winningTeam)
             {
-               
-               if( mainPlayer.myId == 1)
-                {
-                    if (gameData.P1Score > gameData.P2Score)
-                    {
-                        leaderboardPoints = gameData.P1Score-gameData.P2Score;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-                else
-                {
-                    if (gameData.P2Score > gameData.P1Score)
-                    {
-                        leaderboardPoints = gameData.P2Score - gameData.P1Score;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-            }
-            else
-            {
-                if (mainPlayer.myTeam == Team.TeamA)
-                {
-                    if (gameData.TeamAScore > gameData.TeamBScore)
-                    {
-                        leaderboardPoints = gameData.TeamAScore - gameData.TeamBScore;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-                else
-                {
-                    if (gameData.TeamBScore > gameData.TeamAScore)
-                    {
-                        leaderboardPoints = gameData.TeamBScore - gameData.TeamAScore;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
+              
+                Debug.Log("Tournament Victory! Player's team won. "+gameData.GetPointsForPlayer(mainPlayer));
+
             }
 
-            Debug.Log("Points Earned: " + leaderboardPoints);
-            leaderBoardData.WriteToLeaderBoard(leaderboardPoints, "SinglePlayer");
-            // Here you can add code to update the player's points in a leaderboard or player profile
         }
 
         public void EndGame()
