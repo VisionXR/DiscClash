@@ -24,12 +24,14 @@ namespace com.VisionXR.ModelClasses
         public Action PauseGameEvent;
         public Action ResumeGameEvent;
         public Action<GameResult> ShowGameResultEvent;
+        public Action<GameResult> ShowTournamentBoardResult;
         public Action GameWonEvent;
 
         //General Events
 
         public Action HomeEvent;
         public Action ShowLoginEvent;
+        public Action NextTournamentBoardEvent;
 
         //Network  Events    
         public Action<Destination> ShowDestinationPanelEvent;
@@ -84,6 +86,11 @@ namespace com.VisionXR.ModelClasses
             ShowGameResultEvent?.Invoke(gameResult);
         }
 
+        public void TournamentBoardCompleted(GameResult gameResult)
+        {
+            ShowTournamentBoardResult?.Invoke(gameResult);
+        }
+
         public void GameWon()
         {
             GameWonEvent?.Invoke();
@@ -102,6 +109,11 @@ namespace com.VisionXR.ModelClasses
         public void PlayAgain()
         {
             PlayAgainEvent?.Invoke();
+        }
+
+        public void PlayNextBoard()
+        {
+            NextTournamentBoardEvent?.Invoke();
         }
 
         public void ShowDestination(Destination destination)

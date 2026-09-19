@@ -27,6 +27,7 @@ namespace com.VisionXR.Views
         public GameResultPanelView gameResultPanelView;
         public string gameResultState;
         public string pauseState;
+        public string tournamentBoardResultState;
 
 
         [Header(" UI Elements")]
@@ -118,6 +119,8 @@ namespace com.VisionXR.Views
 
             uiInputData.ShowGameResultEvent += ShowGameResult;
 
+            uiInputData.ShowTournamentBoardResult += ShowTournamentBoardResult;
+
             uiInputData.PlayAgainEvent += Reset;
 
 
@@ -137,6 +140,7 @@ namespace com.VisionXR.Views
             gameData.TurnChangedEvent -= TurnChanged;
 
             uiInputData.ShowGameResultEvent -= ShowGameResult;
+            uiInputData.ShowTournamentBoardResult -= ShowTournamentBoardResult;
 
             uiInputData.PlayAgainEvent -= Reset;
 
@@ -205,6 +209,16 @@ namespace com.VisionXR.Views
             uiData.uiManager.ShowCanvas(0);
             uiData.uiManager.ChangeState(gameResultState, true);
             gameResultPanelView.ShowResult(result);
+            gameObject.SetActive(false);
+        }
+
+        private void ShowTournamentBoardResult(GameResult result)
+        {
+            TurnChanged(result.winningPlayerId);
+            uiData.uiManager.ShowCanvas(0);
+            uiData.uiManager.ChangeState(tournamentBoardResultState, true);
+
+
             gameObject.SetActive(false);
         }
 
@@ -349,7 +363,7 @@ namespace com.VisionXR.Views
 
             if (id == 1)
             {
-                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     if (p.myCoin == PlayerCoin.White)
                     {
@@ -362,7 +376,7 @@ namespace com.VisionXR.Views
                         leftPlayer1.SetRedImage(uiOutputData.RedCoin);
                     }
                 }
-                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     leftPlayer1.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                     leftPlayer1.SetRedImage(uiOutputData.RedCoin);
@@ -370,7 +384,7 @@ namespace com.VisionXR.Views
             }
             else if (id == 2)
             {
-                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     if (p.myCoin == PlayerCoin.White)
                     {
@@ -383,7 +397,7 @@ namespace com.VisionXR.Views
                         leftPlayer2.SetRedImage(uiOutputData.RedCoin);
                     }
                 }
-                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     leftPlayer2.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                     leftPlayer2.SetRedImage(uiOutputData.RedCoin);
@@ -391,7 +405,7 @@ namespace com.VisionXR.Views
             }
             else if (id == 3)
             {
-                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     if (p.myCoin == PlayerCoin.White)
                     {
@@ -404,7 +418,7 @@ namespace com.VisionXR.Views
                         rightPlayer1.SetRedImage(uiOutputData.RedCoin);
                     }
                 }
-                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     rightPlayer1.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                     rightPlayer1.SetRedImage(uiOutputData.RedCoin);
@@ -412,7 +426,7 @@ namespace com.VisionXR.Views
             }
             else if (id == 4)
             {
-                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     if (p.myCoin == PlayerCoin.White)
                     {
@@ -425,7 +439,7 @@ namespace com.VisionXR.Views
                         rightPlayer2.SetRedImage(uiOutputData.RedCoin);
                     }
                 }
-                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     rightPlayer2.SetCoinImage(uiOutputData.BlackAndWhiteCoin);
                     rightPlayer2.SetRedImage(uiOutputData.RedCoin);

@@ -51,7 +51,7 @@ namespace com.VisionXR.Controllers
             GameObject newPlayer = Instantiate(playerObject, transform.position, transform.rotation);
             if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
-                if(uiOutputData.challenge == Challenge.BlackAndWhite)
+                if(uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     if(properties.myId == 1)
                     {
@@ -62,7 +62,7 @@ namespace com.VisionXR.Controllers
                         properties.myCoin = PlayerCoin.Black;
                     }
                 }
-                else if(uiOutputData.challenge == Challenge.FreeStyle)
+                else if(uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     if (properties.myId == 1)
                     {

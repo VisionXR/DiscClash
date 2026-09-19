@@ -46,6 +46,8 @@ namespace com.VisionXR.Controllers
             uiInputData.ExitGameEvent += ExitGame;
             uiInputData.PlayAgainEvent += StartGame;
 
+            uiInputData.NextTournamentBoardEvent += StartNextBoard;
+
             playersData.PlayerStrikeStartedEvent += StrikeStarted;
             playersData.PlayerStrikeFinishedEvent += StrikeFinished;
 
@@ -64,6 +66,8 @@ namespace com.VisionXR.Controllers
             uiInputData.ExitGameEvent -= ExitGame;
 
             uiInputData.PlayAgainEvent -= StartGame;
+
+            uiInputData.NextTournamentBoardEvent -= StartNextBoard;
 
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
             playersData.PlayerStrikeFinishedEvent -= StrikeFinished;
@@ -124,8 +128,60 @@ namespace com.VisionXR.Controllers
 
             if (uiOutputData.challenge == Challenge.BWTournament || uiOutputData.challenge == Challenge.FSTournament)
             {
-                gameData.tournamentData.ResetTournamentData();
+                Debug.Log(" In tournament start ");
 
+                gameData.tournamentData.ResetTournamentData();
+                gameData.tournamentData.SetBoardNo(0);
+            }
+
+            StartCoroutine(WaitAndStart(id));
+        }
+
+        public void StartNextBoard()
+        {
+            int id = 1;
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 2;
+                }
+            }
+            else
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 3;
+                }
+                else if (gameData.firstTurnId == 3)
+                {
+                    id = 2;
+                }
+                else if (gameData.firstTurnId == 2)
+                {
+                    id = 4;
+                }
+                else if (gameData.firstTurnId == 4)
+                {
+                    id = 1;
+                }
+            }
+
+            gameData.tournamentData.SetBoardNo(gameData.tournamentData.currentBoardNo++);
+
+            if (uiOutputData.challenge == Challenge.BWTournament) // Switch coins for players
+            {
+                foreach (Player p in playersData.CurrentPlayers)
+                {
+                    if (p.myCoin == PlayerCoin.White)
+                    {
+                        p.myCoin = PlayerCoin.Black;
+                    }
+                    else
+                    {
+                        p.myCoin = PlayerCoin.White;
+                    }
+                }
             }
 
             StartCoroutine(WaitAndStart(id));
@@ -371,9 +427,19 @@ namespace com.VisionXR.Controllers
             {
               
                 Debug.Log("Tournament Victory! Player's team won. "+gameData.GetPointsForPlayer(mainPlayer));
+                AudioManager.instance.PlayWinningSound();
 
+                winPs1.Play();
+                winPs2.Play();
+            }
+            else
+            {
+                AudioManager.instance.PlayLosingSound();
             }
 
+            uiInputData.TournamentBoardCompleted(gameResult);
+            EndGame();
+            adData.ShowInterstitialAd();
         }
 
         public void EndGame()

@@ -16,7 +16,7 @@ namespace com.VisionXR.GameElements
 
         public void AIShouldPlay()
         {
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
             {
                 PlayBlackAndWhite();
             }

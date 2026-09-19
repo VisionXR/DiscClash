@@ -73,7 +73,7 @@ namespace com.VisionXR.Controllers
             {
                 if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
                 {
-                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                     {
                         ShowBlackAndWhite2PlayerScore();
                     }
@@ -84,7 +84,7 @@ namespace com.VisionXR.Controllers
                 }
                 else
                 {
-                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                     {
                         ShowBlackAndWhite4PlayerScore();
                     }
@@ -98,7 +98,7 @@ namespace com.VisionXR.Controllers
             {
                 if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
                 {
-                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                     {
                         ShowBlackAndWhite2PlayerScore();
                     }
@@ -109,7 +109,7 @@ namespace com.VisionXR.Controllers
                 }
                 else
                 {
-                    if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                    if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                     {
                         ShowBlackAndWhite4PlayerScore();
                     }

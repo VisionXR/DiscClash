@@ -27,9 +27,17 @@ public class PurchaseDataSO : ScriptableObject
 
     private void OnEnable()
     {
+
         foreach(AssetData assetData in AllItemsData) 
         {
-            assetData.isPurchased = false;
+            if (Application.isEditor)
+            {
+                assetData.isPurchased = true;
+            }
+            else
+            {
+                assetData.isPurchased = false;
+            }
         }
     }
 
