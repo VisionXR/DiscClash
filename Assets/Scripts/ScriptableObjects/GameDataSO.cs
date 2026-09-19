@@ -174,12 +174,13 @@ public class GameDataSO : ScriptableObject
                
                     if (mainPlayer.myCoin == PlayerCoin.White)
                     {
-                        leaderboardPoints = TotalBlacks - P2Blacks + P1Red;
+                        leaderboardPoints = TotalBlacks - P2Blacks + P1Red*3;
 
-                    }
+                }
                     else
                     {
-                        leaderboardPoints = TotalWhites - P2Whites + P1Red;
+                        leaderboardPoints = TotalWhites - P2Whites + P1Red*3;
+                       
                     }
                
             }
@@ -188,12 +189,12 @@ public class GameDataSO : ScriptableObject
 
                 if (mainPlayer.myCoin == PlayerCoin.White)
                 {
-                    leaderboardPoints = TotalBlacks - P1Blacks + P2Red;
+                    leaderboardPoints = TotalBlacks - P1Blacks + P2Red*3;
 
                 }
                 else
                 {
-                    leaderboardPoints = TotalWhites - P1Whites + P2Red;
+                    leaderboardPoints = TotalWhites - P1Whites + P2Red*3;
                 }
             }
         }
@@ -203,24 +204,24 @@ public class GameDataSO : ScriptableObject
             {
                 if (mainPlayer.myCoin == PlayerCoin.White)
                 {
-                    leaderboardPoints = TotalBlacks - P3Blacks - P4Blacks + P1Red + P2Red;
+                    leaderboardPoints = TotalBlacks - P3Blacks - P4Blacks + (P1Red + P2Red)*3;
 
                 }
                 else
                 {
-                    leaderboardPoints = TotalWhites - P3Whites - P4Whites + P1Red + P2Red;
+                    leaderboardPoints = TotalWhites - P3Whites - P4Whites + (P1Red + P2Red)*3;
                 }
             }
             else
             {
                 if (mainPlayer.myCoin == PlayerCoin.White)
                 {
-                    leaderboardPoints = TotalBlacks - P1Blacks - P2Blacks + P3Red + P4Red;
+                    leaderboardPoints = TotalBlacks - P1Blacks - P2Blacks + (P3Red + P4Red)*3;
 
                 }
                 else
                 {
-                    leaderboardPoints = TotalWhites - P1Whites - P2Whites + P3Red + P4Red;
+                    leaderboardPoints = TotalWhites - P1Whites - P2Whites + (P3Red + P4Red)*3;
                 }
             }
         }

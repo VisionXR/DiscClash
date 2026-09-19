@@ -423,10 +423,25 @@ namespace com.VisionXR.Controllers
         {
 
             Player mainPlayer = playersData.GetMainPlayer();
+
+            Player p = playersData.GetPlayer(gameResult.winningPlayerId);         
+            int mpPoints = gameData.GetPointsForPlayer(p);
+
+            if (p.myId == 1)
+            {
+                gameData.tournamentData.SetScores(mpPoints, 0);
+                gameData.tournamentData.CalculateScores();
+            }
+            else
+            {
+                gameData.tournamentData.SetScores(0, mpPoints);
+                gameData.tournamentData.CalculateScores();
+            }
+
             if (mainPlayer.myTeam == gameResult.winningTeam)
             {
-              
-                Debug.Log("Tournament Victory! Player's team won. "+gameData.GetPointsForPlayer(mainPlayer));
+                
+                Debug.Log("Tournament Victory! Player's team won. " + gameData.GetPointsForPlayer(mainPlayer));
                 AudioManager.instance.PlayWinningSound();
 
                 winPs1.Play();
@@ -434,6 +449,7 @@ namespace com.VisionXR.Controllers
             }
             else
             {
+                Debug.Log("Tournament Board Lost!");
                 AudioManager.instance.PlayLosingSound();
             }
 

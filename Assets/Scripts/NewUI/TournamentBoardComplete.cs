@@ -12,11 +12,15 @@ namespace com.VisionXR.Views
         public GameDataSO gameData;
         public UIDataSO uiData;
 
+        [Header("States")]
+        public string tournamentBoardResultState;
+
 
         public void NextBoardBtnClicked()
         {
             AudioManager.instance.PlayButtonClickSound();
             uiInputData.PlayNextBoard();
+            uiData.uiManager.ChangeState(tournamentBoardResultState, false);
         }
 
         public void HomeBtnClicked()
