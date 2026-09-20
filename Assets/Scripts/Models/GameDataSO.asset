@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: GameDataSO
   m_EditorClassIdentifier: 
   uiOutputData: {fileID: 11400000, guid: ba5aee20911bd27449c479316531a494, type: 2}
-  TotalCoins: 7
-  TotalWhites: 3
-  TotalBlacks: 3
-  TotalReds: 1
+  TotalCoins: 0
+  TotalWhites: 0
+  TotalBlacks: 0
+  TotalReds: 0
   P1Whites: 0
   P1Blacks: 0
   P1Red: 0
@@ -35,11 +35,27 @@ MonoBehaviour:
   TeamBScore: 0
   isRedCovered: 0
   ShouldICoverCoin: 0
-  firstTurnId: 1
+  firstTurnId: -1
   currentTurnId: 1
   tournamentData:
-    currentBoardNo: 2
-    P1Scores: 0000000006000000000000000600000006000000000000000000000000000000
-    P2Scores: 0600000000000000000000000000000000000000000000000000000000000000
-    P1TotalScore: 6
-    P2TotalScore: 6
+    currentBoardNo: 0
+    P1Scores:
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    P2Scores:
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    - _
+    P1TotalScore: 0
+    P2TotalScore: 0

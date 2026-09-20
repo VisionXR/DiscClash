@@ -233,8 +233,8 @@ public class GameDataSO : ScriptableObject
     public class TournamentData
     {
         public int currentBoardNo = 0;
-        public List<int> P1Scores;
-        public List<int> P2Scores;
+        public List<string> P1Scores;
+        public List<string> P2Scores;
         public int P1TotalScore;
         public int P2TotalScore;
 
@@ -244,7 +244,7 @@ public class GameDataSO : ScriptableObject
             currentBoardNo++;
         }
 
-        public void SetScores(int P1Score, int P2Score)
+        public void SetScores(string P1Score, string P2Score)
         {
             P1Scores[currentBoardNo] = P1Score;
             P2Scores[currentBoardNo] = P2Score;
@@ -253,19 +253,29 @@ public class GameDataSO : ScriptableObject
         public void CalculateScores()
         {
             int totalScore = 0;
-            foreach (int score in P1Scores)
+            foreach (string score in P1Scores)
             {
-                totalScore += score;
+                // TryParse returns true if successful and outputs the parsed int
+                if (int.TryParse(score, out int parsedScore))
+                {
+                    totalScore += parsedScore;
+                }
+                // If it fails, it skips (leaves) the value and moves to the next
             }
+
             P1TotalScore = totalScore;
 
             totalScore = 0;
-            foreach (int score in P2Scores)
+            foreach (string score in P2Scores)
             {
-                totalScore += score;
+                // TryParse returns true if successful and outputs the parsed int
+                if (int.TryParse(score, out int parsedScore))
+                {
+                    totalScore += parsedScore;
+                }
+                // If it fails, it skips (leaves) the value and moves to the next
             }
             P2TotalScore = totalScore;
-
         }
 
         public void ResetTournamentData()
@@ -274,8 +284,8 @@ public class GameDataSO : ScriptableObject
 
             for (int i = 0; i < P1Scores.Count; i++)
             {
-                P1Scores[i] = 0;
-                P2Scores[i] = 0;
+                P1Scores[i] = "_";
+                P2Scores[i] = "_";
             }
 
             P1TotalScore = 0;

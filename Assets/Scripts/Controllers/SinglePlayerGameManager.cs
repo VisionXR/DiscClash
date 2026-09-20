@@ -429,12 +429,12 @@ namespace com.VisionXR.Controllers
 
             if (p.myId == 1)
             {
-                gameData.tournamentData.SetScores(mpPoints, 0);
+                gameData.tournamentData.SetScores(mpPoints.ToString(), "0");
                 gameData.tournamentData.CalculateScores();
             }
             else
             {
-                gameData.tournamentData.SetScores(0, mpPoints);
+                gameData.tournamentData.SetScores("0", mpPoints.ToString());
                 gameData.tournamentData.CalculateScores();
             }
 
