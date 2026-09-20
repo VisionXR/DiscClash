@@ -21,7 +21,7 @@ public class CoinCollision : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
        
-        if(collision.collider.gameObject.tag == "Ground")
+        if(collision.collider.CompareTag("Ground") || collision.collider.CompareTag("Floor"))
         {
            coinDataSO.CoinFellOnGround(gameObject);                       
         }

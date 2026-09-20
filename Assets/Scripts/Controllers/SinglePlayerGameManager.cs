@@ -131,7 +131,7 @@ namespace com.VisionXR.Controllers
                 Debug.Log(" In tournament start ");
 
                 gameData.tournamentData.ResetTournamentData();
-                gameData.tournamentData.SetBoardNo(0);
+               
             }
 
             StartCoroutine(WaitAndStart(id));
@@ -167,7 +167,7 @@ namespace com.VisionXR.Controllers
                 }
             }
 
-            gameData.tournamentData.SetBoardNo(gameData.tournamentData.currentBoardNo++);
+            gameData.tournamentData.SetBoardNo(); // Increment Board Number
 
             if (uiOutputData.challenge == Challenge.BWTournament) // Switch coins for players
             {
@@ -441,7 +441,7 @@ namespace com.VisionXR.Controllers
             if (mainPlayer.myTeam == gameResult.winningTeam)
             {
                 
-                Debug.Log("Tournament Victory! Player's team won. " + gameData.GetPointsForPlayer(mainPlayer));
+                
                 AudioManager.instance.PlayWinningSound();
 
                 winPs1.Play();
@@ -453,7 +453,49 @@ namespace com.VisionXR.Controllers
                 AudioManager.instance.PlayLosingSound();
             }
 
-            uiInputData.TournamentBoardCompleted(gameResult);
+            if (gameData.tournamentData.currentBoardNo == 7 || gameData.tournamentData.P1TotalScore >= 25 || gameData.tournamentData.P2TotalScore >= 25)
+            {
+                if(gameData.tournamentData.currentBoardNo == 7)
+                {
+                    if(gameData.tournamentData.P1TotalScore >= gameData.tournamentData.P2TotalScore)
+                    {
+                        gameResult.winningPlayerId = 1;
+                        Player wp = playersData.GetPlayer(1);
+                        gameResult.winningTeam = wp.myTeam;
+                    }
+                    else
+                    {
+                        gameResult.winningPlayerId = 2;
+                        Player wp = playersData.GetPlayer(2);
+                        gameResult.winningTeam = wp.myTeam;
+                    }
+                }
+                else
+                {
+                    if (gameData.tournamentData.P1TotalScore >= 25)
+                    {
+                        gameResult.winningPlayerId = 1;
+                        Player wp = playersData.GetPlayer(1);
+                        gameResult.winningTeam = wp.myTeam;
+                    }
+
+                    else if(gameData.tournamentData.P2TotalScore >= 25)
+                    {
+                        
+                            gameResult.winningPlayerId = 2;
+                            Player wp = playersData.GetPlayer(2);
+                            gameResult.winningTeam = wp.myTeam;
+                        
+                    }
+                }
+
+                uiInputData.GameCompleted(gameResult);
+            }
+            else
+            {
+                uiInputData.TournamentBoardCompleted(gameResult);
+            }
+
             EndGame();
             adData.ShowInterstitialAd();
         }
@@ -463,7 +505,7 @@ namespace com.VisionXR.Controllers
             coinData.DestroyAllCoins();
             inputCanvasView.gameObject.SetActive(false);
             inputData.DisableInput();
-
+            gameData.ResetData();
             foreach (Player p in playersData.CurrentPlayers)
             {
                 p.myStriker.SetActive(false);

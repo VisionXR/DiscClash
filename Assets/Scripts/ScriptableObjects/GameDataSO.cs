@@ -232,16 +232,16 @@ public class GameDataSO : ScriptableObject
     [Serializable]
     public class TournamentData
     {
-        public int currentBoardNo;
+        public int currentBoardNo = 0;
         public List<int> P1Scores;
         public List<int> P2Scores;
         public int P1TotalScore;
         public int P2TotalScore;
 
 
-        public void SetBoardNo(int boardNo)
+        public void SetBoardNo()
         {
-            currentBoardNo = boardNo;
+            currentBoardNo++;
         }
 
         public void SetScores(int P1Score, int P2Score)
