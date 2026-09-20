@@ -242,4 +242,32 @@ namespace com.VisionXR.HelperClasses
         public AIDifficulty myAiDifficulty;
     }
 
+    [Serializable]
+    public class BoardAssetData
+    {
+        public string shape;
+        public string holes;
+        public Sprite boardImage;
+
+    }
+
+    [Serializable]
+    public class CoinAssetData
+    {
+        public string shape;
+        public string color;
+        public Sprite coinImage;
+
+    }
+
+    [Serializable]
+    public class StrikerAssetData
+    {
+        public string name;
+        public float aim;
+        public float power;
+        public Sprite strikerImage;
+
+    }
+
 }
