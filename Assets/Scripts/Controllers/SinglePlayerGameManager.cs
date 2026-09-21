@@ -403,11 +403,17 @@ namespace com.VisionXR.Controllers
                
                 winPs1.Play();
                 winPs2.Play();
-
                 uiInputData.GameWon();
 
-                leaderBoardData.WriteToLeaderBoard(gameData.GetPointsForPlayer(mainPlayer), "SinglePlayer");
-                            
+                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    leaderBoardData.WriteToLeaderBoard(gameData.GetBWMatchPoints(mainPlayer), "SinglePlayer");
+
+                }
+                else if(uiOutputData.challenge == Challenge.FreeStyle)
+                {
+                    leaderBoardData.WriteToLeaderBoard(gameData.GetFSMatchPoints(mainPlayer), "SinglePlayer");
+                }
             }
             else
             {
@@ -424,8 +430,20 @@ namespace com.VisionXR.Controllers
 
             Player mainPlayer = playersData.GetMainPlayer();
 
-            Player p = playersData.GetPlayer(gameResult.winningPlayerId);         
-            int mpPoints = gameData.GetPointsForPlayer(p);
+            Player p = playersData.GetPlayer(gameResult.winningPlayerId);
+            int mpPoints = 0;
+            
+            if(uiOutputData.challenge == Challenge.BWTournament)
+            {
+                mpPoints = gameData.GetBWMatchPoints(p);
+            }
+            else if (uiOutputData.challenge == Challenge.FSTournament)
+            {
+                mpPoints = gameData.GetFSMatchPoints(p);
+            }
+
+
+            gameData.GetBWMatchPoints(p);
 
             if (p.myId == 1)
             {
@@ -439,9 +457,7 @@ namespace com.VisionXR.Controllers
             }
 
             if (mainPlayer.myTeam == gameResult.winningTeam)
-            {
-                
-                
+            {           
                 AudioManager.instance.PlayWinningSound();
 
                 winPs1.Play();

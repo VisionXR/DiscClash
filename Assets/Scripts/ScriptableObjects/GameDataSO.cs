@@ -164,68 +164,83 @@ public class GameDataSO : ScriptableObject
 
     }
 
-    public int GetPointsForPlayer(Player mainPlayer)
+    public int GetBWMatchPoints(Player winner)
     {
-        int leaderboardPoints = 0;
-        if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-        {
-            if (mainPlayer.myId == 1)
-            {
-               
-                    if (mainPlayer.myCoin == PlayerCoin.White)
-                    {
-                        leaderboardPoints = TotalBlacks - P2Blacks + P1Red*3;
+        bool isPvsAI = uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI;
+        bool isWinnerWhite = winner.myCoin == PlayerCoin.White;
+        const int RedPointsMultiplier = 3;
 
-                }
-                    else
-                    {
-                        leaderboardPoints = TotalWhites - P2Whites + P1Red*3;
-                       
-                    }
-               
+        int opponentRemaining = 0;
+        int redPoints = 0;
+
+        if (isPvsAI)
+        {
+            bool isPlayer1Win = (winner.myId == 1);
+
+            if (isPlayer1Win)
+            {
+                opponentRemaining = isWinnerWhite ? P2Blacks : P2Whites;
+                redPoints = P1Red * RedPointsMultiplier;
             }
             else
             {
+                opponentRemaining = isWinnerWhite ? P1Blacks : P1Whites;
+                redPoints = P2Red * RedPointsMultiplier;
+            }
+        }
+        else // Team / Multiplayer Mode
+        {
+            bool isTeamAWin = (winner.myTeam == Team.TeamA);
 
-                if (mainPlayer.myCoin == PlayerCoin.White)
-                {
-                    leaderboardPoints = TotalBlacks - P1Blacks + P2Red*3;
+            if (isTeamAWin)
+            {
+                opponentRemaining = isWinnerWhite ? (P3Blacks + P4Blacks) : (P3Whites + P4Whites);
+                redPoints = (P1Red + P2Red) * RedPointsMultiplier;
+            }
+            else
+            {
+                opponentRemaining = isWinnerWhite ? (P1Blacks + P2Blacks) : (P1Whites + P2Whites);
+                redPoints = (P3Red + P4Red) * RedPointsMultiplier;
+            }
+        }
 
-                }
-                else
-                {
-                    leaderboardPoints = TotalWhites - P1Whites + P2Red*3;
-                }
+        int totalBase = isWinnerWhite ? TotalBlacks : TotalWhites;
+        return totalBase - opponentRemaining + redPoints;
+    }
+
+    public int GetFSMatchPoints(Player winner)
+    {
+        int points = 0;
+        if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+        {
+            if(winner.myId == 1)
+            {
+                points = (P1Whites + P1Blacks + P1Red * 3) - (P2Whites + P2Blacks + P2Red * 3);
+            }
+            else
+            {
+                points = -(P1Whites + P1Blacks + P1Red * 3) + (P2Whites + P2Blacks + P2Red * 3);
             }
         }
         else
         {
-            if (mainPlayer.myTeam == Team.TeamA)
+            if(winner.myTeam == Team.TeamA)
             {
-                if (mainPlayer.myCoin == PlayerCoin.White)
-                {
-                    leaderboardPoints = TotalBlacks - P3Blacks - P4Blacks + (P1Red + P2Red)*3;
-
-                }
-                else
-                {
-                    leaderboardPoints = TotalWhites - P3Whites - P4Whites + (P1Red + P2Red)*3;
-                }
+                points = (P1Whites + P1Blacks + P1Red * 3) +
+                    (P2Whites + P2Blacks + P2Red * 3) -
+                    (P3Whites + P3Blacks + P3Red * 3) -
+                    (P4Whites + P4Blacks + P4Red * 3);
             }
             else
             {
-                if (mainPlayer.myCoin == PlayerCoin.White)
-                {
-                    leaderboardPoints = TotalBlacks - P1Blacks - P2Blacks + (P3Red + P4Red)*3;
-
-                }
-                else
-                {
-                    leaderboardPoints = TotalWhites - P1Whites - P2Whites + (P3Red + P4Red)*3;
-                }
+                points = -(P1Whites + P1Blacks + P1Red * 3) -
+                    (P2Whites + P2Blacks + P2Red * 3) +
+                    (P3Whites + P3Blacks + P3Red * 3) +
+                    (P4Whites + P4Blacks + P4Red * 3);
             }
         }
-        return leaderboardPoints;
+
+        return points;
     }
 
 

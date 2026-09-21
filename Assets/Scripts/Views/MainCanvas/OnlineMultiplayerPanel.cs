@@ -31,6 +31,7 @@ namespace com.VisionXR.Views
             ResetRoomImages();
 
             uiData.uiManager.ChangeState("Home", false);
+            
 
             if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2 && uiOutputData.challenge == Challenge.BlackAndWhite)
             {

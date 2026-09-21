@@ -9,7 +9,7 @@ namespace com.VisionXR.HelperClasses
         MPGameCompletedState, MPLeaderBoardState, MPHostDisconnectedState, MPClientDisconnectState, 
         ChangeDestinationState, Tutorial, InfoState, LoginState,AssetsState,MPAssetsState,
         SPBoardsState,SPStrikersState,SPCoinsState,MPBoardsState,MPStrikersState,MPCoinsState,AssetPurchaseState,
-        SPTournamentBoardCompleted
+        SPTournamentBoardCompleted,MatchState
     }
     public enum LoginType { Google, Guest }
     public enum SwipeDirection { LEFT, RIGHT,UP,DOWN };
@@ -21,6 +21,8 @@ namespace com.VisionXR.HelperClasses
     public enum Team { TeamA, TeamB }
     public enum GameType { VsCPU , PlayWithFriends,Tutorial}
     public enum  PurchaseItemType { Board,Striker,Coin,NoAds}
+
+    public enum MatchType { Single,Tournament}
     public enum Challenge { BlackAndWhite, FreeStyle, BWTournament,FSTournament,TrickShots }
     public enum BoardType { Square4, Circle4,Octagon4 }
     public enum AchievementSection { SinglePlayer, MultiPlayer, General }

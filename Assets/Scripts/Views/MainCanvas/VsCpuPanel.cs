@@ -1,6 +1,5 @@
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,33 +28,40 @@ namespace com.VisionXR.Views
         private void OnEnable()
         {
             uiData.uiManager.ChangeState("Home", false);
+     
+
             ResetGameModeImages();
             ResetDifficultyImages();
 
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
-                GameModeSelectedImages[0].SetActive(true);
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
+                {
+                    GameModeSelectedImages[0].SetActive(true);
+                }
             }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
-                GameModeSelectedImages[1].SetActive(true);
+                if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    GameModeSelectedImages[1].SetActive(true);
+                }
             }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
             {
-                GameModeSelectedImages[2].SetActive(true);
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
+                {
+                    GameModeSelectedImages[2].SetActive(true);
+                }
             }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI )
             {
-                GameModeSelectedImages[3].SetActive(true);
+                if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    GameModeSelectedImages[3].SetActive(true);
+                }
             }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI && uiOutputData.challenge == Challenge.BWTournament)
-            {
-                GameModeSelectedImages[4].SetActive(true);
-            }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI && uiOutputData.challenge == Challenge.FSTournament)
-            {
-                GameModeSelectedImages[5].SetActive(true);
-            }
+
 
             if (uiOutputData.aIDifficulty == AIDifficulty.Easy)
             {
@@ -77,7 +83,14 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.BWTournament);
+            }
             GameModeSelectedImages[0].SetActive(true);
 
         }
@@ -87,7 +100,14 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.FreeStyle);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.FSTournament);
+            }
             GameModeSelectedImages[1].SetActive(true);
 
         }
@@ -97,7 +117,14 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PAIvsAI);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.BWTournament);
+            }
             GameModeSelectedImages[2].SetActive(true);
 
 
@@ -108,28 +135,15 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PAIvsAI);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.FreeStyle);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.FSTournament);
+            }
             GameModeSelectedImages[3].SetActive(true);
-        }
-
-        public void PvsAI_BW_Tournament_BtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            ResetGameModeImages();
-            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
-            uiOutputData.SetChallenge(Challenge.BWTournament);
-            GameModeSelectedImages[4].SetActive(true);
-
-        }
-
-        public void PvsAI_FS_Tournament_BtnClicked()
-        {
-            AudioManager.instance.PlayButtonClickSound();
-            ResetGameModeImages();
-            uiOutputData.SetSinglePlayerGameMode(SinglePlayerGameMode.PvsAI);
-            uiOutputData.SetChallenge(Challenge.FSTournament);
-            GameModeSelectedImages[5].SetActive(true);
-
         }
 
         public void EasyBtnClicked()

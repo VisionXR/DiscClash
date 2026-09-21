@@ -24,6 +24,7 @@ namespace com.VisionXR.Views
 
             uiData.uiManager.ChangeState("SinglePlayer", false);
             uiData.uiManager.ChangeState("MultiPlayer", false);
+            uiData.uiManager.ChangeState("Match", false);
             uiData.uiManager.ChangeState("Home", true);
             uiData.uiManager.ResetAllBools();
 

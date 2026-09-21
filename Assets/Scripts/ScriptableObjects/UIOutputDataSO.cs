@@ -10,6 +10,7 @@ namespace com.VisionXR.ModelClasses
     public class UIOutputDataSO : ScriptableObject
     {
         // variables
+        public MatchType matchType;
         public GameType gameType;
         public SinglePlayerGameMode singlePlayerGameMode;
         public MultiPlayerGameMode multiPlayerGameMode;
@@ -60,6 +61,11 @@ namespace com.VisionXR.ModelClasses
         public void SetPlayerCount(int total)
         {
             NoOfPlayers = total;
+        }
+
+        public void SetMatchType(MatchType type)
+        {
+            matchType = type;
         }
 
         public void SetGameType(GameType gameType)

@@ -431,7 +431,15 @@ namespace com.VisionXR.Controllers
                 winPs1.Play();
                 winPs2.Play();
                 uiInputData.GameWon();
-                CalculatePoints();
+                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    leaderBoardData.WriteToLeaderBoard(gameData.GetBWMatchPoints(mainPlayer), "MultiPlayer");
+
+                }
+                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                {
+                    leaderBoardData.WriteToLeaderBoard(gameData.GetFSMatchPoints(mainPlayer), "MultiPlayer");
+                }
             }
             else
             {
@@ -456,67 +464,7 @@ namespace com.VisionXR.Controllers
             connectionDisconnection.EndGame();
         }
 
-        private void CalculatePoints()
-        {
-            Player mainPlayer = playersData.GetMainPlayer();
-            int leaderboardPoints = 0;
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
-            {
-
-                if (mainPlayer.myId == 1)
-                {
-                    if (gameData.P1Score > gameData.P2Score)
-                    {
-                        leaderboardPoints = gameData.P1Score - gameData.P2Score;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-                else
-                {
-                    if (gameData.P2Score > gameData.P1Score)
-                    {
-                        leaderboardPoints = gameData.P2Score - gameData.P1Score;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-            }
-            else
-            {
-                if (mainPlayer.myTeam == Team.TeamA)
-                {
-                    if (gameData.TeamAScore > gameData.TeamBScore)
-                    {
-                        leaderboardPoints = gameData.TeamAScore - gameData.TeamBScore;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-                else
-                {
-                    if (gameData.TeamBScore > gameData.TeamAScore)
-                    {
-                        leaderboardPoints = gameData.TeamBScore - gameData.TeamAScore;
-                    }
-                    else
-                    {
-                        leaderboardPoints = 1;
-                    }
-                }
-            }
-
-            Debug.Log("Points Earned: " + leaderboardPoints);
-            leaderBoardData.WriteToLeaderBoard(leaderboardPoints, "MultiPlayer");
-            // Here you can add code to update the player's points in a leaderboard or player profile
-        }
-
+      
 
         private void OnExitGame()   
         {

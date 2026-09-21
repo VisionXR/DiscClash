@@ -21,6 +21,7 @@ namespace com.VisionXR.Views
         public List<GameObject> gameModeSelectionImages;
 
         [Header(" State variables ")]
+        public string matchState;
         public string vsCpuState;
         public string vsFriendsState;
         public string tutorialState;
@@ -120,11 +121,11 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             if(uiOutputData.gameType == GameType.VsCPU)
             {
-                uiData.uiManager.ChangeState(vsCpuState, true);
+                uiData.uiManager.ChangeState(matchState, true);
             }
             else if (uiOutputData.gameType == GameType.PlayWithFriends)
             {
-                uiData.uiManager.ChangeState(vsFriendsState, true);
+                uiData.uiManager.ChangeState(matchState, true);
             }
             else if (uiOutputData.gameType == GameType.Tutorial)
             {
