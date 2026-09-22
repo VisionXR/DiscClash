@@ -175,25 +175,29 @@ public class GameDataSO : ScriptableObject
 
     public int GetBWMatchPoints(Player winner)
     {
-        bool isPvsAI = uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI;
+        bool single = 
+       (uiOutputData.gameType == GameType.VsCPU && uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI) ||
+       (uiOutputData.gameType == GameType.PlayWithFriends && uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2);
+
+
         bool isWinnerWhite = winner.myCoin == PlayerCoin.White;
         const int RedPointsMultiplier = 3;
 
         int opponentRemaining = 0;
         int redPoints = 0;
 
-        if (isPvsAI)
+        if (single)
         {
             bool isPlayer1Win = (winner.myId == 1);
 
             if (isPlayer1Win)
             {
-                opponentRemaining = isWinnerWhite ? coinData.BlackCoins.Count : coinData.WhiteCoins.Count;
+                opponentRemaining = isWinnerWhite ? (TotalBlacks) : (TotalWhites);
                 redPoints = P1Red * RedPointsMultiplier;
             }
             else
             {
-                opponentRemaining = isWinnerWhite ? coinData.BlackCoins.Count : coinData.WhiteCoins.Count;
+                opponentRemaining = isWinnerWhite ? (TotalBlacks) : (TotalWhites);
                 redPoints = P2Red * RedPointsMultiplier;
             }
         }
@@ -203,18 +207,18 @@ public class GameDataSO : ScriptableObject
 
             if (isTeamAWin)
             {
-                opponentRemaining = isWinnerWhite ? (coinData.BlackCoins.Count) : (coinData.WhiteCoins.Count);
+                opponentRemaining = isWinnerWhite ? (TotalBlacks) : (TotalWhites);
                 redPoints = (P1Red + P2Red) * RedPointsMultiplier;
             }
             else
             {
-                opponentRemaining = isWinnerWhite ? (coinData.BlackCoins.Count) : (coinData.WhiteCoins.Count);
+                opponentRemaining = isWinnerWhite ? (TotalBlacks) : (TotalWhites);
                 redPoints = (P3Red + P4Red) * RedPointsMultiplier;
             }
         }
 
-        int totalBase = isWinnerWhite ? TotalBlacks : TotalWhites;
-        return totalBase - opponentRemaining + redPoints;
+       // int totalBase = isWinnerWhite ? TotalBlacks : TotalWhites;
+        return  opponentRemaining + redPoints;
     }
 
     public int GetFSMatchPoints(Player winner)
@@ -224,28 +228,23 @@ public class GameDataSO : ScriptableObject
         {
             if(winner.myId == 1)
             {
-                points = (P1Whites + P1Blacks + P1Red * 3) - (P2Whites + P2Blacks + P2Red * 3);
+                points = (P1Score) - (P2Score);
             }
             else
             {
-                points = -(P1Whites + P1Blacks + P1Red * 3) + (P2Whites + P2Blacks + P2Red * 3);
+                points =  P2Score - P1Score;
             }
         }
         else
         {
             if(winner.myTeam == Team.TeamA)
             {
-                points = (P1Whites + P1Blacks + P1Red * 3) +
-                    (P2Whites + P2Blacks + P2Red * 3) -
-                    (P3Whites + P3Blacks + P3Red * 3) -
-                    (P4Whites + P4Blacks + P4Red * 3);
+                points = TeamAScore - TeamBScore;
+                    
             }
             else
             {
-                points = -(P1Whites + P1Blacks + P1Red * 3) -
-                    (P2Whites + P2Blacks + P2Red * 3) +
-                    (P3Whites + P3Blacks + P3Red * 3) +
-                    (P4Whites + P4Blacks + P4Red * 3);
+                points = TeamBScore - TeamAScore;
             }
         }
 

@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiOutputData: {fileID: 11400000, guid: ba5aee20911bd27449c479316531a494, type: 2}
   coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
-  TotalCoins: 0
-  TotalWhites: 0
-  TotalBlacks: 0
-  TotalReds: 0
+  TotalCoins: 19
+  AllWhites: 9
+  AllBlacks: 9
+  TotalWhites: 9
+  TotalBlacks: 9
+  TotalReds: 1
   P1Whites: 0
   P1Blacks: 0
   P1Red: 0
@@ -36,7 +38,7 @@ MonoBehaviour:
   TeamBScore: 0
   isRedCovered: 0
   ShouldICoverCoin: 0
-  firstTurnId: -1
+  firstTurnId: 1
   currentTurnId: 1
   tournamentData:
     currentBoardNo: 0
