@@ -293,23 +293,18 @@ namespace com.VisionXR.Controllers
             GameResult gameResult = CheckGameResult(p);
 
             scoreManager.UpdateScore();
-
             int turnId = 1;
             if (ShouldIContinueTurn)
             {
                 turnId = gameData.currentTurnId;
-
             }
             else
             {
                 turnId = NextTurn();
-
             }
 
             gameResult.currentTurnId = turnId;
-
             StartCoroutine(SendGameResultToOthers(gameResult)); 
-
         }
 
         private IEnumerator SendGameResultToOthers(GameResult result)
@@ -320,7 +315,7 @@ namespace com.VisionXR.Controllers
         }
         private bool DeterminePlayerTurn(Player p, int Whites, int Blacks, int Red, bool isFoul)
         {
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
             {
                 return blackAndWhiteLogic.ShouldPlayerContinueTurn(p, Whites, Blacks, Red, isFoul);
             }
@@ -364,11 +359,11 @@ namespace com.VisionXR.Controllers
         }
         private GameResult CheckGameResult(Player p)
         {
-            if (uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
             {
                 return blackAndWhiteLogic.CheckWinningCondition(p);
             }
-            else if (uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
             {
                 return freeStyleLogic.CheckWinningCondition(p);
             }

@@ -249,21 +249,20 @@ namespace com.VisionXR.Controllers
             UpdateGameData(Whites, Blacks, Red);
 
             fineLogic.CheckFine(p, Whites, Blacks, Red, isFoul);
-          
-            GameResult gameResult = CheckGameResult(p);
 
             scoreManager.UpdateScore();
 
+            GameResult gameResult = CheckGameResult(p);
 
             if (gameResult.isVictory)
             {
                 if(uiOutputData.challenge == Challenge.BWTournament || uiOutputData.challenge == Challenge.FSTournament)
                 {
-                    HandleTournamentVictory(gameResult);
+                    StartCoroutine(HandleTournamentVictory(gameResult));
                 }
                 else
                 {
-                    HandleVictory(gameResult);
+                    StartCoroutine(HandleVictory(gameResult));
                 }
             }
             else
@@ -385,9 +384,10 @@ namespace com.VisionXR.Controllers
             return id;
         }
 
-        private void HandleVictory(GameResult gameResult)
+        private IEnumerator HandleVictory(GameResult gameResult)
         {
-          
+
+            yield return new WaitForSeconds(1);
             float matchDuration = (float)(DateTime.Now - matchStartTime).TotalSeconds;
             FireBaseAnalyticsManager.Instance.LogGameComplete(
               Enum.GetName(typeof(GameType), uiOutputData.gameType),
@@ -425,8 +425,9 @@ namespace com.VisionXR.Controllers
             adData.ShowInterstitialAd();
         }
 
-        private void HandleTournamentVictory(GameResult gameResult)
+        private IEnumerator HandleTournamentVictory(GameResult gameResult)
         {
+            yield return new WaitForSeconds(1);
 
             Player mainPlayer = playersData.GetMainPlayer();
 

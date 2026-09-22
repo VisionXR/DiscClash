@@ -306,8 +306,6 @@ namespace com.VisionXR.Views
             AimObject.SetActive(false);
             controlsRoutine = null;
         }
-
-
         public void SetCoins(int id)
         {
             Player p = playerData.GetPlayer(id);
