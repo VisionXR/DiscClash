@@ -81,7 +81,6 @@ namespace com.VisionXR.ModelClasses
             }
         }
 
-
         public void DestroyCoinsFellInthisTurn(List<string> coins)
         {
             DestroyCoinsFellInThisTurnEvent?.Invoke(coins);
@@ -96,8 +95,7 @@ namespace com.VisionXR.ModelClasses
             CoinFellOnGroundEvent?.Invoke(striker);
         }
         public void CoinPocketedUntoHole(GameObject hole)
-        {
-           
+        {         
             CoinpocketedUntoHoleEvent?.Invoke(hole);
         }
         public void CreateAllCoins(int id)
@@ -108,6 +106,7 @@ namespace com.VisionXR.ModelClasses
         {
             DestroyAllCoinsEvent?.Invoke();
         }
+
         public void CreateCoin(PlayerCoin coin,int id)
         {
             CreateCoinEvent?.Invoke(coin,id);

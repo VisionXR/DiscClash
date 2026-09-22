@@ -8,10 +8,12 @@ public class FineLogic : MonoBehaviour
 {
     [Header("Scriptable Objects")]
     public UIOutputDataSO uiOutputData;
-    public GameDataSO data;
+    public GameDataSO gameData;
+    public CoinDataSO coinData;
 
     [Header("Actions")]
     public Action<PlayerCoin> PutFineEvent;
+    public Action<PlayerCoin> ShowFoulEvent;
 
     public void CheckFine(Player currentPlayer, int Whites, int Blacks, int Reds, bool isFoul)
     {
@@ -74,7 +76,7 @@ public class FineLogic : MonoBehaviour
         }
 
         // If the red coin needs to be covered
-        if (data.ShouldICoverCoin)
+        if (gameData.ShouldICoverCoin)
         {
             HandleRedCoinCovering(currentPlayerIsWhite, whitePotted, currentPlayerIsBlack, blackPotted);
             return;
@@ -85,12 +87,12 @@ public class FineLogic : MonoBehaviour
         {
             if (currentPlayerIsWhite && !whitePotted || currentPlayerIsBlack && !blackPotted)
             {
-                data.ShouldICoverCoin = true;
+                gameData.ShouldICoverCoin = true;
 
             }
             else if (currentPlayerIsWhite && whitePotted || currentPlayerIsBlack && blackPotted)
             {
-                data.isRedCovered = true;
+                gameData.isRedCovered = true;
 
             }
         }
@@ -101,47 +103,47 @@ public class FineLogic : MonoBehaviour
     {
         // Your existing logic here...
         // I haven't modified this as you seemed to be content with the previous explanations.
-        if (!data.ShouldICoverCoin && !isFoul)
+        if (!gameData.ShouldICoverCoin && !isFoul)
         {
             if (Reds > 0 && Whites == 0 && Blacks == 0)
             {
-                data.ShouldICoverCoin = true;
+                gameData.ShouldICoverCoin = true;
 
             }
             else if (Reds > 0 && (Whites > 0 || Blacks > 0))
             {
-                data.isRedCovered = true;
+                gameData.isRedCovered = true;
 
             }
         }
-        else if (!data.ShouldICoverCoin && isFoul)
+        else if (!gameData.ShouldICoverCoin && isFoul)
         {
 
             if (Reds > 0 && Whites == 0 && Blacks == 0)
             {
 
                 PutFineEvent?.Invoke(PlayerCoin.Red);
-                data.TotalReds++;
-                data.ShouldICoverCoin = false;
-                data.isRedCovered = false;
+                gameData.TotalReds++;
+                gameData.ShouldICoverCoin = false;
+                gameData.isRedCovered = false;
                 ResetRedsForAllPlayers();
 
             }
             else if (Reds > 0 && (Whites > 0 || Blacks > 0))
             {
-                data.isRedCovered = true;
+                gameData.isRedCovered = true;
 
             }
 
 
         }
-        else if (data.ShouldICoverCoin)
+        else if (gameData.ShouldICoverCoin)
         {
 
             if (Whites > 0 || Blacks > 0)
             {
-                data.ShouldICoverCoin = false;
-                data.isRedCovered = true;
+                gameData.ShouldICoverCoin = false;
+                gameData.isRedCovered = true;
 
             }
             else
@@ -149,10 +151,10 @@ public class FineLogic : MonoBehaviour
 
 
                 PutFineEvent?.Invoke(PlayerCoin.Red);
-                data.TotalReds++;
+                gameData.TotalReds++;
 
-                data.ShouldICoverCoin = false;
-                data.isRedCovered = false;
+                gameData.ShouldICoverCoin = false;
+                gameData.isRedCovered = false;
                 ResetRedsForAllPlayers();
 
             }
@@ -165,27 +167,128 @@ public class FineLogic : MonoBehaviour
     /// </summary>
     private void HandleFoulSituationBW(Player currentPlayer,PlayerCoin playerCoin)
     {
-        PutFineEvent?.Invoke(playerCoin);
-     
+        ShowFoulEvent?.Invoke(playerCoin);
+            
         if (currentPlayer.myCoin == PlayerCoin.White)
         {
-            data.TotalWhites++;
+            if (gameData.TotalWhites < gameData.AllWhites)
+            {
+                PutFineEvent?.Invoke(playerCoin);
+                gameData.TotalWhites++;
+                DecrementPlayerScoreBW(currentPlayer);
+            }
+            
         }
         else if (currentPlayer.myCoin == PlayerCoin.Black)
         {
-            data.TotalBlacks++;
-        }
-
-        DecrementPlayerScoreBW(currentPlayer);
+            if (gameData.AllBlacks < gameData.TotalBlacks)
+            {
+                PutFineEvent?.Invoke(playerCoin);
+                gameData.TotalBlacks++;
+                DecrementPlayerScoreBW(currentPlayer);
+            }
+        }    
 
     }
 
     private void HandleFoulSituationFS(Player currentPlayer, PlayerCoin playerCoin)
     {
-        PutFineEvent?.Invoke(PlayerCoin.White);
-        data.TotalWhites++;
-        DecrementPlayerScoreFS(currentPlayer);
+        ShowFoulEvent?.Invoke(playerCoin);
 
+        if (uiOutputData.gameType == GameType.VsCPU)
+        {
+            if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            {
+                if(currentPlayer.myId == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                if (currentPlayer.myTeam == Team.TeamA)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+        else if (uiOutputData.gameType == GameType.PlayWithFriends)
+        {
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
+            {
+                if (currentPlayer.myId == 1)
+                {
+                    if(gameData.P1Whites > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if (gameData.P1Blacks > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                }
+                else
+                {
+                    if (gameData.P2Whites > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if (gameData.P2Blacks > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                }
+            }
+            else
+            {
+                if (currentPlayer.myTeam == Team.TeamA)
+                {
+                    if ((gameData.P1Whites+gameData.P2Whites) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if ((gameData.P1Blacks+gameData.P2Blacks) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                }
+                else
+                {
+                    if ((gameData.P3Whites + gameData.P4Whites) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if ((gameData.P3Blacks + gameData.P4Blacks) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                }
+            }
+        }
     }
 
     private void HandleRedCoinFoul(bool currentPlayerIsWhite, bool whitePotted, bool currentPlayerIsBlack, bool blackPotted)
@@ -194,14 +297,14 @@ public class FineLogic : MonoBehaviour
         if ((currentPlayerIsWhite && !whitePotted) || (currentPlayerIsBlack && !blackPotted))
         {
             PutFineEvent?.Invoke(PlayerCoin.Red);
-            data.TotalReds++;
-            data.ShouldICoverCoin = false;
-            data.isRedCovered = false;
+            gameData.TotalReds++;
+            gameData.ShouldICoverCoin = false;
+            gameData.isRedCovered = false;
             ResetRedsForAllPlayers();
         }
         else if ((currentPlayerIsWhite && whitePotted) || (currentPlayerIsBlack && blackPotted))
         {
-            data.isRedCovered = true;
+            gameData.isRedCovered = true;
 
         }
     }
@@ -211,25 +314,25 @@ public class FineLogic : MonoBehaviour
         // Check the conditions when the red coin needs to be covered
         if ((currentPlayerIsWhite && whitePotted) || (currentPlayerIsBlack && blackPotted))
         {
-            data.ShouldICoverCoin = false;
-            data.isRedCovered = true;
+            gameData.ShouldICoverCoin = false;
+            gameData.isRedCovered = true;
         }
         else if ((currentPlayerIsWhite && !whitePotted) || (currentPlayerIsBlack && !blackPotted))
         {
             PutFineEvent?.Invoke(PlayerCoin.Red);
-            data.TotalReds++;
-            data.ShouldICoverCoin = false;
-            data.isRedCovered = false;
+            gameData.TotalReds++;
+            gameData.ShouldICoverCoin = false;
+            gameData.isRedCovered = false;
             ResetRedsForAllPlayers();
         }
     }
 
     private void ResetRedsForAllPlayers()
     {
-        data.P1Red = 0;
-        data.P2Red = 0;
-        data.P3Red = 0;
-        data.P4Red = 0;
+        gameData.P1Red = 0;
+        gameData.P2Red = 0;
+        gameData.P3Red = 0;
+        gameData.P4Red = 0;
     }
 
     private void DecrementPlayerScoreBW(Player player)
@@ -238,44 +341,44 @@ public class FineLogic : MonoBehaviour
         {
             if (player.myCoin == PlayerCoin.White)
             {
-                data.P1Whites--;
+                gameData.P1Whites--;
             }
             if (player.myCoin == PlayerCoin.Black)
             {
-                data.P1Blacks--;
+                gameData.P1Blacks--;
             }
         }
         else if (player.myId == 2)
         {
             if (player.myCoin == PlayerCoin.White)
             {
-                data.P2Whites--;
+                gameData.P2Whites--;
             }
             if (player.myCoin == PlayerCoin.Black)
             {
-                data.P2Blacks--;
+                gameData.P2Blacks--;
             }
         }
         else if (player.myId == 3)
         {
             if (player.myCoin == PlayerCoin.White)
             {
-                data.P3Whites--;
+                gameData.P3Whites--;
             }
             if (player.myCoin == PlayerCoin.Black)
             {
-                data.P3Blacks--;
+                gameData.P3Blacks--;
             }
         }
         else if (player.myId == 4)
         {
             if (player.myCoin == PlayerCoin.White)
             {
-                data.P4Whites--;
+                gameData.P4Whites--;
             }
             if (player.myCoin == PlayerCoin.Black)
             {
-                data.P4Blacks--;
+                gameData.P4Blacks--;
             }
         }
     }
@@ -286,16 +389,16 @@ public class FineLogic : MonoBehaviour
         switch (player.myId)
         {
             case 1:
-                data.P1Whites--;
+                gameData.P1Whites--;
                 break;
             case 2:
-                data.P2Whites--;
+                gameData.P2Whites--;
                 break;
             case 3:
-                data.P3Whites--;
+                gameData.P3Whites--;
                 break;
             case 4:
-                data.P4Whites--;
+                gameData.P4Whites--;
                 break;
             default:
                 Debug.LogWarning($"Invalid Player ID: {player.myId}");

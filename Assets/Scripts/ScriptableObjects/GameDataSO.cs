@@ -8,9 +8,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameDataSO", menuName = "ScriptableObjects/GameDataSO", order = 1)]
 public class GameDataSO : ScriptableObject
 {
+    [Header("Scriptable Objects")]
     public UIOutputDataSO uiOutputData;
+    public CoinDataSO coinData;
 
+    [Header(" Game Variables ")]
     public int TotalCoins;
+    public int AllWhites;
+    public int AllBlacks;
     public int TotalWhites;
     public int TotalBlacks;
     public int TotalReds;
@@ -130,6 +135,8 @@ public class GameDataSO : ScriptableObject
     public void SetData(int totalCoins, int whites, int blacks, int reds)
     {
         ResetData();
+        AllWhites = whites;
+        AllBlacks = blacks;
         TotalCoins = totalCoins;
         TotalWhites = whites;
         TotalBlacks = blacks;
@@ -139,6 +146,8 @@ public class GameDataSO : ScriptableObject
 
     public void ResetData()
     {
+        AllWhites = 0;
+        AllBlacks = 0;
         TotalCoins = 0;
         TotalWhites = 0;
         TotalBlacks = 0;
@@ -179,12 +188,12 @@ public class GameDataSO : ScriptableObject
 
             if (isPlayer1Win)
             {
-                opponentRemaining = isWinnerWhite ? P2Blacks : P2Whites;
+                opponentRemaining = isWinnerWhite ? coinData.BlackCoins.Count : coinData.WhiteCoins.Count;
                 redPoints = P1Red * RedPointsMultiplier;
             }
             else
             {
-                opponentRemaining = isWinnerWhite ? P1Blacks : P1Whites;
+                opponentRemaining = isWinnerWhite ? coinData.BlackCoins.Count : coinData.WhiteCoins.Count;
                 redPoints = P2Red * RedPointsMultiplier;
             }
         }
@@ -194,12 +203,12 @@ public class GameDataSO : ScriptableObject
 
             if (isTeamAWin)
             {
-                opponentRemaining = isWinnerWhite ? (P3Blacks + P4Blacks) : (P3Whites + P4Whites);
+                opponentRemaining = isWinnerWhite ? (coinData.BlackCoins.Count) : (coinData.WhiteCoins.Count);
                 redPoints = (P1Red + P2Red) * RedPointsMultiplier;
             }
             else
             {
-                opponentRemaining = isWinnerWhite ? (P1Blacks + P2Blacks) : (P1Whites + P2Whites);
+                opponentRemaining = isWinnerWhite ? (coinData.BlackCoins.Count) : (coinData.WhiteCoins.Count);
                 redPoints = (P3Red + P4Red) * RedPointsMultiplier;
             }
         }

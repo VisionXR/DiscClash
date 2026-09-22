@@ -77,7 +77,7 @@ namespace com.VisionXR.Controllers
             }
             else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI)
             {
-                if (uiOutputData.challenge == Challenge.BlackAndWhite)
+                if (uiOutputData.challenge == Challenge.BlackAndWhite  || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     if (properties.myTeam == Team.TeamA)
                     {
@@ -88,7 +88,7 @@ namespace com.VisionXR.Controllers
                         properties.myCoin = PlayerCoin.Black;
                     }
                 }
-                else if (uiOutputData.challenge == Challenge.FreeStyle)
+                else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     if (properties.myTeam == Team.TeamA)
                     {

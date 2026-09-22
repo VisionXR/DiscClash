@@ -19,7 +19,7 @@ namespace com.VisionXR.Controllers
         public DeepLinkManager deepLinkManager;
         public AchievementsDataSO achievementsData;
         public PurchaseDataSO purchaseData;
-
+        public PanelOnOff playerNamePanel;
         // local variables
         private string displayName;
 
@@ -181,6 +181,11 @@ namespace com.VisionXR.Controllers
             {
                 Debug.Log($"Existing PlayFab DisplayName found: {currentDisplayName}");
                 playerSettings.SetUserName(currentDisplayName);
+
+                if(currentDisplayName.Contains("Guest"))
+                {
+                    playerNamePanel.TurnOnPanel();
+                }
             }
 
         }
