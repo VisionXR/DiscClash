@@ -63,6 +63,7 @@ namespace com.VisionXR.Controllers
             networkInputData.DestroyCoinsFellInThisTurnEvent += DestroyCoinsFellInThisTurn;
             networkInputData.GameResultReceivedEvent += GameResultReceived;
             networkInputData.PutFineEvent += ReceiveFine;
+            networkInputData.StartNewBoardEvent += StartNextBoard;
 
             gameData.TurnChangedEvent += TurnChanged;
 
@@ -72,14 +73,11 @@ namespace com.VisionXR.Controllers
 
         }
 
-
-
         private void OnDisable()
         {
 
             uiInputData.ExitGameEvent -= OnExitGame;
-            uiInputData.HomeEvent -= OnExitGame;
-           
+            uiInputData.HomeEvent -= OnExitGame;         
 
             playersData.PlayerStrikeStartedEvent -= StrikeStarted;
             playersData.PlayerStrikeFinishedEvent -= StrikeFinished;
@@ -93,11 +91,10 @@ namespace com.VisionXR.Controllers
             networkInputData.GameResultReceivedEvent -= GameResultReceived;
             networkInputData.DestroyCoinsFellInThisTurnEvent -= DestroyCoinsFellInThisTurn;
             networkInputData.PutFineEvent -= ReceiveFine;
-
+            networkInputData.StartNewBoardEvent -= StartNextBoard;
 
             gameData.TurnChangedEvent -= TurnChanged;
    
-
             uiInputData.PauseGameEvent -= PauseGame;
             uiInputData.ResumeGameEvent -= ResumeGame;
         }
@@ -170,6 +167,14 @@ namespace com.VisionXR.Controllers
 
             uiInputData.StartGame();
 
+            if (uiOutputData.challenge == Challenge.BWTournament || uiOutputData.challenge == Challenge.FSTournament)
+            {
+                Debug.Log(" In multiplayer tournament start ");
+
+                gameData.tournamentData.ResetTournamentData();
+
+            }
+
             StartCoroutine(WaitAndStart(turnId));
 
             matchStartTime = DateTime.Now;
@@ -180,6 +185,56 @@ namespace com.VisionXR.Controllers
 
                );
 
+        }
+
+        public void StartNextBoard()
+        {
+            int id = 1;
+            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 2;
+                }
+            }
+            else
+            {
+                if (gameData.firstTurnId == 1)
+                {
+                    id = 3;
+                }
+                else if (gameData.firstTurnId == 3)
+                {
+                    id = 2;
+                }
+                else if (gameData.firstTurnId == 2)
+                {
+                    id = 4;
+                }
+                else if (gameData.firstTurnId == 4)
+                {
+                    id = 1;
+                }
+            }
+
+            gameData.tournamentData.SetBoardNo(); // Increment Board Number
+
+            if (uiOutputData.challenge == Challenge.BWTournament) // Switch coins for players
+            {
+                foreach (Player p in playersData.CurrentPlayers)
+                {
+                    if (p.myCoin == PlayerCoin.White)
+                    {
+                        p.myCoin = PlayerCoin.Black;
+                    }
+                    else
+                    {
+                        p.myCoin = PlayerCoin.White;
+                    }
+                }
+            }
+
+            StartCoroutine(WaitAndStart(id));
         }
 
         private IEnumerator WaitAndStart(int turnId)
@@ -227,14 +282,12 @@ namespace com.VisionXR.Controllers
         }
 
         private IEnumerator WaitAndProcessData()
-        {
-            
+        {           
             List<string> coinsFell = coinData.GetCoinsFellInThisTurn();
             dataManager.SendDestroyCoinsInThisTurn(EncodeList(coinsFell));
             yield return new WaitForSeconds(0.5f);
             ProcessPlayerData(playersData.GetPlayer(gameData.currentTurnId), coinData.Whites, coinData.Blacks, coinData.Red, strikerData.isFoul);
         }
-
         public string EncodeList(List<string> list)
         {
             return string.Join("|", list);
@@ -245,14 +298,10 @@ namespace com.VisionXR.Controllers
             if (string.IsNullOrEmpty(encoded)) return new List<string>();
             return new List<string>(encoded.Split('|'));
         }
-
-
         private void PutFine(PlayerCoin coin)
         {
             dataManager.SendFine(coin);
         }
-
-
         private void GameDataReceived(CurrentGameData data)
         {
             gameData.SetCurrentGameData(data);
@@ -266,8 +315,15 @@ namespace com.VisionXR.Controllers
 
             if(result.isVictory)
             {
-                HandleVictory(result);
-                
+                if (uiOutputData.challenge == Challenge.BWTournament || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    StartCoroutine(HandleTournamentVictory(result));
+                }
+                else
+                {
+                    StartCoroutine(HandleVictory(result));
+                }
+
             }
 
             else
@@ -405,8 +461,9 @@ namespace com.VisionXR.Controllers
             return id;
         }
 
-        private void HandleVictory(GameResult gameResult)
+        private IEnumerator HandleVictory(GameResult gameResult)
         {
+            yield return new WaitForSeconds(0.5f);
 
             float matchDuration = (float)(DateTime.Now - matchStartTime).TotalSeconds;
             FireBaseAnalyticsManager.Instance.LogGameComplete(
@@ -441,6 +498,98 @@ namespace com.VisionXR.Controllers
                 AudioManager.instance.PlayLosingSound();
         
             }
+            EndGame();
+            adData.ShowInterstitialAd();
+        }
+
+        private IEnumerator HandleTournamentVictory(GameResult gameResult)
+        {
+            yield return new WaitForSeconds(1);
+
+            Player mainPlayer = playersData.GetMainPlayer();
+
+            Player p = playersData.GetPlayer(gameResult.winningPlayerId);
+            int mpPoints = 0;
+
+            if (uiOutputData.challenge == Challenge.BWTournament)
+            {
+                mpPoints = gameData.GetBWMatchPoints(p);
+            }
+            else if (uiOutputData.challenge == Challenge.FSTournament)
+            {
+                mpPoints = gameData.GetFSMatchPoints(p);
+            }
+
+
+            gameData.GetBWMatchPoints(p);
+
+            if (p.myId == 1)
+            {
+                gameData.tournamentData.SetScores(mpPoints.ToString(), "0");
+                gameData.tournamentData.CalculateScores();
+            }
+            else
+            {
+                gameData.tournamentData.SetScores("0", mpPoints.ToString());
+                gameData.tournamentData.CalculateScores();
+            }
+
+            if (mainPlayer.myTeam == gameResult.winningTeam)
+            {
+                AudioManager.instance.PlayWinningSound();
+
+                winPs1.Play();
+                winPs2.Play();
+            }
+            else
+            {
+                Debug.Log("Tournament Board Lost!");
+                AudioManager.instance.PlayLosingSound();
+            }
+
+            if (gameData.tournamentData.currentBoardNo == 7 || gameData.tournamentData.P1TotalScore >= 25 || gameData.tournamentData.P2TotalScore >= 25)
+            {
+                if (gameData.tournamentData.currentBoardNo == 7)
+                {
+                    if (gameData.tournamentData.P1TotalScore >= gameData.tournamentData.P2TotalScore)
+                    {
+                        gameResult.winningPlayerId = 1;
+                        Player wp = playersData.GetPlayer(1);
+                        gameResult.winningTeam = wp.myTeam;
+                    }
+                    else
+                    {
+                        gameResult.winningPlayerId = 2;
+                        Player wp = playersData.GetPlayer(2);
+                        gameResult.winningTeam = wp.myTeam;
+                    }
+                }
+                else
+                {
+                    if (gameData.tournamentData.P1TotalScore >= 25)
+                    {
+                        gameResult.winningPlayerId = 1;
+                        Player wp = playersData.GetPlayer(1);
+                        gameResult.winningTeam = wp.myTeam;
+                    }
+
+                    else if (gameData.tournamentData.P2TotalScore >= 25)
+                    {
+
+                        gameResult.winningPlayerId = 2;
+                        Player wp = playersData.GetPlayer(2);
+                        gameResult.winningTeam = wp.myTeam;
+
+                    }
+                }
+
+                uiInputData.GameCompleted(gameResult);
+            }
+            else
+            {
+                uiInputData.TournamentBoardCompleted(gameResult);
+            }
+
             EndGame();
             adData.ShowInterstitialAd();
         }

@@ -15,6 +15,7 @@ namespace com.VisionXR.ModelClasses
         public Action<string> DestroyCoinsFellInThisTurnEvent;
         public Action<CurrentGameData> CurrentGameDataReceivedEvent;
         public Action<GameResult> GameResultReceivedEvent;
+        public Action StartNewBoardEvent;
 
 
         public Action PlayerStrikeStartedEvent;
@@ -69,6 +70,11 @@ namespace com.VisionXR.ModelClasses
         public void SetGameResult(GameResult gameResult)
         {
             GameResultReceivedEvent?.Invoke(gameResult);
+        }
+
+        public void StartNewBoard()
+        {
+            StartNewBoardEvent?.Invoke();
         }
 
         public void PutFine(PlayerCoin coin)

@@ -2,6 +2,7 @@ using com.VisionXR.GameElements;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
+using static GameDataSO;
 
 namespace com.VisionXR.Controllers
 {
@@ -24,6 +25,12 @@ namespace com.VisionXR.Controllers
 
             SetMainPlayer();
             mainPlayerNetworkData.SetGameData(data);
+
+        }
+
+        public void SendTournamentData(TournamentData data)
+        {
+            SetMainPlayer();
 
         }
 

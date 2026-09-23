@@ -52,6 +52,7 @@ namespace com.VisionXR.ModelClasses
             SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
             SetAIDifficulty(AIDifficulty.Easy);
             SetRoomJoinType(RoomJoinType.Create);
+            SetMatchType(MatchType.Single);
         }
 
         public void SetRoomJoinType(RoomJoinType roomJoinType)
