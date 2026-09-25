@@ -1,3 +1,4 @@
+using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace com.VisionXR.Views
         public NetworkInputSO networkInput;
 
         [Header("States")]
+        public DataManager dataManager;
         public string tournamentBoardResultState;
 
         [Header("UI Elements")]
@@ -24,6 +26,8 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+            networkInput.StartNewBoardEvent += StartNextBoard;
+
             if (uiOutputData.gameType == GameType.VsCPU)
             {
                 NextBtn.SetActive(true);
@@ -47,6 +51,12 @@ namespace com.VisionXR.Views
             }
         }
 
+        private void OnDisable()
+        {
+            networkInput.StartNewBoardEvent -= StartNextBoard;
+
+        }
+
 
         public void NextBoardBtnClicked()
         {
@@ -59,8 +69,16 @@ namespace com.VisionXR.Views
             }
             else if (uiOutputData.gameType == GameType.PlayWithFriends)
             {
-                
+                dataManager.SendTournamentBoardComplete();
+                NextBtn.SetActive(false);
+                HomeBtn.SetActive(false);
             }
+        }
+
+        public void StartNextBoard()
+        {
+            uiInputData.PlayNextBoard();
+            uiData.uiManager.ChangeState(tournamentBoardResultState, false);
         }
 
         public void HomeBtnClicked()

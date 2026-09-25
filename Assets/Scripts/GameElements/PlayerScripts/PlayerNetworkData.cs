@@ -220,6 +220,11 @@ namespace com.VisionXR.HelperClasses
             networkInputData.PutFine(coin);
         }
 
+        [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
+        public void RPC_NextBoard()
+        {
+            networkInputData.StartNewBoard();
+        }
 
         [Rpc(RpcSources.StateAuthority, RpcTargets.All, Channel = RpcChannel.Reliable)]
         public void RPC_PlayerStrikeStarted(float force, Vector3 dir)

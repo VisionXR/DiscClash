@@ -28,11 +28,6 @@ namespace com.VisionXR.Controllers
 
         }
 
-        public void SendTournamentData(TournamentData data)
-        {
-            SetMainPlayer();
-
-        }
 
         public void SendGameResult(GameResult gameResult)
         {
@@ -47,6 +42,12 @@ namespace com.VisionXR.Controllers
 
         }
 
+        public void SendTournamentBoardComplete()
+        {
+            SetMainPlayer();
+            mainPlayerNetworkData.RPC_NextBoard();
+
+        }
         public void SendFine(PlayerCoin coin)
         {
             SetMainPlayer();
