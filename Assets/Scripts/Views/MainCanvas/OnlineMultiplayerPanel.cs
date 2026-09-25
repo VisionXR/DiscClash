@@ -30,32 +30,75 @@ namespace com.VisionXR.Views
             ResetGameModeImages();
             ResetRoomImages();
 
-            uiData.uiManager.ChangeState("Home", false);
-            
+            if(uiOutputData.matchType == MatchType.Tournament)
+            {
+                if(uiOutputData.challenge == Challenge.BlackAndWhite)
+                {
+                    uiOutputData.challenge = Challenge.BWTournament;
+                }
+                if (uiOutputData.challenge == Challenge.FreeStyle)
+                {
+                    uiOutputData.challenge = Challenge.FSTournament;
+                }
+            }
 
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2 && uiOutputData.challenge == Challenge.BlackAndWhite)
+            if (uiOutputData.matchType == MatchType.Single)
             {
-                GameModeSelectedImages[0].SetActive(true);
+                if (uiOutputData.challenge == Challenge.BWTournament)
+                {
+                    uiOutputData.challenge = Challenge.BlackAndWhite;
+                }
+                if (uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    uiOutputData.challenge = Challenge.FreeStyle;
+                }
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2 && uiOutputData.challenge == Challenge.FreeStyle)
+
+
+
+            uiData.uiManager.ChangeState("Home", false);        
+
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)          
             {
-                GameModeSelectedImages[1].SetActive(true);
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
+                {
+                    GameModeSelectedImages[0].SetActive(true);
+                }
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
-                GameModeSelectedImages[2].SetActive(true);
+                if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    GameModeSelectedImages[1].SetActive(true);
+                }
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
             {
-                GameModeSelectedImages[3].SetActive(true);
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
+                {
+                    GameModeSelectedImages[2].SetActive(true);
+                }
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI && uiOutputData.challenge == Challenge.BlackAndWhite)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
             {
-                GameModeSelectedImages[4].SetActive(true);
+                if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    GameModeSelectedImages[3].SetActive(true);
+                }
             }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI && uiOutputData.challenge == Challenge.FreeStyle)
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI )
             {
-                GameModeSelectedImages[5].SetActive(true);
+                if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
+                {
+                    GameModeSelectedImages[4].SetActive(true);
+                }
+            }
+            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI )
+            {
+                if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
+                {
+                    GameModeSelectedImages[5].SetActive(true);
+                }
             }
 
             if (uiOutputData.roomJoinType == RoomJoinType.Create)
@@ -75,7 +118,15 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.BWTournament);
+            }
             GameModeSelectedImages[0].SetActive(true);
 
         }
@@ -85,7 +136,15 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1vsP2);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
+
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.FreeStyle);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.FSTournament);
+            }
             GameModeSelectedImages[1].SetActive(true);
 
         }
@@ -95,8 +154,15 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-        
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.BWTournament);
+            }
+
             GameModeSelectedImages[2].SetActive(true);
 
 
@@ -107,8 +173,16 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1AIvsP2AI);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
-          
+
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.FreeStyle);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.FSTournament);
+            }
+
             GameModeSelectedImages[3].SetActive(true);
         }
 
@@ -117,8 +191,15 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
-            uiOutputData.SetChallenge(Challenge.BlackAndWhite);
-      
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.BlackAndWhite);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.BWTournament);
+            }
+
             GameModeSelectedImages[4].SetActive(true);
 
 
@@ -129,8 +210,16 @@ namespace com.VisionXR.Views
             AudioManager.instance.PlayButtonClickSound();
             ResetGameModeImages();
             uiOutputData.SetMultiPlayerGameMode(MultiPlayerGameMode.P1P2vsAI);
-            uiOutputData.SetChallenge(Challenge.FreeStyle);
-       
+
+            if (uiOutputData.matchType == MatchType.Single)
+            {
+                uiOutputData.SetChallenge(Challenge.FreeStyle);
+            }
+            else
+            {
+                uiOutputData.SetChallenge(Challenge.FSTournament);
+            }
+
             GameModeSelectedImages[5].SetActive(true);
         }
 

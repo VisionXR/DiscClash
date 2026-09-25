@@ -189,6 +189,7 @@ namespace com.VisionXR.HelperClasses
     {
         
         public ServerRegion region;
+        public MatchType match;
         public GameType gameType;
         public Challenge challenge;
         public SinglePlayerGameMode singlePlayerGameMode;

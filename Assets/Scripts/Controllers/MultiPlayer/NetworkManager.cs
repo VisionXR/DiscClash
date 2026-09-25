@@ -111,7 +111,8 @@ namespace com.VisionXR.Controllers
                     { "gamemode", (int)uiOutputData.multiPlayerGameMode },
                     { "challenge", (int)uiOutputData.challenge },
                     { "board", uiOutputData.MyBoardId },
-                    { "difficulty", (int)uiOutputData.aIDifficulty }
+                    { "difficulty", (int)uiOutputData.aIDifficulty },
+                    {"match",(int)uiOutputData.matchType }
      
                 };
 
@@ -241,6 +242,9 @@ namespace com.VisionXR.Controllers
 
                 if (props.TryGetValue("difficulty", out var difficultyProp))
                     uiOutputData.SetAIDifficulty((AIDifficulty)(int)difficultyProp);
+
+                if (props.TryGetValue("match", out var matchProp))
+                    uiOutputData.SetMatchType((MatchType)(int)matchProp);
 
 
                 Debug.Log("[Network] Session properties received and assigned.");

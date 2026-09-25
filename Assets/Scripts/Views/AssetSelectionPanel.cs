@@ -99,6 +99,7 @@ namespace com.VisionXR.Views
             destination.gameType = uiOutputData.gameType;
             destination.challenge = uiOutputData.challenge;
             destination.difficulty = uiOutputData.aIDifficulty;
+            destination.match = uiOutputData.matchType;
 
             if (destination.gameType == GameType.VsCPU)
             {
