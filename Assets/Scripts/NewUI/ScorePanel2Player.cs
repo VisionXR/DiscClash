@@ -191,8 +191,8 @@ namespace com.VisionXR.Views
             TurnChanged(result.winningPlayerId);
             uiData.uiManager.ShowCanvas(0);
             uiData.uiManager.ChangeState(tournamentBoardResultState, true);
-           
 
+            Debug.Log(" In Score");
             gameObject.SetActive(false);
         }
 

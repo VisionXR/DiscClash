@@ -587,6 +587,7 @@ namespace com.VisionXR.Controllers
             }
             else
             {
+                Debug.Log("in board complete");
                 uiInputData.TournamentBoardCompleted(gameResult);
             }
 
