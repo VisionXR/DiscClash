@@ -189,6 +189,17 @@ namespace com.VisionXR.Controllers
 
         public void StartNextBoard()
         {
+
+            gameData.ResetData();
+            coinData.ResetData();
+            coinData.ResetCount();
+            strikerData.ResetFoul();
+
+            coinData.CreateAllCoins(uiOutputData.MyCoinsId);
+
+            connectionDisconnection.StartGame();
+
+
             int id = 1;
             if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
@@ -233,6 +244,8 @@ namespace com.VisionXR.Controllers
                     }
                 }
             }
+
+            gameData.SetFirstTurnId(id);
 
             StartCoroutine(WaitAndStart(id));
         }
