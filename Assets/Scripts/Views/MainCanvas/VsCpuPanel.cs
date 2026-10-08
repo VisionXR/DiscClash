@@ -39,9 +39,7 @@ namespace com.VisionXR.Views
                 {
                     GameModeSelectedImages[0].SetActive(true);
                 }
-            }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
-            {
+
                 if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     GameModeSelectedImages[1].SetActive(true);
@@ -53,15 +51,13 @@ namespace com.VisionXR.Views
                 {
                     GameModeSelectedImages[2].SetActive(true);
                 }
-            }
-            else if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PAIvsAI )
-            {
+
                 if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     GameModeSelectedImages[3].SetActive(true);
                 }
             }
-
+  
 
             if (uiOutputData.aIDifficulty == AIDifficulty.Easy)
             {
