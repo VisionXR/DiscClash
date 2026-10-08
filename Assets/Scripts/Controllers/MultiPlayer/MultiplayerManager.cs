@@ -201,7 +201,7 @@ namespace com.VisionXR.Controllers
 
 
             int id = 1;
-            if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
             {
                 if (gameData.firstTurnId == 1)
                 {

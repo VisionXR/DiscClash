@@ -45,7 +45,7 @@ namespace com.VisionXR.GameElements
             {
                 if (data.isRedCovered)
                 {
-                    result.winningPlayerId = (data.P1Whites + data.P1Blacks + 3 * data.P1Red) > (data.P2Whites + data.P1Blacks + 3 * data.P2Red) ? 1 : 2;
+                    result.winningPlayerId = (data.P1Whites + data.P1Blacks + 3 * data.P1Red) >= (data.P2Whites + data.P2Blacks + 3 * data.P2Red) ? 1 : 2;
 
                     if(result.winningPlayerId == 1)
                     {

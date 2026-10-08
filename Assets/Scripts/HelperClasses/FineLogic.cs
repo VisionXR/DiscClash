@@ -181,7 +181,7 @@ public class FineLogic : MonoBehaviour
         }
         else if (currentPlayer.myCoin == PlayerCoin.Black)
         {
-            if (gameData.AllBlacks < gameData.TotalBlacks)
+            if (gameData.TotalBlacks < gameData.AllBlacks)
             {
                 PutFineEvent?.Invoke(playerCoin);
                 gameData.TotalBlacks++;

@@ -44,8 +44,8 @@ namespace com.VisionXR.Controllers
             uiInputData.StartMultiPlayerGameEvent -= StartMultiPlayer;
             uiInputData.StartTutorialEvent -= StartTutorial;
 
-            uiInputData.ExitGameEvent += StopGame;
-            uiInputData.HomeEvent += StopGame;
+            uiInputData.ExitGameEvent -= StopGame;
+            uiInputData.HomeEvent -= StopGame;
 
         }
    

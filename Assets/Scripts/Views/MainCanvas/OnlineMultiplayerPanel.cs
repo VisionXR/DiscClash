@@ -64,37 +64,33 @@ namespace com.VisionXR.Views
                 {
                     GameModeSelectedImages[0].SetActive(true);
                 }
-            }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2)
-            {
+
                 if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     GameModeSelectedImages[1].SetActive(true);
                 }
             }
+
             else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
             {
                 if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     GameModeSelectedImages[2].SetActive(true);
                 }
-            }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI )
-            {
+
                 if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     GameModeSelectedImages[3].SetActive(true);
                 }
             }
+
             else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI )
             {
                 if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
                 {
                     GameModeSelectedImages[4].SetActive(true);
                 }
-            }
-            else if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1P2vsAI )
-            {
+
                 if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
                 {
                     GameModeSelectedImages[5].SetActive(true);
