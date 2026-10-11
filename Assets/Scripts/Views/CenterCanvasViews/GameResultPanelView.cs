@@ -100,7 +100,8 @@ namespace com.VisionXR.Views
                 P2Winner.SetActive(true);
             }
 
-            if (uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
+            // T12: CPU team results always refresh Team A, independently of an earlier online selection.
+            if (uiOutputData.gameType == GameType.VsCPU || uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1AIvsP2AI)
             {
                 P1Image.sprite = playersData.GetPlayer(1).GetMyImage();
                 player1Nam.text = playersData.GetPlayer(1).myName;
@@ -116,18 +117,9 @@ namespace com.VisionXR.Views
             }
 
 
-            if (uiOutputData.gameType == GameType.VsCPU)
-            {
-                P2Image.sprite = playersData.GetPlayer(2).GetMyImage();
-                player2Nam.text = playersData.GetPlayer(2).myName;
-            }
-            else if (uiOutputData.gameType == GameType.PlayWithFriends)
-            {
-               
-                    P2Image.sprite = playersData.GetPlayer(3).GetMyImage();
-                    player2Nam.text = playersData.GetPlayer(3).myName;
-                
-            }
+            // T12: Player 3 represents the opposing Team B in both CPU and online team games.
+            P2Image.sprite = playersData.GetPlayer(3).GetMyImage();
+            player2Nam.text = playersData.GetPlayer(3).myName;
 
         }
 

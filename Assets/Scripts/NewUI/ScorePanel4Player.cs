@@ -136,6 +136,13 @@ namespace com.VisionXR.Views
 
         private void OnDisable()
         {
+            // T13: Unity stops hidden-panel coroutines; clear handles so Controls works on the next board.
+            if (controlsRoutine != null) StopCoroutine(controlsRoutine);
+            controlsRoutine = null;
+            if (turnIndicatorCoroutine != null) StopCoroutine(turnIndicatorCoroutine);
+            turnIndicatorCoroutine = null;
+            PositionObject.SetActive(false);
+            AimObject.SetActive(false);
 
             gameData.TurnChangedEvent -= TurnChanged;
 

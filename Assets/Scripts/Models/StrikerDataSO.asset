@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a750e6004d4d8484c9df322dcde3e8bb, type: 3}
   m_Name: StrikerDataSO
   m_EditorClassIdentifier: 
+  coinData: {fileID: 11400000, guid: e758d26466956544394c6946598c03f1, type: 2}
   ForceLowerLimit: 0.3
   ForceUpperLimit: 4
   LeftLimit: -0.3
@@ -19,3 +20,5 @@ MonoBehaviour:
   isFoul: 0
   baseLerpDuration: 0.05
   AvailableStrikersinGame: []
+  isMoving: 0
+  isAimimg: 0

@@ -9,6 +9,8 @@ namespace com.VisionXR.ModelClasses
     public class LeaderBoardSO : ScriptableObject
     {
         // variables
+        // G02: Explicit offline play must not submit scores to an authenticated account left in the SDK.
+        public CloudDataSO cloudData;
         public List<LeaderBoardPoints> leaderBoardPoints;
 
         // Action
@@ -21,6 +23,8 @@ namespace com.VisionXR.ModelClasses
         // Methods
         public void WriteToLeaderBoard(int points,string apiName)
         {
+            // G02: Local offline games do not produce cloud leaderboard writes.
+            if (cloudData != null && cloudData.isOfflineSession) return;
             WriteToLeaderBoardEvent?.Invoke(points,apiName);
         }
 

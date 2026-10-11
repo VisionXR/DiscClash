@@ -105,6 +105,13 @@ namespace com.VisionXR.Controllers
 
         internal void ProcessAuthentication(SignInStatus status)
         {
+            // G02: A late Google callback must not replace an explicit offline session.
+            if (cloudData.isOfflineSession) return;
+            if (status != SignInStatus.Success)
+            {
+                cloudData.PlayFabLoginFailure();
+                return;
+            }
             if (status == SignInStatus.Success)
             {
                 Debug.Log("Real Carrom 3D: Google Login Successful!");
@@ -143,7 +150,9 @@ namespace com.VisionXR.Controllers
         {
             PlayGamesPlatform.Instance.RequestServerSideAccess(true, (authCode) =>
             {
-                if (string.IsNullOrEmpty(authCode)) return;
+                // G02: Empty auth tokens are a visible login failure, not a silent dead end.
+                if (cloudData.isOfflineSession) return;
+                if (string.IsNullOrEmpty(authCode)) { cloudData.PlayFabLoginFailure(); return; }
 
                 // Use LoginWithGooglePlayGamesServices instead of LoginWithGoogleAccount
                 var request = new LoginWithGooglePlayGamesServicesRequest
@@ -163,6 +172,8 @@ namespace com.VisionXR.Controllers
 
         private void OnPlayFabSuccess(LoginResult result)
         {
+            // G02: Ignore a login response that arrived after Play Offline was selected.
+            if (cloudData.isOfflineSession) return;
            
             cloudData.PlayFabLoginSuccess();
 
@@ -199,7 +210,8 @@ namespace com.VisionXR.Controllers
 
             PlayFabClientAPI.UpdateUserTitleDisplayName(request,
                 OnDisplayNameUpdateSuccess,
-                OnPlayFabFailure
+                // G02: A profile-name write failure is not an authentication failure.
+                error => Debug.LogWarning("Could not update display name: " + error.ErrorMessage)
             );
         }
 

@@ -9,6 +9,9 @@ namespace com.VisionXR.ModelClasses
     [CreateAssetMenu(fileName = "StrikerDataSO", menuName = "ScriptableObjects/StrikerDataSO", order = 1)]
     public class StrikerDataSO : ScriptableObject
     {
+        // T11: Shared live coin bodies allow every striker prefab to wait for the entire board to settle.
+        public CoinDataSO coinData;
+
         // variables
         public float ForceLowerLimit = 0.2f;
         public float ForceUpperLimit = 5;

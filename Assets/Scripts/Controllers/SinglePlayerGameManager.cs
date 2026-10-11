@@ -36,6 +36,9 @@ namespace com.VisionXR.Controllers
         public ParticleSystem winPs2;
 
         // local variables
+        // T10/T07: Accept one result and one next-board operation for each tournament board.
+        private bool awaitingNextBoard;
+        private bool tournamentResultPending;
         private DateTime matchStartTime;
         private bool isFirstTurn = false;
 
@@ -61,6 +64,10 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
+            // T10: No delayed board startup/result may survive leaving the game.
+            StopAllCoroutines();
+            awaitingNextBoard = false;
+            tournamentResultPending = false;
           
             uiInputData.HomeEvent -= ExitGame;
             uiInputData.ExitGameEvent -= ExitGame;
@@ -98,6 +105,9 @@ namespace com.VisionXR.Controllers
 
         public void StartGame()
         {
+            // T10: A fresh game starts a fresh board lifecycle.
+            awaitingNextBoard = false;
+            tournamentResultPending = false;
             int id = 1;
             if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
@@ -139,6 +149,10 @@ namespace com.VisionXR.Controllers
 
         public void StartNextBoard()
         {
+            // T10: Ignore repeated clicks/RPCs before creating coins or changing player colours.
+            if (!awaitingNextBoard || !gameData.tournamentData.SetBoardNo()) return;
+            awaitingNextBoard = false;
+            tournamentResultPending = false;
             int id = 1;
             if (uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
             {
@@ -167,7 +181,6 @@ namespace com.VisionXR.Controllers
                 }
             }
 
-            gameData.tournamentData.SetBoardNo(); // Increment Board Number
 
             if (uiOutputData.challenge == Challenge.BWTournament) // Switch coins for players
             {
@@ -193,7 +206,9 @@ namespace com.VisionXR.Controllers
             coinData.ResetData();
             coinData.CreateAllCoins(uiOutputData.MyCoinsId);
             gameData.SetFirstTurnId(id);
-            uiInputData.StartGame();
+            // T08: Keep board setup events, but count only the first board as a new game.
+            uiInputData.StartGame(gameData.tournamentData.currentBoardNo == 0
+                || (uiOutputData.challenge != Challenge.BWTournament && uiOutputData.challenge != Challenge.FSTournament));
             int firstTurn = id;
             if (firstTurn == 1)
             {
@@ -427,92 +442,56 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator HandleTournamentVictory(GameResult gameResult)
         {
+            // T10/T07: Duplicate completion messages must not score or reward the board twice.
+            if (tournamentResultPending) yield break;
+            tournamentResultPending = true;
             yield return new WaitForSeconds(1);
 
             Player mainPlayer = playersData.GetMainPlayer();
+            Player winner = playersData.GetPlayer(gameResult.winningPlayerId);
+            int points = uiOutputData.challenge == Challenge.BWTournament
+                ? gameData.GetBWMatchPoints(winner) : gameData.GetFSMatchPoints(winner);
 
-            Player p = playersData.GetPlayer(gameResult.winningPlayerId);
-            int mpPoints = 0;
-            
-            if(uiOutputData.challenge == Challenge.BWTournament)
+            // T01: Attribute board points to the winning side, including Team A's Player 2.
+            bool firstSide = gameData.IsFirstTournamentSide(winner);
+            gameData.tournamentData.SetScores(firstSide ? points.ToString() : "0", firstSide ? "0" : points.ToString());
+            gameData.tournamentData.CalculateScores();
+            bool finished = gameData.tournamentData.currentBoardNo == 7
+                || gameData.tournamentData.P1TotalScore >= 25 || gameData.tournamentData.P2TotalScore >= 25;
+
+            // T02/T09: Resolve the overall winner before choosing final sound, particles and rewards.
+            if (finished)
             {
-                mpPoints = gameData.GetBWMatchPoints(p);
+                gameResult.winningPlayerId = gameData.GetTournamentWinnerId();
+                gameResult.winningTeam = playersData.GetPlayer(gameResult.winningPlayerId).myTeam;
             }
-            else if (uiOutputData.challenge == Challenge.FSTournament)
+            bool localWinner = mainPlayer.myTeam == gameResult.winningTeam;
+            if (localWinner)
             {
-                mpPoints = gameData.GetFSMatchPoints(p);
-            }
-
-
-            gameData.GetBWMatchPoints(p);
-
-            if (p.myId == 1)
-            {
-                gameData.tournamentData.SetScores(mpPoints.ToString(), "0");
-                gameData.tournamentData.CalculateScores();
-            }
-            else
-            {
-                gameData.tournamentData.SetScores("0", mpPoints.ToString());
-                gameData.tournamentData.CalculateScores();
-            }
-
-            if (mainPlayer.myTeam == gameResult.winningTeam)
-            {           
                 AudioManager.instance.PlayWinningSound();
-
                 winPs1.Play();
                 winPs2.Play();
             }
-            else
+            else AudioManager.instance.PlayLosingSound();
+
+            if (finished)
             {
-                Debug.Log("Tournament Board Lost!");
-                AudioManager.instance.PlayLosingSound();
-            }
-
-            if (gameData.tournamentData.currentBoardNo == 7 || gameData.tournamentData.P1TotalScore >= 25 || gameData.tournamentData.P2TotalScore >= 25)
-            {
-                if(gameData.tournamentData.currentBoardNo == 7)
+                // T07: Count one tournament win and submit the winning side's total once.
+                if (localWinner)
                 {
-                    if(gameData.tournamentData.P1TotalScore >= gameData.tournamentData.P2TotalScore)
-                    {
-                        gameResult.winningPlayerId = 1;
-                        Player wp = playersData.GetPlayer(1);
-                        gameResult.winningTeam = wp.myTeam;
-                    }
-                    else
-                    {
-                        gameResult.winningPlayerId = 2;
-                        Player wp = playersData.GetPlayer(2);
-                        gameResult.winningTeam = wp.myTeam;
-                    }
+                    uiInputData.GameWon();
+                    int total = gameResult.winningTeam == Team.TeamA
+                        ? gameData.tournamentData.P1TotalScore : gameData.tournamentData.P2TotalScore;
+                    leaderBoardData.WriteToLeaderBoard(total, "SinglePlayer");
                 }
-                else
-                {
-                    if (gameData.tournamentData.P1TotalScore >= 25)
-                    {
-                        gameResult.winningPlayerId = 1;
-                        Player wp = playersData.GetPlayer(1);
-                        gameResult.winningTeam = wp.myTeam;
-                    }
-
-                    else if(gameData.tournamentData.P2TotalScore >= 25)
-                    {
-                        
-                            gameResult.winningPlayerId = 2;
-                            Player wp = playersData.GetPlayer(2);
-                            gameResult.winningTeam = wp.myTeam;
-                        
-                    }
-                }
-
                 uiInputData.GameCompleted(gameResult);
             }
             else
             {
+                // T10: Only a completed, non-final board permits one Next operation.
+                awaitingNextBoard = true;
                 uiInputData.TournamentBoardCompleted(gameResult);
             }
-
             EndGame();
             adData.ShowInterstitialAd();
         }

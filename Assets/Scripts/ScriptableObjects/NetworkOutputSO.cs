@@ -17,6 +17,18 @@ namespace com.VisionXR.ModelClasses
         public NetworkRunner runner;
 
         // Actions
+        // G01: Report unexpected local disconnects once per runner; intentional exits are suppressed.
+        public Action<string> ConnectionLostEvent;
+        public bool intentionalShutdown;
+        private NetworkRunner notifiedRunner;
+
+        public void ReportConnectionLost(NetworkRunner source, string reason)
+        {
+            if (intentionalShutdown || source != runner || notifiedRunner == source) return;
+            notifiedRunner = source;
+            ConnectionLostEvent?.Invoke(reason);
+        }
+
         public Action HostReadyEvent;
         public Action ClientReadyEvent;
 

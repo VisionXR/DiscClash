@@ -182,6 +182,8 @@ public class AchievementManager : MonoBehaviour
 
     public void GameStarted()
     {
+        // G02: Offline progress must not update a previously authenticated account's achievements.
+        if (cloudData.isOfflineSession) return;
 
        
 
@@ -213,6 +215,8 @@ public class AchievementManager : MonoBehaviour
 
     public void GameCompleted()
     {
+        // G02: Tournament/board win reporting is local-only during explicit offline play.
+        if (cloudData.isOfflineSession) return;
 
         Debug.Log("Game Completed in achievements");
 
@@ -222,7 +226,8 @@ public class AchievementManager : MonoBehaviour
         {
             if (d.gameType == GameType.VsCPU)
             {
-                if (d.challenge == Challenge.BlackAndWhite)
+                // T07: A completed tournament counts once in its existing game category.
+                if (d.challenge == Challenge.BlackAndWhite || d.challenge == Challenge.BWTournament)
                 {
                     if (d.difficulty == AIDifficulty.Easy)
                     {
@@ -238,7 +243,8 @@ public class AchievementManager : MonoBehaviour
                     }
 
                 }
-                else if (d.challenge == Challenge.FreeStyle)
+                // T07: Free Style tournaments use the existing Free Style win counters.
+                else if (d.challenge == Challenge.FreeStyle || d.challenge == Challenge.FSTournament)
                 {
                     if (d.difficulty == AIDifficulty.Easy)
                     {
@@ -260,11 +266,13 @@ public class AchievementManager : MonoBehaviour
 
             else if (d.gameType == GameType.PlayWithFriends)
             {
-                if (d.challenge == Challenge.BlackAndWhite)
+                // T07: A completed tournament counts once in its existing game category.
+                if (d.challenge == Challenge.BlackAndWhite || d.challenge == Challenge.BWTournament)
                 {
                     achievementData.defaultBoardWinsData.mpBWWins++;
                 }
-                else if (d.challenge == Challenge.FreeStyle)
+                // T07: Free Style tournaments use the existing Free Style win counters.
+                else if (d.challenge == Challenge.FreeStyle || d.challenge == Challenge.FSTournament)
                 {
                     achievementData.defaultBoardWinsData.mpFSWins++;
                 }

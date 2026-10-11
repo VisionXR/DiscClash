@@ -30,6 +30,12 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState("Home", false);
      
 
+            // T04: Apply match type on entry, even when the player accepts the existing mode selection.
+            if (uiOutputData.challenge == Challenge.BlackAndWhite || uiOutputData.challenge == Challenge.BWTournament)
+                uiOutputData.SetChallenge(uiOutputData.matchType == MatchType.Single ? Challenge.BlackAndWhite : Challenge.BWTournament);
+            else if (uiOutputData.challenge == Challenge.FreeStyle || uiOutputData.challenge == Challenge.FSTournament)
+                uiOutputData.SetChallenge(uiOutputData.matchType == MatchType.Single ? Challenge.FreeStyle : Challenge.FSTournament);
+
             ResetGameModeImages();
             ResetDifficultyImages();
 

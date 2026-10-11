@@ -25,6 +25,19 @@ namespace com.VisionXR.Controllers
         private Action OnDataFetchFailureEvent;
 
         private Coroutine loadTimeoutCoroutine;
+        // G03: Invalidate callbacks from an earlier request after timeout, retry, disable or offline play.
+        private int loadGeneration;
+        private bool awaitingLoad;
+
+        public void CancelLoad()
+        {
+            loadGeneration++;
+            awaitingLoad = false;
+            if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
+            loadTimeoutCoroutine = null;
+            OnDataFetchSuccessEvent = null;
+            OnDataFetchFailureEvent = null;
+        }
 
         private void OnEnable()
         {
@@ -40,7 +53,8 @@ namespace com.VisionXR.Controllers
             userData.DeleteAccountEvent -= DeleteUserData;
 
             // Safety check to prevent memory leaks if destroyed during loading
-            if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
+            // G03: No stale response may update data after this manager is disabled.
+            CancelLoad();
         }
 
         /// <summary>
@@ -48,36 +62,33 @@ namespace com.VisionXR.Controllers
         /// </summary>
         public void LoadPlayerData(Action OnSuccess, Action OnFailure)
         {
+            // G03: One request per attempt, with a real deadline and one completion callback.
+            CancelLoad();
             OnDataFetchSuccessEvent = OnSuccess;
             OnDataFetchFailureEvent = OnFailure;
-
-            // Reset the load state before starting
             cloudData.DataLoaded(false);
-
-            // Start the 5-second timeout coroutine
-            if (loadTimeoutCoroutine != null) StopCoroutine(loadTimeoutCoroutine);
-            loadTimeoutCoroutine = StartCoroutine(LoadPlayerDataRoutine(5f));
+            awaitingLoad = true;
+            int generation = loadGeneration;
+            loadTimeoutCoroutine = StartCoroutine(LoadPlayerDataRoutine(5f, generation));
+            RequestUserData(generation);
         }
 
-        /// <summary>
-        /// Coroutine that waits for data to load or times out after specified seconds.
-        /// </summary>
-        private IEnumerator LoadPlayerDataRoutine(float timeoutDuration)
+        private IEnumerator LoadPlayerDataRoutine(float timeoutDuration, int generation)
         {
-            float elapsed = 0f;
+            float deadline = Time.realtimeSinceStartup + timeoutDuration;
+            while (awaitingLoad && generation == loadGeneration && Time.realtimeSinceStartup < deadline)
+                yield return null;
+            if (awaitingLoad && generation == loadGeneration) FinishLoad(generation, false);
+        }
 
-            // Loop until the data is loaded OR we hit the timeout limit
-            while (!cloudData.isDataLoaded())
-            {
-                LoadUserData();
-                elapsed += Time.deltaTime;
-                yield return new WaitForSeconds(timeoutDuration); // Wait for the next frame
-            }
-
-
-         
-            OnDataFetchSuccessEvent?.Invoke();
-            loadTimeoutCoroutine = null;
+        // G03: Clear state before invoking user callbacks, which may synchronously request another load.
+        private void FinishLoad(int generation, bool success)
+        {
+            if (!awaitingLoad || generation != loadGeneration) return;
+            Action callback = success ? OnDataFetchSuccessEvent : OnDataFetchFailureEvent;
+            CancelLoad();
+            cloudData.DataLoaded(success);
+            callback?.Invoke();
         }
 
         // --- SAVE DATA ---
@@ -107,34 +118,43 @@ namespace com.VisionXR.Controllers
         // --- LOAD DATA ---
         public void LoadUserData()
         {
-           
-            var request = new GetUserDataRequest
-            {
-                Keys = new List<string> { defaultBoardsWinsKey }
-            };
+            // G03: Keep the public entry point while using the guarded load lifecycle.
+            LoadPlayerData(null, null);
+        }
 
+        private void RequestUserData(int generation)
+        {
+            var request = new GetUserDataRequest { Keys = new List<string> { defaultBoardsWinsKey } };
             try
             {
                 PlayFabClientAPI.GetUserData(request, result =>
                 {
-                    if (result.Data != null && result.Data.ContainsKey(defaultBoardsWinsKey))
+                    // G03: Ignore late replies instead of overwriting a newer/offline session's progress.
+                    if (!awaitingLoad || generation != loadGeneration || cloudData.isOfflineSession) return;
+                    try
                     {
-                        string json = result.Data[defaultBoardsWinsKey].Value;
-                        achievementsData.defaultBoardWinsData = JsonUtility.FromJson<DefaultBoardWinsData>(json);
-                        achievementsData.UserLoggedIn();
+                        if (result.Data != null && result.Data.ContainsKey(defaultBoardsWinsKey))
+                        {
+                            var data = JsonUtility.FromJson<DefaultBoardWinsData>(result.Data[defaultBoardsWinsKey].Value);
+                            if (data == null) throw new InvalidOperationException("Invalid player data.");
+                            // G03: Older cloud records may omit the client list used by online achievements.
+                            if (data.clientNames == null) data.clientNames = new List<string>();
+                            achievementsData.defaultBoardWinsData = data;
+                            achievementsData.UserLoggedIn();
+                        }
+                        FinishLoad(generation, true);
                     }
-
-                    Debug.Log("User data loaded successfully.");
-
-                  
-                    // Critical: Setting this triggers the coroutine while-loop to stop early!
-                    cloudData.DataLoaded(true);
-
-                }, OnDataFetchError);
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning("Player data could not be read: " + e.Message);
+                        FinishLoad(generation, false);
+                    }
+                }, error => FinishLoad(generation, false));
             }
             catch (Exception e)
             {
-                Debug.Log("Error loading data " + e.Message);
+                Debug.LogWarning("Error loading data: " + e.Message);
+                FinishLoad(generation, false);
             }
         }
 
@@ -166,14 +186,8 @@ namespace com.VisionXR.Controllers
 
         private void OnDataFetchError(PlayFabError error)
         {
-            // If PlayFab explicitly returns an error, stop the coroutine immediately
-            if (loadTimeoutCoroutine != null)
-            {
-                StopCoroutine(loadTimeoutCoroutine);
-                loadTimeoutCoroutine = null;
-            }
-
-            OnDataFetchFailureEvent?.Invoke();
+            // G03: Save/delete failures must not cancel an unrelated player-data fetch.
+            Debug.LogWarning("Cloud write failed: " + error.ErrorMessage);
         }
     }
 }

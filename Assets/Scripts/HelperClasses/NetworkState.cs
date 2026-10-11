@@ -34,7 +34,8 @@ public class NetworkState : MonoBehaviour, INetworkRunnerCallbacks
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
 
-      //  networkData.DisconnectedFromServer(reason.ToString());
+        // G01: Forward transport loss to the active multiplayer UI, including between-board results.
+        if (networkOutputData != null) networkOutputData.ReportConnectionLost(runner, reason.ToString());
     }
 
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
@@ -161,6 +162,8 @@ public class NetworkState : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+        // G01: Unexpected runner shutdown needs the same recovery path; duplicate notifications are ignored.
+        if (networkOutputData != null) networkOutputData.ReportConnectionLost(runner, shutdownReason.ToString());
         Debug.Log(" ShutDown by me "+ shutdownReason);
     }
 

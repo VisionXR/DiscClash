@@ -72,7 +72,8 @@ namespace com.VisionXR.Controllers
             destinationData.ConnectToDestinationEvent += ConnectToDestination;
 
             RoomCreateSuccessEvent += RoomCreateSuccess;
-            RoomCreateFailedEvent += RoomJoinFailed;
+            // G04: Subscribe and unsubscribe the same failure handler.
+            RoomCreateFailedEvent += RoomCreateFailed;
 
             RoomJoinSuccessEvent += RoomJoinSuccess;
             RoomJoinFailedEvent += RoomJoinFailed;
@@ -92,68 +93,59 @@ namespace com.VisionXR.Controllers
             
         }
 
+        // G04: Do not leave a stale deep-link callback after the scene is destroyed.
+        private void OnDestroy() { Application.deepLinkActivated -= OnDeepLinkActivated; }
+
         private void OnDeepLinkActivated(string url)
         {
-
-            isLink = true;
-            string linkurl = ParseDeepLink(url);
-
-            if (string.IsNullOrEmpty(linkurl))
+            UrlLinkData data;
+            if (!TryParseInvite(url, out data))
             {
+                // G04: Invalid cold-start links must still start the normal login flow.
+                if (errorText != null) errorText.text = "Invalid invite link. Ask the host for a new link.";
+                if (isFirstTime) { isFirstTime = false; isLink = false; StartCoroutine(CheckLogin()); }
                 return;
             }
-
-
-            UrlLinkData newData = ConvertStringToLinkData(linkurl);
+            // G04: Only validated values may change the selected game or destination.
+            isLink = true;
             uiOutputData.SetGameType(GameType.PlayWithFriends);
-
-            string fullInput = newData.r;
-            string actualRoomName = fullInput;
-            ServerRegion targetRegion = ServerRegion.any;
-
-            // Ensure the input has at least 2 characters before splitting
-            if (!string.IsNullOrEmpty(fullInput) && fullInput.Length >= 2)
-            {
-                string regionCodeStr = fullInput.Substring(0, 2);
-                actualRoomName = fullInput.Substring(2);
-
-                // 2. Convert the 2-digit string to an integer
-                if (int.TryParse(regionCodeStr, out int regionIndex))
-                {
-                    // 3. Explicitly cast the integer to your ServerRegion enum
-                    // (Note: This assumes the parsed integer maps directly to your enum indexes)
-                    targetRegion = (ServerRegion)regionIndex;
-                }
-                else
-                {
-                    Debug.LogWarning($"Could not parse '{regionCodeStr}' into an integer. Defaulting to 'any'.");
-                }
-            }
+            multiPlayerDestination.roomName = data.r.Substring(2);
+            multiPlayerDestination.region = (ServerRegion)int.Parse(data.r.Substring(0, 2));
+            multiPlayerDestination.multiPlayerGameMode = (MultiPlayerGameMode)int.Parse(data.g);
+            multiPlayerDestination.challenge = (Challenge)int.Parse(data.c);
+            multiPlayerDestination.time = data.t;
+            if (isFirstTime) { isFirstTime = false; StartCoroutine(CheckLogin()); }
             else
             {
-                Debug.LogWarning("Room code entered is too short! Using fallback handling.");
-            }
-
-            multiPlayerDestination.roomName = actualRoomName;
-            multiPlayerDestination.region = targetRegion;
-            multiPlayerDestination.multiPlayerGameMode = (MultiPlayerGameMode)(int.Parse(newData.g));
-            multiPlayerDestination.challenge = (Challenge)(int.Parse(newData.c));
-            multiPlayerDestination.time = newData.t;
-       
-
-            if (isFirstTime)
-            {
-                isFirstTime = false;
-                StartCoroutine(CheckLogin());
-
-            }
-            else
-            {
-
                 changeDestinationPanelView.SetDestination(multiPlayerDestination);
                 uiData.uiManager.GoToState(StateName.ChangeDestinationState);
                 isLink = false;
             }
+        }
+
+        // G04: Validate room/region, supported mode, challenge and timestamp without throwing.
+        public bool TryParseInvite(string url, out UrlLinkData data)
+        {
+            data = null;
+            string query = ParseDeepLink(url);
+            if (string.IsNullOrEmpty(query)) return false;
+            try
+            {
+                data = ConvertStringToLinkData(query);
+                int region, mode, challenge;
+                if (string.IsNullOrEmpty(data.r) || data.r.Length != 7
+                    || !System.Text.RegularExpressions.Regex.IsMatch(data.r, @"^\d{7}$")
+                    || !int.TryParse(data.r.Substring(0, 2), out region)
+                    || !Enum.IsDefined(typeof(ServerRegion), region)
+                    || !int.TryParse(data.g, out mode) || !Enum.IsDefined(typeof(MultiPlayerGameMode), mode)
+                    || mode == (int)MultiPlayerGameMode.P1P2vsP3P4
+                    || !int.TryParse(data.c, out challenge) || !Enum.IsDefined(typeof(Challenge), challenge)
+                    || challenge == (int)Challenge.TrickShots) return false;
+                DateTime timestamp;
+                return string.IsNullOrEmpty(data.t) || DateTime.TryParseExact(data.t, "yyyyMMddHHmm",
+                    System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out timestamp);
+            }
+            catch (Exception) { data = null; return false; }
         }
 
         public string ParseDeepLink(string url)
@@ -163,7 +155,8 @@ namespace com.VisionXR.Controllers
             try
             {
                 string prefix = "realcarrom3d://";
-                if (!url.StartsWith(prefix)) return null;
+                // G04: URL schemes are case-insensitive.
+                if (!url.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)) return null;
 
                 string jsonPart = url.Substring(prefix.Length);
 
@@ -194,7 +187,8 @@ namespace com.VisionXR.Controllers
                 if (keyValue.Length == 2)
                 {
                     string key = keyValue[0].Trim();
-                    string value = keyValue[1].Trim();
+                    // G04: Decode values before numeric/date validation.
+                    string value = Uri.UnescapeDataString(keyValue[1].Trim());
 
                     // 3. Match the key and assign the value to the correct class property
                     switch (key)
@@ -264,6 +258,13 @@ namespace com.VisionXR.Controllers
             }
             else if ( destination.gameType == GameType.PlayWithFriends)
             {
+                // G02: Offline sessions cannot enter online matchmaking; login is required first.
+                if (cloudData.isOfflineSession)
+                {
+                    OnDestinationFailEvent?.Invoke();
+                    if (errorText != null) errorText.text = "Log in to play online.";
+                    return;
+                }
                
                 if (destination.roomName == "")
                 {

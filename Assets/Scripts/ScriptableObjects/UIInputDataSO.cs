@@ -75,10 +75,14 @@ namespace com.VisionXR.ModelClasses
             StartTutorialEvent?.Invoke();
         }
 
-        public void StartGame()
+        // T08: Preserve the parameterless entry point for existing callers and Inspector callbacks.
+        public void StartGame() { StartGame(true); }
+
+        public void StartGame(bool countGame)
         {
             isGamePaused = false;
-            StartGameEvent?.Invoke(); 
+            // T08: Later CPU tournament boards reset pause state without counting another game.
+            if (countGame) StartGameEvent?.Invoke(); 
         }
 
         public void GameCompleted(GameResult gameResult)

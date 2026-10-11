@@ -6684,13 +6684,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LoadingPanelView, Assembly-CSharp
+      - m_Target: {fileID: 249756360}
+        m_TargetAssemblyTypeName: com.VisionXR.Controllers.LoginFetchManager, Assembly-CSharp
         m_MethodName: PlayOfflineBtnClicked
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12102,6 +12102,12 @@ MonoBehaviour:
   cloudData: {fileID: 11400000, guid: 0f89025c55a7508438345ff93ad3e0dd, type: 2}
   uiInputData: {fileID: 11400000, guid: cf45ea574d519b54a83917c2d2f874c7, type: 2}
   destinationData: {fileID: 11400000, guid: 94d210005fa2f274b9a664d9968d0dc4, type: 2}
+  recoveryPanel: {fileID: 761439263}
+  recoveryText: {fileID: 1768016095}
+  playerSettings: {fileID: 11400000, guid: e1d3a9cf682b58140be82ef682372011, type: 2}
+  deepLinkManager: {fileID: 514902351}
+  cloudManager: {fileID: 249756361}
+  gameUIInput: {fileID: 11400000, guid: 50234bd3f63a2f34a9bbd2de7943db49, type: 2}
   maxAttempts: 3
   retryDelaySeconds: 1
   autoRetry: 1
@@ -70694,13 +70700,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LoadingPanelView, Assembly-CSharp
+      - m_Target: {fileID: 249756360}
+        m_TargetAssemblyTypeName: com.VisionXR.Controllers.LoginFetchManager, Assembly-CSharp
         m_MethodName: RetryBtnClicked
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

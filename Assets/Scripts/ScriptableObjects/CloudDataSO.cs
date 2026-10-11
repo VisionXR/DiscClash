@@ -9,6 +9,8 @@ namespace com.VisionXR.ModelClasses
     {
         // variables
         private bool isPlayerDataLoaded = false;
+        // G02: Offline play must never upload local progress or accept a late authentication response.
+        [NonSerialized] public bool isOfflineSession;
 
 
         //Login  Events    
@@ -43,7 +45,8 @@ namespace com.VisionXR.ModelClasses
 
         public void SavePlayerData()
         {
-            if (isPlayerDataLoaded)
+            // G02: Cloud writes are disabled during the explicit offline session.
+            if (isPlayerDataLoaded && !isOfflineSession)
             {
                 SavePlayerDataEvent?.Invoke();
             }

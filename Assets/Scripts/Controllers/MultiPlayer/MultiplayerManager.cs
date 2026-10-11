@@ -41,11 +41,18 @@ namespace com.VisionXR.Controllers
         [Header("Local")]
         public ParticleSystem winPs1;
         public ParticleSystem winPs2;
+        // T10/T07: Accept one result and one next-board operation for each tournament board.
+        private bool awaitingNextBoard;
+        // T06/G01: Late network messages from an interrupted session cannot re-enable the board.
+        private bool sessionInterrupted;
+        private bool tournamentResultPending;
         private DateTime matchStartTime;
         private Coroutine turnTimeRoutine;
 
         private void OnEnable()
         {
+            // T06/G01: A newly entered multiplayer session starts with a fresh interruption guard.
+            sessionInterrupted = false;
             gameData.SetFirstTurnId(-1);
 
             uiInputData.ExitGameEvent += OnExitGame;
@@ -64,6 +71,8 @@ namespace com.VisionXR.Controllers
             networkInputData.GameResultReceivedEvent += GameResultReceived;
             networkInputData.PutFineEvent += ReceiveFine;
             networkInputData.StartNewBoardEvent += StartNextBoard;
+            // T06/G01: A delayed victory routine must not replace a disconnect screen.
+            connectionDisconnection.SessionLostEvent += AbortSession;
 
             gameData.TurnChangedEvent += TurnChanged;
 
@@ -75,6 +84,10 @@ namespace com.VisionXR.Controllers
 
         private void OnDisable()
         {
+            // T10: No delayed board startup/result may survive leaving the game.
+            StopAllCoroutines();
+            awaitingNextBoard = false;
+            tournamentResultPending = false;
 
             uiInputData.ExitGameEvent -= OnExitGame;
             uiInputData.HomeEvent -= OnExitGame;         
@@ -92,6 +105,8 @@ namespace com.VisionXR.Controllers
             networkInputData.DestroyCoinsFellInThisTurnEvent -= DestroyCoinsFellInThisTurn;
             networkInputData.PutFineEvent -= ReceiveFine;
             networkInputData.StartNewBoardEvent -= StartNextBoard;
+            // T06/G01: Keep connection callbacks scoped to this active game manager.
+            connectionDisconnection.SessionLostEvent -= AbortSession;
 
             gameData.TurnChangedEvent -= TurnChanged;
    
@@ -150,6 +165,11 @@ namespace com.VisionXR.Controllers
 
         public void StartGame(int turnId,int coinsId)
         {
+            // G01: Ignore a queued start message from a disconnected session.
+            if (sessionInterrupted) return;
+            // T10: A fresh game starts a fresh board lifecycle.
+            awaitingNextBoard = false;
+            tournamentResultPending = false;
             uiData.uiManager.ChangeState("MultiPlayerStartGame", true);
           
             uiOutputData.SetMyCoinsId(coinsId);
@@ -189,6 +209,10 @@ namespace com.VisionXR.Controllers
 
         public void StartNextBoard()
         {
+            // T10: Ignore repeated clicks/RPCs before creating coins or changing player colours.
+            if (!awaitingNextBoard || !gameData.tournamentData.SetBoardNo()) return;
+            awaitingNextBoard = false;
+            tournamentResultPending = false;
 
             gameData.ResetData();
             coinData.ResetData();
@@ -228,7 +252,6 @@ namespace com.VisionXR.Controllers
                 }
             }
 
-            gameData.tournamentData.SetBoardNo(); // Increment Board Number
 
             if (uiOutputData.challenge == Challenge.BWTournament) // Switch coins for players
             {
@@ -317,12 +340,16 @@ namespace com.VisionXR.Controllers
         }
         private void GameDataReceived(CurrentGameData data)
         {
+            // T06/G01: Discard board data received after the disconnect screen was opened.
+            if (sessionInterrupted) return;
             gameData.SetCurrentGameData(data);
             scoreManager.UpdateScore();
         }
 
         private void GameResultReceived(GameResult result)
         {
+            // T06/G01: A stale turn/result RPC must not overwrite the disconnect UI or enable input.
+            if (sessionInterrupted) return;
             coinData.ResetData();
             strikerData.ResetFoul();
 
@@ -517,97 +544,73 @@ namespace com.VisionXR.Controllers
 
         private IEnumerator HandleTournamentVictory(GameResult gameResult)
         {
+            // T10/T07: Duplicate completion messages must not score or reward the board twice.
+            if (tournamentResultPending) yield break;
+            tournamentResultPending = true;
             yield return new WaitForSeconds(1);
 
             Player mainPlayer = playersData.GetMainPlayer();
+            Player winner = playersData.GetPlayer(gameResult.winningPlayerId);
+            int points = uiOutputData.challenge == Challenge.BWTournament
+                ? gameData.GetBWMatchPoints(winner) : gameData.GetFSMatchPoints(winner);
 
-            Player p = playersData.GetPlayer(gameResult.winningPlayerId);
-            int mpPoints = 0;
+            // T01: Attribute board points to the winning side, including Team A's Player 2.
+            bool firstSide = gameData.IsFirstTournamentSide(winner);
+            gameData.tournamentData.SetScores(firstSide ? points.ToString() : "0", firstSide ? "0" : points.ToString());
+            gameData.tournamentData.CalculateScores();
+            bool finished = gameData.tournamentData.currentBoardNo == 7
+                || gameData.tournamentData.P1TotalScore >= 25 || gameData.tournamentData.P2TotalScore >= 25;
 
-            if (uiOutputData.challenge == Challenge.BWTournament)
+            // T02/T09: Resolve the overall winner before choosing final sound, particles and rewards.
+            if (finished)
             {
-                mpPoints = gameData.GetBWMatchPoints(p);
+                gameResult.winningPlayerId = gameData.GetTournamentWinnerId();
+                gameResult.winningTeam = playersData.GetPlayer(gameResult.winningPlayerId).myTeam;
             }
-            else if (uiOutputData.challenge == Challenge.FSTournament)
-            {
-                mpPoints = gameData.GetFSMatchPoints(p);
-            }
-
-
-            gameData.GetBWMatchPoints(p);
-
-            if (p.myId == 1)
-            {
-                gameData.tournamentData.SetScores(mpPoints.ToString(), "0");
-                gameData.tournamentData.CalculateScores();
-            }
-            else
-            {
-                gameData.tournamentData.SetScores("0", mpPoints.ToString());
-                gameData.tournamentData.CalculateScores();
-            }
-
-            if (mainPlayer.myTeam == gameResult.winningTeam)
+            bool localWinner = mainPlayer.myTeam == gameResult.winningTeam;
+            if (localWinner)
             {
                 AudioManager.instance.PlayWinningSound();
-
                 winPs1.Play();
                 winPs2.Play();
             }
-            else
+            else AudioManager.instance.PlayLosingSound();
+
+            if (finished)
             {
-                Debug.Log("Tournament Board Lost!");
-                AudioManager.instance.PlayLosingSound();
-            }
-
-            if (gameData.tournamentData.currentBoardNo == 7 || gameData.tournamentData.P1TotalScore >= 25 || gameData.tournamentData.P2TotalScore >= 25)
-            {
-                if (gameData.tournamentData.currentBoardNo == 7)
+                // T07: Count one tournament win and submit the winning side's total once.
+                if (localWinner)
                 {
-                    if (gameData.tournamentData.P1TotalScore >= gameData.tournamentData.P2TotalScore)
-                    {
-                        gameResult.winningPlayerId = 1;
-                        Player wp = playersData.GetPlayer(1);
-                        gameResult.winningTeam = wp.myTeam;
-                    }
-                    else
-                    {
-                        gameResult.winningPlayerId = 2;
-                        Player wp = playersData.GetPlayer(2);
-                        gameResult.winningTeam = wp.myTeam;
-                    }
+                    uiInputData.GameWon();
+                    int total = gameResult.winningTeam == Team.TeamA
+                        ? gameData.tournamentData.P1TotalScore : gameData.tournamentData.P2TotalScore;
+                    leaderBoardData.WriteToLeaderBoard(total, "MultiPlayer");
                 }
-                else
-                {
-                    if (gameData.tournamentData.P1TotalScore >= 25)
-                    {
-                        gameResult.winningPlayerId = 1;
-                        Player wp = playersData.GetPlayer(1);
-                        gameResult.winningTeam = wp.myTeam;
-                    }
-
-                    else if (gameData.tournamentData.P2TotalScore >= 25)
-                    {
-
-                        gameResult.winningPlayerId = 2;
-                        Player wp = playersData.GetPlayer(2);
-                        gameResult.winningTeam = wp.myTeam;
-
-                    }
-                }
-
+                // T14: Clear the old start flag before Play Again can return to the lobby.
+                uiData.uiManager.ChangeState("MultiPlayerStartGame", false);
+                // T06: Final results no longer represent an active tournament session.
+                connectionDisconnection.CompleteSession();
                 uiInputData.GameCompleted(gameResult);
             }
             else
             {
-                Debug.Log("in board complete");
+                // T10: Only a completed, non-final board permits one Next operation.
+                awaitingNextBoard = true;
                 uiInputData.TournamentBoardCompleted(gameResult);
             }
-
             EndGame();
             adData.ShowInterstitialAd();
         }
 
+        // T06/G01: Stop pending results, new-board work and active board objects after connection loss.
+        private void AbortSession()
+        {
+            sessionInterrupted = true;
+            StopAllCoroutines();
+            awaitingNextBoard = false;
+            tournamentResultPending = true;
+            EndGame();
+        }
 
         public void EndGame()
         {

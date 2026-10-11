@@ -221,10 +221,33 @@ public class GameDataSO : ScriptableObject
         return  opponentRemaining + redPoints;
     }
 
+    // T01/T02/T03: Select the active mode; CPU and online selections are independent.
+    public bool IsTwoPlayerMode()
+    {
+        return (uiOutputData.gameType == GameType.VsCPU && uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+            || (uiOutputData.gameType == GameType.PlayWithFriends && uiOutputData.multiPlayerGameMode == MultiPlayerGameMode.P1vsP2);
+    }
+
+    // T01: In team games the first tournament column belongs to Team A, including Player 2.
+    public bool IsFirstTournamentSide(Player winner)
+    {
+        return IsTwoPlayerMode() ? winner.myId == 1 : winner.myTeam == Team.TeamA;
+    }
+
+    // T02: Player 3 represents Team B in four-player games; Player 2 belongs to Team A.
+    public int GetTournamentWinnerId()
+    {
+        bool firstWins = tournamentData.currentBoardNo == 7
+            ? tournamentData.P1TotalScore >= tournamentData.P2TotalScore
+            : tournamentData.P1TotalScore >= 25;
+        return firstWins ? 1 : (IsTwoPlayerMode() ? 2 : 3);
+    }
+
     public int GetFSMatchPoints(Player winner)
     {
         int points = 0;
-        if(uiOutputData.singlePlayerGameMode == SinglePlayerGameMode.PvsAI)
+        // T03: Online Free Style scoring must use the online mode, not the last CPU selection.
+        if (IsTwoPlayerMode())
         {
             if(winner.myId == 1)
             {
@@ -262,13 +285,24 @@ public class GameDataSO : ScriptableObject
         public int P2TotalScore;
 
 
-        public void SetBoardNo()
+        // T10: Refuse to advance beyond the configured rows instead of indexing a nonexistent board.
+        public bool SetBoardNo()
         {
+            if (P1Scores == null || P2Scores == null || currentBoardNo < 0
+                || currentBoardNo + 1 >= Math.Min(P1Scores.Count, P2Scores.Count)) return false;
             currentBoardNo++;
+            return true;
         }
 
         public void SetScores(string P1Score, string P2Score)
         {
+            // T10: A stale or invalid board must not throw and interrupt the result flow.
+            if (P1Scores == null || P2Scores == null || currentBoardNo < 0
+                || currentBoardNo >= P1Scores.Count || currentBoardNo >= P2Scores.Count)
+            {
+                Debug.LogWarning("Tournament score ignored: invalid board index.");
+                return;
+            }
             P1Scores[currentBoardNo] = P1Score;
             P2Scores[currentBoardNo] = P2Score;
         }

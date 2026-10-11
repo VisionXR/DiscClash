@@ -199,6 +199,8 @@ namespace com.VisionXR.Controllers
         {
             if (runner != null)
             {
+                // G01: Set the intentional-exit flag before Shutdown can invoke callbacks synchronously.
+                networkOutputData.intentionalShutdown = true;
                 runner.Shutdown();
                 runner = null;
                 networkOutputData.runner = null;
@@ -220,6 +222,8 @@ namespace com.VisionXR.Controllers
              GameObject tmpObject = Instantiate(NetworkRunnerObject, transform);
              runner = tmpObject.GetComponent<NetworkRunner>();
              runner.ProvideInput = true;
+             // G01: A newly created runner has its own connection-failure lifecycle.
+             networkOutputData.intentionalShutdown = false;
              networkOutputData.runner = runner;
             
         }

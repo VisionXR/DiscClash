@@ -24,8 +24,12 @@ namespace com.VisionXR.Views
         public GameObject HomeBtn;
         public GameObject ClientText;
 
+        // T10: Latch immediately, before the outgoing panel animation can accept another click.
+        private bool nextRequested;
+
         private void OnEnable()
         {
+            nextRequested = false;
             networkInput.StartNewBoardEvent += StartNextBoard;
 
             if (uiOutputData.gameType == GameType.VsCPU)
@@ -45,7 +49,8 @@ namespace com.VisionXR.Views
                 else
                 {
                     NextBtn.SetActive(false);
-                    HomeBtn.SetActive(false);
+                    // T06: A waiting client must always have an exit option.
+                    HomeBtn.SetActive(true);
                     ClientText.SetActive(true);
                 }
             }
@@ -60,6 +65,10 @@ namespace com.VisionXR.Views
 
         public void NextBoardBtnClicked()
         {
+            // T10: Only the CPU player or online host may request one next board per result screen.
+            if (nextRequested || (uiOutputData.gameType == GameType.PlayWithFriends && !networkOutput.isHost)) return;
+            nextRequested = true;
+            NextBtn.SetActive(false);
             AudioManager.instance.PlayButtonClickSound();
 
             if (uiOutputData.gameType == GameType.VsCPU)
