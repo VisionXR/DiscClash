@@ -1,6 +1,7 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
+using TMPro;
 using UnityEngine;
 
 namespace com.VisionXR.Views
@@ -16,6 +17,7 @@ namespace com.VisionXR.Views
         public NetworkInputSO networkInput;
 
         [Header("States")]
+        public TMP_Text boardNoText;
         public DataManager dataManager;
         public string tournamentBoardResultState;
 
@@ -31,6 +33,8 @@ namespace com.VisionXR.Views
         {
             nextRequested = false;
             networkInput.StartNewBoardEvent += StartNextBoard;
+
+            boardNoText.text = "Board " + (gameData.tournamentData.currentBoardNo + 1).ToString() + " Completed";
 
             if (uiOutputData.gameType == GameType.VsCPU)
             {
