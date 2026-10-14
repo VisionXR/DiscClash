@@ -46,8 +46,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     private void OnDisable()
     {
         isPlayerInGame = false;
-        // T06/G01: Ignore callbacks after this session has been left intentionally.
-        sessionActive = false;
+
         networkOutputData.ConnectionLostEvent -= ConnectionLost;
         playersData.PlayerJoinedEvent -= PlayerJoined;
         playersData.PlayerLeftEvent -= PlayerLeft;
@@ -62,16 +61,15 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     private void PlayerLeft(Player player)
     {
         // T06: Handle departures during a board and while waiting for the next tournament board.
-        if (isPlayerInGame || sessionActive)
+        if (isPlayerInGame)
         {
             SessionLostEvent?.Invoke();
             inputData.DisableInput();
             isPlayerInGame = false;
-            sessionActive = false;
             uiData.uiManager.ChangeState(opponentPlayerLeftState, true);
             uiData.uiManager.ShowCanvas(0);
             // T06: The result state has no OPPlayerLeft transition, so enter the existing disconnect state directly.
-            uiData.uiManager.GoToState(StateName.MPHostDisconnectedState);
+            uiData.uiManager.GoToState(StateName.MPClientDisconnectedState);
         }
     }
 
@@ -81,11 +79,11 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
         SessionLostEvent?.Invoke();
         inputData.DisableInput();
         isPlayerInGame = false;
-        sessionActive = false;
+       
         uiData.uiManager.ChangeState("MultiPlayerStartGame", false);
         uiData.uiManager.ChangeState(mainPlayerLeftState, true);
         uiData.uiManager.ShowCanvas(0);
-        uiData.uiManager.GoToState(com.VisionXR.HelperClasses.StateName.MPClientDisconnectState);
+        uiData.uiManager.GoToState(StateName.MPClientDisconnectState);
         Debug.LogWarning("Network connection lost: " + reason);
     }
 
@@ -95,15 +93,12 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
     public void EndGame()
     {
         isPlayerInGame = false;
-        // T06: Ordinary matches end here; tournaments remain active until final completion.
-        if (uiOutputData.challenge != com.VisionXR.HelperClasses.Challenge.BWTournament
-            && uiOutputData.challenge != com.VisionXR.HelperClasses.Challenge.FSTournament) sessionActive = false;
+       
     }
 
     public void StartGame()
     {
-        // T06: Retain session activity between boards.
-        sessionActive = true;
+   
         isPlayerInGame = true;
         StartCoroutine(ShowPlayers());
     }
