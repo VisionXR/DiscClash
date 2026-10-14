@@ -24,6 +24,7 @@ namespace com.VisionXR.Views
         [Header("UI Elements")]
         public GameObject NextBtn;
         public GameObject HomeBtn;
+        public GameObject ExitBtn;
         public GameObject ClientText;
 
         // T10: Latch immediately, before the outgoing panel animation can accept another click.
@@ -54,7 +55,7 @@ namespace com.VisionXR.Views
                 {
                     NextBtn.SetActive(false);
                     // T06: A waiting client must always have an exit option.
-                    HomeBtn.SetActive(true);
+                    ExitBtn.SetActive(true);
                     ClientText.SetActive(true);
                 }
             }
@@ -85,6 +86,7 @@ namespace com.VisionXR.Views
                 dataManager.SendTournamentBoardComplete();
                 NextBtn.SetActive(false);
                 HomeBtn.SetActive(false);
+                ExitBtn.SetActive(false);
             }
         }
 
@@ -102,6 +104,7 @@ namespace com.VisionXR.Views
             uiData.uiManager.ChangeState("SinglePlayer", false);
             uiData.uiManager.ChangeState("MultiPlayer", false);
             uiData.uiManager.ChangeState("Tutorial", false);
+            uiData.uiManager.ChangeState("Match", false);
             uiData.uiManager.GoToState(StateName.HomeState);
             uiData.uiManager.ResetAllBools();
         }
