@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using com.VisionXR.ModelClasses;
 using com.VisionXR.HelperClasses;
+using com.VisionXR.GameElements;
 
 /// <summary>
 /// Manages coin creation, destruction, registration, and game events for coins on the board.
@@ -13,7 +14,8 @@ public class CoinManager : MonoBehaviour
     public CoinDataSO coinData;
     public UIOutputDataSO uIOutputData;
     public BoardDataSO boardData;
-
+    public GameDataSO gameData;
+    public PlayersDataSO playersData;
 
     /// <summary>
     /// Subscribes to coin-related events when enabled.
@@ -207,9 +209,15 @@ public class CoinManager : MonoBehaviour
     /// <param name="coin">The coin GameObject that fell on the ground.</param>
     private void CoinFellOnGround(GameObject coin)
     {
-      
-        coin.transform.position = FindCoinPosition();
-        coin.transform.rotation = Quaternion.identity;
+
+        Player cp = playersData.GetPlayer(gameData.currentTurnId);
+
+        if(cp!=  null && cp.myPlayerControl == PlayerControl.Local)
+        {
+            coin.transform.position = FindCoinPosition();
+            coin.transform.rotation = Quaternion.identity;
+        }
+        
     }
 
     /// <summary>
