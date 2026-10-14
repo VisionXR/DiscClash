@@ -60,9 +60,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
 
     private void PlayerLeft(Player player)
     {
-        // T06: Handle departures during a board and while waiting for the next tournament board.
-        if (isPlayerInGame)
-        {
+       
             SessionLostEvent?.Invoke();
             inputData.DisableInput();
             isPlayerInGame = false;
@@ -70,7 +68,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
             uiData.uiManager.ShowCanvas(0);
             // T06: The result state has no OPPlayerLeft transition, so enter the existing disconnect state directly.
             uiData.uiManager.GoToState(StateName.MPClientDisconnectedState);
-        }
+        
     }
 
     // G01: A local network failure stops input and opens the existing disconnect panel with Home.
