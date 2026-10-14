@@ -24,6 +24,7 @@ namespace com.VisionXR.Views
         {
             AudioManager.instance.PlayButtonClickSound();
             uiInputData.GoToHome();
+            uiData.uiManager.ChangeState("Match", false);
             uiData.uiManager.ChangeState("SinglePlayer", false);
             uiData.uiManager.ChangeState("MultiPlayer", false);
             uiData.uiManager.ChangeState("Tutorial", false);
