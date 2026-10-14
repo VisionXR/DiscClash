@@ -1,5 +1,6 @@
 using com.VisionXR.Controllers;
 using com.VisionXR.GameElements;
+using com.VisionXR.HelperClasses;
 using com.VisionXR.ModelClasses;
 using System.Collections;
 using UnityEngine;
@@ -70,7 +71,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
             uiData.uiManager.ChangeState(opponentPlayerLeftState, true);
             uiData.uiManager.ShowCanvas(0);
             // T06: The result state has no OPPlayerLeft transition, so enter the existing disconnect state directly.
-            uiData.uiManager.GoToState(com.VisionXR.HelperClasses.StateName.MPHostDisconnectedState);
+            uiData.uiManager.GoToState(StateName.MPHostDisconnectedState);
         }
     }
 
