@@ -201,22 +201,66 @@ public class FineLogic : MonoBehaviour
             {
                 if(currentPlayer.myId == 1)
                 {
-
+                    if (gameData.P1Whites > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if (gameData.P1Blacks > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
                 }
                 else
                 {
-
+                    if (gameData.P2Whites > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if (gameData.P2Blacks > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
                 }
             }
             else
             {
                 if (currentPlayer.myTeam == Team.TeamA)
                 {
-
+                    if ((gameData.P1Whites + gameData.P2Whites) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if ((gameData.P1Blacks + gameData.P2Blacks) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
                 }
                 else
                 {
-
+                    if ((gameData.P3Whites + gameData.P4Whites) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.White);
+                        gameData.TotalWhites++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
+                    else if ((gameData.P3Blacks + gameData.P4Blacks) > 0)
+                    {
+                        PutFineEvent?.Invoke(PlayerCoin.Black);
+                        gameData.TotalBlacks++;
+                        DecrementPlayerScoreFS(currentPlayer);
+                    }
                 }
             }
         }
