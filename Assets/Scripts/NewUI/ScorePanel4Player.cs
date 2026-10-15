@@ -18,6 +18,7 @@ namespace com.VisionXR.Views
         public UIDataSO uiData;
         public CamPositionSO camPositionData;
         public MyPlayerSettings myPlayerSettings;
+        public MultiPlayerConnectionDisconnection multiPlayerConnectionDisconnection;
 
         [Header(" player objects")]
         public PlayerDetailsView leftPlayer1;
@@ -108,6 +109,8 @@ namespace com.VisionXR.Views
 
         private void OnEnable()
         {
+            multiPlayerConnectionDisconnection.SetPlayerGameStatus(true);
+
             Player p = playerData.GetMainPlayer();
             camViewImage.sprite = FrontViewSprite;
             camPositionData.SetCamPositionFrontView(p.myId);
@@ -342,10 +345,16 @@ namespace com.VisionXR.Views
 
         public void ControlsBtnClicked()
         {
-            if (controlsRoutine == null)
+            AudioManager.instance.PlayButtonClickSound();
+            if (PositionObject.activeInHierarchy)
             {
-                AudioManager.instance.PlayButtonClickSound();
-                controlsRoutine = StartCoroutine(ShowControls());
+                PositionObject.SetActive(false);
+                AimObject.SetActive(false);
+            }
+            else
+            {
+                PositionObject.SetActive(true);
+                AimObject.SetActive(true);
             }
         }
         private IEnumerator ShowControls()

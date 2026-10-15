@@ -1,15 +1,17 @@
 using com.VisionXR.ModelClasses;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace com.VisionXR.Views
 {
     public class GeneralRulesView : MonoBehaviour
     {
-        [Header(" Game Objects")]
- 
+        [Header(" Scriptable Objects")]
         public AppDataSO appData;
         public UIDataSO uiData;
+        public ScrollRect rulesScrollRect;
 
         [Header("Panels")]
         public List<GameObject> tabObjects;
@@ -17,6 +19,16 @@ namespace com.VisionXR.Views
         public string rulesState;
 
 
+        private void OnEnable()
+        {
+            StartCoroutine(ResetScroll());
+        }
+
+        private IEnumerator ResetScroll()
+        {
+            yield return new WaitForSeconds(0.5f);
+            rulesScrollRect.verticalNormalizedPosition = 1f;
+        }
 
         public void TabButtonClicked(int id)
         {

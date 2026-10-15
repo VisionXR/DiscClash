@@ -17,7 +17,7 @@ namespace com.VisionXR.Views
         public PlayersDataSO playersData;
         public GameResultData gameResultData;
         public UIDataSO uiData;
-
+        public MultiPlayerConnectionDisconnection multiPlayerConnectionDisconnection;
 
         [Header("UI Elements")]
         public TMP_Text gameNameText;
@@ -28,6 +28,12 @@ namespace com.VisionXR.Views
         public TMP_Text player1Nam;
         public TMP_Text player2Nam;
         public string leaderBoardState;
+
+
+        private void OnEnable()
+        {
+            multiPlayerConnectionDisconnection.SetPlayerGameStatus(false);
+        }
 
         public void ShowResult(GameResult result)
         {

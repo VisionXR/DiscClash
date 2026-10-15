@@ -58,9 +58,15 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
        
     }
 
+    public void SetPlayerGameStatus(bool status)
+    {
+        isPlayerInGame = status;
+    }
+
     private void PlayerLeft(Player player)
     {
-       
+        if (isPlayerInGame)
+        {
             SessionLostEvent?.Invoke();
             inputData.DisableInput();
             isPlayerInGame = false;
@@ -68,6 +74,7 @@ public class MultiPlayerConnectionDisconnection : MonoBehaviour
             uiData.uiManager.ShowCanvas(0);
             // T06: The result state has no OPPlayerLeft transition, so enter the existing disconnect state directly.
             uiData.uiManager.GoToState(StateName.MPClientDisconnectedState);
+        }
         
     }
 
